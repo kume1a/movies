@@ -1,0 +1,70 @@
+part of 'stream_bloc.dart';
+
+@freezed
+abstract class StreamState with _$StreamState {
+  const factory StreamState(
+    StreamSettings settings,
+    Option<SeasonFiles> seasonFilesOption,
+    Option<Movies> relatedOption,
+    Option<String> videoSrcOption,
+    Duration startPosition,
+    int season,
+    int episode,
+    int episodeSeason,
+    Quality quality,
+    Language language,
+    List<Language> availableLanguages,
+    List<Quality> availableQualities,
+  ) = _StreamState;
+
+  factory StreamState.initial() => StreamState(
+        StreamSettings.initial(),
+        none(),
+        none(),
+        none(),
+        const Duration(),
+        1,
+        1,
+        1,
+        Quality.high,
+        Language.eng,
+        <Language>[],
+        <Quality>[],
+      );
+}
+
+class StreamSettings {
+  final bool autoPlayEnabled;
+  final bool recordWatchHistoryEnabled;
+  final int doubleTapToSeekValue;
+
+  StreamSettings(
+    this.autoPlayEnabled,
+    this.recordWatchHistoryEnabled,
+    this.doubleTapToSeekValue,
+  );
+
+  factory StreamSettings.initial() => StreamSettings(
+        DefaultSettings.isAutoPlayEnabled,
+        DefaultSettings.recordWatchHistoryEnabled,
+        DefaultSettings.doubleTapToSeekValue,
+      );
+
+  @override
+  String toString() {
+    return 'StreamSettings{autoPlayEnabled: $autoPlayEnabled, recordWatchHistoryEnabled: $recordWatchHistoryEnabled, doubleTapToSeekValue: $doubleTapToSeekValue}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StreamSettings &&
+          runtimeType == other.runtimeType &&
+          autoPlayEnabled == other.autoPlayEnabled &&
+          recordWatchHistoryEnabled == other.recordWatchHistoryEnabled &&
+          doubleTapToSeekValue == other.doubleTapToSeekValue;
+
+  @override
+  int get hashCode =>
+      autoPlayEnabled.hashCode ^ recordWatchHistoryEnabled.hashCode ^ doubleTapToSeekValue.hashCode;
+}
