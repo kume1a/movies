@@ -15,7 +15,6 @@ import '../application/home/home_bloc.dart';
 import '../domain/i_history_manager.dart';
 import '../domain/i_movie_repository.dart';
 import '../domain/settings/i_settings_interactor.dart';
-import '../domain/movie/movie_data_model.dart';
 import '../infrastructure/repository/movie_local_interactor.dart';
 import '../infrastructure/repository/movie_remote_provider.dart';
 import '../infrastructure/repository/movie_repository.dart';
@@ -48,11 +47,8 @@ GetIt $initGetIt(
         get<IHistoryManager>(),
         get<ISettingsInteractor>(),
       ));
-  gh.factoryParam<StreamBloc, MovieData, dynamic>((_movie, _) => StreamBloc(
-        get<IMovieRepository>(),
-        get<ISettingsInteractor>(),
-        _movie,
-      ));
+  gh.factory<StreamBloc>(
+      () => StreamBloc(get<IMovieRepository>(), get<ISettingsInteractor>()));
   gh.factoryParam<DetailsBloc, int, dynamic>(
       (movieId, _) => DetailsBloc(get<IMovieRepository>(), movieId));
   gh.factory<FavoritesBloc>(() => FavoritesBloc(get<IMovieRepository>()));

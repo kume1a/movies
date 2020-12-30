@@ -21,6 +21,13 @@ class _$StreamEventTearOff {
   }
 
 // ignore: unused_element
+  _MovieChanged movieChanged(MovieData movie) {
+    return _MovieChanged(
+      movie,
+    );
+  }
+
+// ignore: unused_element
   _SeasonChanged seasonChanged(int season) {
     return _SeasonChanged(
       season,
@@ -77,6 +84,7 @@ mixin _$StreamEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -88,6 +96,7 @@ mixin _$StreamEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -100,6 +109,7 @@ mixin _$StreamEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -111,6 +121,7 @@ mixin _$StreamEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -210,6 +221,7 @@ class _$_SettingsFetched
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -219,6 +231,7 @@ class _$_SettingsFetched
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -233,6 +246,7 @@ class _$_SettingsFetched
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -253,6 +267,7 @@ class _$_SettingsFetched
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -262,6 +277,7 @@ class _$_SettingsFetched
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -276,6 +292,7 @@ class _$_SettingsFetched
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -298,6 +315,170 @@ abstract class _SettingsFetched implements StreamEvent {
 
   StreamSettings get settings;
   _$SettingsFetchedCopyWith<_SettingsFetched> get copyWith;
+}
+
+/// @nodoc
+abstract class _$MovieChangedCopyWith<$Res> {
+  factory _$MovieChangedCopyWith(
+          _MovieChanged value, $Res Function(_MovieChanged) then) =
+      __$MovieChangedCopyWithImpl<$Res>;
+  $Res call({MovieData movie});
+}
+
+/// @nodoc
+class __$MovieChangedCopyWithImpl<$Res> extends _$StreamEventCopyWithImpl<$Res>
+    implements _$MovieChangedCopyWith<$Res> {
+  __$MovieChangedCopyWithImpl(
+      _MovieChanged _value, $Res Function(_MovieChanged) _then)
+      : super(_value, (v) => _then(v as _MovieChanged));
+
+  @override
+  _MovieChanged get _value => super._value as _MovieChanged;
+
+  @override
+  $Res call({
+    Object movie = freezed,
+  }) {
+    return _then(_MovieChanged(
+      movie == freezed ? _value.movie : movie as MovieData,
+    ));
+  }
+}
+
+/// @nodoc
+class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
+  const _$_MovieChanged(this.movie) : assert(movie != null);
+
+  @override
+  final MovieData movie;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StreamEvent.movieChanged(movie: $movie)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StreamEvent.movieChanged'))
+      ..add(DiagnosticsProperty('movie', movie));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _MovieChanged &&
+            (identical(other.movie, movie) ||
+                const DeepCollectionEquality().equals(other.movie, movie)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(movie);
+
+  @override
+  _$MovieChangedCopyWith<_MovieChanged> get copyWith =>
+      __$MovieChangedCopyWithImpl<_MovieChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
+    @required TResult seasonChanged(int season),
+    @required TResult episodeChanged(int episode),
+    @required TResult languageChanged(Language language),
+    @required TResult qualityChanged(Quality quality),
+    @required TResult fetchRelatedRequested(),
+    @required TResult startPositionChanged(Duration position),
+    @required TResult onPositionTick(Duration position),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    return movieChanged(movie);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
+    TResult seasonChanged(int season),
+    TResult episodeChanged(int episode),
+    TResult languageChanged(Language language),
+    TResult qualityChanged(Quality quality),
+    TResult fetchRelatedRequested(),
+    TResult startPositionChanged(Duration position),
+    TResult onPositionTick(Duration position),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (movieChanged != null) {
+      return movieChanged(movie);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
+    @required TResult seasonChanged(_SeasonChanged value),
+    @required TResult episodeChanged(_EpisodeChanged value),
+    @required TResult languageChanged(_LanguageChanged value),
+    @required TResult qualityChanged(_QualityChanged value),
+    @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    @required TResult startPositionChanged(_StartPositionChanged value),
+    @required TResult onPositionTick(_OnPositionTick value),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    return movieChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
+    TResult seasonChanged(_SeasonChanged value),
+    TResult episodeChanged(_EpisodeChanged value),
+    TResult languageChanged(_LanguageChanged value),
+    TResult qualityChanged(_QualityChanged value),
+    TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    TResult startPositionChanged(_StartPositionChanged value),
+    TResult onPositionTick(_OnPositionTick value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (movieChanged != null) {
+      return movieChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MovieChanged implements StreamEvent {
+  const factory _MovieChanged(MovieData movie) = _$_MovieChanged;
+
+  MovieData get movie;
+  _$MovieChangedCopyWith<_MovieChanged> get copyWith;
 }
 
 /// @nodoc
@@ -368,6 +549,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -377,6 +559,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -391,6 +574,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -411,6 +595,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -420,6 +605,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -434,6 +620,7 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -529,6 +716,7 @@ class _$_EpisodeChanged
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -538,6 +726,7 @@ class _$_EpisodeChanged
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -552,6 +741,7 @@ class _$_EpisodeChanged
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -572,6 +762,7 @@ class _$_EpisodeChanged
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -581,6 +772,7 @@ class _$_EpisodeChanged
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -595,6 +787,7 @@ class _$_EpisodeChanged
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -691,6 +884,7 @@ class _$_LanguageChanged
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -700,6 +894,7 @@ class _$_LanguageChanged
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -714,6 +909,7 @@ class _$_LanguageChanged
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -734,6 +930,7 @@ class _$_LanguageChanged
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -743,6 +940,7 @@ class _$_LanguageChanged
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -757,6 +955,7 @@ class _$_LanguageChanged
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -852,6 +1051,7 @@ class _$_QualityChanged
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -861,6 +1061,7 @@ class _$_QualityChanged
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -875,6 +1076,7 @@ class _$_QualityChanged
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -895,6 +1097,7 @@ class _$_QualityChanged
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -904,6 +1107,7 @@ class _$_QualityChanged
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -918,6 +1122,7 @@ class _$_QualityChanged
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -991,6 +1196,7 @@ class _$_FetchRelatedRequested
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -1000,6 +1206,7 @@ class _$_FetchRelatedRequested
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1014,6 +1221,7 @@ class _$_FetchRelatedRequested
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -1034,6 +1242,7 @@ class _$_FetchRelatedRequested
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -1043,6 +1252,7 @@ class _$_FetchRelatedRequested
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1057,6 +1267,7 @@ class _$_FetchRelatedRequested
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -1151,6 +1362,7 @@ class _$_StartPositionChanged
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -1160,6 +1372,7 @@ class _$_StartPositionChanged
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1174,6 +1387,7 @@ class _$_StartPositionChanged
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -1194,6 +1408,7 @@ class _$_StartPositionChanged
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -1203,6 +1418,7 @@ class _$_StartPositionChanged
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1217,6 +1433,7 @@ class _$_StartPositionChanged
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -1314,6 +1531,7 @@ class _$_OnPositionTick
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(MovieData movie),
     @required TResult seasonChanged(int season),
     @required TResult episodeChanged(int episode),
     @required TResult languageChanged(Language language),
@@ -1323,6 +1541,7 @@ class _$_OnPositionTick
     @required TResult onPositionTick(Duration position),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1337,6 +1556,7 @@ class _$_OnPositionTick
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(MovieData movie),
     TResult seasonChanged(int season),
     TResult episodeChanged(int episode),
     TResult languageChanged(Language language),
@@ -1357,6 +1577,7 @@ class _$_OnPositionTick
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
     @required TResult seasonChanged(_SeasonChanged value),
     @required TResult episodeChanged(_EpisodeChanged value),
     @required TResult languageChanged(_LanguageChanged value),
@@ -1366,6 +1587,7 @@ class _$_OnPositionTick
     @required TResult onPositionTick(_OnPositionTick value),
   }) {
     assert(settingsFetched != null);
+    assert(movieChanged != null);
     assert(seasonChanged != null);
     assert(episodeChanged != null);
     assert(languageChanged != null);
@@ -1380,6 +1602,7 @@ class _$_OnPositionTick
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
     TResult seasonChanged(_SeasonChanged value),
     TResult episodeChanged(_EpisodeChanged value),
     TResult languageChanged(_LanguageChanged value),
@@ -1411,6 +1634,7 @@ class _$StreamStateTearOff {
 // ignore: unused_element
   _StreamState call(
       StreamSettings settings,
+      Option<MovieData> movie,
       Option<SeasonFiles> seasonFilesOption,
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
@@ -1424,6 +1648,7 @@ class _$StreamStateTearOff {
       List<Quality> availableQualities) {
     return _StreamState(
       settings,
+      movie,
       seasonFilesOption,
       relatedOption,
       videoSrcOption,
@@ -1446,6 +1671,7 @@ const $StreamState = _$StreamStateTearOff();
 /// @nodoc
 mixin _$StreamState {
   StreamSettings get settings;
+  Option<MovieData> get movie;
   Option<SeasonFiles> get seasonFilesOption;
   Option<Movies> get relatedOption;
   Option<String> get videoSrcOption;
@@ -1468,6 +1694,7 @@ abstract class $StreamStateCopyWith<$Res> {
       _$StreamStateCopyWithImpl<$Res>;
   $Res call(
       {StreamSettings settings,
+      Option<MovieData> movie,
       Option<SeasonFiles> seasonFilesOption,
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
@@ -1492,6 +1719,7 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
   @override
   $Res call({
     Object settings = freezed,
+    Object movie = freezed,
     Object seasonFilesOption = freezed,
     Object relatedOption = freezed,
     Object videoSrcOption = freezed,
@@ -1507,6 +1735,7 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
     return _then(_value.copyWith(
       settings:
           settings == freezed ? _value.settings : settings as StreamSettings,
+      movie: movie == freezed ? _value.movie : movie as Option<MovieData>,
       seasonFilesOption: seasonFilesOption == freezed
           ? _value.seasonFilesOption
           : seasonFilesOption as Option<SeasonFiles>,
@@ -1545,6 +1774,7 @@ abstract class _$StreamStateCopyWith<$Res>
   @override
   $Res call(
       {StreamSettings settings,
+      Option<MovieData> movie,
       Option<SeasonFiles> seasonFilesOption,
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
@@ -1571,6 +1801,7 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object settings = freezed,
+    Object movie = freezed,
     Object seasonFilesOption = freezed,
     Object relatedOption = freezed,
     Object videoSrcOption = freezed,
@@ -1585,6 +1816,7 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
   }) {
     return _then(_StreamState(
       settings == freezed ? _value.settings : settings as StreamSettings,
+      movie == freezed ? _value.movie : movie as Option<MovieData>,
       seasonFilesOption == freezed
           ? _value.seasonFilesOption
           : seasonFilesOption as Option<SeasonFiles>,
@@ -1616,6 +1848,7 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
 class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
   const _$_StreamState(
       this.settings,
+      this.movie,
       this.seasonFilesOption,
       this.relatedOption,
       this.videoSrcOption,
@@ -1628,6 +1861,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       this.availableLanguages,
       this.availableQualities)
       : assert(settings != null),
+        assert(movie != null),
         assert(seasonFilesOption != null),
         assert(relatedOption != null),
         assert(videoSrcOption != null),
@@ -1642,6 +1876,8 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
 
   @override
   final StreamSettings settings;
+  @override
+  final Option<MovieData> movie;
   @override
   final Option<SeasonFiles> seasonFilesOption;
   @override
@@ -1667,7 +1903,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StreamState(settings: $settings, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities)';
+    return 'StreamState(settings: $settings, movie: $movie, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities)';
   }
 
   @override
@@ -1676,6 +1912,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
     properties
       ..add(DiagnosticsProperty('type', 'StreamState'))
       ..add(DiagnosticsProperty('settings', settings))
+      ..add(DiagnosticsProperty('movie', movie))
       ..add(DiagnosticsProperty('seasonFilesOption', seasonFilesOption))
       ..add(DiagnosticsProperty('relatedOption', relatedOption))
       ..add(DiagnosticsProperty('videoSrcOption', videoSrcOption))
@@ -1696,6 +1933,8 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
             (identical(other.settings, settings) ||
                 const DeepCollectionEquality()
                     .equals(other.settings, settings)) &&
+            (identical(other.movie, movie) ||
+                const DeepCollectionEquality().equals(other.movie, movie)) &&
             (identical(other.seasonFilesOption, seasonFilesOption) ||
                 const DeepCollectionEquality()
                     .equals(other.seasonFilesOption, seasonFilesOption)) &&
@@ -1734,6 +1973,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(settings) ^
+      const DeepCollectionEquality().hash(movie) ^
       const DeepCollectionEquality().hash(seasonFilesOption) ^
       const DeepCollectionEquality().hash(relatedOption) ^
       const DeepCollectionEquality().hash(videoSrcOption) ^
@@ -1754,6 +1994,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
 abstract class _StreamState implements StreamState {
   const factory _StreamState(
       StreamSettings settings,
+      Option<MovieData> movie,
       Option<SeasonFiles> seasonFilesOption,
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
@@ -1768,6 +2009,8 @@ abstract class _StreamState implements StreamState {
 
   @override
   StreamSettings get settings;
+  @override
+  Option<MovieData> get movie;
   @override
   Option<SeasonFiles> get seasonFilesOption;
   @override

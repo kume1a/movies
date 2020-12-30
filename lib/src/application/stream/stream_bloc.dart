@@ -27,12 +27,10 @@ part 'stream_state.dart';
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   final IMovieRepository _repository;
   final ISettingsInteractor _settingsInteractor;
-  final MovieData _movie;
 
   StreamBloc(
     this._repository,
     this._settingsInteractor,
-    @factoryParam this._movie,
   ) : super(StreamState.initial()) {
     _init();
   }
@@ -52,12 +50,16 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   bool firstEpisodePassed = false;
 
+  MovieData get getMovieOrCrash =>
+      state.movie.getOrElse(() => throw StateError('movie can\'t be none'));
+
   @override
   Stream<StreamState> mapEventToState(
     StreamEvent event,
   ) async* {
     yield* event.map(
       settingsFetched: _onSettingsFetched,
+      movieChanged: _onMovieChanged,
       seasonChanged: _onSeasonChanged,
       episodeChanged: _onEpisodeChanged,
       languageChanged: _onLanguageChanged,
@@ -72,9 +74,12 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     yield state.copyWith(settings: e.settings);
   }
 
+  Stream<StreamState> _onMovieChanged(_MovieChanged e) async* {
+    yield state.copyWith(movie: some(e.movie));
+  }
+
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
-    final Option<SeasonFiles> seasonFilesOption =
-        await _repository.fetchSeasonFiles(_movie.id, e.season);
+    final Option<SeasonFiles> seasonFilesOption = await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
 
     yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season ?? 1);
   }
@@ -168,7 +173,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onFetchRelatedRequested(_FetchRelatedRequested e) async* {
-    final Option<Movies> related = await _repository.fetchRelated(_movie.movieId, 1);
+    final Option<Movies> related = await _repository.fetchRelated(getMovieOrCrash.movieId, 1);
     yield state.copyWith(relatedOption: related);
   }
 
@@ -177,11 +182,13 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
+    MovieData movie = getMovieOrCrash;
+
     MoviePosition position = MoviePosition(
-      _movie.movieId,
-      _movie.duration * 1000 * 60,
+      movie.movieId,
+      movie.duration * 1000 * 60,
       e.position.inMilliseconds,
-      _movie.isTvShow,
+      movie.isTvShow,
       state.season,
       state.episode,
       DateTime.now().millisecondsSinceEpoch,

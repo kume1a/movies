@@ -5,8 +5,6 @@ import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
 import 'package:movo/src/presentation/core/extensions.dart';
 import 'package:movo/src/presentation/core/widgets/movie_item.dart';
-import 'package:movo/src/presentation/routes/route_args.dart';
-import 'package:movo/src/presentation/routes/routes.dart';
 
 class RelatedMovies extends StatelessWidget {
   @override
@@ -33,11 +31,11 @@ class RelatedMovies extends StatelessWidget {
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(
-          context,
-          Routes.streamPage,
-          arguments: StreamPageArgs(movie: movie),
-        );
+        context.read<StreamBloc>()
+          ..add(StreamEvent.movieChanged(movie))
+          ..add(StreamEvent.seasonChanged(1))
+          ..add(StreamEvent.episodeChanged(0))
+          ..add(StreamEvent.fetchRelatedRequested());
       },
       child: MovieItem(
         imageUrl: movie.poster,

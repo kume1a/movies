@@ -4,6 +4,7 @@ part of 'stream_bloc.dart';
 abstract class StreamState with _$StreamState {
   const factory StreamState(
     StreamSettings settings,
+    Option<MovieData> movie,
     Option<SeasonFiles> seasonFilesOption,
     Option<Movies> relatedOption,
     Option<String> videoSrcOption,
@@ -19,6 +20,7 @@ abstract class StreamState with _$StreamState {
 
   factory StreamState.initial() => StreamState(
         StreamSettings.initial(),
+        none(),
         none(),
         none(),
         none(),

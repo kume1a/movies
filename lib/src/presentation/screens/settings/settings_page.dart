@@ -21,8 +21,8 @@ class SettingsPageContent extends StatelessWidget {
     return ListView(
       children: <Widget>[
         const SizedBox(height: 24),
-        ..._themeSection(context),
-        const SizedBox(height: 32),
+        // ..._themeSection(context),
+        // const SizedBox(height: 32),
         ..._videoPlayerSection(context),
         const SizedBox(height: 32),
         ..._historySection(context),
@@ -31,27 +31,27 @@ class SettingsPageContent extends StatelessWidget {
     );
   }
 
-  List<Widget> _themeSection(BuildContext context) {
-    return <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 4),
-        child: Text('Theme', style: prB24),
-      ),
-      BlocBuilder<SettingsBloc, SettingsState>(
-        buildWhen: (SettingsState prev, SettingsState curr) =>
-            prev.nightModeEnabled != curr.nightModeEnabled,
-        builder: (BuildContext context, SettingsState state) {
-          return SwitchListTile(
-            value: state.nightModeEnabled,
-            title: Text('Night mode'),
-            onChanged: (bool value) {
-              context.read<SettingsBloc>().add(SettingsEvent.nightModeSwitched(value));
-            },
-          );
-        },
-      ),
-    ];
-  }
+  // List<Widget> _themeSection(BuildContext context) {
+  //   return <Widget>[
+  //     Padding(
+  //       padding: const EdgeInsets.only(left: 16, bottom: 4),
+  //       child: Text('Theme', style: prB24),
+  //     ),
+  //     BlocBuilder<SettingsBloc, SettingsState>(
+  //       buildWhen: (SettingsState prev, SettingsState curr) =>
+  //           prev.nightModeEnabled != curr.nightModeEnabled,
+  //       builder: (BuildContext context, SettingsState state) {
+  //         return SwitchListTile(
+  //           value: state.nightModeEnabled,
+  //           title: Text('Night mode'),
+  //           onChanged: (bool value) {
+  //             context.read<SettingsBloc>().add(SettingsEvent.nightModeSwitched(value));
+  //           },
+  //         );
+  //       },
+  //     ),
+  //   ];
+  // }
 
   List<Widget> _videoPlayerSection(BuildContext context) {
     return <Widget>[
@@ -129,7 +129,7 @@ class SettingsPageContent extends StatelessWidget {
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.recordSearchHistoryEnabled,
-            title: Text('Pause search history'),
+            title: Text('Record search history'),
             onChanged: (bool value) {
               context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(value));
             },
@@ -142,7 +142,7 @@ class SettingsPageContent extends StatelessWidget {
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.recordWatchHistoryEnabled,
-            title: Text('Pause watch history'),
+            title: Text('Record watch history'),
             onChanged: (bool value) {
               context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(value));
             },
