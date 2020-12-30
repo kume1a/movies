@@ -7,6 +7,11 @@ const TextStyle prB32 = TextStyle(
   color: colorTextPrimary,
   fontWeight: FontWeight.bold,
 );
+const TextStyle prSB26 = TextStyle(
+  fontSize: 26,
+  color: colorTextPrimary,
+  fontWeight: FontWeight.w600,
+);
 const TextStyle prB24 = TextStyle(
   fontSize: 24,
   color: colorTextPrimary,
@@ -31,15 +36,20 @@ const TextStyle prL18 = TextStyle(
   color: colorTextPrimary,
   fontWeight: FontWeight.w300,
 );
-const TextStyle scL16 = TextStyle(
-  fontSize: 16,
-  color: colorTextSecondary,
-  fontWeight: FontWeight.w300,
-);
 const TextStyle prSB18 = TextStyle(
   fontSize: 18,
   color: colorTextPrimary,
   fontWeight: FontWeight.w600,
+);
+const TextStyle prL16 = TextStyle(
+  fontSize: 16,
+  color: colorTextPrimary,
+  fontWeight: FontWeight.w300,
+);
+const TextStyle scL16 = TextStyle(
+  fontSize: 16,
+  color: colorTextSecondary,
+  fontWeight: FontWeight.w300,
 );
 const TextStyle scSB18 = TextStyle(
   fontSize: 18,
