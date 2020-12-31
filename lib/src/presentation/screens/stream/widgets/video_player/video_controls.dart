@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/presentation/core/formatters.dart';
+import 'package:movo/src/presentation/core/rive_container.dart';
+import 'package:movo/src/presentation/core/rive_single_shot_controller.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/video_player/player.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/video_player/progress_bar.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/video_player/progress_colors.dart';
 import 'package:movo/src/presentation/values/constants.dart';
 import 'package:movo/src/presentation/values/text_styles.dart';
+import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoControls extends StatefulWidget {
@@ -42,7 +46,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   VideoPlayerValue _latestValue;
   double _latestVolume;
 
-  bool _hideStuff = true;
+  bool _hideControls = true;
   Timer _hideTimer;
   Timer _initTimer;
   Timer _showAfterExpandCollapseTimer;
@@ -53,6 +57,10 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   bool _showRewind = false;
   Timer _forwardTimer;
   Timer _rewindTimer;
+  Artboard _forwardArtboard;
+  Artboard _rewindArtboard;
+  SingleShotController _forwardController;
+  SingleShotController _rewindController;
 
   Language _language;
   Quality _quality;
@@ -106,6 +114,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             final double x = details.localPosition.dx;
             if (x <= leftThreshold) {
               setState(() {
+                _rewindController?.run();
                 _showRewind = true;
                 _rewindTimer = Timer(const Duration(milliseconds: 250), () {
                   setState(() => _showRewind = false);
@@ -115,6 +124,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   .seekTo(_latestValue.position - Duration(seconds: widget.doubleTapToSeekValue));
             } else if (x >= rightThreshold) {
               setState(() {
+                _forwardController?.run();
                 _showForward = true;
                 _forwardTimer = Timer(const Duration(milliseconds: 250), () {
                   setState(() => _showForward = false);
@@ -125,8 +135,30 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             }
           },
           child: AbsorbPointer(
-            absorbing: _hideStuff,
-            child: Column(children: content),
+            absorbing: _hideControls,
+            child: Stack(
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: shortAnimDuration,
+                  color: _hideControls ? Colors.transparent : Colors.black38,
+                ),
+                ClipPath(
+                  clipper: RewindClipper(),
+                  child: AnimatedContainer(
+                    duration: longAnimDuration,
+                    color: _showRewind ? Colors.white38 : Colors.transparent,
+                  ),
+                ),
+                ClipPath(
+                  clipper: ForwardClipper(),
+                  child: AnimatedContainer(
+                    duration: longAnimDuration,
+                    color: _showForward ? Colors.white38 : Colors.transparent,
+                  ),
+                ),
+                Column(children: content),
+              ],
+            ),
           ),
         );
       },
@@ -134,8 +166,26 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   @override
+  void initState() {
+    rootBundle.load('assets/rewind_forward.riv').then((ByteData data) async {
+      final RiveFile file = RiveFile();
+      if (file.import(data)) {
+        setState(() {
+          _forwardArtboard = file.artboardByName('forward')
+            ..addController(_forwardController = SingleShotController('forward', speed: 2));
+          _rewindArtboard = file.artboardByName('rewind')
+            ..addController(_rewindController = SingleShotController('forward', speed: 2));
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _playPauseIconAnimController?.dispose();
+    _forwardController?.dispose();
+    _rewindController?.dispose();
     _dispose();
     super.dispose();
   }
@@ -160,6 +210,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       duration: longAnimDuration,
       reverseDuration: longAnimDuration,
     );
+    _playPauseIconAnimController.reset();
 
     if (_oldController != _chewieController) {
       _dispose();
@@ -173,7 +224,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     return SizedBox(
       height: barHeight,
       child: AnimatedOpacity(
-        opacity: _hideStuff ? 0 : 1,
+        opacity: _hideControls ? 0 : 1,
         duration: mediumAnimDuration,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -201,13 +252,13 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         onTap: () {
           if (_latestValue != null && _latestValue.isPlaying) {
             if (_displayTapped) {
-              setState(() => _hideStuff = true);
+              setState(() => _hideControls = true);
             } else {
               _cancelAndRestartTimer();
             }
           } else {
             _playPause();
-            setState(() => _hideStuff = true);
+            setState(() => _hideControls = true);
           }
         },
         child: Container(
@@ -215,10 +266,10 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              AnimatedOpacity(
-                opacity: _showRewind ? 1 : 0,
-                duration: shortAnimDuration,
-                child: Icon(Icons.fast_rewind, color: Colors.white, size: 32),
+              RiveContainer(
+                artboard: _rewindArtboard,
+                width: 50,
+                height: 50,
               ),
               AnimatedOpacity(
                 opacity: _latestValue != null && !_latestValue.isPlaying && !_dragging ? 1 : 0,
@@ -237,10 +288,10 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   },
                 ),
               ),
-              AnimatedOpacity(
-                opacity: _showForward ? 1 : 0,
-                duration: shortAnimDuration,
-                child: Icon(Icons.fast_forward, color: Colors.white, size: 32),
+              RiveContainer(
+                artboard: _forwardArtboard,
+                width: 50,
+                height: 50,
               ),
             ],
           ),
@@ -253,7 +304,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     return SizedBox(
       height: barHeight,
       child: AnimatedOpacity(
-        opacity: _hideStuff ? 0 : 1,
+        opacity: _hideControls ? 0 : 1,
         duration: mediumAnimDuration,
         child: Row(
           children: <Widget>[
@@ -324,10 +375,11 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           },
           colors: _chewieController.materialProgressColors ??
               ChewieProgressColors(
-                  playedColor: Theme.of(context).accentColor,
-                  handleColor: Theme.of(context).accentColor,
-                  bufferedColor: Theme.of(context).backgroundColor,
-                  backgroundColor: Theme.of(context).disabledColor),
+                playedColor: Theme.of(context).accentColor,
+                handleColor: Theme.of(context).accentColor,
+                bufferedColor: Theme.of(context).backgroundColor,
+                backgroundColor: Theme.of(context).disabledColor,
+              ),
         ),
       ),
     );
@@ -469,7 +521,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     _startHideTimer();
 
     setState(() {
-      _hideStuff = false;
+      _hideControls = false;
       _displayTapped = true;
     });
   }
@@ -486,7 +538,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     if (_chewieController.showControlsOnInitialize) {
       _initTimer = Timer(shortAnimDuration, () {
         setState(() {
-          _hideStuff = false;
+          _hideControls = false;
         });
       });
     }
@@ -494,7 +546,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   void _onExpandCollapse() {
     setState(() {
-      _hideStuff = true;
+      _hideControls = true;
 
       _chewieController.toggleFullScreen();
       _showAfterExpandCollapseTimer = Timer(mediumAnimDuration, () {
@@ -516,7 +568,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     setState(() {
       if (_controller.value.isPlaying) {
         _playPauseIconAnimController.reverse();
-        _hideStuff = false;
+        _hideControls = false;
         _hideTimer?.cancel();
         _controller.pause();
       } else {
@@ -541,7 +593,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   void _startHideTimer() {
     _hideTimer = Timer(const Duration(seconds: 3), () {
       setState(() {
-        _hideStuff = true;
+        _hideControls = true;
       });
     });
   }
@@ -553,6 +605,50 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       });
     }
   }
+}
+
+class RewindClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width / 2 - 80, 0)
+      ..cubicTo(
+        size.width / 2 - 80,
+        0,
+        size.width / 2 - 20,
+        size.height / 2,
+        size.width / 2 - 80,
+        size.height,
+      )
+      ..lineTo(0, size.height)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class ForwardClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..moveTo(size.width, 0)
+      ..lineTo(size.width / 2 + 80, 0)
+      ..cubicTo(
+        size.width / 2 + 80,
+        0,
+        size.width / 2 + 20,
+        size.height / 2,
+        size.width / 2 + 80,
+        size.height,
+      )
+      ..lineTo(size.width, size.height)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
 enum _Setting { language, playbackSpeed, quality }
