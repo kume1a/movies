@@ -3,10 +3,11 @@ import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/core/type_mappers.dart';
 import 'package:movo/src/domain/movie/movie_data_schema.dart';
 import 'package:movo/src/domain/core/utils.dart';
+import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
 part 'movie_data_model.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: HiveTypeIdHolder.movieDataId)
 class MovieData {
   @HiveField(0)
   final int id;
@@ -212,7 +213,7 @@ class MovieData {
       favorite.hashCode;
 }
 
-@HiveType(typeId: 4)
+@HiveType(typeId: HiveTypeIdHolder.seasonId)
 class Season {
   @HiveField(0)
   final int movieId;

@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
 part 'movie_position_model.g.dart';
 
-@HiveType(typeId: 5)
+@HiveType(typeId: HiveTypeIdHolder.moviePositionId)
 class MoviePosition {
   @HiveField(0)
   final int movieId;

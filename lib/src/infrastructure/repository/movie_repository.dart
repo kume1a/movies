@@ -40,24 +40,20 @@ class MovieRepository implements IMovieRepository {
   }
 
   @override
-  Future<Option<SeasonFiles>> fetchSeasonFiles(int id, int season) {
-    return _remoteProvider.fetchSeasonFiles(id, season);
+  Future<Option<SeasonFiles>> fetchSeasonFiles(int id, int season) async {
+    return fetchAndCache<SeasonFiles>(
+      localFetcher: () => _localProvider.getSeasonFiles(id, season),
+      remoteFetcher: () => _remoteProvider.fetchSeasonFiles(id, season),
+      cacheWriter: (SeasonFiles t) => _localProvider.writeSeasonFiles(id, t),
+    );
   }
 
   @override
   Future<Option<MovieData>> fetchMovie(int movieId) async {
-    final Option<MovieData> movieData = await _localProvider.getMovieData(movieId);
-    return await movieData.fold(
-      () async {
-        final Option<MovieData> movieDataOption = await _remoteProvider.fetchMovie(movieId);
-        movieDataOption.fold(
-          () {},
-          (MovieData a) => _localProvider.writeMovieData(a),
-        );
-
-        return movieDataOption;
-      },
-      (MovieData a) => some(a),
+    return fetchAndCache<MovieData>(
+      localFetcher: () => _localProvider.getMovieData(movieId),
+      remoteFetcher: () => _remoteProvider.fetchMovie(movieId),
+      cacheWriter: (MovieData t) => _localProvider.writeMovieData(t),
     );
   }
 
@@ -96,5 +92,23 @@ class MovieRepository implements IMovieRepository {
     return _localProvider.getMovies();
   }
 
+  Future<Option<T>> fetchAndCache<T>({
+    @required Future<Option<T>> Function() localFetcher,
+    @required Future<Option<T>> Function() remoteFetcher,
+    @required Future<void> Function(T t) cacheWriter,
+  }) async {
+    final Option<T> localOption = await localFetcher.call();
+    return await localOption.fold(
+      () async {
+        final Option<T> remoteOption = await remoteFetcher.call();
+        remoteOption.fold(
+          () {},
+          (T data) => cacheWriter.call(data),
+        );
 
+        return remoteOption;
+      },
+      (T a) => some(a),
+    );
+  }
 }

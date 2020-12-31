@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
+import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/infrastructure/hive_box_holder.dart';
@@ -13,15 +14,19 @@ class MovieLocalInteractor {
   MovieLocalInteractor(this._boxHolder);
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
-    final MovieData movieData = await _boxHolder.movieData.get(movieId);
-    if (movieData != null) {
-      return some(movieData);
-    }
-    return none();
+    return optionOf(await _boxHolder.movieData.get(movieId));
   }
 
   Future<void> writeMovieData(MovieData movieData) async {
     await _boxHolder.movieData.put(movieData.movieId, movieData);
+  }
+
+  Future<Option<SeasonFiles>> getSeasonFiles(int id, int season) async {
+    return optionOf(await _boxHolder.seasonFiles.get('${id}_${season}'));
+  }
+
+  Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {
+    await _boxHolder.seasonFiles.put('${id}_${seasonFiles.season}', seasonFiles);
   }
 
   Future<List<MovieData>> getMovies() async {
@@ -35,9 +40,7 @@ class MovieLocalInteractor {
     final Option<MovieData> curr = await getMovieData(movieId);
     curr.fold(
       () {},
-      (MovieData a) {
-        _boxHolder.movieData.put(movieId, a..favorite = favorite);
-      },
+      (MovieData a) => _boxHolder.movieData.put(movieId, a..favorite = favorite),
     );
   }
 

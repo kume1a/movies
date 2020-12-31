@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
+import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
 part 'enums.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: HiveTypeIdHolder.resolutionId)
 enum Resolution {
   @HiveField(0)
   fhd,
@@ -14,7 +15,7 @@ enum Resolution {
   vga,
 }
 
-@HiveType(typeId: 2)
+@HiveType(typeId: HiveTypeIdHolder.imageSizeId)
 enum ImageSize {
   @HiveField(0)
   small,
@@ -23,7 +24,7 @@ enum ImageSize {
   large,
 }
 
-@HiveType(typeId: 3)
+@HiveType(typeId: HiveTypeIdHolder.languageId)
 enum Language {
   @HiveField(0)
   geo,
@@ -34,12 +35,18 @@ enum Language {
   @HiveField(2)
   rus,
 }
-enum Quality { medium, high }
+@HiveType(typeId: HiveTypeIdHolder.qualityId)
+enum Quality {
+  @HiveField(0)
+  medium,
+
+  @HiveField(1)
+  high
+}
 enum MovieType { movie, series }
 enum Period { day, week, month }
-@HiveType(typeId: 7)
+@HiveType(typeId: HiveTypeIdHolder.searchTypeId)
 enum SearchType {
-
   @HiveField(0)
   movie,
 

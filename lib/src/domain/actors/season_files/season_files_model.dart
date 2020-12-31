@@ -1,13 +1,21 @@
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:movo/src/domain/actors/season_files/season_files_schema.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/core/type_mappers.dart';
+import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
+part 'season_files_model.g.dart';
+
+@HiveType(typeId: HiveTypeIdHolder.seasonFilesId)
 class SeasonFiles {
+  @HiveField(0)
   final int season;
+
+  @HiveField(1)
   final List<Episode> data;
 
-  SeasonFiles._(this.season, this.data);
+  SeasonFiles(this.season, this.data);
 
   factory SeasonFiles.fromSchema(int season, SeasonFilesSchema schema) {
     final List<Episode> episodes = schema.data
@@ -18,23 +26,37 @@ class SeasonFiles {
         .where((Episode episode) => episode != null)
         .toList();
 
-    return SeasonFiles._(season, episodes.cast<Episode>());
+    return SeasonFiles(season, episodes.cast<Episode>());
   }
 
   @override
   String toString() => 'SeasonFiles{data: $data}';
 }
 
+@HiveType(typeId: HiveTypeIdHolder.episodeId)
 class Episode {
+  @HiveField(0)
   final int episode;
+
+  @HiveField(1)
   final String title;
+
+  @HiveField(2)
   final String description;
+
+  @HiveField(3)
   final dynamic rating;
+
+  @HiveField(4)
   final String poster;
+
+  @HiveField(5)
   final Map<Resolution, String> covers;
+
+  @HiveField(6)
   final Map<Language, List<EpisodeFile>> episodes;
 
-  Episode._({
+  Episode({
     @required this.episode,
     @required this.title,
     @required this.description,
@@ -58,7 +80,7 @@ class Episode {
                 List<EpisodeFile>.empty()
     };
 
-    return Episode._(
+    return Episode(
       episode: schema.episode ?? 0,
       title: schema.title ?? '',
       description: schema.description ?? '',
@@ -94,13 +116,21 @@ class Episode {
       poster.hashCode;
 }
 
+@HiveType(typeId: HiveTypeIdHolder.episodeFileId)
 class EpisodeFile {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final Quality quality;
+
+  @HiveField(2)
   final String src;
+
+  @HiveField(3)
   final int duration;
 
-  EpisodeFile._({
+  EpisodeFile({
     @required this.id,
     @required this.quality,
     @required this.src,
@@ -110,7 +140,7 @@ class EpisodeFile {
   factory EpisodeFile.fromSchema(FileSchema schema) {
     if (schema == null) return EpisodeFile.empty();
 
-    return EpisodeFile._(
+    return EpisodeFile(
       id: schema.id ?? 0,
       quality: getQuality(schema.quality),
       src: schema.src ?? '',
@@ -119,7 +149,7 @@ class EpisodeFile {
   }
 
   factory EpisodeFile.empty() {
-    return EpisodeFile._(id: 0, quality: Quality.high, src: '', duration: 0);
+    return EpisodeFile(id: 0, quality: Quality.high, src: '', duration: 0);
   }
 
   @override

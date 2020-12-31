@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/core/type_mappers.dart';
 import 'package:movo/src/domain/search/search_results_schema.dart';
+import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
 part 'search_results_model.g.dart';
 
@@ -35,7 +36,7 @@ class SearchResults {
   }
 }
 
-@HiveType(typeId: 6)
+@HiveType(typeId: HiveTypeIdHolder.searchResultId)
 class SearchResult {
   @HiveField(0)
   final int id;
