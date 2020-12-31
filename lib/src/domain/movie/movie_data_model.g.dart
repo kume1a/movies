@@ -96,7 +96,7 @@ class MovieDataAdapter extends TypeAdapter<MovieData> {
 
 class SeasonAdapter extends TypeAdapter<Season> {
   @override
-  final int typeId = 1;
+  final int typeId = 4;
 
   @override
   Season read(BinaryReader reader) {
