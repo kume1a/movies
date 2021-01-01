@@ -33,7 +33,9 @@ extension OptionX<T> on Option<T> {
           () => false,
           (T o) {
             try {
-              return listEquals(a as List, o as List); // ignore: always_specify_types
+              // ignore: always_specify_types
+              return listEquals(a as List, o as List);
+            // ignore: avoid_catching_errors
             } on TypeError {
               return a == o;
             }

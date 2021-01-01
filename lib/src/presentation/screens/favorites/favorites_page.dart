@@ -31,7 +31,7 @@ class _FavoritesPageContentState extends State<FavoritesPageContent> {
           !prev.moviesOption.equals(curr.moviesOption),
       builder: (BuildContext context, FavoritesState state) {
         return state.moviesOption.fold(
-          () => Center(child: const CircularProgressIndicator()),
+          () => const Center(child: CircularProgressIndicator()),
           (List<MovieData> a) {
             return AnimatedSwitcher(
               duration: mediumAnimDuration,
@@ -46,6 +46,6 @@ class _FavoritesPageContentState extends State<FavoritesPageContent> {
   @override
   void didUpdateWidget(FavoritesPageContent oldWidget) {
     super.didUpdateWidget(oldWidget);
-    context.read<FavoritesBloc>().add(FavoritesEvent.favoriteMoviesRequested());
+    context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
   }
 }

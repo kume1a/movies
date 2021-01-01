@@ -18,8 +18,9 @@ Future<void> main() async {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode)
+    if (kReleaseMode) {
       exit(1);
+    }
   };
   runApp(App());
 }

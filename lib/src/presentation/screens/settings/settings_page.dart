@@ -55,8 +55,8 @@ class SettingsPageContent extends StatelessWidget {
 
   List<Widget> _videoPlayerSection(BuildContext context) {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 4),
+      const Padding(
+        padding: EdgeInsets.only(left: 16, bottom: 4),
         child: Text('Video Player', style: prB24),
       ),
       BlocBuilder<SettingsBloc, SettingsState>(
@@ -65,10 +65,10 @@ class SettingsPageContent extends StatelessWidget {
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.autoPlayEnabled,
-            title: Text('AutoPlay'),
-            subtitle: Text('start video automatically when loaded'),
+            title: const Text('AutoPlay'),
+            subtitle: const Text('start video automatically when loaded'),
             onChanged: (bool value) {
-              context.read<SettingsBloc>().add(SettingsEvent.autoPlaySwitched(value));
+              context.read<SettingsBloc>().add(SettingsEvent.autoPlaySwitched(enabled: value));
             },
           );
         },
@@ -78,7 +78,7 @@ class SettingsPageContent extends StatelessWidget {
             prev.doubleTapToSeekValue != curr.doubleTapToSeekValue,
         builder: (BuildContext context, SettingsState state) {
           return ListTile(
-            title: Text('Double-tap to seek'),
+            title: const Text('Double-tap to seek'),
             subtitle: Text('${state.doubleTapToSeekValue} seconds'),
             onTap: () => _showSeekValueChooser(context, state.doubleTapToSeekValue),
           );
@@ -89,36 +89,36 @@ class SettingsPageContent extends StatelessWidget {
 
   List<Widget> _historySection(BuildContext context) {
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 4),
+      const Padding(
+        padding: EdgeInsets.only(left: 16, bottom: 4),
         child: Text('History', style: prB24),
       ),
       ListTile(
-        title: Text('Clear search history'),
-        subtitle: Text('clear searches made from this device'),
+        title: const Text('Clear search history'),
+        subtitle: const Text('clear searches made from this device'),
         onTap: () {
           showConfirmationDialog(
             context,
             'Clear search history?',
-            'Deleted history can\'t be restored\nconfirm to delete',
+            "Deleted history can't be restored\nconfirm to delete",
             'DELETE SEARCH HISTORY',
             () {
-              context.read<SettingsBloc>().add(SettingsEvent.clearSearchHistoryRequested());
+              context.read<SettingsBloc>().add(const SettingsEvent.clearSearchHistoryRequested());
             },
           );
         },
       ),
       ListTile(
-        title: Text('Clear saved movies'),
-        subtitle: Text('delete saved movies from \"Continue Watching\"'),
+        title: const Text('Clear saved movies'),
+        subtitle: const Text('delete saved movies from "Continue Watching"'),
         onTap: () {
           showConfirmationDialog(
             context,
             'Clear saved movies?',
-            'Deleted movies can\'t be restored\nconfirm to delete',
+            "Deleted movies can't be restored\nconfirm to delete",
             'DELETE SAVED MOVIES',
             () {
-              context.read<SettingsBloc>().add(SettingsEvent.clearWatchHistoryRequested());
+              context.read<SettingsBloc>().add(const SettingsEvent.clearWatchHistoryRequested());
             },
           );
         },
@@ -129,9 +129,9 @@ class SettingsPageContent extends StatelessWidget {
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.recordSearchHistoryEnabled,
-            title: Text('Record search history'),
+            title: const Text('Record search history'),
             onChanged: (bool value) {
-              context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(value));
+              context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(enabled: value));
             },
           );
         },
@@ -142,16 +142,16 @@ class SettingsPageContent extends StatelessWidget {
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.recordWatchHistoryEnabled,
-            title: Text('Record watch history'),
+            title: const Text('Record watch history'),
             onChanged: (bool value) {
-              context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(value));
+              context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(enabled: value));
             },
           );
         },
       ),
       ListTile(
-        title: Text('Clear favorites'),
-        subtitle: Text('make all of the movies unfavored and clear favorites\' page'),
+        title: const Text('Clear favorites'),
+        subtitle: const Text("make all of the movies unfavored and clear favorites' page"),
         onTap: () {
           showConfirmationDialog(
             context,
@@ -159,7 +159,7 @@ class SettingsPageContent extends StatelessWidget {
             'This will clear the list on favorites page\nconfirm to delete',
             'DELETE FAVOURITES',
             () {
-              context.read<SettingsBloc>().add(SettingsEvent.clearFavoritesRequested());
+              context.read<SettingsBloc>().add(const SettingsEvent.clearFavoritesRequested());
             },
           );
         },
@@ -183,7 +183,7 @@ class SettingsPageContent extends StatelessWidget {
           actions: <Widget>[
             FlatButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('CANCEL'),
+              child: const Text('CANCEL'),
             ),
             FlatButton(
               onPressed: () {
@@ -202,14 +202,13 @@ class SettingsPageContent extends StatelessWidget {
   void _showSeekValueChooser(BuildContext context, int currentValue) {
     final List<Widget> radioList = <int>[5, 10, 15, 30, 60, 120].map((int e) {
       return RadioListTile<int>(
-        title: Text('${e} sec'),
+        title: Text('$e sec'),
         value: e,
         onChanged: (int value) {
           if (value != currentValue) {
             context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(value));
           }
           Navigator.pop(context);
-          return value;
         },
         groupValue: currentValue,
         selected: currentValue == e,
@@ -221,7 +220,7 @@ class SettingsPageContent extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding: const EdgeInsets.only(top: 12),
-          title: Text('Double-tap to seek'),
+          title: const Text('Double-tap to seek'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,

@@ -1,8 +1,10 @@
+import 'package:meta/meta.dart';
+
 abstract class ISettingsInteractor {
-  Future<void> setNightModeEnabled(bool enabled);
+  Future<void> setNightModeEnabled({@required bool enabled});
   Future<bool> isNightModeEnabled();
 
-  Future<void> setAutoPlayEnabled(bool enabled);
+  Future<void> setAutoPlayEnabled({@required bool enabled});
   Future<void> setDoubleTapToSeek(int seconds);
   Future<bool> isAutoPlayEnabled();
   Future<int> getDoubleTapToSeekValue();
@@ -10,8 +12,8 @@ abstract class ISettingsInteractor {
   Future<void> clearSearchHistory();
   Future<void> clearSavedMovies();
   Future<void> clearFavorites();
-  Future<void> setRecordingSearchHistoryEnabled(bool enabled);
-  Future<void> setRecordingWatchHistoryEnabled(bool enabled);
+  Future<void> setRecordingSearchHistoryEnabled({@required bool enabled});
+  Future<void> setRecordingWatchHistoryEnabled({@required bool enabled});
   Future<bool> isRecordSearchHistoryEnabled();
   Future<bool> isRecordWatchHistoryEnabled();
 }

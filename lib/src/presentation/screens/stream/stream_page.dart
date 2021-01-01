@@ -34,7 +34,7 @@ class StreamPage extends StatelessWidget {
         ..add(StreamEvent.startPositionChanged(startAt))
         ..add(StreamEvent.seasonChanged(season))
         ..add(StreamEvent.episodeChanged(episode))
-        ..add(StreamEvent.fetchRelatedRequested()),
+        ..add(const StreamEvent.fetchRelatedRequested()),
       child: StreamPageContent(),
     );
   }
@@ -105,8 +105,8 @@ class _StreamPageContentState extends State<StreamPageContent> {
                 ));
                 content.add(EpisodeList());
               } else {
-                content.add(Padding(
-                  padding: const EdgeInsets.only(left: 16, bottom: 8, top: 12),
+                content.add(const Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 8, top: 12),
                   child: Text('Recommended', style: prB22),
                 ));
                 content.add(RelatedMovies());

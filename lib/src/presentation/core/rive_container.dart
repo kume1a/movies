@@ -20,6 +20,6 @@ class RiveContainer extends StatelessWidget {
             height: height,
             child: Rive(artboard: artboard),
           )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
   }
 }

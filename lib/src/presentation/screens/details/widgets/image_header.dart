@@ -51,7 +51,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
           ),
         ),
         if (onPlayPressed == null)
-          Center(child: const Text('Coming Soon', style: prB22)),
+          const Center(child: Text('Coming Soon', style: prB22)),
         if (onPlayPressed != null)
           Positioned.fill(
             bottom: minExtent / 2,

@@ -275,6 +275,9 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                 opacity: _latestValue != null && !_latestValue.isPlaying && !_dragging ? 1 : 0,
                 duration: mediumAnimDuration,
                 child: GestureDetector(
+                  onTap: () {
+                    _playPause();
+                  },
                   child: isFinished
                       ? const Icon(Icons.replay, size: 64)
                       : AnimatedIcon(
@@ -283,9 +286,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                           size: 64,
                           color: Colors.white,
                         ),
-                  onTap: () {
-                    _playPause();
-                  },
                 ),
               ),
               RiveContainer(
@@ -312,8 +312,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             if (MediaQuery.of(context).orientation == Orientation.landscape)
               _chewieController.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
             if (!_chewieController.isLive) _buildProgressBar(),
-            if (_chewieController.allowMuting) _buildMuteButton(_controller) else SizedBox.shrink(),
-            if (_chewieController.allowFullScreen) _buildExpandButton() else SizedBox.shrink(),
+            if (_chewieController.allowMuting) _buildMuteButton(_controller) else const SizedBox.shrink(),
+            if (_chewieController.allowFullScreen) _buildExpandButton() else const SizedBox.shrink(),
           ],
         ),
       ),

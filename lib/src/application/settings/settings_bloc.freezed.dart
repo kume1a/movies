@@ -15,31 +15,31 @@ class _$SettingsEventTearOff {
 
 // ignore: unused_element
   _Initial initial(
-      bool isNightModeEnabled,
-      bool isAutoPlatEnabled,
-      int seekValue,
-      bool isRecordSearchHistoryEnabled,
-      bool isRecordWatchHistoryEnabled) {
+      {@required bool isNightModeEnabled,
+      @required bool isAutoPlatEnabled,
+      @required int seekValue,
+      @required bool isRecordSearchHistoryEnabled,
+      @required bool isRecordWatchHistoryEnabled}) {
     return _Initial(
-      isNightModeEnabled,
-      isAutoPlatEnabled,
-      seekValue,
-      isRecordSearchHistoryEnabled,
-      isRecordWatchHistoryEnabled,
+      isNightModeEnabled: isNightModeEnabled,
+      isAutoPlatEnabled: isAutoPlatEnabled,
+      seekValue: seekValue,
+      isRecordSearchHistoryEnabled: isRecordSearchHistoryEnabled,
+      isRecordWatchHistoryEnabled: isRecordWatchHistoryEnabled,
     );
   }
 
 // ignore: unused_element
-  _NightModeSwitched nightModeSwitched(bool enabled) {
+  _NightModeSwitched nightModeSwitched({@required bool enabled}) {
     return _NightModeSwitched(
-      enabled,
+      enabled: enabled,
     );
   }
 
 // ignore: unused_element
-  _AutoPlaySwitched autoPlaySwitched(bool enabled) {
+  _AutoPlaySwitched autoPlaySwitched({@required bool enabled}) {
     return _AutoPlaySwitched(
-      enabled,
+      enabled: enabled,
     );
   }
 
@@ -61,16 +61,18 @@ class _$SettingsEventTearOff {
   }
 
 // ignore: unused_element
-  _SearchHistoryEnabledSwitched searchHistoryEnabledSwitched(bool enabled) {
+  _SearchHistoryEnabledSwitched searchHistoryEnabledSwitched(
+      {@required bool enabled}) {
     return _SearchHistoryEnabledSwitched(
-      enabled,
+      enabled: enabled,
     );
   }
 
 // ignore: unused_element
-  _WatchHistoryEnabledSwitched watchHistoryEnabledSwitched(bool enabled) {
+  _WatchHistoryEnabledSwitched watchHistoryEnabledSwitched(
+      {@required bool enabled}) {
     return _WatchHistoryEnabledSwitched(
-      enabled,
+      enabled: enabled,
     );
   }
 
@@ -202,17 +204,17 @@ class __$InitialCopyWithImpl<$Res> extends _$SettingsEventCopyWithImpl<$Res>
     Object isRecordWatchHistoryEnabled = freezed,
   }) {
     return _then(_Initial(
-      isNightModeEnabled == freezed
+      isNightModeEnabled: isNightModeEnabled == freezed
           ? _value.isNightModeEnabled
           : isNightModeEnabled as bool,
-      isAutoPlatEnabled == freezed
+      isAutoPlatEnabled: isAutoPlatEnabled == freezed
           ? _value.isAutoPlatEnabled
           : isAutoPlatEnabled as bool,
-      seekValue == freezed ? _value.seekValue : seekValue as int,
-      isRecordSearchHistoryEnabled == freezed
+      seekValue: seekValue == freezed ? _value.seekValue : seekValue as int,
+      isRecordSearchHistoryEnabled: isRecordSearchHistoryEnabled == freezed
           ? _value.isRecordSearchHistoryEnabled
           : isRecordSearchHistoryEnabled as bool,
-      isRecordWatchHistoryEnabled == freezed
+      isRecordWatchHistoryEnabled: isRecordWatchHistoryEnabled == freezed
           ? _value.isRecordWatchHistoryEnabled
           : isRecordWatchHistoryEnabled as bool,
     ));
@@ -222,11 +224,11 @@ class __$InitialCopyWithImpl<$Res> extends _$SettingsEventCopyWithImpl<$Res>
 /// @nodoc
 class _$_Initial implements _Initial {
   const _$_Initial(
-      this.isNightModeEnabled,
-      this.isAutoPlatEnabled,
-      this.seekValue,
-      this.isRecordSearchHistoryEnabled,
-      this.isRecordWatchHistoryEnabled)
+      {@required this.isNightModeEnabled,
+      @required this.isAutoPlatEnabled,
+      @required this.seekValue,
+      @required this.isRecordSearchHistoryEnabled,
+      @required this.isRecordWatchHistoryEnabled})
       : assert(isNightModeEnabled != null),
         assert(isAutoPlatEnabled != null),
         assert(seekValue != null),
@@ -401,11 +403,11 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements SettingsEvent {
   const factory _Initial(
-      bool isNightModeEnabled,
-      bool isAutoPlatEnabled,
-      int seekValue,
-      bool isRecordSearchHistoryEnabled,
-      bool isRecordWatchHistoryEnabled) = _$_Initial;
+      {@required bool isNightModeEnabled,
+      @required bool isAutoPlatEnabled,
+      @required int seekValue,
+      @required bool isRecordSearchHistoryEnabled,
+      @required bool isRecordWatchHistoryEnabled}) = _$_Initial;
 
   bool get isNightModeEnabled;
   bool get isAutoPlatEnabled;
@@ -439,14 +441,15 @@ class __$NightModeSwitchedCopyWithImpl<$Res>
     Object enabled = freezed,
   }) {
     return _then(_NightModeSwitched(
-      enabled == freezed ? _value.enabled : enabled as bool,
+      enabled: enabled == freezed ? _value.enabled : enabled as bool,
     ));
   }
 }
 
 /// @nodoc
 class _$_NightModeSwitched implements _NightModeSwitched {
-  const _$_NightModeSwitched(this.enabled) : assert(enabled != null);
+  const _$_NightModeSwitched({@required this.enabled})
+      : assert(enabled != null);
 
   @override
   final bool enabled;
@@ -583,7 +586,8 @@ class _$_NightModeSwitched implements _NightModeSwitched {
 }
 
 abstract class _NightModeSwitched implements SettingsEvent {
-  const factory _NightModeSwitched(bool enabled) = _$_NightModeSwitched;
+  const factory _NightModeSwitched({@required bool enabled}) =
+      _$_NightModeSwitched;
 
   bool get enabled;
   _$NightModeSwitchedCopyWith<_NightModeSwitched> get copyWith;
@@ -613,14 +617,14 @@ class __$AutoPlaySwitchedCopyWithImpl<$Res>
     Object enabled = freezed,
   }) {
     return _then(_AutoPlaySwitched(
-      enabled == freezed ? _value.enabled : enabled as bool,
+      enabled: enabled == freezed ? _value.enabled : enabled as bool,
     ));
   }
 }
 
 /// @nodoc
 class _$_AutoPlaySwitched implements _AutoPlaySwitched {
-  const _$_AutoPlaySwitched(this.enabled) : assert(enabled != null);
+  const _$_AutoPlaySwitched({@required this.enabled}) : assert(enabled != null);
 
   @override
   final bool enabled;
@@ -757,7 +761,8 @@ class _$_AutoPlaySwitched implements _AutoPlaySwitched {
 }
 
 abstract class _AutoPlaySwitched implements SettingsEvent {
-  const factory _AutoPlaySwitched(bool enabled) = _$_AutoPlaySwitched;
+  const factory _AutoPlaySwitched({@required bool enabled}) =
+      _$_AutoPlaySwitched;
 
   bool get enabled;
   _$AutoPlaySwitchedCopyWith<_AutoPlaySwitched> get copyWith;
@@ -1275,14 +1280,15 @@ class __$SearchHistoryEnabledSwitchedCopyWithImpl<$Res>
     Object enabled = freezed,
   }) {
     return _then(_SearchHistoryEnabledSwitched(
-      enabled == freezed ? _value.enabled : enabled as bool,
+      enabled: enabled == freezed ? _value.enabled : enabled as bool,
     ));
   }
 }
 
 /// @nodoc
 class _$_SearchHistoryEnabledSwitched implements _SearchHistoryEnabledSwitched {
-  const _$_SearchHistoryEnabledSwitched(this.enabled) : assert(enabled != null);
+  const _$_SearchHistoryEnabledSwitched({@required this.enabled})
+      : assert(enabled != null);
 
   @override
   final bool enabled;
@@ -1420,7 +1426,7 @@ class _$_SearchHistoryEnabledSwitched implements _SearchHistoryEnabledSwitched {
 }
 
 abstract class _SearchHistoryEnabledSwitched implements SettingsEvent {
-  const factory _SearchHistoryEnabledSwitched(bool enabled) =
+  const factory _SearchHistoryEnabledSwitched({@required bool enabled}) =
       _$_SearchHistoryEnabledSwitched;
 
   bool get enabled;
@@ -1455,14 +1461,15 @@ class __$WatchHistoryEnabledSwitchedCopyWithImpl<$Res>
     Object enabled = freezed,
   }) {
     return _then(_WatchHistoryEnabledSwitched(
-      enabled == freezed ? _value.enabled : enabled as bool,
+      enabled: enabled == freezed ? _value.enabled : enabled as bool,
     ));
   }
 }
 
 /// @nodoc
 class _$_WatchHistoryEnabledSwitched implements _WatchHistoryEnabledSwitched {
-  const _$_WatchHistoryEnabledSwitched(this.enabled) : assert(enabled != null);
+  const _$_WatchHistoryEnabledSwitched({@required this.enabled})
+      : assert(enabled != null);
 
   @override
   final bool enabled;
@@ -1600,7 +1607,7 @@ class _$_WatchHistoryEnabledSwitched implements _WatchHistoryEnabledSwitched {
 }
 
 abstract class _WatchHistoryEnabledSwitched implements SettingsEvent {
-  const factory _WatchHistoryEnabledSwitched(bool enabled) =
+  const factory _WatchHistoryEnabledSwitched({@required bool enabled}) =
       _$_WatchHistoryEnabledSwitched;
 
   bool get enabled;
@@ -1765,17 +1772,17 @@ class _$SettingsStateTearOff {
 
 // ignore: unused_element
   _SettingsState call(
-      bool nightModeEnabled,
-      bool autoPlayEnabled,
-      int doubleTapToSeekValue,
-      bool recordSearchHistoryEnabled,
-      bool recordWatchHistoryEnabled) {
+      {@required bool nightModeEnabled,
+      @required bool autoPlayEnabled,
+      @required int doubleTapToSeekValue,
+      @required bool recordSearchHistoryEnabled,
+      @required bool recordWatchHistoryEnabled}) {
     return _SettingsState(
-      nightModeEnabled,
-      autoPlayEnabled,
-      doubleTapToSeekValue,
-      recordSearchHistoryEnabled,
-      recordWatchHistoryEnabled,
+      nightModeEnabled: nightModeEnabled,
+      autoPlayEnabled: autoPlayEnabled,
+      doubleTapToSeekValue: doubleTapToSeekValue,
+      recordSearchHistoryEnabled: recordSearchHistoryEnabled,
+      recordWatchHistoryEnabled: recordWatchHistoryEnabled,
     );
   }
 }
@@ -1880,19 +1887,19 @@ class __$SettingsStateCopyWithImpl<$Res>
     Object recordWatchHistoryEnabled = freezed,
   }) {
     return _then(_SettingsState(
-      nightModeEnabled == freezed
+      nightModeEnabled: nightModeEnabled == freezed
           ? _value.nightModeEnabled
           : nightModeEnabled as bool,
-      autoPlayEnabled == freezed
+      autoPlayEnabled: autoPlayEnabled == freezed
           ? _value.autoPlayEnabled
           : autoPlayEnabled as bool,
-      doubleTapToSeekValue == freezed
+      doubleTapToSeekValue: doubleTapToSeekValue == freezed
           ? _value.doubleTapToSeekValue
           : doubleTapToSeekValue as int,
-      recordSearchHistoryEnabled == freezed
+      recordSearchHistoryEnabled: recordSearchHistoryEnabled == freezed
           ? _value.recordSearchHistoryEnabled
           : recordSearchHistoryEnabled as bool,
-      recordWatchHistoryEnabled == freezed
+      recordWatchHistoryEnabled: recordWatchHistoryEnabled == freezed
           ? _value.recordWatchHistoryEnabled
           : recordWatchHistoryEnabled as bool,
     ));
@@ -1902,11 +1909,11 @@ class __$SettingsStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_SettingsState implements _SettingsState {
   const _$_SettingsState(
-      this.nightModeEnabled,
-      this.autoPlayEnabled,
-      this.doubleTapToSeekValue,
-      this.recordSearchHistoryEnabled,
-      this.recordWatchHistoryEnabled)
+      {@required this.nightModeEnabled,
+      @required this.autoPlayEnabled,
+      @required this.doubleTapToSeekValue,
+      @required this.recordSearchHistoryEnabled,
+      @required this.recordWatchHistoryEnabled})
       : assert(nightModeEnabled != null),
         assert(autoPlayEnabled != null),
         assert(doubleTapToSeekValue != null),
@@ -1970,11 +1977,11 @@ class _$_SettingsState implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   const factory _SettingsState(
-      bool nightModeEnabled,
-      bool autoPlayEnabled,
-      int doubleTapToSeekValue,
-      bool recordSearchHistoryEnabled,
-      bool recordWatchHistoryEnabled) = _$_SettingsState;
+      {@required bool nightModeEnabled,
+      @required bool autoPlayEnabled,
+      @required int doubleTapToSeekValue,
+      @required bool recordSearchHistoryEnabled,
+      @required bool recordWatchHistoryEnabled}) = _$_SettingsState;
 
   @override
   bool get nightModeEnabled;

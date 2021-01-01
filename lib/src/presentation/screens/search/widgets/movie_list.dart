@@ -48,7 +48,7 @@ class MovieList extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<SearchBloc>().add(SearchEvent.searchResultSelected(searchResult));
-        return Navigator.pushNamed(
+        Navigator.pushNamed(
           context,
           Routes.detailsPage,
           arguments: DetailsPageArgs(movieId: searchResult.movieId),

@@ -93,7 +93,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       savedMoviesRequested: (_SavedMoviesRequested value) async* {
         final List<MoviePosition> savedMoviePositions = await _repository.getSavedMovies();
         final List<SavedMovie> savedMovies = <SavedMovie>[];
-        for (MoviePosition position in savedMoviePositions) {
+        for (final MoviePosition position in savedMoviePositions) {
           final Option<MovieData> data = await _repository.fetchMovie(position.movieId);
           data.fold(
             () {},

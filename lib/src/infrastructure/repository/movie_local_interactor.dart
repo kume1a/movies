@@ -14,7 +14,7 @@ class MovieLocalInteractor {
   MovieLocalInteractor(this._boxHolder);
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
-    return optionOf(await _boxHolder.movieData.get(movieId));
+    return optionOf(_boxHolder.movieData.get(movieId));
   }
 
   Future<void> writeMovieData(MovieData movieData) async {
@@ -22,7 +22,7 @@ class MovieLocalInteractor {
   }
 
   Future<Option<SeasonFiles>> getSeasonFiles(int id, int season) async {
-    return optionOf(await _boxHolder.seasonFiles.get('${id}_${season}'));
+    return optionOf(_boxHolder.seasonFiles.get('${id}_$season'));
   }
 
   Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {
@@ -45,7 +45,7 @@ class MovieLocalInteractor {
   }
 
   Future<bool> getMovieFavoriteStatus({@required int movieId}) async {
-    final MovieData movieData = await _boxHolder.movieData.get(movieId);
+    final MovieData movieData = _boxHolder.movieData.get(movieId);
     return movieData?.favorite ?? false;
   }
 
@@ -54,7 +54,7 @@ class MovieLocalInteractor {
   }
 
   Future<List<MoviePosition>> getSavedMovies() async {
-    List<MoviePosition> savedMovies = _boxHolder.continueWatching.values.toList();
+    final List<MoviePosition> savedMovies = _boxHolder.continueWatching.values.toList();
     savedMovies.sort((MoviePosition a, MoviePosition b) => a.timestamp.compareTo(b.timestamp) * -1);
 
     return savedMovies;

@@ -117,8 +117,8 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
       child: Stack(
         children: <Widget>[
           AbsorbPointer(
-            child: widget.child,
             absorbing: _shouldAbsorb(),
+            child: widget.child,
           ),
           if (widget.showEpisodes)
             Align(
@@ -127,14 +127,14 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(width: hMaxSlide),
                 child: AnimatedBuilder(
                   animation: _horizontalController,
-                  child: DrawerEpisodeList(),
                   builder: (BuildContext context, Widget child) {
-                    double x = (1 - _horizontalController.value) * hMaxSlide;
+                    final double x = (1 - _horizontalController.value) * hMaxSlide;
                     return Transform.translate(
                       offset: Offset(x, 0),
                       child: child,
                     );
                   },
+                  child: DrawerEpisodeList(),
                 ),
               ),
             ),
@@ -145,18 +145,18 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(height: vMaxSlide),
                 child: AnimatedBuilder(
                   animation: _verticalController,
-                  child: DrawerRecommendedList(
-                    onItemTap: () {
-                      _verticalController.reverse();
-                    },
-                  ),
                   builder: (BuildContext context, Widget child) {
-                    double y = (1 - _verticalController.value) * vMaxSlide;
+                    final double y = (1 - _verticalController.value) * vMaxSlide;
                     return Transform.translate(
                       offset: Offset(0, y),
                       child: child,
                     );
                   },
+                  child: DrawerRecommendedList(
+                    onItemTap: () {
+                      _verticalController.reverse();
+                    },
+                  ),
                 ),
               ),
             ),
@@ -194,8 +194,8 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
     if (!_canShow(axis)) return;
 
     if (_canBeDragged(axis)) {
-      double maxSlide = axis == Axis.vertical ? vMaxSlide : hMaxSlide;
-      double delta = details.primaryDelta / maxSlide;
+      final double maxSlide = axis == Axis.vertical ? vMaxSlide : hMaxSlide;
+      final double delta = details.primaryDelta / maxSlide;
       _getController(axis).value -= delta;
     }
   }
@@ -203,7 +203,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   void _onDragEnd(DragEndDetails details, Axis axis) {
     if (!_canShow(axis)) return;
 
-    AnimationController controller = _getController(axis);
+    final AnimationController controller = _getController(axis);
 
     if (controller.isDismissed || controller.isCompleted) return;
 
@@ -215,7 +215,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
         : details.velocity.pixelsPerSecond.dy;
 
     if (pixelsPerSec >= minFlingVelocity) {
-      double visualVelocity = pixelsPerSec / size;
+      final double visualVelocity = pixelsPerSec / size;
       controller.fling(velocity: -visualVelocity);
     } else if (controller.value < 0.5) {
       controller.reverse();
@@ -309,9 +309,9 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
       itemCount: seasonNumbers.length + 1,
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
-          return SizedBox(height: 60);
+          return const SizedBox(height: 60);
         }
-        int season = seasonNumbers[index - 1];
+        final int season = seasonNumbers[index - 1];
 
         return FlatButton(
           onPressed: () {
@@ -360,7 +360,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           height: 50,
           child: Row(
             children: <Widget>[
-              Icon(Icons.chevron_left),
+              const Icon(Icons.chevron_left),
               const SizedBox(width: 6),
               Text('Season $season', style: prSB18),
             ],
@@ -411,8 +411,11 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
                   const SizedBox(height: 12),
                   Text(
                     episode.title,
-                    style:
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -461,9 +464,9 @@ class DrawerRecommendedList extends StatelessWidget {
         onItemTap?.call();
         context.read<StreamBloc>()
           ..add(StreamEvent.movieChanged(movie.movieId))
-          ..add(StreamEvent.seasonChanged(1))
-          ..add(StreamEvent.episodeChanged(1))
-          ..add(StreamEvent.fetchRelatedRequested());
+          ..add(const StreamEvent.seasonChanged(1))
+          ..add(const StreamEvent.episodeChanged(1))
+          ..add(const StreamEvent.fetchRelatedRequested());
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),

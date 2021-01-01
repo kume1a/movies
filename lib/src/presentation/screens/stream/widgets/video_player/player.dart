@@ -441,21 +441,21 @@ class PlayerWithControls extends StatelessWidget {
       //   backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
       //   iconColor: Color.fromARGB(255, 200, 200, 200),
       // );
-      return chewieController.showControls ? chewieController.customControls : SizedBox.shrink();
+      return chewieController.showControls ? chewieController.customControls : const SizedBox.shrink();
     }
 
     Stack _buildPlayerWithControls(ChewieController chewieController, BuildContext context) {
-      VideoPlayer videoPlayer = VideoPlayer(chewieController.videoPlayerController);
+      final VideoPlayer videoPlayer = VideoPlayer(chewieController.videoPlayerController);
 
       return Stack(
         children: <Widget>[
-          chewieController.placeholder ?? SizedBox.shrink(),
+          chewieController.placeholder ?? const SizedBox.shrink(),
           Center(
             child: !chewieController._isInitialized
                 ? FutureBuilder<void>(
                     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       }
 
                       return AspectRatio(
@@ -472,7 +472,7 @@ class PlayerWithControls extends StatelessWidget {
                     child: videoPlayer,
                   ),
           ),
-          chewieController.overlay ?? SizedBox.shrink(),
+          chewieController.overlay ?? const SizedBox.shrink(),
           if (!chewieController.isFullScreen)
             _buildControls(context, chewieController)
           else

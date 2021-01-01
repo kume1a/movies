@@ -18,7 +18,7 @@ class EmptyFavoriteListMessage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'You haven\'t favorited anything yet',
+              "You haven't favorited anything yet",
               style: prSB26,
               textAlign: TextAlign.center,
             ),

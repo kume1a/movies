@@ -33,9 +33,9 @@ class RelatedMovies extends StatelessWidget {
       onTap: () {
         context.read<StreamBloc>()
           ..add(StreamEvent.movieChanged(movie.movieId))
-          ..add(StreamEvent.seasonChanged(1))
-          ..add(StreamEvent.episodeChanged(1))
-          ..add(StreamEvent.fetchRelatedRequested());
+          ..add(const StreamEvent.seasonChanged(1))
+          ..add(const StreamEvent.episodeChanged(1))
+          ..add(const StreamEvent.fetchRelatedRequested());
       },
       child: MovieItem(
         imageUrl: movie.poster,

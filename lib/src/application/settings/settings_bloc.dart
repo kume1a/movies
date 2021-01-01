@@ -30,11 +30,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         await _settingsInteractor.isRecordWatchHistoryEnabled();
 
     add(SettingsEvent.initial(
-      isNightModeEnabled,
-      isAutoPlatEnabled,
-      seekValue,
-      isRecordSearchHistoryEnabled,
-      isRecordWatchHistoryEnabled,
+      isNightModeEnabled: isNightModeEnabled,
+      isAutoPlatEnabled: isAutoPlatEnabled,
+      seekValue: seekValue,
+      isRecordSearchHistoryEnabled: isRecordSearchHistoryEnabled,
+      isRecordWatchHistoryEnabled: isRecordWatchHistoryEnabled,
     ));
   }
 
@@ -54,11 +54,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       },
       nightModeSwitched: (_NightModeSwitched e) async* {
         yield state.copyWith(nightModeEnabled: e.enabled);
-        await _settingsInteractor.setNightModeEnabled(e.enabled);
+        await _settingsInteractor.setNightModeEnabled(enabled: e.enabled);
       },
       autoPlaySwitched: (_AutoPlaySwitched e) async* {
         yield state.copyWith(autoPlayEnabled: e.enabled);
-        await _settingsInteractor.setAutoPlayEnabled(e.enabled);
+        await _settingsInteractor.setAutoPlayEnabled(enabled: e.enabled);
       },
       doubleTapToSeekValueChanged: (_DoubleTapToSeekValueChanged e) async* {
         yield state.copyWith(doubleTapToSeekValue: e.value);
@@ -72,11 +72,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       },
       searchHistoryEnabledSwitched: (_SearchHistoryEnabledSwitched e) async* {
         yield state.copyWith(recordSearchHistoryEnabled: e.enabled);
-        await _settingsInteractor.setRecordingSearchHistoryEnabled(e.enabled);
+        await _settingsInteractor.setRecordingSearchHistoryEnabled(enabled: e.enabled);
       },
       watchHistoryEnabledSwitched: (_WatchHistoryEnabledSwitched e) async* {
         yield state.copyWith(recordWatchHistoryEnabled: e.enabled);
-        await _settingsInteractor.setRecordingWatchHistoryEnabled(e.enabled);
+        await _settingsInteractor.setRecordingWatchHistoryEnabled(enabled: e.enabled);
       },
       clearFavoritesRequested: (_ClearFavoritesRequested e) async* {
         await _settingsInteractor.clearFavorites();

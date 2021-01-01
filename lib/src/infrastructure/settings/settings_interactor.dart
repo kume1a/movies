@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:meta/meta.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/settings/i_settings_interactor.dart';
 import 'package:movo/src/infrastructure/hive_box_holder.dart';
@@ -19,7 +20,7 @@ class SettingsInteractor implements ISettingsInteractor {
 
   // ---- theme ----
   @override
-  Future<void> setNightModeEnabled(bool enabled) async {
+  Future<void> setNightModeEnabled({@required bool enabled}) async {
     _boxHolder.enabledOptions.put(_Setting.nightMode.index, enabled);
   }
 
@@ -30,7 +31,7 @@ class SettingsInteractor implements ISettingsInteractor {
 
   // ---- video player ----
   @override
-  Future<void> setAutoPlayEnabled(bool enabled) async {
+  Future<void> setAutoPlayEnabled({@required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.autoPlay.index, enabled);
   }
 
@@ -62,18 +63,18 @@ class SettingsInteractor implements ISettingsInteractor {
 
   @override
   Future<void> clearFavorites() async {
-    _boxHolder.movieData.values.forEach((MovieData element) {
+    for (final MovieData element in _boxHolder.movieData.values) {
       _boxHolder.movieData.put(element.movieId, element..favorite = false);
-    });
+    }
   }
 
   @override
-  Future<void> setRecordingSearchHistoryEnabled(bool enabled) async {
+  Future<void> setRecordingSearchHistoryEnabled({@required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.searchHistoryRecording.index, enabled);
   }
 
   @override
-  Future<void> setRecordingWatchHistoryEnabled(bool enabled) async {
+  Future<void> setRecordingWatchHistoryEnabled({@required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.watchHistoryRecording.index, enabled);
   }
 

@@ -30,7 +30,7 @@ class MoviePosition {
     this.movieId,
     this.durationInMillis,
     this.leftAt,
-    this.isTvShow,
+    this.isTvShow, // ignore: avoid_positional_boolean_parameters
     this.season,
     this.episode,
     this.timestamp,

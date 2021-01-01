@@ -40,16 +40,16 @@ class StreamSettings {
   final bool recordWatchHistoryEnabled;
   final int doubleTapToSeekValue;
 
-  StreamSettings(
-    this.autoPlayEnabled,
-    this.recordWatchHistoryEnabled,
-    this.doubleTapToSeekValue,
-  );
+  const StreamSettings({
+    @required this.autoPlayEnabled,
+    @required this.recordWatchHistoryEnabled,
+    @required this.doubleTapToSeekValue,
+  });
 
-  factory StreamSettings.initial() => StreamSettings(
-        DefaultSettings.isAutoPlayEnabled,
-        DefaultSettings.recordWatchHistoryEnabled,
-        DefaultSettings.doubleTapToSeekValue,
+  factory StreamSettings.initial() => const StreamSettings(
+        autoPlayEnabled: DefaultSettings.isAutoPlayEnabled,
+        recordWatchHistoryEnabled: DefaultSettings.recordWatchHistoryEnabled,
+        doubleTapToSeekValue: DefaultSettings.doubleTapToSeekValue,
       );
 
   @override

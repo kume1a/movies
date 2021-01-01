@@ -41,10 +41,10 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     final bool recordWatchHistoryEnabled = await _settingsInteractor.isRecordWatchHistoryEnabled();
     final int doubleTapToSeekValue = await _settingsInteractor.getDoubleTapToSeekValue();
 
-    StreamSettings settings = StreamSettings(
-      isAutoPlayEnabled,
-      recordWatchHistoryEnabled,
-      doubleTapToSeekValue,
+    final StreamSettings settings = StreamSettings(
+      autoPlayEnabled: isAutoPlayEnabled,
+      recordWatchHistoryEnabled: recordWatchHistoryEnabled,
+      doubleTapToSeekValue: doubleTapToSeekValue,
     );
     add(StreamEvent.settingsFetched(settings));
   }
@@ -52,7 +52,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   bool firstEpisodePassed = false;
 
   MovieData get getMovieOrCrash =>
-      state.movie.getOrElse(() => throw StateError('movie can\'t be none'));
+      state.movie.getOrElse(() => throw StateError("movie can't be none"));
 
   @override
   Stream<StreamState> mapEventToState(
@@ -193,8 +193,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     if (state.settings.recordWatchHistoryEnabled) {
       state.seasonFilesOption.foldSome(
         (SeasonFiles a) {
-          MovieData movie = getMovieOrCrash;
-          int durationInSeconds = a.data
+          final MovieData movie = getMovieOrCrash;
+          final int durationInSeconds = a.data
               .firstWhere(
                 (Episode element) => element.episode == state.episode,
                 orElse: () => a.data.first,
@@ -205,7 +205,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
               .first
               .duration;
 
-          MoviePosition position = MoviePosition(
+          final MoviePosition position = MoviePosition(
             movie.movieId,
             durationInSeconds * 1000,
             e.position.inMilliseconds,
