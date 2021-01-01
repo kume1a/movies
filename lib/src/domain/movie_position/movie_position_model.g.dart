@@ -40,9 +40,9 @@ class MoviePositionAdapter extends TypeAdapter<MoviePosition> {
       ..writeByte(3)
       ..write(obj.isTvShow)
       ..writeByte(4)
-      ..write(obj.seasonNumber)
+      ..write(obj.season)
       ..writeByte(5)
-      ..write(obj.episodeNumber)
+      ..write(obj.episode)
       ..writeByte(6)
       ..write(obj.timestamp);
   }

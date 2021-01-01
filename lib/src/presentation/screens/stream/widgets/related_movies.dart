@@ -32,9 +32,9 @@ class RelatedMovies extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<StreamBloc>()
-          ..add(StreamEvent.movieChanged(movie))
+          ..add(StreamEvent.movieChanged(movie.movieId))
           ..add(StreamEvent.seasonChanged(1))
-          ..add(StreamEvent.episodeChanged(0))
+          ..add(StreamEvent.episodeChanged(1))
           ..add(StreamEvent.fetchRelatedRequested());
       },
       child: MovieItem(

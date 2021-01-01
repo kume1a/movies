@@ -8,7 +8,7 @@ part of 'enums.dart';
 
 class ResolutionAdapter extends TypeAdapter<Resolution> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   Resolution read(BinaryReader reader) {
@@ -52,7 +52,7 @@ class ResolutionAdapter extends TypeAdapter<Resolution> {
 
 class ImageSizeAdapter extends TypeAdapter<ImageSize> {
   @override
-  final int typeId = 2;
+  final int typeId = 3;
 
   @override
   ImageSize read(BinaryReader reader) {
@@ -91,7 +91,7 @@ class ImageSizeAdapter extends TypeAdapter<ImageSize> {
 
 class LanguageAdapter extends TypeAdapter<Language> {
   @override
-  final int typeId = 3;
+  final int typeId = 4;
 
   @override
   Language read(BinaryReader reader) {
@@ -129,6 +129,45 @@ class LanguageAdapter extends TypeAdapter<Language> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is LanguageAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class QualityAdapter extends TypeAdapter<Quality> {
+  @override
+  final int typeId = 11;
+
+  @override
+  Quality read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return Quality.medium;
+      case 1:
+        return Quality.high;
+      default:
+        return null;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, Quality obj) {
+    switch (obj) {
+      case Quality.medium:
+        writer.writeByte(0);
+        break;
+      case Quality.high:
+        writer.writeByte(1);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QualityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

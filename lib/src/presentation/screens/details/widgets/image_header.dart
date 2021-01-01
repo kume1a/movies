@@ -7,6 +7,7 @@ import 'package:movo/src/application/details/details_bloc.dart';
 import 'package:movo/src/presentation/core/widgets/safe_image.dart';
 import 'package:movo/src/presentation/values/colors.dart';
 import 'package:movo/src/presentation/values/constants.dart';
+import 'package:movo/src/presentation/values/text_styles.dart';
 
 class ImageHeader implements SliverPersistentHeaderDelegate {
   @override
@@ -24,7 +25,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
     @required this.maxExtent,
     @required this.src,
     @required this.onBackPressed,
-    @required this.onPlayPressed,
+    this.onPlayPressed,
   });
 
   @override
@@ -34,6 +35,10 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: <Widget>[
         SafeImage(imageUrl: src),
+        if (onPlayPressed == null)
+          Container(
+            color: Colors.black.withOpacity((1-offset) * .4),
+          ),
         Positioned(
           bottom: 0,
           child: Container(
@@ -45,31 +50,34 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
             ),
           ),
         ),
-        Positioned.fill(
-          bottom: minExtent / 2,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTap: onPlayPressed,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                width: offset <= .3 ? minExtent : 0,
-                height: offset <= .3 ? minExtent : 0,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(minExtent / 2),
-                  color: colorAccent,
-                ),
-                child: const FittedBox(
-                  child: Icon(
-                    Icons.play_arrow_outlined,
-                    color: Colors.white,
+        if (onPlayPressed == null)
+          Center(child: const Text('Coming Soon', style: prB22)),
+        if (onPlayPressed != null)
+          Positioned.fill(
+            bottom: minExtent / 2,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: GestureDetector(
+                onTap: onPlayPressed,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 100),
+                  width: offset <= .3 ? minExtent : 0,
+                  height: offset <= .3 ? minExtent : 0,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(minExtent / 2),
+                    color: colorAccent,
+                  ),
+                  child: const FittedBox(
+                    child: Icon(
+                      Icons.play_arrow_outlined,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
         Positioned(
           right: 0,
           child: FavoriteButton(),

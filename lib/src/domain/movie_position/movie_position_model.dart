@@ -18,10 +18,10 @@ class MoviePosition {
   final bool isTvShow;
 
   @HiveField(4)
-  final int seasonNumber;
+  final int season;
 
   @HiveField(5)
-  final int episodeNumber;
+  final int episode;
 
   @HiveField(6)
   final int timestamp;
@@ -31,14 +31,14 @@ class MoviePosition {
     this.durationInMillis,
     this.leftAt,
     this.isTvShow,
-    this.seasonNumber,
-    this.episodeNumber,
+    this.season,
+    this.episode,
     this.timestamp,
   );
 
   @override
   String toString() {
-    return 'MoviePosition{movieId: $movieId, durationInMillis: $durationInMillis, leftAt: $leftAt, isTvShow: $isTvShow, seasonNumber: $seasonNumber, episodeNumber: $episodeNumber, timestamp: $timestamp}';
+    return 'MoviePosition{movieId: $movieId, durationInMillis: $durationInMillis, leftAt: $leftAt, isTvShow: $isTvShow, season: $season, episode: $episode, timestamp: $timestamp}';
   }
 
   @override
@@ -50,8 +50,8 @@ class MoviePosition {
           durationInMillis == other.durationInMillis &&
           leftAt == other.leftAt &&
           isTvShow == other.isTvShow &&
-          seasonNumber == other.seasonNumber &&
-          episodeNumber == other.episodeNumber &&
+          season == other.season &&
+          episode == other.episode &&
           timestamp == other.timestamp;
 
   @override
@@ -60,7 +60,7 @@ class MoviePosition {
       durationInMillis.hashCode ^
       leftAt.hashCode ^
       isTvShow.hashCode ^
-      seasonNumber.hashCode ^
-      episodeNumber.hashCode ^
+      season.hashCode ^
+      episode.hashCode ^
       timestamp.hashCode;
 }

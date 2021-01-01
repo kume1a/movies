@@ -14,11 +14,9 @@ class EpisodeDrawer extends StatefulWidget {
   final Widget child;
   final bool showEpisodes;
   final bool showRecommended;
-  final List<int> seasons;
 
   const EpisodeDrawer({
     @required this.child,
-    @required this.seasons,
     this.showEpisodes = true,
     this.showRecommended = true,
   });
@@ -92,6 +90,13 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant EpisodeDrawer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _absorbing = false;
+  }
+
   bool _shouldAbsorb() {
     if (!widget.showRecommended || !widget.showEpisodes) {
       return _absorbing;
@@ -122,7 +127,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(width: hMaxSlide),
                 child: AnimatedBuilder(
                   animation: _horizontalController,
-                  child: DrawerEpisodeList(widget.seasons),
+                  child: DrawerEpisodeList(),
                   builder: (BuildContext context, Widget child) {
                     double x = (1 - _horizontalController.value) * hMaxSlide;
                     return Transform.translate(
@@ -140,7 +145,11 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(height: vMaxSlide),
                 child: AnimatedBuilder(
                   animation: _verticalController,
-                  child: DrawerRecommendedList(),
+                  child: DrawerRecommendedList(
+                    onItemTap: () {
+                      _verticalController.reverse();
+                    },
+                  ),
                   builder: (BuildContext context, Widget child) {
                     double y = (1 - _verticalController.value) * vMaxSlide;
                     return Transform.translate(
@@ -218,10 +227,6 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
 }
 
 class DrawerEpisodeList extends StatefulWidget {
-  final List<int> seasons;
-
-  const DrawerEpisodeList(this.seasons);
-
   @override
   _DrawerEpisodeListState createState() => _DrawerEpisodeListState();
 }
@@ -253,30 +258,48 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
       buildWhen: (StreamState prev, StreamState curr) =>
           prev.episode != curr.episode ||
           prev.season != curr.season ||
-          prev.episodeSeason != curr.episodeSeason,
+          prev.episodeSeason != curr.episodeSeason ||
+          !prev.seasonFilesOption.equals(curr.seasonFilesOption) ||
+          !prev.movie.equals(curr.movie),
       builder: (BuildContext context, StreamState state) {
         return state.seasonFilesOption.fold(
           () => const SizedBox.shrink(),
-          (SeasonFiles a) => _buildContent(
-            a,
-            state.episode,
-            state.episodeSeason,
-            state.season,
-          ),
+          (SeasonFiles a) {
+            return _buildContent(
+                a,
+                state.episode,
+                state.episodeSeason,
+                state.season,
+                state.movie.fold(
+                  () => List<int>.empty(),
+                  (MovieData a) => a.seasons.map((Season e) => e.number).toList(),
+                ));
+          },
         );
       },
     );
   }
 
-  Widget _buildContent(SeasonFiles seasonFiles, int episode, int episodeSeason, int season) {
+  Widget _buildContent(
+    SeasonFiles seasonFiles,
+    int episode,
+    int episodeSeason,
+    int season,
+    List<int> seasons,
+  ) {
     return PageView(
       controller: _pageController,
       children: <Widget>[
         Container(
           color: backgroundColor,
-          child: _buildSeasonList(widget.seasons, season),
+          child: _buildSeasonList(seasons, season),
         ),
-        _buildEpisodeList(seasonFiles, episode, episodeSeason, season),
+        _buildEpisodeList(
+          seasonFiles: seasonFiles,
+          episode: episode,
+          episodeSeason: episodeSeason,
+          season: season,
+        ),
       ],
     );
   }
@@ -315,7 +338,12 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildEpisodeList(SeasonFiles seasonFiles, int episode, int episodeSeason, int season) {
+  Widget _buildEpisodeList({
+    @required SeasonFiles seasonFiles,
+    @required int episode,
+    @required int episodeSeason,
+    @required int season,
+  }) {
     return Column(
       children: <Widget>[
         FlatButton(
@@ -342,10 +370,10 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return _buildItem(
-                context,
-                index,
-                seasonFiles.data[index],
-                episode == index && episodeSeason == seasonFiles.season,
+                context: context,
+                index: index,
+                episode: seasonFiles.data[index],
+                isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
               );
             },
             itemCount: seasonFiles.data.length,
@@ -355,11 +383,16 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildItem(BuildContext context, int index, Episode episode, bool selected) {
+  Widget _buildItem({
+    @required BuildContext context,
+    @required int index,
+    @required Episode episode,
+    @required bool isSelected,
+  }) {
     return GestureDetector(
-      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(index)),
+      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(episode.episode)),
       child: Container(
-        color: selected ? activeColor : backgroundColor,
+        color: isSelected ? activeColor : backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: <Widget>[
@@ -398,6 +431,10 @@ class DrawerRecommendedList extends StatelessWidget {
   static const double imageHeight = imageWidth / 16 * 9;
   static const double radius = 8;
 
+  final VoidCallback onItemTap;
+
+  const DrawerRecommendedList({this.onItemTap});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StreamBloc, StreamState>(
@@ -421,10 +458,11 @@ class DrawerRecommendedList extends StatelessWidget {
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () {
+        onItemTap?.call();
         context.read<StreamBloc>()
-          ..add(StreamEvent.movieChanged(movie))
+          ..add(StreamEvent.movieChanged(movie.movieId))
           ..add(StreamEvent.seasonChanged(1))
-          ..add(StreamEvent.episodeChanged(0))
+          ..add(StreamEvent.episodeChanged(1))
           ..add(StreamEvent.fetchRelatedRequested());
       },
       child: Padding(

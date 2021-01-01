@@ -1,12 +1,15 @@
 extension StringListX on List<String> {
-  String get firstValid => firstWhere((String element) => element != null && element.isNotEmpty);
+  String get firstValid => firstWhere(
+        (String element) => element != null && element.isNotEmpty,
+        orElse: () => '',
+      );
 }
 
 T getPreferredOrElse<T>(List<T> ts, T preferred) {
   if (ts == null) return null;
 
   return ts.firstWhere(
-        (T t) => t == preferred,
+    (T t) => t == preferred,
     orElse: () => ts.isEmpty ? null : ts.first,
   );
 }
@@ -19,6 +22,5 @@ List<E> getPreferredListOrElse<T, E>(Map<T, List<E>> map, T preferred) {
     return map[preferred];
   }
 
-  return map.values.toList()[0];
+  return map.values.toList().first;
 }
-

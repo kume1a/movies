@@ -50,9 +50,9 @@ class ContinueWatchingList extends StatelessWidget {
           context,
           Routes.streamPage,
           arguments: StreamPageArgs(
-            movie: savedMovie.data,
-            seasonNumber: savedMovie.position.seasonNumber,
-            episodeNumber: savedMovie.position.episodeNumber,
+            movieId: savedMovie.data.movieId,
+            season: savedMovie.position.season,
+            episode: savedMovie.position.episode,
             startAt: Duration(milliseconds: savedMovie.position.leftAt),
           ),
         );
@@ -104,18 +104,18 @@ class ContinueWatchingList extends StatelessWidget {
     );
   }
 
-  // Widget _blankBuilder(_) {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(left: 16),
-  //     child: Align(
-  //       alignment: Alignment.topCenter,
-  //       child: BlankContainer(
-  //         width: itemWidth,
-  //         height: imageHeight,
-  //         color: colorPreview,
-  //         radius: radius,
-  //       ),
-  //     ),
-  //   );
-  // }
+// Widget _blankBuilder(_) {
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 16),
+//     child: Align(
+//       alignment: Alignment.topCenter,
+//       child: BlankContainer(
+//         width: itemWidth,
+//         height: imageHeight,
+//         color: colorPreview,
+//         radius: radius,
+//       ),
+//     ),
+//   );
+// }
 }

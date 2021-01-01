@@ -16,6 +16,7 @@ import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
 import 'package:movo/src/domain/settings/i_settings_interactor.dart';
 import 'package:movo/src/presentation/values/default_settings.dart';
+import 'package:movo/src/utils.dart';
 
 part 'stream_bloc.freezed.dart';
 
@@ -75,11 +76,13 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onMovieChanged(_MovieChanged e) async* {
-    yield state.copyWith(movie: some(e.movie));
+    final Option<MovieData> movie = await _repository.fetchMovie(e.movieId);
+    yield state.copyWith(movie: movie);
   }
 
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
-    final Option<SeasonFiles> seasonFilesOption = await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
+    final Option<SeasonFiles> seasonFilesOption =
+        await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
 
     yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season ?? 1);
   }
@@ -93,10 +96,14 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     Quality selectedQuality = state.quality;
     List<Quality> qualities = state.availableQualities;
 
-    state.seasonFilesOption.fold(
-      () {},
+    state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty ? a.data[e.episode] : null;
+        final Episode episode = a.data.isNotEmpty
+            ? a.data.firstWhere(
+                (Episode element) => element.episode == e.episode,
+                orElse: () => a.data.first,
+              )
+            : null;
 
         final List<Language> episodeLanguages = episode?.episodes?.keys?.toList() ?? <Language>[];
         if (!listEquals(languages, episodeLanguages)) {
@@ -135,8 +142,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onLanguageChanged(_LanguageChanged e) async* {
     Option<String> srcOption = none();
 
-    state.seasonFilesOption.fold(
-      () {},
+    state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
         final Episode episode = a.data.isNotEmpty ? a.data[state.episode] : null;
 
@@ -155,8 +161,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onQualityChanged(_QualityChanged e) async* {
     Option<String> srcOption = none();
 
-    state.seasonFilesOption.fold(
-      () {},
+    state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
         final Episode episode = a.data.isNotEmpty ? a.data[state.episode] : null;
 
@@ -174,6 +179,9 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   Stream<StreamState> _onFetchRelatedRequested(_FetchRelatedRequested e) async* {
     final Option<Movies> related = await _repository.fetchRelated(getMovieOrCrash.movieId, 1);
+    related.foldSome((Movies a) {
+      a.data.removeWhere((MovieData element) => !element.canBePlayed);
+    });
     yield state.copyWith(relatedOption: related);
   }
 
@@ -182,17 +190,33 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
-    MovieData movie = getMovieOrCrash;
+    if (state.settings.recordWatchHistoryEnabled) {
+      state.seasonFilesOption.foldSome(
+        (SeasonFiles a) {
+          MovieData movie = getMovieOrCrash;
+          int durationInSeconds = a.data
+              .firstWhere(
+                (Episode element) => element.episode == state.episode,
+                orElse: () => a.data.first,
+              )
+              .episodes
+              .values
+              .first
+              .first
+              .duration;
 
-    MoviePosition position = MoviePosition(
-      movie.movieId,
-      movie.duration * 1000 * 60,
-      e.position.inMilliseconds,
-      movie.isTvShow,
-      state.season,
-      state.episode,
-      DateTime.now().millisecondsSinceEpoch,
-    );
-    _repository.saveMoviePosition(position);
+          MoviePosition position = MoviePosition(
+            movie.movieId,
+            durationInSeconds * 1000,
+            e.position.inMilliseconds,
+            movie.isTvShow,
+            state.season,
+            state.episode,
+            DateTime.now().millisecondsSinceEpoch,
+          );
+          _repository.saveMoviePosition(position);
+        },
+      );
+    }
   }
 }

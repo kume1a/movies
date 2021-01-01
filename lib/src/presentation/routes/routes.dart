@@ -31,9 +31,9 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
       final StreamPageArgs args = settings.arguments as StreamPageArgs;
       return MaterialPageRoute<StreamPage>(
         builder: (_) => StreamPage(
-          movie: args.movie,
-          seasonNumber: args.seasonNumber,
-          episodeNumber: args.episodeNumber,
+          movieId: args.movieId,
+          season: args.season,
+          episode: args.episode,
           startAt: args.startAt,
         ),
       );

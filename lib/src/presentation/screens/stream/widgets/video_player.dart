@@ -100,8 +100,7 @@ class _Mp4HandlerState extends State<Mp4Handler> {
     _initControllers();
 
     _ticker = Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
-      if (widget.settings.recordWatchHistoryEnabled &&
-          _videoPlayerController != null &&
+      if (_videoPlayerController != null &&
           _chewieController != null &&
           _chewieController.isPlaying) {
         final Duration position = await _videoPlayerController.position;

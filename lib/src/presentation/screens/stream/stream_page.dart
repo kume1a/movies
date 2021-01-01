@@ -14,15 +14,15 @@ import 'package:movo/src/presentation/values/colors.dart';
 import 'package:movo/src/presentation/values/text_styles.dart';
 
 class StreamPage extends StatelessWidget {
-  final MovieData movie;
-  final int seasonNumber;
-  final int episodeNumber;
+  final int movieId;
+  final int season;
+  final int episode;
   final Duration startAt;
 
   const StreamPage({
-    @required this.movie,
-    @required this.seasonNumber,
-    @required this.episodeNumber,
+    @required this.movieId,
+    @required this.season,
+    @required this.episode,
     @required this.startAt,
   });
 
@@ -30,21 +30,17 @@ class StreamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<StreamBloc>(
       create: (_) => getIt<StreamBloc>()
-        ..add(StreamEvent.movieChanged(movie))
+        ..add(StreamEvent.movieChanged(movieId))
         ..add(StreamEvent.startPositionChanged(startAt))
-        ..add(StreamEvent.seasonChanged(seasonNumber))
-        ..add(StreamEvent.episodeChanged(episodeNumber))
+        ..add(StreamEvent.seasonChanged(season))
+        ..add(StreamEvent.episodeChanged(episode))
         ..add(StreamEvent.fetchRelatedRequested()),
-      child: StreamPageContent(movie),
+      child: StreamPageContent(),
     );
   }
 }
 
 class StreamPageContent extends StatefulWidget {
-  final MovieData movie;
-
-  const StreamPageContent(this.movie);
-
   @override
   _StreamPageContentState createState() => _StreamPageContentState();
 }
@@ -81,50 +77,54 @@ class _StreamPageContentState extends State<StreamPageContent> {
     final double playerWidth = mediaQueryData.size.width;
     final double playerHeight = isPortrait ? playerWidth * 9 / 16 : mediaQueryData.size.height;
 
-    final List<int> seasons = widget.movie.seasons.map((Season e) => e.number).toList();
+    return BlocBuilder<StreamBloc, StreamState>(
+      builder: (BuildContext context, StreamState state) {
+        return state.movie.fold(
+          () => const CircularProgressIndicator(),
+          (MovieData movie) {
+            final List<Widget> content = <Widget>[
+              SizedBox(
+                width: playerWidth,
+                height: playerHeight,
+                child: EpisodeDrawer(
+                  showEpisodes: !isPortrait && movie.isTvShow,
+                  showRecommended: !isPortrait,
+                  child: VideoPlayer(movie.id),
+                ),
+              ),
+            ];
 
-    final List<Widget> content = <Widget>[
-      SizedBox(
-        width: playerWidth,
-        height: playerHeight,
-        child: EpisodeDrawer(
-          showEpisodes: !isPortrait && widget.movie.isTvShow,
-          seasons: seasons,
-          showRecommended: !isPortrait,
-          child: VideoPlayer(widget.movie.id),
-        ),
-      ),
-    ];
+            if (isPortrait) {
+              content.add(Padding(
+                padding: const EdgeInsets.only(left: 12, top: 8),
+                child: RatingDuration(movie.imdbRating, movie.duration),
+              ));
+              if (movie.isTvShow) {
+                content.add(SeasonList(
+                  seasonNumbers: movie.seasons.map((Season e) => e.number).toList(),
+                ));
+                content.add(EpisodeList());
+              } else {
+                content.add(Padding(
+                  padding: const EdgeInsets.only(left: 16, bottom: 8, top: 12),
+                  child: Text('Recommended', style: prB22),
+                ));
+                content.add(RelatedMovies());
+              }
+            }
 
-    if (isPortrait) {
-      content.add(Padding(
-        padding: const EdgeInsets.only(left: 12, top: 8),
-        child: RatingDuration(widget.movie.imdbRating, widget.movie.duration),
-      ));
-      if (widget.movie.isTvShow) {
-        content.addAll(<Widget>[
-          SeasonList(seasonNumbers: seasons),
-          EpisodeList(),
-        ]);
-      } else {
-        content.addAll(<Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 8, top: 12),
-            child: Text('Recommended', style: prB22),
-          ),
-          RelatedMovies(),
-        ]);
-      }
-    }
-
-    return Scaffold(
-      backgroundColor: colorPrimary,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: content,
-        ),
-      ),
+            return Scaffold(
+              backgroundColor: colorPrimary,
+              body: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: content,
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

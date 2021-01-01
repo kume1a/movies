@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
 
 class DetailsPageArgs {
   final int movieId;
@@ -8,15 +7,15 @@ class DetailsPageArgs {
 }
 
 class StreamPageArgs {
-  final MovieData movie;
-  final int seasonNumber;
-  final int episodeNumber;
+  final int movieId;
+  final int season;
+  final int episode;
   final Duration startAt;
 
   const StreamPageArgs({
-    @required this.movie,
-    this.seasonNumber = 1,
-    this.episodeNumber = 0,
+    @required this.movieId,
+    this.season = 1,
+    this.episode = 1,
     this.startAt = const Duration(),
   });
 }

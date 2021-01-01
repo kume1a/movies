@@ -4,7 +4,7 @@ part of 'stream_bloc.dart';
 abstract class StreamEvent with _$StreamEvent {
   const factory StreamEvent.settingsFetched(StreamSettings settings) = _SettingsFetched;
 
-  const factory StreamEvent.movieChanged(MovieData movie) = _MovieChanged;
+  const factory StreamEvent.movieChanged(int movieId) = _MovieChanged;
 
   const factory StreamEvent.seasonChanged(int season) = _SeasonChanged;
   const factory StreamEvent.episodeChanged(int episode) = _EpisodeChanged;

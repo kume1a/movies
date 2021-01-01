@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movo/src/application/stream/stream_bloc.dart';
 import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
+import 'package:movo/src/presentation/core/extensions.dart';
 import 'package:movo/src/presentation/core/formatters.dart';
 import 'package:movo/src/presentation/core/widgets/safe_image.dart';
 import 'package:movo/src/presentation/values/text_styles.dart';
@@ -20,13 +21,14 @@ class EpisodeList extends StatelessWidget {
       buildWhen: (StreamState prev, StreamState curr) =>
           prev.episode != curr.episode ||
           prev.season != curr.season ||
-          prev.episodeSeason != curr.episodeSeason,
+          prev.episodeSeason != curr.episodeSeason ||
+          !prev.seasonFilesOption.equals(curr.seasonFilesOption),
       builder: (BuildContext context, StreamState state) =>
           _buildList(state.seasonFilesOption, state.episode, state.episodeSeason),
     );
   }
 
-  Widget _buildList(Option<SeasonFiles> seasonFilesOption, int episode, int season) {
+  Widget _buildList(Option<SeasonFiles> seasonFilesOption, int episode, int episodeSeason) {
     return seasonFilesOption.fold(
       () => const SizedBox.shrink(),
       (SeasonFiles seasonFiles) {
@@ -34,10 +36,9 @@ class EpisodeList extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return _buildItem(
-                context,
-                index,
-                seasonFiles.data[index],
-                episode == index && season == seasonFiles.season,
+                context: context,
+                episode: seasonFiles.data[index],
+                isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
               );
             },
             itemCount: seasonFiles.data.length,
@@ -47,13 +48,17 @@ class EpisodeList extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, int index, Episode episode, bool selected) {
-    final int duration = episode.episodes.values.toList()[0][0].duration;
+  Widget _buildItem({
+    @required BuildContext context,
+    @required Episode episode,
+    @required bool isSelected,
+  }) {
+    final int duration = episode.episodes.values.first.first.duration;
 
     return GestureDetector(
-      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(index)),
+      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(episode.episode)),
       child: Container(
-        color: selected ? Colors.white.withOpacity(.04) : Colors.transparent,
+        color: isSelected ? Colors.white.withOpacity(.04) : Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: <Widget>[
