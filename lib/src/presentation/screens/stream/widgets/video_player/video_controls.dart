@@ -140,7 +140,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               children: <Widget>[
                 AnimatedContainer(
                   duration: shortAnimDuration,
-                  color: _hideControls ? Colors.transparent : Colors.black38,
+                  color: _hideControls ? Colors.transparent : Colors.black26,
                 ),
                 ClipPath(
                   clipper: RewindClipper(),
@@ -414,6 +414,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                       return 'eng';
                     case Language.rus:
                       return 'rus';
+                    case Language.jpn:
+                      return 'jpn';
                   }
                   return '';
                 },

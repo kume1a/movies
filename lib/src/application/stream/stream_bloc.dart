@@ -144,7 +144,12 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty ? a.data[state.episode] : null;
+        final Episode episode = a.data.isNotEmpty
+            ? a.data.firstWhere(
+                (Episode element) => element.episode == state.episode,
+                orElse: () => a.data.first,
+              )
+            : null;
 
         srcOption = optionOf(episode?.episodes[e.language]
             ?.firstWhere((EpisodeFile element) => element.quality == state.quality)
@@ -163,7 +168,12 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty ? a.data[state.episode] : null;
+        final Episode episode = a.data.isNotEmpty
+            ? a.data.firstWhere(
+                (Episode element) => element.episode == state.episode,
+                orElse: () => a.data.first,
+              )
+            : null;
 
         srcOption = optionOf(episode?.episodes[state.language]
             ?.firstWhere((EpisodeFile element) => element.quality == e.quality)

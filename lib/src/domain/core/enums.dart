@@ -34,6 +34,9 @@ enum Language {
 
   @HiveField(2)
   rus,
+
+  @HiveField(3)
+  jpn,
 }
 @HiveType(typeId: HiveTypeIdHolder.qualityId)
 enum Quality {
