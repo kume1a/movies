@@ -416,6 +416,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                       return 'rus';
                     case Language.jpn:
                       return 'jpn';
+                    case Language.fre:
+                      return 'fre';
                   }
                   return '';
                 },

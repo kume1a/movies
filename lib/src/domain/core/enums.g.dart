@@ -104,6 +104,8 @@ class LanguageAdapter extends TypeAdapter<Language> {
         return Language.rus;
       case 3:
         return Language.jpn;
+      case 4:
+        return Language.fre;
       default:
         return null;
     }
@@ -123,6 +125,9 @@ class LanguageAdapter extends TypeAdapter<Language> {
         break;
       case Language.jpn:
         writer.writeByte(3);
+        break;
+      case Language.fre:
+        writer.writeByte(4);
         break;
     }
   }

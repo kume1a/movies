@@ -8,6 +8,7 @@ const String eng = 'ENG';
 const String geo = 'GEO';
 const String rus = 'RUS';
 const String jpn = 'JPN';
+const String fre = 'FRE';
 
 const String movie = 'movie';
 const String person = 'person';
@@ -32,6 +33,8 @@ Language getLanguage(String language) {
       return Language.rus;
     case jpn:
       return Language.jpn;
+    case fre:
+      return Language.fre;
   }
   return Language.eng;
 }
