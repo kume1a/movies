@@ -1,16 +1,20 @@
 # movo
 
-Movies application
+## Movies application
 
-## Getting Started
+using the [adjaranet api](https://api.adjaranet.com/) for backend
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<table>
+  <tr>
+    <td><img src="/screenshots/home.png"></td>
+    <td><img src="/screenshots/movie.png"></td>
+    <td><img src="/screenshots/video1.png"></td>
+  </tr>
+  <tr>
+    <td><img src="/screenshots/video2.png"></td>
+    <td><img src="/screenshots/video3.png"></td>
+  </tr>
+  <tr>
+    <td><img src="/screenshots/recording.gif"></td>
+  </tr>
+</table>
