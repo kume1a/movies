@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movo/src/application/stream/stream_bloc.dart';
 import 'package:movo/src/di/injection.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
+import 'package:movo/src/presentation/core/base_state.dart';
 import 'package:movo/src/presentation/core/widgets/rating_duration.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/episode_drawer.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/episode_list.dart';
@@ -45,7 +46,7 @@ class StreamPageContent extends StatefulWidget {
   _StreamPageContentState createState() => _StreamPageContentState();
 }
 
-class _StreamPageContentState extends State<StreamPageContent> {
+class _StreamPageContentState extends BaseState<StreamPageContent> {
   @override
   void initState() {
     SystemChrome.setPreferredOrientations(<DeviceOrientation>[
