@@ -128,10 +128,15 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 child: AnimatedBuilder(
                   animation: _horizontalController,
                   builder: (BuildContext context, Widget child) {
-                    final double x = (1 - _horizontalController.value) * hMaxSlide;
+                    final double offset = _horizontalController.value;
+                    final double x = (1 - offset) * hMaxSlide;
+                    final double opacity = offset <= .1 ? offset * 10 : 1;
                     return Transform.translate(
                       offset: Offset(x, 0),
-                      child: child,
+                      child: Opacity(
+                        opacity: opacity,
+                        child: child,
+                      ),
                     );
                   },
                   child: DrawerEpisodeList(),

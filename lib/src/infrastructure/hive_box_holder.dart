@@ -6,6 +6,7 @@ import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/search/search_results_model.dart';
+import 'package:movo/src/infrastructure/cache_control.dart';
 
 class HiveTypeIdHolder {
   static const int movieDataId = 0;
@@ -20,6 +21,7 @@ class HiveTypeIdHolder {
   static const int episodeId = 9;
   static const int episodeFileId = 10;
   static const int qualityId = 11;
+  static const int launchTimestampId = 12;
 }
 
 @lazySingleton
@@ -30,6 +32,7 @@ class HiveBoxHolder {
   static const String _enabledOptions = 'enabled_options';
   static const String _valueOptions = 'value_options';
   static const String _searchHistory = 'search_history';
+  static const String _launchTimestamp = 'launch_timestamp';
 
   HiveBoxHolder() {
     Hive.registerAdapter<MovieData>(MovieDataAdapter());
@@ -44,6 +47,7 @@ class HiveBoxHolder {
     Hive.registerAdapter<Episode>(EpisodeAdapter());
     Hive.registerAdapter<EpisodeFile>(EpisodeFileAdapter());
     Hive.registerAdapter<Quality>(QualityAdapter());
+    Hive.registerAdapter<LaunchTimestamp>(LaunchTimestampAdapter());
   }
 
   Future<void> init() async {
@@ -56,6 +60,7 @@ class HiveBoxHolder {
       Hive.openBox<bool>(_enabledOptions),
       Hive.openBox<int>(_valueOptions),
       Hive.openBox<SearchResult>(_searchHistory),
+      Hive.openBox<LaunchTimestamp>(_launchTimestamp),
     ]);
   }
 
@@ -65,4 +70,5 @@ class HiveBoxHolder {
   Box<bool> get enabledOptions => Hive.box<bool>(_enabledOptions);
   Box<int> get valueOptions => Hive.box<int>(_valueOptions);
   Box<SearchResult> get searchHistory => Hive.box<SearchResult>(_searchHistory);
+  Box<LaunchTimestamp> get launchTimestamp => Hive.box<LaunchTimestamp>(_launchTimestamp);
 }

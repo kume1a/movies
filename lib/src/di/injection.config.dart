@@ -7,6 +7,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
+import '../infrastructure/cache_control.dart';
 import '../application/details/details_bloc.dart';
 import '../application/favorites/favorites_bloc.dart';
 import '../infrastructure/history_manager.dart';
@@ -40,6 +41,7 @@ GetIt $initGetIt(
       () => MovieLocalInteractor(get<HiveBoxHolder>()));
   gh.lazySingleton<MovieRemoteProvider>(() => MovieRemoteProvider());
   gh.factory<SettingsBloc>(() => SettingsBloc(get<ISettingsInteractor>()));
+  gh.factory<CacheControl>(() => CacheControl(get<HiveBoxHolder>()));
   gh.lazySingleton<IMovieRepository>(() =>
       MovieRepository(get<MovieRemoteProvider>(), get<MovieLocalInteractor>()));
   gh.factory<SearchBloc>(() => SearchBloc(

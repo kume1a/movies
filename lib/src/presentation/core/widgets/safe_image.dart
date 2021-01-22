@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:movo/src/presentation/core/extensions.dart';
 import 'package:movo/src/presentation/core/widgets/blank_container.dart';
@@ -27,12 +29,7 @@ class SafeImage extends StatelessWidget {
         return _image(AssetImage(defaultAssetPath));
       }
 
-      return BlankContainer(
-        width: width,
-        height: height,
-        radius: radius,
-        color: blankColor,
-      );
+      return _blankContainer();
     }
 
     return _image(NetworkImage(imageUrl));
@@ -46,7 +43,17 @@ class SafeImage extends StatelessWidget {
         width: width,
         height: height,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _blankContainer(),
       ),
+    );
+  }
+
+  Widget _blankContainer() {
+    return BlankContainer(
+      width: width,
+      height: height,
+      radius: radius,
+      color: blankColor,
     );
   }
 }
