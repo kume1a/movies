@@ -6,23 +6,23 @@ part of 'cache_control.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class LaunchTimestampAdapter extends TypeAdapter<LaunchTimestamp> {
+class CacheCleanDateAdapter extends TypeAdapter<CacheCleanDate> {
   @override
   final int typeId = 12;
 
   @override
-  LaunchTimestamp read(BinaryReader reader) {
+  CacheCleanDate read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return LaunchTimestamp(
+    return CacheCleanDate(
       fields[0] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, LaunchTimestamp obj) {
+  void write(BinaryWriter writer, CacheCleanDate obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
@@ -35,7 +35,7 @@ class LaunchTimestampAdapter extends TypeAdapter<LaunchTimestamp> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LaunchTimestampAdapter &&
+      other is CacheCleanDateAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -21,7 +21,7 @@ class HiveTypeIdHolder {
   static const int episodeId = 9;
   static const int episodeFileId = 10;
   static const int qualityId = 11;
-  static const int launchTimestampId = 12;
+  static const int cacheCleanDateId = 12;
 }
 
 @lazySingleton
@@ -32,7 +32,7 @@ class HiveBoxHolder {
   static const String _enabledOptions = 'enabled_options';
   static const String _valueOptions = 'value_options';
   static const String _searchHistory = 'search_history';
-  static const String _launchTimestamp = 'launch_timestamp';
+  static const String _cacheCleanDate = 'cache_clean_date';
 
   HiveBoxHolder() {
     Hive.registerAdapter<MovieData>(MovieDataAdapter());
@@ -47,7 +47,7 @@ class HiveBoxHolder {
     Hive.registerAdapter<Episode>(EpisodeAdapter());
     Hive.registerAdapter<EpisodeFile>(EpisodeFileAdapter());
     Hive.registerAdapter<Quality>(QualityAdapter());
-    Hive.registerAdapter<LaunchTimestamp>(LaunchTimestampAdapter());
+    Hive.registerAdapter<CacheCleanDate>(CacheCleanDateAdapter());
   }
 
   Future<void> init() async {
@@ -60,7 +60,7 @@ class HiveBoxHolder {
       Hive.openBox<bool>(_enabledOptions),
       Hive.openBox<int>(_valueOptions),
       Hive.openBox<SearchResult>(_searchHistory),
-      Hive.openBox<LaunchTimestamp>(_launchTimestamp),
+      Hive.openBox<CacheCleanDate>(_cacheCleanDate),
     ]);
   }
 
@@ -70,5 +70,5 @@ class HiveBoxHolder {
   Box<bool> get enabledOptions => Hive.box<bool>(_enabledOptions);
   Box<int> get valueOptions => Hive.box<int>(_valueOptions);
   Box<SearchResult> get searchHistory => Hive.box<SearchResult>(_searchHistory);
-  Box<LaunchTimestamp> get launchTimestamp => Hive.box<LaunchTimestamp>(_launchTimestamp);
+  Box<CacheCleanDate> get cacheCleanDate => Hive.box<CacheCleanDate>(_cacheCleanDate);
 }
