@@ -116,6 +116,7 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
 
             return Scaffold(
               backgroundColor: colorPrimary,
+              resizeToAvoidBottomInset: false,
               body: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

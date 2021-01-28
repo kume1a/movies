@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:movo/src/presentation/core/extensions.dart';
 import 'package:movo/src/presentation/core/widgets/blank_container.dart';
