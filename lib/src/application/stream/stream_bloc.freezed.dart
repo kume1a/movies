@@ -1639,6 +1639,7 @@ class _$StreamStateTearOff {
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
       Duration startPosition,
+      Duration currentPosition,
       int season,
       int episode,
       int episodeSeason,
@@ -1653,6 +1654,7 @@ class _$StreamStateTearOff {
       relatedOption,
       videoSrcOption,
       startPosition,
+      currentPosition,
       season,
       episode,
       episodeSeason,
@@ -1676,6 +1678,7 @@ mixin _$StreamState {
   Option<Movies> get relatedOption;
   Option<String> get videoSrcOption;
   Duration get startPosition;
+  Duration get currentPosition;
   int get season;
   int get episode;
   int get episodeSeason;
@@ -1699,6 +1702,7 @@ abstract class $StreamStateCopyWith<$Res> {
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
       Duration startPosition,
+      Duration currentPosition,
       int season,
       int episode,
       int episodeSeason,
@@ -1724,6 +1728,7 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
     Object relatedOption = freezed,
     Object videoSrcOption = freezed,
     Object startPosition = freezed,
+    Object currentPosition = freezed,
     Object season = freezed,
     Object episode = freezed,
     Object episodeSeason = freezed,
@@ -1748,6 +1753,9 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
       startPosition: startPosition == freezed
           ? _value.startPosition
           : startPosition as Duration,
+      currentPosition: currentPosition == freezed
+          ? _value.currentPosition
+          : currentPosition as Duration,
       season: season == freezed ? _value.season : season as int,
       episode: episode == freezed ? _value.episode : episode as int,
       episodeSeason: episodeSeason == freezed
@@ -1779,6 +1787,7 @@ abstract class _$StreamStateCopyWith<$Res>
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
       Duration startPosition,
+      Duration currentPosition,
       int season,
       int episode,
       int episodeSeason,
@@ -1806,6 +1815,7 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
     Object relatedOption = freezed,
     Object videoSrcOption = freezed,
     Object startPosition = freezed,
+    Object currentPosition = freezed,
     Object season = freezed,
     Object episode = freezed,
     Object episodeSeason = freezed,
@@ -1829,6 +1839,9 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
       startPosition == freezed
           ? _value.startPosition
           : startPosition as Duration,
+      currentPosition == freezed
+          ? _value.currentPosition
+          : currentPosition as Duration,
       season == freezed ? _value.season : season as int,
       episode == freezed ? _value.episode : episode as int,
       episodeSeason == freezed ? _value.episodeSeason : episodeSeason as int,
@@ -1853,6 +1866,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       this.relatedOption,
       this.videoSrcOption,
       this.startPosition,
+      this.currentPosition,
       this.season,
       this.episode,
       this.episodeSeason,
@@ -1866,6 +1880,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
         assert(relatedOption != null),
         assert(videoSrcOption != null),
         assert(startPosition != null),
+        assert(currentPosition != null),
         assert(season != null),
         assert(episode != null),
         assert(episodeSeason != null),
@@ -1887,6 +1902,8 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
   @override
   final Duration startPosition;
   @override
+  final Duration currentPosition;
+  @override
   final int season;
   @override
   final int episode;
@@ -1903,7 +1920,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StreamState(settings: $settings, movie: $movie, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities)';
+    return 'StreamState(settings: $settings, movie: $movie, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, currentPosition: $currentPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities)';
   }
 
   @override
@@ -1917,6 +1934,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       ..add(DiagnosticsProperty('relatedOption', relatedOption))
       ..add(DiagnosticsProperty('videoSrcOption', videoSrcOption))
       ..add(DiagnosticsProperty('startPosition', startPosition))
+      ..add(DiagnosticsProperty('currentPosition', currentPosition))
       ..add(DiagnosticsProperty('season', season))
       ..add(DiagnosticsProperty('episode', episode))
       ..add(DiagnosticsProperty('episodeSeason', episodeSeason))
@@ -1947,6 +1965,9 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
             (identical(other.startPosition, startPosition) ||
                 const DeepCollectionEquality()
                     .equals(other.startPosition, startPosition)) &&
+            (identical(other.currentPosition, currentPosition) ||
+                const DeepCollectionEquality()
+                    .equals(other.currentPosition, currentPosition)) &&
             (identical(other.season, season) ||
                 const DeepCollectionEquality().equals(other.season, season)) &&
             (identical(other.episode, episode) ||
@@ -1978,6 +1999,7 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       const DeepCollectionEquality().hash(relatedOption) ^
       const DeepCollectionEquality().hash(videoSrcOption) ^
       const DeepCollectionEquality().hash(startPosition) ^
+      const DeepCollectionEquality().hash(currentPosition) ^
       const DeepCollectionEquality().hash(season) ^
       const DeepCollectionEquality().hash(episode) ^
       const DeepCollectionEquality().hash(episodeSeason) ^
@@ -1999,6 +2021,7 @@ abstract class _StreamState implements StreamState {
       Option<Movies> relatedOption,
       Option<String> videoSrcOption,
       Duration startPosition,
+      Duration currentPosition,
       int season,
       int episode,
       int episodeSeason,
@@ -2019,6 +2042,8 @@ abstract class _StreamState implements StreamState {
   Option<String> get videoSrcOption;
   @override
   Duration get startPosition;
+  @override
+  Duration get currentPosition;
   @override
   int get season;
   @override

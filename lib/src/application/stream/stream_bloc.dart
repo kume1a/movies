@@ -159,6 +159,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     yield state.copyWith(
       videoSrcOption: srcOption,
+      startPosition: state.currentPosition,
       language: e.language,
     );
   }
@@ -183,6 +184,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     yield state.copyWith(
       videoSrcOption: srcOption,
+      startPosition: state.currentPosition,
       quality: e.quality,
     );
   }
@@ -228,5 +230,6 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
         },
       );
     }
+    yield state.copyWith(currentPosition: e.position);
   }
 }
