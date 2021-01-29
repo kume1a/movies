@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
@@ -34,19 +32,6 @@ class MovieLocalInteractor {
     movies.sort((MovieData a, MovieData b) => a.name.compareTo(b.name));
 
     return movies;
-  }
-
-  Future<void> setMovieFavoriteStatus({@required int movieId, @required bool favorite}) async {
-    final Option<MovieData> curr = await getMovieData(movieId);
-    curr.fold(
-      () {},
-      (MovieData a) => _boxHolder.movieData.put(movieId, a..favorite = favorite),
-    );
-  }
-
-  Future<bool> getMovieFavoriteStatus({@required int movieId}) async {
-    final MovieData movieData = _boxHolder.movieData.get(movieId);
-    return movieData?.favorite ?? false;
   }
 
   Future<void> saveMoviePosition(MoviePosition position) async {

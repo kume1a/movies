@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movo/src/di/injection.dart';
-import 'package:movo/src/infrastructure/cache_control.dart';
+import 'package:movo/src/infrastructure/managers/cache_manager.dart';
 import 'package:movo/src/infrastructure/hive_box_holder.dart';
 import 'package:movo/src/presentation/app.dart';
 
@@ -14,7 +14,6 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
   ]);
-  await getIt<CacheControl>().configureCache();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
@@ -23,4 +22,5 @@ Future<void> main() async {
     }
   };
   runApp(App());
+  getIt<CacheManager>().configureCache();
 }

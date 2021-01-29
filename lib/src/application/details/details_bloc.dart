@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movo/src/domain/actors/actors_model.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
+import 'package:movo/src/domain/managers/i_favorites_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 
 part 'details_bloc.freezed.dart';
@@ -17,13 +18,15 @@ part 'details_state.dart';
 @injectable
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final IMovieRepository _repository;
+  final IFavoritesManager _favoritesManager;
   final int movieId;
 
   DetailsBloc(
     this._repository,
+    this._favoritesManager,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial()) {
-    _repository.getMovieFavoriteStatus(movieId: movieId).then((bool favorite) {
+    _favoritesManager.getMovieFavoriteStatus(movieId).then((bool favorite) {
       if (favorite) add(const DetailsEvent.favoriteToggled());
     });
   }
@@ -66,7 +69,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         final bool toggled = !state.favorite;
 
         yield state.copyWith(favorite: toggled);
-        _repository.setMovieFavoriteStatus(movieId: movieId, favorite: toggled);
+        _favoritesManager.updateMovieFavoriteStatus(movieId, isFavorite: toggled);
       },
     );
   }

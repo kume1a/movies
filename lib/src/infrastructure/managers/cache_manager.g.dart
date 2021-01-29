@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cache_control.dart';
+part of 'cache_manager.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

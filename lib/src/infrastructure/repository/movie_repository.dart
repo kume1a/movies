@@ -68,16 +68,6 @@ class MovieRepository implements IMovieRepository {
   }
 
   @override
-  Future<bool> getMovieFavoriteStatus({@required int movieId}) {
-    return _localProvider.getMovieFavoriteStatus(movieId: movieId);
-  }
-
-  @override
-  Future<void> setMovieFavoriteStatus({@required int movieId, @required bool favorite}) {
-    return _localProvider.setMovieFavoriteStatus(movieId: movieId, favorite: favorite);
-  }
-
-  @override
   Future<void> saveMoviePosition(MoviePosition position) {
     return _localProvider.saveMoviePosition(position);
   }

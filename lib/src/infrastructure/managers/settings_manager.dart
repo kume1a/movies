@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/settings/i_settings_interactor.dart';
+import 'package:movo/src/domain/managers/i_settings_manager.dart';
 import 'package:movo/src/infrastructure/hive_box_holder.dart';
 
 enum _Setting {
@@ -12,11 +12,11 @@ enum _Setting {
   searchHistoryRecording,
 }
 
-@LazySingleton(as: ISettingsInteractor)
-class SettingsInteractor implements ISettingsInteractor {
+@LazySingleton(as: ISettingsManager)
+class SettingsManager implements ISettingsManager {
   final HiveBoxHolder _boxHolder;
 
-  SettingsInteractor(this._boxHolder);
+  SettingsManager(this._boxHolder);
 
   // ---- theme ----
   @override

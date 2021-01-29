@@ -5,10 +5,10 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/i_history_manager.dart';
+import 'package:movo/src/domain/managers/i_history_manager.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/search/search_results_model.dart';
-import 'package:movo/src/domain/settings/i_settings_interactor.dart';
+import 'package:movo/src/domain/managers/i_settings_manager.dart';
 
 part 'search_bloc.freezed.dart';
 
@@ -20,7 +20,7 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final IMovieRepository _repository;
   final IHistoryManager _historyManager;
-  final ISettingsInteractor _settingsInteractor;
+  final ISettingsManager _settingsInteractor;
 
   SearchBloc(
     this._repository,

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 import 'package:movo/src/domain/actors/actors_model.dart';
 import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/core/enums.dart';
@@ -18,9 +17,6 @@ abstract class IMovieRepository {
   Future<Option<Actors>> fetchActors(int movieId, int page);
   Future<Option<Movies>> fetchRelated(int movieId, int page);
   Future<Option<SearchResults>> search(String keyword, int page);
-
-  Future<bool> getMovieFavoriteStatus({@required int movieId});
-  Future<void> setMovieFavoriteStatus({@required int movieId, @required bool favorite});
 
   Future<void> saveMoviePosition(MoviePosition position);
 

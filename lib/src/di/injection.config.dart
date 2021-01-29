@@ -7,21 +7,23 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
-import '../infrastructure/cache_control.dart';
+import '../infrastructure/managers/cache_manager.dart';
 import '../application/details/details_bloc.dart';
 import '../application/favorites/favorites_bloc.dart';
-import '../infrastructure/history_manager.dart';
+import '../infrastructure/managers/favorites_manager.dart';
+import '../infrastructure/managers/history_manager.dart';
 import '../infrastructure/hive_box_holder.dart';
 import '../application/home/home_bloc.dart';
-import '../domain/i_history_manager.dart';
+import '../domain/managers/i_favorites_manager.dart';
+import '../domain/managers/i_history_manager.dart';
 import '../domain/i_movie_repository.dart';
-import '../domain/settings/i_settings_interactor.dart';
+import '../domain/managers/i_settings_manager.dart';
 import '../infrastructure/repository/movie_local_interactor.dart';
 import '../infrastructure/repository/movie_remote_provider.dart';
 import '../infrastructure/repository/movie_repository.dart';
 import '../application/search/search_bloc.dart';
 import '../application/settings/settings_bloc.dart';
-import '../infrastructure/settings/settings_interactor.dart';
+import '../infrastructure/managers/settings_manager.dart';
 import '../application/stream/stream_bloc.dart';
 
 /// adds generated dependencies
@@ -34,25 +36,30 @@ GetIt $initGetIt(
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<HiveBoxHolder>(() => HiveBoxHolder());
+  gh.lazySingleton<IFavoritesManager>(
+      () => FavoritesManager(get<HiveBoxHolder>()));
   gh.lazySingleton<IHistoryManager>(() => HistoryManager(get<HiveBoxHolder>()));
-  gh.lazySingleton<ISettingsInteractor>(
-      () => SettingsInteractor(get<HiveBoxHolder>()));
+  gh.lazySingleton<ISettingsManager>(
+      () => SettingsManager(get<HiveBoxHolder>()));
   gh.lazySingleton<MovieLocalInteractor>(
       () => MovieLocalInteractor(get<HiveBoxHolder>()));
   gh.lazySingleton<MovieRemoteProvider>(() => MovieRemoteProvider());
-  gh.factory<SettingsBloc>(() => SettingsBloc(get<ISettingsInteractor>()));
-  gh.factory<CacheControl>(() => CacheControl(get<HiveBoxHolder>()));
+  gh.factory<SettingsBloc>(() => SettingsBloc(get<ISettingsManager>()));
+  gh.factory<CacheManager>(() => CacheManager(get<HiveBoxHolder>()));
   gh.lazySingleton<IMovieRepository>(() =>
       MovieRepository(get<MovieRemoteProvider>(), get<MovieLocalInteractor>()));
   gh.factory<SearchBloc>(() => SearchBloc(
         get<IMovieRepository>(),
         get<IHistoryManager>(),
-        get<ISettingsInteractor>(),
+        get<ISettingsManager>(),
       ));
   gh.factory<StreamBloc>(
-      () => StreamBloc(get<IMovieRepository>(), get<ISettingsInteractor>()));
-  gh.factoryParam<DetailsBloc, int, dynamic>(
-      (movieId, _) => DetailsBloc(get<IMovieRepository>(), movieId));
+      () => StreamBloc(get<IMovieRepository>(), get<ISettingsManager>()));
+  gh.factoryParam<DetailsBloc, int, dynamic>((movieId, _) => DetailsBloc(
+        get<IMovieRepository>(),
+        get<IFavoritesManager>(),
+        movieId,
+      ));
   gh.factory<FavoritesBloc>(() => FavoritesBloc(get<IMovieRepository>()));
   gh.factory<HomeBloc>(() => HomeBloc(get<IMovieRepository>()));
   return get;

@@ -37,7 +37,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
         SafeImage(imageUrl: src),
         if (onPlayPressed == null)
           Container(
-            color: Colors.black.withOpacity((1-offset) * .4),
+            color: Colors.black.withOpacity((1 - offset) * .4),
           ),
         Positioned(
           bottom: 0,
@@ -50,8 +50,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
             ),
           ),
         ),
-        if (onPlayPressed == null)
-          const Center(child: Text('Coming Soon', style: prB22)),
+        if (onPlayPressed == null) const Center(child: Text('Coming Soon', style: prB22)),
         if (onPlayPressed != null)
           Positioned.fill(
             bottom: minExtent / 2,
@@ -78,10 +77,11 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
               ),
             ),
           ),
-        Positioned(
-          right: 0,
-          child: FavoriteButton(),
-        ),
+        if (onPlayPressed != null)
+          Positioned(
+            right: 0,
+            child: FavoriteButton(),
+          ),
         Positioned(
           left: 0,
           child: IconButton(

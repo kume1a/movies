@@ -14,7 +14,7 @@ import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
-import 'package:movo/src/domain/settings/i_settings_interactor.dart';
+import 'package:movo/src/domain/managers/i_settings_manager.dart';
 import 'package:movo/src/presentation/values/default_settings.dart';
 import 'package:movo/src/utils.dart';
 
@@ -27,7 +27,7 @@ part 'stream_state.dart';
 @injectable
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   final IMovieRepository _repository;
-  final ISettingsInteractor _settingsInteractor;
+  final ISettingsManager _settingsInteractor;
 
   StreamBloc(
     this._repository,

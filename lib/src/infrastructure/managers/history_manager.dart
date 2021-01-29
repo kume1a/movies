@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/i_history_manager.dart';
+import 'package:movo/src/domain/managers/i_history_manager.dart';
 import 'package:movo/src/domain/search/search_results_model.dart';
 import 'package:movo/src/infrastructure/hive_box_holder.dart';
 

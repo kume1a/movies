@@ -6,7 +6,7 @@ import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/search/search_results_model.dart';
-import 'package:movo/src/infrastructure/cache_control.dart';
+import 'package:movo/src/infrastructure/managers/cache_manager.dart';
 
 class HiveTypeIdHolder {
   static const int movieDataId = 0;

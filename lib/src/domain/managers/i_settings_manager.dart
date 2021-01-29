@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-abstract class ISettingsInteractor {
+abstract class ISettingsManager {
   Future<void> setNightModeEnabled({@required bool enabled});
   Future<bool> isNightModeEnabled();
 
