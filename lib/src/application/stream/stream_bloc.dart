@@ -11,6 +11,7 @@ import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/core/utils.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
+import 'package:movo/src/domain/managers/i_saved_movies_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
@@ -27,19 +28,21 @@ part 'stream_state.dart';
 @injectable
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   final IMovieRepository _repository;
-  final ISettingsManager _settingsInteractor;
+  final ISettingsManager _settingsManager;
+  final ISavedMoviesManager _savedMoviesManager;
 
   StreamBloc(
     this._repository,
-    this._settingsInteractor,
+    this._settingsManager,
+    this._savedMoviesManager,
   ) : super(StreamState.initial()) {
     _init();
   }
 
   Future<void> _init() async {
-    final bool isAutoPlayEnabled = await _settingsInteractor.isAutoPlayEnabled();
-    final bool recordWatchHistoryEnabled = await _settingsInteractor.isRecordWatchHistoryEnabled();
-    final int doubleTapToSeekValue = await _settingsInteractor.getDoubleTapToSeekValue();
+    final bool isAutoPlayEnabled = await _settingsManager.isAutoPlayEnabled();
+    final bool recordWatchHistoryEnabled = await _settingsManager.isRecordWatchHistoryEnabled();
+    final int doubleTapToSeekValue = await _settingsManager.getDoubleTapToSeekValue();
 
     final StreamSettings settings = StreamSettings(
       autoPlayEnabled: isAutoPlayEnabled,
@@ -51,8 +54,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   bool firstEpisodePassed = false;
 
-  MovieData get getMovieOrCrash =>
-      state.movie.getOrElse(() => throw StateError("movie can't be none"));
+  MovieData get getMovieOrCrash => state.movie.getOrElse(() => throw StateError("movie can't be none"));
 
   @override
   Stream<StreamState> mapEventToState(
@@ -81,8 +83,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
-    final Option<SeasonFiles> seasonFilesOption =
-        await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
+    final Option<SeasonFiles> seasonFilesOption = await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
 
     yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season ?? 1);
   }
@@ -111,8 +112,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
           selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng);
 
           final List<Quality> episodeQualities =
-              episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality)?.toList() ??
-                  <Quality>[];
+              episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality)?.toList() ?? <Quality>[];
 
           if (!listEquals(qualities, episodeQualities)) {
             qualities = episodeQualities;
@@ -120,9 +120,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
           }
         }
 
-        srcOption = optionOf(episode?.episodes[selectedLanguage]
-            ?.firstWhere((EpisodeFile e) => e.quality == selectedQuality)
-            ?.src);
+        srcOption = optionOf(
+            episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality)?.src);
       },
     );
 
@@ -151,9 +150,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
               )
             : null;
 
-        srcOption = optionOf(episode?.episodes[e.language]
-            ?.firstWhere((EpisodeFile element) => element.quality == state.quality)
-            ?.src);
+        srcOption = optionOf(
+            episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality)?.src);
       },
     );
 
@@ -176,9 +174,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
               )
             : null;
 
-        srcOption = optionOf(episode?.episodes[state.language]
-            ?.firstWhere((EpisodeFile element) => element.quality == e.quality)
-            ?.src);
+        srcOption = optionOf(
+            episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality)?.src);
       },
     );
 
@@ -198,7 +195,10 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onStartPositionChanged(_StartPositionChanged e) async* {
-    yield state.copyWith(startPosition: e.position);
+    yield state.copyWith(
+      startPosition: e.position,
+      currentPosition: e.position,
+    );
   }
 
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
@@ -226,7 +226,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             state.episode,
             DateTime.now().millisecondsSinceEpoch,
           );
-          _repository.saveMoviePosition(position);
+          _savedMoviesManager.saveMoviePosition(position);
         },
       );
     }

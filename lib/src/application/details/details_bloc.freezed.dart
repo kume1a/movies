@@ -27,6 +27,11 @@ class _$DetailsEventTearOff {
   _FavoriteToggled favoriteToggled() {
     return const _FavoriteToggled();
   }
+
+// ignore: unused_element
+  _IsSavedMovieRequested isSavedMovieRequested() {
+    return const _IsSavedMovieRequested();
+  }
 }
 
 /// @nodoc
@@ -40,12 +45,14 @@ mixin _$DetailsEvent {
     @required TResult movieFetchRequested(),
     @required TResult castPageFetchRequested(),
     @required TResult favoriteToggled(),
+    @required TResult isSavedMovieRequested(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult movieFetchRequested(),
     TResult castPageFetchRequested(),
     TResult favoriteToggled(),
+    TResult isSavedMovieRequested(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -53,12 +60,14 @@ mixin _$DetailsEvent {
     @required TResult movieFetchRequested(_MovieFetchRequested value),
     @required TResult castPageFetchRequested(_CastPageFetchRequested value),
     @required TResult favoriteToggled(_FavoriteToggled value),
+    @required TResult isSavedMovieRequested(_IsSavedMovieRequested value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult movieFetchRequested(_MovieFetchRequested value),
     TResult castPageFetchRequested(_CastPageFetchRequested value),
     TResult favoriteToggled(_FavoriteToggled value),
+    TResult isSavedMovieRequested(_IsSavedMovieRequested value),
     @required TResult orElse(),
   });
 }
@@ -121,10 +130,12 @@ class _$_MovieFetchRequested implements _MovieFetchRequested {
     @required TResult movieFetchRequested(),
     @required TResult castPageFetchRequested(),
     @required TResult favoriteToggled(),
+    @required TResult isSavedMovieRequested(),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return movieFetchRequested();
   }
 
@@ -134,6 +145,7 @@ class _$_MovieFetchRequested implements _MovieFetchRequested {
     TResult movieFetchRequested(),
     TResult castPageFetchRequested(),
     TResult favoriteToggled(),
+    TResult isSavedMovieRequested(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -149,10 +161,12 @@ class _$_MovieFetchRequested implements _MovieFetchRequested {
     @required TResult movieFetchRequested(_MovieFetchRequested value),
     @required TResult castPageFetchRequested(_CastPageFetchRequested value),
     @required TResult favoriteToggled(_FavoriteToggled value),
+    @required TResult isSavedMovieRequested(_IsSavedMovieRequested value),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return movieFetchRequested(this);
   }
 
@@ -162,6 +176,7 @@ class _$_MovieFetchRequested implements _MovieFetchRequested {
     TResult movieFetchRequested(_MovieFetchRequested value),
     TResult castPageFetchRequested(_CastPageFetchRequested value),
     TResult favoriteToggled(_FavoriteToggled value),
+    TResult isSavedMovieRequested(_IsSavedMovieRequested value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -218,10 +233,12 @@ class _$_CastPageFetchRequested implements _CastPageFetchRequested {
     @required TResult movieFetchRequested(),
     @required TResult castPageFetchRequested(),
     @required TResult favoriteToggled(),
+    @required TResult isSavedMovieRequested(),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return castPageFetchRequested();
   }
 
@@ -231,6 +248,7 @@ class _$_CastPageFetchRequested implements _CastPageFetchRequested {
     TResult movieFetchRequested(),
     TResult castPageFetchRequested(),
     TResult favoriteToggled(),
+    TResult isSavedMovieRequested(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -246,10 +264,12 @@ class _$_CastPageFetchRequested implements _CastPageFetchRequested {
     @required TResult movieFetchRequested(_MovieFetchRequested value),
     @required TResult castPageFetchRequested(_CastPageFetchRequested value),
     @required TResult favoriteToggled(_FavoriteToggled value),
+    @required TResult isSavedMovieRequested(_IsSavedMovieRequested value),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return castPageFetchRequested(this);
   }
 
@@ -259,6 +279,7 @@ class _$_CastPageFetchRequested implements _CastPageFetchRequested {
     TResult movieFetchRequested(_MovieFetchRequested value),
     TResult castPageFetchRequested(_CastPageFetchRequested value),
     TResult favoriteToggled(_FavoriteToggled value),
+    TResult isSavedMovieRequested(_IsSavedMovieRequested value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -315,10 +336,12 @@ class _$_FavoriteToggled implements _FavoriteToggled {
     @required TResult movieFetchRequested(),
     @required TResult castPageFetchRequested(),
     @required TResult favoriteToggled(),
+    @required TResult isSavedMovieRequested(),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return favoriteToggled();
   }
 
@@ -328,6 +351,7 @@ class _$_FavoriteToggled implements _FavoriteToggled {
     TResult movieFetchRequested(),
     TResult castPageFetchRequested(),
     TResult favoriteToggled(),
+    TResult isSavedMovieRequested(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -343,10 +367,12 @@ class _$_FavoriteToggled implements _FavoriteToggled {
     @required TResult movieFetchRequested(_MovieFetchRequested value),
     @required TResult castPageFetchRequested(_CastPageFetchRequested value),
     @required TResult favoriteToggled(_FavoriteToggled value),
+    @required TResult isSavedMovieRequested(_IsSavedMovieRequested value),
   }) {
     assert(movieFetchRequested != null);
     assert(castPageFetchRequested != null);
     assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
     return favoriteToggled(this);
   }
 
@@ -356,6 +382,7 @@ class _$_FavoriteToggled implements _FavoriteToggled {
     TResult movieFetchRequested(_MovieFetchRequested value),
     TResult castPageFetchRequested(_CastPageFetchRequested value),
     TResult favoriteToggled(_FavoriteToggled value),
+    TResult isSavedMovieRequested(_IsSavedMovieRequested value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -371,15 +398,119 @@ abstract class _FavoriteToggled implements DetailsEvent {
 }
 
 /// @nodoc
+abstract class _$IsSavedMovieRequestedCopyWith<$Res> {
+  factory _$IsSavedMovieRequestedCopyWith(_IsSavedMovieRequested value,
+          $Res Function(_IsSavedMovieRequested) then) =
+      __$IsSavedMovieRequestedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$IsSavedMovieRequestedCopyWithImpl<$Res>
+    extends _$DetailsEventCopyWithImpl<$Res>
+    implements _$IsSavedMovieRequestedCopyWith<$Res> {
+  __$IsSavedMovieRequestedCopyWithImpl(_IsSavedMovieRequested _value,
+      $Res Function(_IsSavedMovieRequested) _then)
+      : super(_value, (v) => _then(v as _IsSavedMovieRequested));
+
+  @override
+  _IsSavedMovieRequested get _value => super._value as _IsSavedMovieRequested;
+}
+
+/// @nodoc
+class _$_IsSavedMovieRequested implements _IsSavedMovieRequested {
+  const _$_IsSavedMovieRequested();
+
+  @override
+  String toString() {
+    return 'DetailsEvent.isSavedMovieRequested()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _IsSavedMovieRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult movieFetchRequested(),
+    @required TResult castPageFetchRequested(),
+    @required TResult favoriteToggled(),
+    @required TResult isSavedMovieRequested(),
+  }) {
+    assert(movieFetchRequested != null);
+    assert(castPageFetchRequested != null);
+    assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
+    return isSavedMovieRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult movieFetchRequested(),
+    TResult castPageFetchRequested(),
+    TResult favoriteToggled(),
+    TResult isSavedMovieRequested(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (isSavedMovieRequested != null) {
+      return isSavedMovieRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult movieFetchRequested(_MovieFetchRequested value),
+    @required TResult castPageFetchRequested(_CastPageFetchRequested value),
+    @required TResult favoriteToggled(_FavoriteToggled value),
+    @required TResult isSavedMovieRequested(_IsSavedMovieRequested value),
+  }) {
+    assert(movieFetchRequested != null);
+    assert(castPageFetchRequested != null);
+    assert(favoriteToggled != null);
+    assert(isSavedMovieRequested != null);
+    return isSavedMovieRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult movieFetchRequested(_MovieFetchRequested value),
+    TResult castPageFetchRequested(_CastPageFetchRequested value),
+    TResult favoriteToggled(_FavoriteToggled value),
+    TResult isSavedMovieRequested(_IsSavedMovieRequested value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (isSavedMovieRequested != null) {
+      return isSavedMovieRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _IsSavedMovieRequested implements DetailsEvent {
+  const factory _IsSavedMovieRequested() = _$_IsSavedMovieRequested;
+}
+
+/// @nodoc
 class _$DetailsStateTearOff {
   const _$DetailsStateTearOff();
 
 // ignore: unused_element
   _DetailsState call(Option<MovieData> movieOption, Option<Actors> actorsOption,
-      bool favorite) {
+      Option<MoviePosition> moviePositionOption, bool favorite) {
     return _DetailsState(
       movieOption,
       actorsOption,
+      moviePositionOption,
       favorite,
     );
   }
@@ -393,6 +524,7 @@ const $DetailsState = _$DetailsStateTearOff();
 mixin _$DetailsState {
   Option<MovieData> get movieOption;
   Option<Actors> get actorsOption;
+  Option<MoviePosition> get moviePositionOption;
   bool get favorite;
 
   $DetailsStateCopyWith<DetailsState> get copyWith;
@@ -406,6 +538,7 @@ abstract class $DetailsStateCopyWith<$Res> {
   $Res call(
       {Option<MovieData> movieOption,
       Option<Actors> actorsOption,
+      Option<MoviePosition> moviePositionOption,
       bool favorite});
 }
 
@@ -421,6 +554,7 @@ class _$DetailsStateCopyWithImpl<$Res> implements $DetailsStateCopyWith<$Res> {
   $Res call({
     Object movieOption = freezed,
     Object actorsOption = freezed,
+    Object moviePositionOption = freezed,
     Object favorite = freezed,
   }) {
     return _then(_value.copyWith(
@@ -430,6 +564,9 @@ class _$DetailsStateCopyWithImpl<$Res> implements $DetailsStateCopyWith<$Res> {
       actorsOption: actorsOption == freezed
           ? _value.actorsOption
           : actorsOption as Option<Actors>,
+      moviePositionOption: moviePositionOption == freezed
+          ? _value.moviePositionOption
+          : moviePositionOption as Option<MoviePosition>,
       favorite: favorite == freezed ? _value.favorite : favorite as bool,
     ));
   }
@@ -445,6 +582,7 @@ abstract class _$DetailsStateCopyWith<$Res>
   $Res call(
       {Option<MovieData> movieOption,
       Option<Actors> actorsOption,
+      Option<MoviePosition> moviePositionOption,
       bool favorite});
 }
 
@@ -462,6 +600,7 @@ class __$DetailsStateCopyWithImpl<$Res> extends _$DetailsStateCopyWithImpl<$Res>
   $Res call({
     Object movieOption = freezed,
     Object actorsOption = freezed,
+    Object moviePositionOption = freezed,
     Object favorite = freezed,
   }) {
     return _then(_DetailsState(
@@ -471,6 +610,9 @@ class __$DetailsStateCopyWithImpl<$Res> extends _$DetailsStateCopyWithImpl<$Res>
       actorsOption == freezed
           ? _value.actorsOption
           : actorsOption as Option<Actors>,
+      moviePositionOption == freezed
+          ? _value.moviePositionOption
+          : moviePositionOption as Option<MoviePosition>,
       favorite == freezed ? _value.favorite : favorite as bool,
     ));
   }
@@ -478,9 +620,11 @@ class __$DetailsStateCopyWithImpl<$Res> extends _$DetailsStateCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_DetailsState implements _DetailsState {
-  const _$_DetailsState(this.movieOption, this.actorsOption, this.favorite)
+  const _$_DetailsState(this.movieOption, this.actorsOption,
+      this.moviePositionOption, this.favorite)
       : assert(movieOption != null),
         assert(actorsOption != null),
+        assert(moviePositionOption != null),
         assert(favorite != null);
 
   @override
@@ -488,11 +632,13 @@ class _$_DetailsState implements _DetailsState {
   @override
   final Option<Actors> actorsOption;
   @override
+  final Option<MoviePosition> moviePositionOption;
+  @override
   final bool favorite;
 
   @override
   String toString() {
-    return 'DetailsState(movieOption: $movieOption, actorsOption: $actorsOption, favorite: $favorite)';
+    return 'DetailsState(movieOption: $movieOption, actorsOption: $actorsOption, moviePositionOption: $moviePositionOption, favorite: $favorite)';
   }
 
   @override
@@ -505,6 +651,9 @@ class _$_DetailsState implements _DetailsState {
             (identical(other.actorsOption, actorsOption) ||
                 const DeepCollectionEquality()
                     .equals(other.actorsOption, actorsOption)) &&
+            (identical(other.moviePositionOption, moviePositionOption) ||
+                const DeepCollectionEquality()
+                    .equals(other.moviePositionOption, moviePositionOption)) &&
             (identical(other.favorite, favorite) ||
                 const DeepCollectionEquality()
                     .equals(other.favorite, favorite)));
@@ -515,6 +664,7 @@ class _$_DetailsState implements _DetailsState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(movieOption) ^
       const DeepCollectionEquality().hash(actorsOption) ^
+      const DeepCollectionEquality().hash(moviePositionOption) ^
       const DeepCollectionEquality().hash(favorite);
 
   @override
@@ -523,13 +673,18 @@ class _$_DetailsState implements _DetailsState {
 }
 
 abstract class _DetailsState implements DetailsState {
-  const factory _DetailsState(Option<MovieData> movieOption,
-      Option<Actors> actorsOption, bool favorite) = _$_DetailsState;
+  const factory _DetailsState(
+      Option<MovieData> movieOption,
+      Option<Actors> actorsOption,
+      Option<MoviePosition> moviePositionOption,
+      bool favorite) = _$_DetailsState;
 
   @override
   Option<MovieData> get movieOption;
   @override
   Option<Actors> get actorsOption;
+  @override
+  Option<MoviePosition> get moviePositionOption;
   @override
   bool get favorite;
   @override

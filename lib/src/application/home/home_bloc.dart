@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
+import 'package:movo/src/domain/managers/i_saved_movies_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movie_position/saved_movies.dart';
@@ -20,8 +21,12 @@ part 'home_state.dart';
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final IMovieRepository _repository;
+  final ISavedMoviesManager _savedMoviesManager;
 
-  HomeBloc(this._repository) : super(HomeState.initial()) {
+  HomeBloc(
+    this._repository,
+    this._savedMoviesManager,
+  ) : super(HomeState.initial()) {
     _initFetchStates();
   }
 
@@ -54,8 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (!_fetchingTopMovies) {
           _fetchingTopMovies = true;
 
-          final Option<Movies> movies =
-              await _repository.fetchTopMovies(MovieType.movie, _topMoviesPage, Period.month);
+          final Option<Movies> movies = await _repository.fetchTopMovies(MovieType.movie, _topMoviesPage, Period.month);
           state.topMoviesOption.combineData(movies);
 
           _topMoviesPage++;
@@ -91,7 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         add(const HomeEvent.moviesPageFetchRequested());
       },
       savedMoviesRequested: (_SavedMoviesRequested value) async* {
-        final List<MoviePosition> savedMoviePositions = await _repository.getSavedMovies();
+        final List<MoviePosition> savedMoviePositions = await _savedMoviesManager.getSavedMovies();
         final List<SavedMovie> savedMovies = <SavedMovie>[];
         for (final MoviePosition position in savedMoviePositions) {
           final Option<MovieData> data = await _repository.fetchMovie(position.movieId);
@@ -111,13 +115,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 extension MoviesOptionX on Option<Movies> {
   Option<Movies> combineData(Option<Movies> other) {
     return fold(
-          () => other,
-          (Movies a) {
+      () => other,
+      (Movies a) {
         other.getOrElse(() => Movies.empty()).data.insertAll(0, a.data);
         return other;
       },
     );
   }
 }
-
-

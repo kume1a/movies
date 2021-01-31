@@ -6,7 +6,6 @@ import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
 import 'package:movo/src/domain/search/search_results_model.dart';
 import 'package:movo/src/infrastructure/repository/movie_local_interactor.dart';
@@ -65,21 +64,6 @@ class MovieRepository implements IMovieRepository {
   @override
   Future<Option<Movies>> fetchTopMovies(MovieType type, int page, Period period) {
     return _remoteProvider.fetchTopMovies(type, page, period);
-  }
-
-  @override
-  Future<void> saveMoviePosition(MoviePosition position) {
-    return _localProvider.saveMoviePosition(position);
-  }
-
-  @override
-  Future<List<MoviePosition>> getSavedMovies() {
-    return _localProvider.getSavedMovies();
-  }
-
-  @override
-  Future<List<MovieData>> getMovies() {
-    return _localProvider.getMovies();
   }
 
   Future<Option<T>> fetchAndCache<T>({

@@ -7,7 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:movo/src/domain/actors/actors_model.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/managers/i_favorites_manager.dart';
+import 'package:movo/src/domain/managers/i_saved_movies_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
+import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 
 part 'details_bloc.freezed.dart';
 
@@ -19,11 +21,14 @@ part 'details_state.dart';
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final IMovieRepository _repository;
   final IFavoritesManager _favoritesManager;
+  final ISavedMoviesManager _savedMoviesManager;
+
   final int movieId;
 
   DetailsBloc(
     this._repository,
     this._favoritesManager,
+    this._savedMoviesManager,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial()) {
     _favoritesManager.getMovieFavoriteStatus(movieId).then((bool favorite) {
@@ -70,6 +75,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
         yield state.copyWith(favorite: toggled);
         _favoritesManager.updateMovieFavoriteStatus(movieId, isFavorite: toggled);
+      },
+      isSavedMovieRequested: (_IsSavedMovieRequested value) async* {
+        final Option<MoviePosition> moviePositionOption = await _savedMoviesManager.getSavedMovie(movieId);
+        yield state.copyWith(moviePositionOption: moviePositionOption);
       },
     );
   }

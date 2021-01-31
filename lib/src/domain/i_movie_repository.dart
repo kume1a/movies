@@ -3,7 +3,6 @@ import 'package:movo/src/domain/actors/actors_model.dart';
 import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
 
 import 'search/search_results_model.dart';
@@ -17,9 +16,4 @@ abstract class IMovieRepository {
   Future<Option<Actors>> fetchActors(int movieId, int page);
   Future<Option<Movies>> fetchRelated(int movieId, int page);
   Future<Option<SearchResults>> search(String keyword, int page);
-
-  Future<void> saveMoviePosition(MoviePosition position);
-
-  Future<List<MoviePosition>> getSavedMovies();
-  Future<List<MovieData>> getMovies();
 }

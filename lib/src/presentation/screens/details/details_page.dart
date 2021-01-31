@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movo/src/application/details/details_bloc.dart';
 import 'package:movo/src/di/injection.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
+import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/presentation/core/extensions.dart';
 import 'package:movo/src/presentation/core/widgets/genre_list.dart';
 import 'package:movo/src/presentation/core/widgets/rating_duration.dart';
@@ -27,7 +28,8 @@ class DetailsPage extends StatelessWidget {
         final DetailsBloc bloc = getIt<DetailsBloc>(param1: movieId);
         return bloc
           ..add(const DetailsEvent.movieFetchRequested())
-          ..add(const DetailsEvent.castPageFetchRequested());
+          ..add(const DetailsEvent.castPageFetchRequested())
+          ..add(const DetailsEvent.isSavedMovieRequested());
       },
       child: DetailsPageContent(),
     );
@@ -39,15 +41,40 @@ class DetailsPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState prev, DetailsState curr) =>
-          !prev.movieOption.equals(curr.movieOption),
+          !prev.movieOption.equals(curr.movieOption) || !prev.moviePositionOption.equals(curr.moviePositionOption),
       builder: (BuildContext context, DetailsState state) {
         return state.movieOption.fold(
           () => const SizedBox.shrink(),
           (MovieData movie) {
             final double w = MediaQuery.of(context).size.width;
+            final Widget fab = state.moviePositionOption.fold(
+              () => const SizedBox.shrink(),
+              (MoviePosition a) => FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.streamPage,
+                    arguments: StreamPageArgs(
+                      movieId: a.movieId,
+                      season: a.season,
+                      episode: a.episode,
+                      startAt: Duration(milliseconds: a.leftAt),
+                    ),
+                  );
+                },
+                backgroundColor: colorAccent,
+                icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
+                label: const Text('continue', style: prB15),
+              ),
+            );
 
             return Scaffold(
               backgroundColor: colorPrimary,
+              floatingActionButton: AnimatedOpacity(
+                duration: const Duration(seconds: 1),
+                opacity: state.moviePositionOption.isSome() ? 1 : 0,
+                child: fab,
+              ),
               body: SafeArea(
                 child: CustomScrollView(
                   slivers: <Widget>[

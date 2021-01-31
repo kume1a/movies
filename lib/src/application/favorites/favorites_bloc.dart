@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
+import 'package:movo/src/domain/managers/i_favorites_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 
 part 'favorites_bloc.freezed.dart';
@@ -15,9 +16,9 @@ part 'favorites_state.dart';
 
 @injectable
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
-  final IMovieRepository _repository;
+  final IFavoritesManager _favoritesManager;
 
-  FavoritesBloc(this._repository) : super(FavoritesState.initial());
+  FavoritesBloc(this._favoritesManager) : super(FavoritesState.initial());
 
   @override
   Stream<FavoritesState> mapEventToState(
@@ -25,8 +26,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   ) async* {
     yield* event.map(
       favoriteMoviesRequested: (_FavoriteMoviesRequested e) async* {
-        final List<MovieData> movies = await _repository.getMovies();
-        movies.removeWhere((MovieData e) => !e.favorite);
+        final List<MovieData> movies = await _favoritesManager.getFavoriteMovies();
         yield state.copyWith(moviesOption: some(movies));
       },
     );

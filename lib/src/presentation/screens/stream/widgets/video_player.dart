@@ -99,7 +99,7 @@ class _Mp4HandlerState extends State<Mp4Handler> {
     Wakelock.enable();
     _initControllers();
 
-    _ticker = Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
+    _ticker = Timer.periodic(const Duration(seconds: 4), (Timer timer) async {
       if (_videoPlayerController != null &&
           _chewieController != null &&
           _chewieController.isPlaying) {

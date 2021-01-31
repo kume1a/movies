@@ -25,4 +25,13 @@ class FavoritesManager implements IFavoritesManager {
       (MovieData a) => _boxHolder.movieData.put(movieId, a..favorite = isFavorite),
     );
   }
+
+  @override
+  Future<List<MovieData>> getFavoriteMovies() async {
+    final List<MovieData> movies = _boxHolder.movieData.values.toList();
+    movies.sort((MovieData a, MovieData b) => a.name.compareTo(b.name));
+
+    movies.removeWhere((MovieData e) => !e.favorite);
+    return movies;
+  }
 }
