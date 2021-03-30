@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
@@ -12,12 +14,13 @@ import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/domain/core/utils.dart';
 import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/managers/i_saved_movies_manager.dart';
+import 'package:movo/src/domain/managers/i_settings_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 import 'package:movo/src/domain/movie_position/movie_position_model.dart';
 import 'package:movo/src/domain/movies/movies_model.dart';
-import 'package:movo/src/domain/managers/i_settings_manager.dart';
 import 'package:movo/src/presentation/values/default_settings.dart';
 import 'package:movo/src/utils.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'stream_bloc.freezed.dart';
 
@@ -70,6 +73,9 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       fetchRelatedRequested: _onFetchRelatedRequested,
       startPositionChanged: _onStartPositionChanged,
       onPositionTick: _onPositionTick,
+      downloadRequested: _downloadRequested,
+      permissionDenied: _permissionDenied,
+      removeMessages: _removeMessages,
     );
   }
 
@@ -231,5 +237,34 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       );
     }
     yield state.copyWith(currentPosition: e.position);
+  }
+
+  Stream<StreamState> _downloadRequested(_DownloadRequested e) async* {
+    if (state.videoSrcOption.isSome() && state.movie.isSome()) {
+      final String videoSrcUrl = state.videoSrcOption.getOrElse(() => throw Exception()); // ignored
+      final MovieData movieData = state.movie.getOrElse(() => throw Exception()); // ignored
+      final String fileName = '${movieData.name}__${DateTime.now().millisecondsSinceEpoch}.mp4';
+
+      final Directory externalDir = await getExternalStorageDirectory();
+
+      yield state.copyWith(shouldShowDownloadStartedMessage: true);
+
+      await FlutterDownloader.enqueue(
+        url: videoSrcUrl,
+        savedDir: externalDir.path,
+        fileName: fileName,
+      );
+    }
+  }
+
+  Stream<StreamState> _permissionDenied(_PermissionDenied e) async* {
+    yield state.copyWith(shouldShowPermissionDeniedMessage: true);
+  }
+
+  Stream<StreamState> _removeMessages(_RemoveMessages e) async* {
+    yield state.copyWith(
+      shouldShowPermissionDeniedMessage: false,
+      shouldShowDownloadStartedMessage: false,
+    );
   }
 }

@@ -13,7 +13,13 @@ class App extends StatelessWidget {
         backgroundColor: colorPrimary,
         accentColor: colorAccent,
         splashColor: colorAccent,
-        toggleableActiveColor: colorAccent
+        toggleableActiveColor: colorAccent,
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: colorPrimaryLight,
+          actionTextColor: colorAccent,
+          contentTextStyle: TextStyle(color: colorTextPrimary),
+          elevation: 12
+        ),
       ),
     );
   }

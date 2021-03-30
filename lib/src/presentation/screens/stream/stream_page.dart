@@ -13,6 +13,7 @@ import 'package:movo/src/presentation/screens/stream/widgets/season_list.dart';
 import 'package:movo/src/presentation/screens/stream/widgets/video_player.dart';
 import 'package:movo/src/presentation/values/colors.dart';
 import 'package:movo/src/presentation/values/text_styles.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class StreamPage extends StatelessWidget {
   final int movieId;
@@ -78,7 +79,34 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
     final double playerWidth = mediaQueryData.size.width;
     final double playerHeight = isPortrait ? playerWidth * 9 / 16 : mediaQueryData.size.height;
 
-    return BlocBuilder<StreamBloc, StreamState>(
+    return BlocConsumer<StreamBloc, StreamState>(
+      listenWhen: (StreamState previous, StreamState current) =>
+          previous.shouldShowPermissionDeniedMessage != current.shouldShowPermissionDeniedMessage ||
+      previous.shouldShowDownloadStartedMessage != current.shouldShowDownloadStartedMessage,
+      listener: (BuildContext context, StreamState state) {
+        if (state.shouldShowPermissionDeniedMessage) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Grant storage permission to download'),
+              action: SnackBarAction(
+                label: 'settings',
+                onPressed: () => openAppSettings(),
+              ),
+              duration: const Duration(seconds: 6),
+            ),
+          );
+        }
+
+        if (state.shouldShowDownloadStartedMessage) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Download started'),
+            ),
+          );
+        }
+
+        context.read<StreamBloc>().add(const StreamEvent.removeMessages());
+      },
       builder: (BuildContext context, StreamState state) {
         return state.movie.fold(
           () => const CircularProgressIndicator(),
@@ -97,7 +125,7 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
 
             if (isPortrait) {
               content.add(Padding(
-                padding: const EdgeInsets.only(left: 12, top: 8),
+                padding: const EdgeInsets.only(left: 12, top: 16),
                 child: RatingDuration(movie.imdbRating, movie.duration),
               ));
               if (movie.isTvShow) {

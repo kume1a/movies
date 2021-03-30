@@ -16,4 +16,8 @@ abstract class StreamEvent with _$StreamEvent {
 
   const factory StreamEvent.startPositionChanged(Duration position) = _StartPositionChanged;
   const factory StreamEvent.onPositionTick(Duration position) = _OnPositionTick;
+
+  const factory StreamEvent.downloadRequested() = _DownloadRequested;
+  const factory StreamEvent.permissionDenied() = _PermissionDenied;
+  const factory StreamEvent.removeMessages() = _RemoveMessages;
 }

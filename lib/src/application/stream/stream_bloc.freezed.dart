@@ -73,6 +73,21 @@ class _$StreamEventTearOff {
       position,
     );
   }
+
+// ignore: unused_element
+  _DownloadRequested downloadRequested() {
+    return const _DownloadRequested();
+  }
+
+// ignore: unused_element
+  _PermissionDenied permissionDenied() {
+    return const _PermissionDenied();
+  }
+
+// ignore: unused_element
+  _RemoveMessages removeMessages() {
+    return const _RemoveMessages();
+  }
 }
 
 /// @nodoc
@@ -92,6 +107,9 @@ mixin _$StreamEvent {
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
@@ -104,6 +122,9 @@ mixin _$StreamEvent {
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -117,6 +138,9 @@ mixin _$StreamEvent {
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
@@ -129,6 +153,9 @@ mixin _$StreamEvent {
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   });
 }
@@ -229,6 +256,9 @@ class _$_SettingsFetched
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -239,6 +269,9 @@ class _$_SettingsFetched
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return settingsFetched(settings);
   }
 
@@ -254,6 +287,9 @@ class _$_SettingsFetched
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -275,6 +311,9 @@ class _$_SettingsFetched
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -285,6 +324,9 @@ class _$_SettingsFetched
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return settingsFetched(this);
   }
 
@@ -300,6 +342,9 @@ class _$_SettingsFetched
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -393,6 +438,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -403,6 +451,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return movieChanged(movieId);
   }
 
@@ -418,6 +469,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -439,6 +493,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -449,6 +506,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return movieChanged(this);
   }
 
@@ -464,6 +524,9 @@ class _$_MovieChanged with DiagnosticableTreeMixin implements _MovieChanged {
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -557,6 +620,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -567,6 +633,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return seasonChanged(season);
   }
 
@@ -582,6 +651,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -603,6 +675,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -613,6 +688,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return seasonChanged(this);
   }
 
@@ -628,6 +706,9 @@ class _$_SeasonChanged with DiagnosticableTreeMixin implements _SeasonChanged {
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -724,6 +805,9 @@ class _$_EpisodeChanged
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -734,6 +818,9 @@ class _$_EpisodeChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return episodeChanged(episode);
   }
 
@@ -749,6 +836,9 @@ class _$_EpisodeChanged
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -770,6 +860,9 @@ class _$_EpisodeChanged
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -780,6 +873,9 @@ class _$_EpisodeChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return episodeChanged(this);
   }
 
@@ -795,6 +891,9 @@ class _$_EpisodeChanged
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -892,6 +991,9 @@ class _$_LanguageChanged
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -902,6 +1004,9 @@ class _$_LanguageChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return languageChanged(language);
   }
 
@@ -917,6 +1022,9 @@ class _$_LanguageChanged
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -938,6 +1046,9 @@ class _$_LanguageChanged
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -948,6 +1059,9 @@ class _$_LanguageChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return languageChanged(this);
   }
 
@@ -963,6 +1077,9 @@ class _$_LanguageChanged
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1059,6 +1176,9 @@ class _$_QualityChanged
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1069,6 +1189,9 @@ class _$_QualityChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return qualityChanged(quality);
   }
 
@@ -1084,6 +1207,9 @@ class _$_QualityChanged
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1105,6 +1231,9 @@ class _$_QualityChanged
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1115,6 +1244,9 @@ class _$_QualityChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return qualityChanged(this);
   }
 
@@ -1130,6 +1262,9 @@ class _$_QualityChanged
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1204,6 +1339,9 @@ class _$_FetchRelatedRequested
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1214,6 +1352,9 @@ class _$_FetchRelatedRequested
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return fetchRelatedRequested();
   }
 
@@ -1229,6 +1370,9 @@ class _$_FetchRelatedRequested
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1250,6 +1394,9 @@ class _$_FetchRelatedRequested
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1260,6 +1407,9 @@ class _$_FetchRelatedRequested
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return fetchRelatedRequested(this);
   }
 
@@ -1275,6 +1425,9 @@ class _$_FetchRelatedRequested
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1370,6 +1523,9 @@ class _$_StartPositionChanged
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1380,6 +1536,9 @@ class _$_StartPositionChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return startPositionChanged(position);
   }
 
@@ -1395,6 +1554,9 @@ class _$_StartPositionChanged
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1416,6 +1578,9 @@ class _$_StartPositionChanged
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1426,6 +1591,9 @@ class _$_StartPositionChanged
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return startPositionChanged(this);
   }
 
@@ -1441,6 +1609,9 @@ class _$_StartPositionChanged
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1539,6 +1710,9 @@ class _$_OnPositionTick
     @required TResult fetchRelatedRequested(),
     @required TResult startPositionChanged(Duration position),
     @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1549,6 +1723,9 @@ class _$_OnPositionTick
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return onPositionTick(position);
   }
 
@@ -1564,6 +1741,9 @@ class _$_OnPositionTick
     TResult fetchRelatedRequested(),
     TResult startPositionChanged(Duration position),
     TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1585,6 +1765,9 @@ class _$_OnPositionTick
     @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
     @required TResult startPositionChanged(_StartPositionChanged value),
     @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
   }) {
     assert(settingsFetched != null);
     assert(movieChanged != null);
@@ -1595,6 +1778,9 @@ class _$_OnPositionTick
     assert(fetchRelatedRequested != null);
     assert(startPositionChanged != null);
     assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
     return onPositionTick(this);
   }
 
@@ -1610,6 +1796,9 @@ class _$_OnPositionTick
     TResult fetchRelatedRequested(_FetchRelatedRequested value),
     TResult startPositionChanged(_StartPositionChanged value),
     TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1625,6 +1814,485 @@ abstract class _OnPositionTick implements StreamEvent {
 
   Duration get position;
   _$OnPositionTickCopyWith<_OnPositionTick> get copyWith;
+}
+
+/// @nodoc
+abstract class _$DownloadRequestedCopyWith<$Res> {
+  factory _$DownloadRequestedCopyWith(
+          _DownloadRequested value, $Res Function(_DownloadRequested) then) =
+      __$DownloadRequestedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$DownloadRequestedCopyWithImpl<$Res>
+    extends _$StreamEventCopyWithImpl<$Res>
+    implements _$DownloadRequestedCopyWith<$Res> {
+  __$DownloadRequestedCopyWithImpl(
+      _DownloadRequested _value, $Res Function(_DownloadRequested) _then)
+      : super(_value, (v) => _then(v as _DownloadRequested));
+
+  @override
+  _DownloadRequested get _value => super._value as _DownloadRequested;
+}
+
+/// @nodoc
+class _$_DownloadRequested
+    with DiagnosticableTreeMixin
+    implements _DownloadRequested {
+  const _$_DownloadRequested();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StreamEvent.downloadRequested()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StreamEvent.downloadRequested'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _DownloadRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(int movieId),
+    @required TResult seasonChanged(int season),
+    @required TResult episodeChanged(int episode),
+    @required TResult languageChanged(Language language),
+    @required TResult qualityChanged(Quality quality),
+    @required TResult fetchRelatedRequested(),
+    @required TResult startPositionChanged(Duration position),
+    @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return downloadRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(int movieId),
+    TResult seasonChanged(int season),
+    TResult episodeChanged(int episode),
+    TResult languageChanged(Language language),
+    TResult qualityChanged(Quality quality),
+    TResult fetchRelatedRequested(),
+    TResult startPositionChanged(Duration position),
+    TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (downloadRequested != null) {
+      return downloadRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
+    @required TResult seasonChanged(_SeasonChanged value),
+    @required TResult episodeChanged(_EpisodeChanged value),
+    @required TResult languageChanged(_LanguageChanged value),
+    @required TResult qualityChanged(_QualityChanged value),
+    @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    @required TResult startPositionChanged(_StartPositionChanged value),
+    @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return downloadRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
+    TResult seasonChanged(_SeasonChanged value),
+    TResult episodeChanged(_EpisodeChanged value),
+    TResult languageChanged(_LanguageChanged value),
+    TResult qualityChanged(_QualityChanged value),
+    TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    TResult startPositionChanged(_StartPositionChanged value),
+    TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (downloadRequested != null) {
+      return downloadRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DownloadRequested implements StreamEvent {
+  const factory _DownloadRequested() = _$_DownloadRequested;
+}
+
+/// @nodoc
+abstract class _$PermissionDeniedCopyWith<$Res> {
+  factory _$PermissionDeniedCopyWith(
+          _PermissionDenied value, $Res Function(_PermissionDenied) then) =
+      __$PermissionDeniedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PermissionDeniedCopyWithImpl<$Res>
+    extends _$StreamEventCopyWithImpl<$Res>
+    implements _$PermissionDeniedCopyWith<$Res> {
+  __$PermissionDeniedCopyWithImpl(
+      _PermissionDenied _value, $Res Function(_PermissionDenied) _then)
+      : super(_value, (v) => _then(v as _PermissionDenied));
+
+  @override
+  _PermissionDenied get _value => super._value as _PermissionDenied;
+}
+
+/// @nodoc
+class _$_PermissionDenied
+    with DiagnosticableTreeMixin
+    implements _PermissionDenied {
+  const _$_PermissionDenied();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StreamEvent.permissionDenied()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'StreamEvent.permissionDenied'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _PermissionDenied);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(int movieId),
+    @required TResult seasonChanged(int season),
+    @required TResult episodeChanged(int episode),
+    @required TResult languageChanged(Language language),
+    @required TResult qualityChanged(Quality quality),
+    @required TResult fetchRelatedRequested(),
+    @required TResult startPositionChanged(Duration position),
+    @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return permissionDenied();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(int movieId),
+    TResult seasonChanged(int season),
+    TResult episodeChanged(int episode),
+    TResult languageChanged(Language language),
+    TResult qualityChanged(Quality quality),
+    TResult fetchRelatedRequested(),
+    TResult startPositionChanged(Duration position),
+    TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (permissionDenied != null) {
+      return permissionDenied();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
+    @required TResult seasonChanged(_SeasonChanged value),
+    @required TResult episodeChanged(_EpisodeChanged value),
+    @required TResult languageChanged(_LanguageChanged value),
+    @required TResult qualityChanged(_QualityChanged value),
+    @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    @required TResult startPositionChanged(_StartPositionChanged value),
+    @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return permissionDenied(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
+    TResult seasonChanged(_SeasonChanged value),
+    TResult episodeChanged(_EpisodeChanged value),
+    TResult languageChanged(_LanguageChanged value),
+    TResult qualityChanged(_QualityChanged value),
+    TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    TResult startPositionChanged(_StartPositionChanged value),
+    TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (permissionDenied != null) {
+      return permissionDenied(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PermissionDenied implements StreamEvent {
+  const factory _PermissionDenied() = _$_PermissionDenied;
+}
+
+/// @nodoc
+abstract class _$RemoveMessagesCopyWith<$Res> {
+  factory _$RemoveMessagesCopyWith(
+          _RemoveMessages value, $Res Function(_RemoveMessages) then) =
+      __$RemoveMessagesCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$RemoveMessagesCopyWithImpl<$Res>
+    extends _$StreamEventCopyWithImpl<$Res>
+    implements _$RemoveMessagesCopyWith<$Res> {
+  __$RemoveMessagesCopyWithImpl(
+      _RemoveMessages _value, $Res Function(_RemoveMessages) _then)
+      : super(_value, (v) => _then(v as _RemoveMessages));
+
+  @override
+  _RemoveMessages get _value => super._value as _RemoveMessages;
+}
+
+/// @nodoc
+class _$_RemoveMessages
+    with DiagnosticableTreeMixin
+    implements _RemoveMessages {
+  const _$_RemoveMessages();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'StreamEvent.removeMessages()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'StreamEvent.removeMessages'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _RemoveMessages);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult settingsFetched(StreamSettings settings),
+    @required TResult movieChanged(int movieId),
+    @required TResult seasonChanged(int season),
+    @required TResult episodeChanged(int episode),
+    @required TResult languageChanged(Language language),
+    @required TResult qualityChanged(Quality quality),
+    @required TResult fetchRelatedRequested(),
+    @required TResult startPositionChanged(Duration position),
+    @required TResult onPositionTick(Duration position),
+    @required TResult downloadRequested(),
+    @required TResult permissionDenied(),
+    @required TResult removeMessages(),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return removeMessages();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult settingsFetched(StreamSettings settings),
+    TResult movieChanged(int movieId),
+    TResult seasonChanged(int season),
+    TResult episodeChanged(int episode),
+    TResult languageChanged(Language language),
+    TResult qualityChanged(Quality quality),
+    TResult fetchRelatedRequested(),
+    TResult startPositionChanged(Duration position),
+    TResult onPositionTick(Duration position),
+    TResult downloadRequested(),
+    TResult permissionDenied(),
+    TResult removeMessages(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (removeMessages != null) {
+      return removeMessages();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult settingsFetched(_SettingsFetched value),
+    @required TResult movieChanged(_MovieChanged value),
+    @required TResult seasonChanged(_SeasonChanged value),
+    @required TResult episodeChanged(_EpisodeChanged value),
+    @required TResult languageChanged(_LanguageChanged value),
+    @required TResult qualityChanged(_QualityChanged value),
+    @required TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    @required TResult startPositionChanged(_StartPositionChanged value),
+    @required TResult onPositionTick(_OnPositionTick value),
+    @required TResult downloadRequested(_DownloadRequested value),
+    @required TResult permissionDenied(_PermissionDenied value),
+    @required TResult removeMessages(_RemoveMessages value),
+  }) {
+    assert(settingsFetched != null);
+    assert(movieChanged != null);
+    assert(seasonChanged != null);
+    assert(episodeChanged != null);
+    assert(languageChanged != null);
+    assert(qualityChanged != null);
+    assert(fetchRelatedRequested != null);
+    assert(startPositionChanged != null);
+    assert(onPositionTick != null);
+    assert(downloadRequested != null);
+    assert(permissionDenied != null);
+    assert(removeMessages != null);
+    return removeMessages(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult settingsFetched(_SettingsFetched value),
+    TResult movieChanged(_MovieChanged value),
+    TResult seasonChanged(_SeasonChanged value),
+    TResult episodeChanged(_EpisodeChanged value),
+    TResult languageChanged(_LanguageChanged value),
+    TResult qualityChanged(_QualityChanged value),
+    TResult fetchRelatedRequested(_FetchRelatedRequested value),
+    TResult startPositionChanged(_StartPositionChanged value),
+    TResult onPositionTick(_OnPositionTick value),
+    TResult downloadRequested(_DownloadRequested value),
+    TResult permissionDenied(_PermissionDenied value),
+    TResult removeMessages(_RemoveMessages value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (removeMessages != null) {
+      return removeMessages(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RemoveMessages implements StreamEvent {
+  const factory _RemoveMessages() = _$_RemoveMessages;
 }
 
 /// @nodoc
@@ -1646,7 +2314,9 @@ class _$StreamStateTearOff {
       Quality quality,
       Language language,
       List<Language> availableLanguages,
-      List<Quality> availableQualities) {
+      List<Quality> availableQualities,
+      {@required bool shouldShowPermissionDeniedMessage,
+      @required bool shouldShowDownloadStartedMessage}) {
     return _StreamState(
       settings,
       movie,
@@ -1662,6 +2332,8 @@ class _$StreamStateTearOff {
       language,
       availableLanguages,
       availableQualities,
+      shouldShowPermissionDeniedMessage: shouldShowPermissionDeniedMessage,
+      shouldShowDownloadStartedMessage: shouldShowDownloadStartedMessage,
     );
   }
 }
@@ -1686,6 +2358,8 @@ mixin _$StreamState {
   Language get language;
   List<Language> get availableLanguages;
   List<Quality> get availableQualities;
+  bool get shouldShowPermissionDeniedMessage;
+  bool get shouldShowDownloadStartedMessage;
 
   $StreamStateCopyWith<StreamState> get copyWith;
 }
@@ -1709,7 +2383,9 @@ abstract class $StreamStateCopyWith<$Res> {
       Quality quality,
       Language language,
       List<Language> availableLanguages,
-      List<Quality> availableQualities});
+      List<Quality> availableQualities,
+      bool shouldShowPermissionDeniedMessage,
+      bool shouldShowDownloadStartedMessage});
 }
 
 /// @nodoc
@@ -1736,6 +2412,8 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
     Object language = freezed,
     Object availableLanguages = freezed,
     Object availableQualities = freezed,
+    Object shouldShowPermissionDeniedMessage = freezed,
+    Object shouldShowDownloadStartedMessage = freezed,
   }) {
     return _then(_value.copyWith(
       settings:
@@ -1769,6 +2447,14 @@ class _$StreamStateCopyWithImpl<$Res> implements $StreamStateCopyWith<$Res> {
       availableQualities: availableQualities == freezed
           ? _value.availableQualities
           : availableQualities as List<Quality>,
+      shouldShowPermissionDeniedMessage:
+          shouldShowPermissionDeniedMessage == freezed
+              ? _value.shouldShowPermissionDeniedMessage
+              : shouldShowPermissionDeniedMessage as bool,
+      shouldShowDownloadStartedMessage:
+          shouldShowDownloadStartedMessage == freezed
+              ? _value.shouldShowDownloadStartedMessage
+              : shouldShowDownloadStartedMessage as bool,
     ));
   }
 }
@@ -1794,7 +2480,9 @@ abstract class _$StreamStateCopyWith<$Res>
       Quality quality,
       Language language,
       List<Language> availableLanguages,
-      List<Quality> availableQualities});
+      List<Quality> availableQualities,
+      bool shouldShowPermissionDeniedMessage,
+      bool shouldShowDownloadStartedMessage});
 }
 
 /// @nodoc
@@ -1823,6 +2511,8 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
     Object language = freezed,
     Object availableLanguages = freezed,
     Object availableQualities = freezed,
+    Object shouldShowPermissionDeniedMessage = freezed,
+    Object shouldShowDownloadStartedMessage = freezed,
   }) {
     return _then(_StreamState(
       settings == freezed ? _value.settings : settings as StreamSettings,
@@ -1853,6 +2543,14 @@ class __$StreamStateCopyWithImpl<$Res> extends _$StreamStateCopyWithImpl<$Res>
       availableQualities == freezed
           ? _value.availableQualities
           : availableQualities as List<Quality>,
+      shouldShowPermissionDeniedMessage:
+          shouldShowPermissionDeniedMessage == freezed
+              ? _value.shouldShowPermissionDeniedMessage
+              : shouldShowPermissionDeniedMessage as bool,
+      shouldShowDownloadStartedMessage:
+          shouldShowDownloadStartedMessage == freezed
+              ? _value.shouldShowDownloadStartedMessage
+              : shouldShowDownloadStartedMessage as bool,
     ));
   }
 }
@@ -1873,7 +2571,9 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       this.quality,
       this.language,
       this.availableLanguages,
-      this.availableQualities)
+      this.availableQualities,
+      {@required this.shouldShowPermissionDeniedMessage,
+      @required this.shouldShowDownloadStartedMessage})
       : assert(settings != null),
         assert(movie != null),
         assert(seasonFilesOption != null),
@@ -1887,7 +2587,9 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
         assert(quality != null),
         assert(language != null),
         assert(availableLanguages != null),
-        assert(availableQualities != null);
+        assert(availableQualities != null),
+        assert(shouldShowPermissionDeniedMessage != null),
+        assert(shouldShowDownloadStartedMessage != null);
 
   @override
   final StreamSettings settings;
@@ -1917,10 +2619,14 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
   final List<Language> availableLanguages;
   @override
   final List<Quality> availableQualities;
+  @override
+  final bool shouldShowPermissionDeniedMessage;
+  @override
+  final bool shouldShowDownloadStartedMessage;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StreamState(settings: $settings, movie: $movie, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, currentPosition: $currentPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities)';
+    return 'StreamState(settings: $settings, movie: $movie, seasonFilesOption: $seasonFilesOption, relatedOption: $relatedOption, videoSrcOption: $videoSrcOption, startPosition: $startPosition, currentPosition: $currentPosition, season: $season, episode: $episode, episodeSeason: $episodeSeason, quality: $quality, language: $language, availableLanguages: $availableLanguages, availableQualities: $availableQualities, shouldShowPermissionDeniedMessage: $shouldShowPermissionDeniedMessage, shouldShowDownloadStartedMessage: $shouldShowDownloadStartedMessage)';
   }
 
   @override
@@ -1941,7 +2647,11 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       ..add(DiagnosticsProperty('quality', quality))
       ..add(DiagnosticsProperty('language', language))
       ..add(DiagnosticsProperty('availableLanguages', availableLanguages))
-      ..add(DiagnosticsProperty('availableQualities', availableQualities));
+      ..add(DiagnosticsProperty('availableQualities', availableQualities))
+      ..add(DiagnosticsProperty('shouldShowPermissionDeniedMessage',
+          shouldShowPermissionDeniedMessage))
+      ..add(DiagnosticsProperty('shouldShowDownloadStartedMessage',
+          shouldShowDownloadStartedMessage));
   }
 
   @override
@@ -1987,7 +2697,17 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
                     .equals(other.availableLanguages, availableLanguages)) &&
             (identical(other.availableQualities, availableQualities) ||
                 const DeepCollectionEquality()
-                    .equals(other.availableQualities, availableQualities)));
+                    .equals(other.availableQualities, availableQualities)) &&
+            (identical(other.shouldShowPermissionDeniedMessage,
+                    shouldShowPermissionDeniedMessage) ||
+                const DeepCollectionEquality().equals(
+                    other.shouldShowPermissionDeniedMessage,
+                    shouldShowPermissionDeniedMessage)) &&
+            (identical(other.shouldShowDownloadStartedMessage,
+                    shouldShowDownloadStartedMessage) ||
+                const DeepCollectionEquality().equals(
+                    other.shouldShowDownloadStartedMessage,
+                    shouldShowDownloadStartedMessage)));
   }
 
   @override
@@ -2006,7 +2726,9 @@ class _$_StreamState with DiagnosticableTreeMixin implements _StreamState {
       const DeepCollectionEquality().hash(quality) ^
       const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(availableLanguages) ^
-      const DeepCollectionEquality().hash(availableQualities);
+      const DeepCollectionEquality().hash(availableQualities) ^
+      const DeepCollectionEquality().hash(shouldShowPermissionDeniedMessage) ^
+      const DeepCollectionEquality().hash(shouldShowDownloadStartedMessage);
 
   @override
   _$StreamStateCopyWith<_StreamState> get copyWith =>
@@ -2028,7 +2750,9 @@ abstract class _StreamState implements StreamState {
       Quality quality,
       Language language,
       List<Language> availableLanguages,
-      List<Quality> availableQualities) = _$_StreamState;
+      List<Quality> availableQualities,
+      {@required bool shouldShowPermissionDeniedMessage,
+      @required bool shouldShowDownloadStartedMessage}) = _$_StreamState;
 
   @override
   StreamSettings get settings;
@@ -2058,6 +2782,10 @@ abstract class _StreamState implements StreamState {
   List<Language> get availableLanguages;
   @override
   List<Quality> get availableQualities;
+  @override
+  bool get shouldShowPermissionDeniedMessage;
+  @override
+  bool get shouldShowDownloadStartedMessage;
   @override
   _$StreamStateCopyWith<_StreamState> get copyWith;
 }

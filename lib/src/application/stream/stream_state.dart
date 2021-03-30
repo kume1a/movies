@@ -3,21 +3,22 @@ part of 'stream_bloc.dart';
 @freezed
 abstract class StreamState with _$StreamState {
   const factory StreamState(
-    StreamSettings settings,
-    Option<MovieData> movie,
-    Option<SeasonFiles> seasonFilesOption,
-    Option<Movies> relatedOption,
-    Option<String> videoSrcOption,
-    Duration startPosition,
-    Duration currentPosition,
-    int season,
-    int episode,
-    int episodeSeason,
-    Quality quality,
-    Language language,
-    List<Language> availableLanguages,
-    List<Quality> availableQualities,
-  ) = _StreamState;
+      StreamSettings settings,
+      Option<MovieData> movie,
+      Option<SeasonFiles> seasonFilesOption,
+      Option<Movies> relatedOption,
+      Option<String> videoSrcOption,
+      Duration startPosition,
+      Duration currentPosition,
+      int season,
+      int episode,
+      int episodeSeason,
+      Quality quality,
+      Language language,
+      List<Language> availableLanguages,
+      List<Quality> availableQualities,
+      {@required bool shouldShowPermissionDeniedMessage,
+      @required bool shouldShowDownloadStartedMessage}) = _StreamState;
 
   factory StreamState.initial() => StreamState(
         StreamSettings.initial(),
@@ -34,6 +35,8 @@ abstract class StreamState with _$StreamState {
         Language.eng,
         <Language>[],
         <Quality>[],
+        shouldShowPermissionDeniedMessage: false,
+        shouldShowDownloadStartedMessage: false,
       );
 }
 
@@ -69,6 +72,5 @@ class StreamSettings {
           doubleTapToSeekValue == other.doubleTapToSeekValue;
 
   @override
-  int get hashCode =>
-      autoPlayEnabled.hashCode ^ recordWatchHistoryEnabled.hashCode ^ doubleTapToSeekValue.hashCode;
+  int get hashCode => autoPlayEnabled.hashCode ^ recordWatchHistoryEnabled.hashCode ^ doubleTapToSeekValue.hashCode;
 }

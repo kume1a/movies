@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movo/src/application/stream/stream_bloc.dart';
 import 'package:movo/src/domain/core/enums.dart';
 import 'package:movo/src/presentation/core/formatters.dart';
 import 'package:movo/src/presentation/core/rive_container.dart';
@@ -11,8 +13,10 @@ import 'package:movo/src/presentation/screens/stream/widgets/video_player/progre
 import 'package:movo/src/presentation/screens/stream/widgets/video_player/progress_colors.dart';
 import 'package:movo/src/presentation/values/constants.dart';
 import 'package:movo/src/presentation/values/text_styles.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
+
 
 class VideoControls extends StatefulWidget {
   final ValueChanged<Language> onLanguageChanged;
@@ -88,8 +92,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     }
 
     final bool isInitializing =
-        _latestValue != null && !_latestValue.isPlaying && _latestValue.duration == null ||
-            _latestValue.isBuffering;
+        _latestValue != null && !_latestValue.isPlaying && _latestValue.duration == null || _latestValue.isBuffering;
 
     final List<Widget> content = <Widget>[];
     if (isInitializing) {
@@ -120,8 +123,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   setState(() => _showRewind = false);
                 });
               });
-              _chewieController
-                  .seekTo(_latestValue.position - Duration(seconds: widget.doubleTapToSeekValue));
+              _chewieController.seekTo(_latestValue.position - Duration(seconds: widget.doubleTapToSeekValue));
             } else if (x >= rightThreshold) {
               setState(() {
                 _forwardController?.run();
@@ -130,8 +132,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   setState(() => _showForward = false);
                 });
               });
-              _chewieController
-                  .seekTo(_latestValue.position + Duration(seconds: widget.doubleTapToSeekValue));
+              _chewieController.seekTo(_latestValue.position + Duration(seconds: widget.doubleTapToSeekValue));
             }
           },
           child: AbsorbPointer(
@@ -237,7 +238,12 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               highlightColor: Colors.transparent,
               icon: const Icon(Icons.arrow_back, color: Colors.white),
             ),
-            _buildSettingsButton(),
+            Row(
+              children: <Widget>[
+                _buildDownloadButton(),
+                _buildSettingsButton(),
+              ],
+            ),
           ],
         ),
       ),
@@ -281,11 +287,11 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   child: isFinished
                       ? const Icon(Icons.replay, size: 64)
                       : AnimatedIcon(
-                          icon: AnimatedIcons.play_pause,
-                          progress: _playPauseIconAnimController,
-                          size: 64,
-                          color: Colors.white,
-                        ),
+                    icon: AnimatedIcons.play_pause,
+                    progress: _playPauseIconAnimController,
+                    size: 64,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               RiveContainer(
@@ -309,11 +315,15 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         child: Row(
           children: <Widget>[
             _buildPlayPause(_controller),
-            if (MediaQuery.of(context).orientation == Orientation.landscape)
+            if (MediaQuery
+                .of(context)
+                .orientation == Orientation.landscape)
               _chewieController.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
             if (!_chewieController.isLive) _buildProgressBar(),
-            if (_chewieController.allowMuting) _buildMuteButton(_controller) else const SizedBox.shrink(),
-            if (_chewieController.allowFullScreen) _buildExpandButton() else const SizedBox.shrink(),
+            if (_chewieController.allowMuting) _buildMuteButton(_controller) else
+              const SizedBox.shrink(),
+            if (_chewieController.allowFullScreen) _buildExpandButton() else
+              const SizedBox.shrink(),
           ],
         ),
       ),
@@ -337,12 +347,10 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   Widget _buildPosition() {
-    final Duration position = _latestValue != null && _latestValue.position != null
-        ? _latestValue.position
-        : Duration.zero;
-    final Duration duration = _latestValue != null && _latestValue.duration != null
-        ? _latestValue.duration
-        : Duration.zero;
+    final Duration position =
+    _latestValue != null && _latestValue.position != null ? _latestValue.position : Duration.zero;
+    final Duration duration =
+    _latestValue != null && _latestValue.duration != null ? _latestValue.duration : Duration.zero;
 
     return Padding(
       padding: const EdgeInsets.only(right: 24),
@@ -375,13 +383,49 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           },
           colors: _chewieController.materialProgressColors ??
               ChewieProgressColors(
-                playedColor: Theme.of(context).accentColor,
-                handleColor: Theme.of(context).accentColor,
-                bufferedColor: Theme.of(context).backgroundColor,
-                backgroundColor: Theme.of(context).disabledColor,
+                playedColor: Theme
+                    .of(context)
+                    .accentColor,
+                handleColor: Theme
+                    .of(context)
+                    .accentColor,
+                bufferedColor: Theme
+                    .of(context)
+                    .backgroundColor,
+                backgroundColor: Theme
+                    .of(context)
+                    .disabledColor,
               ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDownloadButton() {
+    return IconButton(
+      onPressed: () async {
+        final PermissionStatus status = await Permission.storage.status;
+        if (status == PermissionStatus.granted) {
+          context.read<StreamBloc>().add(const StreamEvent.downloadRequested());
+        } else {
+          final PermissionStatus requestStatus = await Permission.storage.request();
+          switch (requestStatus) {
+            case PermissionStatus.granted:
+              context.read<StreamBloc>().add(const StreamEvent.downloadRequested());
+              break;
+            case PermissionStatus.denied:
+              context.read<StreamBloc>().add(const StreamEvent.permissionDenied());
+              break;
+            case PermissionStatus.permanentlyDenied:
+              context.read<StreamBloc>().add(const StreamEvent.permissionDenied());
+              break;
+            default:
+            // TODO: 30/03/21 implement for ios too
+              break;
+          }
+        }
+      },
+      icon: const Icon(Icons.download_rounded),
     );
   }
 
@@ -403,25 +447,26 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<Language>(
-                items: widget.languages,
-                selected: _language ?? widget.selectedLanguage,
-                nameMapper: (Language t) {
-                  switch (t) {
-                    case Language.geo:
-                      return 'geo';
-                    case Language.eng:
-                      return 'eng';
-                    case Language.rus:
-                      return 'rus';
-                    case Language.jpn:
-                      return 'jpn';
-                    case Language.fre:
-                      return 'fre';
-                  }
-                  return '';
-                },
-              ),
+              builder: (BuildContext context) =>
+                  _BottomSheetDialog<Language>(
+                    items: widget.languages,
+                    selected: _language ?? widget.selectedLanguage,
+                    nameMapper: (Language t) {
+                      switch (t) {
+                        case Language.geo:
+                          return 'geo';
+                        case Language.eng:
+                          return 'eng';
+                        case Language.rus:
+                          return 'rus';
+                        case Language.jpn:
+                          return 'jpn';
+                        case Language.fre:
+                          return 'fre';
+                      }
+                      return '';
+                    },
+                  ),
             );
 
             widget.onLanguageChanged.call(_language);
@@ -432,11 +477,12 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<double>(
-                items: _chewieController.playbackSpeeds,
-                selected: _latestValue.playbackSpeed,
-                nameMapper: (double t) => t.toString(),
-              ),
+              builder: (BuildContext context) =>
+                  _BottomSheetDialog<double>(
+                    items: _chewieController.playbackSpeeds,
+                    selected: _latestValue.playbackSpeed,
+                    nameMapper: (double t) => t.toString(),
+                  ),
             );
 
             if (playbackSpeed != null) {
@@ -453,19 +499,20 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<Quality>(
-                items: widget.qualities,
-                selected: _quality ?? widget.selectedQuality,
-                nameMapper: (Quality quality) {
-                  switch (quality) {
-                    case Quality.medium:
-                      return 'medium';
-                    case Quality.high:
-                      return 'high';
-                  }
-                  return '';
-                },
-              ),
+              builder: (BuildContext context) =>
+                  _BottomSheetDialog<Quality>(
+                    items: widget.qualities,
+                    selected: _quality ?? widget.selectedQuality,
+                    nameMapper: (Quality quality) {
+                      switch (quality) {
+                        case Quality.medium:
+                          return 'medium';
+                        case Quality.high:
+                          return 'high';
+                      }
+                      return '';
+                    },
+                  ),
             );
 
             widget.onQualityChanged.call(_quality);
@@ -725,7 +772,9 @@ class _BottomSheetDialog<T> extends StatelessWidget {
                 Icon(
                   Icons.check,
                   size: 20,
-                  color: Theme.of(context).accentColor,
+                  color: Theme
+                      .of(context)
+                      .accentColor,
                 )
               else
                 Container(width: 20),

@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  eva_icons_flutter: ^2.0.1
   flutter_bloc: ^6.1.1
   http: ^0.12.2
   dartz: ^0.9.2
@@ -36,6 +35,9 @@ dependencies:
   hive_flutter: ^0.3.1
   hive: ^1.4.4+1
   rive: ^0.6.5
+  flutter_downloader: ^1.5.2
+  path_provider: ^1.0.0
+  permission_handler: ^6.1.1
 
 dev_dependencies:
   flutter_test:
