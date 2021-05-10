@@ -106,7 +106,7 @@ class DetailsPageContent extends StatelessWidget {
                           const SizedBox(height: 4),
                           Padding(
                             padding: const EdgeInsets.only(left: 16),
-                            child: RatingDuration(movie.imdbRating, movie.duration),
+                            child: RatingDurationYear(movie.imdbRating, movie.duration, movie.year),
                           ),
                           const SizedBox(height: 18),
                           GenreList(movie.genres),

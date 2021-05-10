@@ -126,7 +126,7 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
             if (isPortrait) {
               content.add(Padding(
                 padding: const EdgeInsets.only(left: 12, top: 16),
-                child: RatingDuration(movie.imdbRating, movie.duration),
+                child: RatingDurationYear(movie.imdbRating, movie.duration, movie.year),
               ));
               if (movie.isTvShow) {
                 content.add(SeasonList(

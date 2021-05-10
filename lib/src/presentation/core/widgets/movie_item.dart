@@ -29,6 +29,11 @@ class MovieItem extends StatelessWidget {
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
+  static const TextStyle releaseYearTextStyle = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w600,
+    color: colorTextSecondary,
+  );
 
   static const double imageWidth = 120;
   static const double imageHeight = imageWidth / 9 * 16;
@@ -40,6 +45,7 @@ class MovieItem extends StatelessWidget {
   final String plot;
   final double rating;
   final int voterCount;
+  final int releaseYear;
 
   const MovieItem({
     this.imageUrl = '',
@@ -48,6 +54,7 @@ class MovieItem extends StatelessWidget {
     this.plot = '',
     this.rating = -1,
     this.voterCount = -1,
+    this.releaseYear = -1,
   });
 
   @override
@@ -116,8 +123,15 @@ class MovieItem extends StatelessWidget {
               ],
             ),
           const SizedBox(height: 4),
-          if (voterCount != -1)
-            Text('${formatBigNumber(voterCount)} reviews', style: reviewsTextStyle),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              if (voterCount != -1)
+                Text('${formatBigNumber(voterCount)} reviews', style: reviewsTextStyle),
+              if (releaseYear > 0)
+                Text(releaseYear.toString(), style: releaseYearTextStyle),
+            ],
+          )
         ],
       ),
     );

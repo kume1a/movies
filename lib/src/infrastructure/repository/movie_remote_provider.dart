@@ -62,7 +62,7 @@ class MovieRemoteProvider {
       'sort': ' -upload_date',
       'source': 'adjaranet'
     };
-    final int genreId = mapGenreToId(genre);
+    final int genreId = _mapGenreToId(genre);
     if (genreId != null) {
       params['filters[genre]'] = genreId.toString();
     }
@@ -214,7 +214,7 @@ class MovieRemoteProvider {
     return none();
   }
 
-  int mapGenreToId(Genre genre) {
+  int _mapGenreToId(Genre genre) {
     switch (genre) {
       case Genre.all:
         return null;

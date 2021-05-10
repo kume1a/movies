@@ -56,6 +56,7 @@ class MoviesList extends StatelessWidget {
         plot: movie.plot,
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
+        releaseYear: movie.year,
       ),
     );
   }
