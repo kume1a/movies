@@ -135,7 +135,7 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
                 content.add(EpisodeList());
               } else {
                 content.add(const Padding(
-                  padding: EdgeInsets.only(left: 16, bottom: 8, top: 12),
+                  padding: EdgeInsets.only(left: 16, top: 12),
                   child: Text('Recommended', style: prB22),
                 ));
                 content.add(RelatedMovies());

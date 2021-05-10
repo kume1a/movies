@@ -34,6 +34,7 @@ class PopularMoviesList extends StatelessWidget {
 
   Widget _buildList(Option<Movies> moviesOption) {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: _spacing /2),
       scrollDirection: Axis.horizontal,
       itemCount: moviesOption.fold(() => 3, (Movies a) => a.data.length),
       itemBuilder: (BuildContext context, int index) {
@@ -57,7 +58,7 @@ class PopularMoviesList extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(left: _spacing),
+            margin:  const EdgeInsets.symmetric(horizontal: _spacing /2),
             child: AspectRatio(
               aspectRatio: _aspectRatio,
               child: SafeImage(

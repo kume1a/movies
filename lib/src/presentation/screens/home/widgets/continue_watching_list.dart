@@ -19,8 +19,7 @@ class ContinueWatchingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (HomeState prev, HomeState curr) =>
-          !prev.savedMoviesOption.equals(curr.savedMoviesOption),
+      buildWhen: (HomeState prev, HomeState curr) => !prev.savedMoviesOption.equals(curr.savedMoviesOption),
       builder: (BuildContext context, HomeState state) {
         return state.savedMoviesOption.fold(
           () => const SizedBox.shrink(),
@@ -44,6 +43,13 @@ class ContinueWatchingList extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext context, SavedMovie savedMovie) {
+    String bottomDetailText = formatVideoDuration(savedMovie.position.leftAt);
+    if (savedMovie.position.isTvShow) {
+      final int s = savedMovie.position.season;
+      final int e = savedMovie.position.episode;
+      bottomDetailText += '\t--\t${s}x${e < 10 ? '0$e' : e}';
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -78,9 +84,7 @@ class ContinueWatchingList extends StatelessWidget {
                       child: LinearProgressIndicator(
                         backgroundColor: colorInactive,
                         value: savedMovie.position.leftAt /
-                            (savedMovie.position.durationInMillis != 0
-                                ? savedMovie.position.durationInMillis
-                                : 60000),
+                            (savedMovie.position.durationInMillis != 0 ? savedMovie.position.durationInMillis : 60000),
                       ),
                     ),
                   )
@@ -97,7 +101,7 @@ class ContinueWatchingList extends StatelessWidget {
                   style: prSB18,
                 )),
             const SizedBox(height: 2),
-            Text('left at ${formatVideoDuration(savedMovie.position.leftAt)}', style: sc11),
+            Text('left at $bottomDetailText', style: sc11),
           ],
         ),
       ),

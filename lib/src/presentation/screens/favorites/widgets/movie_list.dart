@@ -12,6 +12,7 @@ class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: movies.length,
       itemBuilder: (BuildContext context, int index) => _itemBuilder(context, movies[index]),
     );
@@ -33,6 +34,7 @@ class MovieList extends StatelessWidget {
         plot: movie.plot,
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
+        releaseYear: movie.year,
       ),
     );
   }

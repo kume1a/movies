@@ -122,7 +122,7 @@ class DetailsPageContent extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           CastList(),
-                          const SizedBox(height: 120),
+                          const SizedBox(height: 160),
                         ],
                       ),
                     )

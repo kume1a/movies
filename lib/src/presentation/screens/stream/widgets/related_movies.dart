@@ -15,6 +15,7 @@ class RelatedMovies extends StatelessWidget {
       builder: (BuildContext context, StreamState state) {
         return Expanded(
           child: ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 16),
             itemCount: state.relatedOption.fold(() => 0, (Movies movies) => movies.data.length),
             itemBuilder: (BuildContext context, int index) {
               return state.relatedOption.fold(
@@ -44,6 +45,7 @@ class RelatedMovies extends StatelessWidget {
         plot: movie.plot,
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
+        releaseYear: movie.year,
       ),
     );
   }

@@ -30,11 +30,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     this._favoritesManager,
     this._savedMoviesManager,
     @factoryParam this.movieId,
-  ) : super(DetailsState.initial()) {
-    _favoritesManager.getMovieFavoriteStatus(movieId).then((bool favorite) {
-      if (favorite) add(const DetailsEvent.favoriteToggled());
-    });
-  }
+  ) : super(DetailsState.initial());
 
   int _actorsPage = 1;
   bool _fetchingActors = false;
@@ -46,6 +42,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     if (movieId == -1) throw StateError('movieId should be initialized before using bloc');
 
     yield* event.map(
+      init: (_Init event) async* {
+        final bool isFavorite = await _favoritesManager.getMovieFavoriteStatus(movieId);
+        yield state.copyWith(favorite: isFavorite);
+      },
       movieFetchRequested: (_) async* {
         final Option<MovieData> movieOption = await _repository.fetchMovie(movieId);
         yield state.copyWith(movieOption: movieOption);

@@ -14,6 +14,9 @@ class PagedList<T> extends StatelessWidget {
   /// and widget will throw an Error
   final ScrollController scrollController;
 
+  /// will be ignored if [listType] is [ListType.sliverBuilder]
+  final EdgeInsets padding;
+
   final WidgetCallback request;
   final WidgetBuilder blankBuilder;
   final ItemBuilder<T> itemBuilder;
@@ -21,26 +24,27 @@ class PagedList<T> extends StatelessWidget {
   final int totalCount;
   final int totalPages;
 
-  const PagedList({
+  PagedList({
     this.axis = Axis.vertical,
     this.listType = ListType.builder,
     this.extent = 4,
     this.scrollController,
+    this.padding,
     @required this.request,
     @required this.blankBuilder,
     @required this.itemBuilder,
     @required this.items,
     @required this.totalCount,
     @required this.totalPages,
-  });
+  }) {
+    if (listType == ListType.sliverBuilder && scrollController != null) {
+      throw Exception("scroll controller can't be passed inside a sliver list");
+    }
+  }
 
   @override
   // ignore: missing_return
   Widget build(BuildContext context) {
-    if (listType == ListType.sliverBuilder && scrollController != null) {
-      throw Exception("scroll controller can't be passed inside a sliver list");
-    }
-
     if (totalCount == 0) {
       switch (listType) {
         case ListType.sliverBuilder:
@@ -66,6 +70,7 @@ class PagedList<T> extends StatelessWidget {
           scrollDirection: axis,
           itemBuilder: _itemBuilder,
           controller: scrollController,
+          padding: padding,
         );
     }
   }

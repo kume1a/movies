@@ -15,6 +15,7 @@ class TopSelectionList extends StatelessWidget {
   static const double imageHeight = itemWidth / 3 * 4;
   static const double itemHeight = imageHeight + 55;
   static const double radius = 12;
+  static const double spacing = 16;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class TopSelectionList extends StatelessWidget {
       items: movies.data,
       totalCount: movies.totalCount,
       totalPages: movies.totalPages,
+      padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
     );
   }
 
@@ -61,7 +63,7 @@ class TopSelectionList extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

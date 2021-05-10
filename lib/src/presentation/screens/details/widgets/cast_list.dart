@@ -11,6 +11,7 @@ class CastList extends StatelessWidget {
   static const double itemWidth = 120;
   static const double itemHeight = 160;
   static const double radius = 12;
+  static const double spacing = 16;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class CastList extends StatelessWidget {
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
       itemCount: total == length ? length : length + 10,
       itemBuilder: (BuildContext context, int index) {
         return actorsOption.fold(
@@ -58,7 +60,7 @@ class CastList extends StatelessWidget {
 
   Widget _buildItem(Actor actor) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
       child: Column(
         children: <Widget>[
           SafeImage(
