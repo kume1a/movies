@@ -22,16 +22,19 @@ class FavoritesManager implements IFavoritesManager {
   Future<void> updateMovieFavoriteStatus(int movieId, {@required bool isFavorite}) async {
     final Option<MovieData> curr = optionOf(_boxHolder.movieData.get(movieId));
     curr.foldSome(
-      (MovieData a) => _boxHolder.movieData.put(movieId, a..favorite = isFavorite),
+      (MovieData movie) => _boxHolder.movieData.put(
+        movieId,
+        movie
+          ..favorite = isFavorite
+          ..saveTimestamp = isFavorite ? DateTime.now().millisecondsSinceEpoch : -1,
+      ),
     );
   }
 
   @override
   Future<List<MovieData>> getFavoriteMovies() async {
-    final List<MovieData> movies = _boxHolder.movieData.values.toList();
-    movies.sort((MovieData a, MovieData b) => a.name.compareTo(b.name));
-
-    movies.removeWhere((MovieData e) => !e.favorite);
-    return movies;
+    return _boxHolder.movieData.values.toList()
+      ..removeWhere((MovieData e) => !e.favorite)
+      ..sort((MovieData a, MovieData b) => a.saveTimestamp.compareTo(b.saveTimestamp) * -1);
   }
 }

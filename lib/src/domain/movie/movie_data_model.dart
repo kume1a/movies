@@ -66,27 +66,32 @@ class MovieData {
   @HiveField(18)
   bool favorite;
 
+  /// timestamp in millis from epoch when user saves movie in favorites list
+  /// field equals -1 if it isn't saved
+  @HiveField(19)
+  int saveTimestamp;
+
   MovieData(
-    this.id,
-    this.movieId,
-    this.name,
-    this.year,
-    this.imdbUrl,
-    this.isTvShow, // ignore: avoid_positional_boolean_parameters
-    this.duration,
-    this.canBePlayed,
-    this.poster,
-    this.imdbRating,
-    this.voterCount,
-    this.covers,
-    this.secondaryCovers,
-    this.plot,
-    this.genres,
-    this.trailers,
-    this.languages,
-    this.seasons,
-    this.favorite,
-  );
+      this.id,
+      this.movieId,
+      this.name,
+      this.year,
+      this.imdbUrl,
+      this.isTvShow, // ignore: avoid_positional_boolean_parameters
+      this.duration,
+      this.canBePlayed,
+      this.poster,
+      this.imdbRating,
+      this.voterCount,
+      this.covers,
+      this.secondaryCovers,
+      this.plot,
+      this.genres,
+      this.trailers,
+      this.languages,
+      this.seasons,
+      this.favorite,
+      [this.saveTimestamp = -1]);
 
   factory MovieData.fromSchema(MovieDataSchema schema) {
     final int id = schema.id ?? 0;
@@ -121,10 +126,9 @@ class MovieData {
       }
     }
 
-    final List<String> genres = schema.genres?.data
-            ?.map((GenresDataSchema e) => e?.secondaryName ?? e?.primaryName ?? '')
-            ?.toList() ??
-        List<String>.empty();
+    final List<String> genres =
+        schema.genres?.data?.map((GenresDataSchema e) => e?.secondaryName ?? e?.primaryName ?? '')?.toList() ??
+            List<String>.empty();
 
     final Map<Language, String> trailers = <Language, String>{
       for (TrailersDataSchema e in schema.trailers?.data ?? List<TrailersDataSchema>.empty())
@@ -136,8 +140,7 @@ class MovieData {
             List<Language>.empty();
 
     final List<Season> seasons =
-        schema?.seasons?.data?.map((SeasonsDataSchema e) => Season.fromSchema(e))?.toList() ??
-            List<Season>.empty();
+        schema?.seasons?.data?.map((SeasonsDataSchema e) => Season.fromSchema(e))?.toList() ?? List<Season>.empty();
 
     return MovieData(
       id,

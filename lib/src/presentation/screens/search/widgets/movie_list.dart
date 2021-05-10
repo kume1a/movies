@@ -31,7 +31,11 @@ class _MovieListState extends State<MovieList> {
   Widget build(BuildContext context) {
     return BlocConsumer<SearchBloc, SearchState>(
       listenWhen: (SearchState previous, SearchState current) => previous.query != current.query,
-      listener: (BuildContext context, SearchState state) => _scrollController.jumpTo(0),
+      listener: (BuildContext context, SearchState state) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(0);
+        }
+      },
       builder: (BuildContext context, SearchState state) {
         return state.searchResultsOption.fold(
           () => const SizedBox.shrink(),
