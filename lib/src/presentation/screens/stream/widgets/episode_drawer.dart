@@ -26,7 +26,7 @@ class EpisodeDrawer extends StatefulWidget {
 }
 
 class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateMixin {
-  static const double minFlingVelocity = 365.0;
+  static const double minFlingVelocity = 300;
 
   static const double hMaxSlide = 280;
   static const double hMinDragStartEdge = 100;
@@ -318,6 +318,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
         }
         final int season = seasonNumbers[index - 1];
 
+        // ignore: deprecated_member_use
         return FlatButton(
           onPressed: () {
             _pageController.animateToPage(
@@ -351,6 +352,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }) {
     return Column(
       children: <Widget>[
+        // ignore: deprecated_member_use
         FlatButton(
           onPressed: () {
             _pageController.animateToPage(

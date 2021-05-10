@@ -181,10 +181,12 @@ class SettingsPageContent extends StatelessWidget {
           title: Text(title),
           content: Text(content),
           actions: <Widget>[
+            // ignore: deprecated_member_use
             FlatButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('CANCEL'),
             ),
+            // ignore: deprecated_member_use
             FlatButton(
               onPressed: () {
                 onConfirm.call();

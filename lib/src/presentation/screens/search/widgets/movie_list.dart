@@ -7,10 +7,31 @@ import 'package:movo/src/presentation/core/widgets/paged_list.dart';
 import 'package:movo/src/presentation/routes/route_args.dart';
 import 'package:movo/src/presentation/routes/routes.dart';
 
-class MovieList extends StatelessWidget {
+class MovieList extends StatefulWidget {
+  @override
+  _MovieListState createState() => _MovieListState();
+}
+
+class _MovieListState extends State<MovieList> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
+    return BlocConsumer<SearchBloc, SearchState>(
+      listenWhen: (SearchState previous, SearchState current) => previous.query != current.query,
+      listener: (BuildContext context, SearchState state) => _scrollController.jumpTo(0),
       builder: (BuildContext context, SearchState state) {
         return state.searchResultsOption.fold(
           () => const SizedBox.shrink(),
@@ -30,6 +51,7 @@ class MovieList extends StatelessWidget {
         items: searchResults.results,
         totalCount: searchResults.totalCount,
         totalPages: searchResults.totalPages,
+        scrollController: _scrollController,
       ),
     );
   }

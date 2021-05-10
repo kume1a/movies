@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/i_movie_repository.dart';
 import 'package:movo/src/domain/managers/i_favorites_manager.dart';
 import 'package:movo/src/domain/movie/movie_data_model.dart';
 
