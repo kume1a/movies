@@ -25,8 +25,8 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<DetailsBloc>(
       create: (_) {
-        final DetailsBloc bloc = getIt<DetailsBloc>(param1: movieId);
-        return bloc
+        return getIt<DetailsBloc>(param1: movieId)
+          ..add(const DetailsEvent.init())
           ..add(const DetailsEvent.movieFetchRequested())
           ..add(const DetailsEvent.castPageFetchRequested())
           ..add(const DetailsEvent.isSavedMovieRequested());

@@ -82,7 +82,7 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
     return BlocConsumer<StreamBloc, StreamState>(
       listenWhen: (StreamState previous, StreamState current) =>
           previous.shouldShowPermissionDeniedMessage != current.shouldShowPermissionDeniedMessage ||
-      previous.shouldShowDownloadStartedMessage != current.shouldShowDownloadStartedMessage,
+          previous.shouldShowDownloadStartedMessage != current.shouldShowDownloadStartedMessage,
       listener: (BuildContext context, StreamState state) {
         if (state.shouldShowPermissionDeniedMessage) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -129,13 +129,17 @@ class _StreamPageContentState extends BaseState<StreamPageContent> {
                 child: RatingDurationYear(movie.imdbRating, movie.duration, movie.year),
               ));
               if (movie.isTvShow) {
-                content.add(SeasonList(
-                  seasonNumbers: movie.seasons.map((Season e) => e.number).toList(),
-                ));
-                content.add(EpisodeList());
+                content.addAll([
+                  const SizedBox(height: 10),
+                  SeasonList(
+                    seasonNumbers: movie.seasons.map((Season e) => e.number).toList(),
+                  ),
+                  const SizedBox(height: 4),
+                  EpisodeList(),
+                ]);
               } else {
                 content.add(const Padding(
-                  padding: EdgeInsets.only(left: 16, top: 12),
+                  padding: EdgeInsets.only(left: 16, top: 16),
                   child: Text('Recommended', style: prB22),
                 ));
                 content.add(RelatedMovies());
