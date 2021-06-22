@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/services/i_settings_manager.dart';
+import '../../data/local/settings/settings_manager.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_event.dart';
@@ -17,7 +17,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _init();
   }
 
-  final ISettingsManager _settingsInteractor;
+  final SettingsManager _settingsInteractor;
 
   Future<void> _init() async {
     final bool isNightModeEnabled = await _settingsInteractor.isNightModeEnabled();

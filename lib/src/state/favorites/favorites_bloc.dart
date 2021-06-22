@@ -5,18 +5,20 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/schemas/movie/movie_data_model.dart';
-import '../../data/services/i_favorites_manager.dart';
+import '../../data/local/favorites/favorites_dao.dart';
+import '../../data/model/schemas/movie/movie_data_model.dart';
 
 part 'favorites_bloc.freezed.dart';
+
 part 'favorites_event.dart';
+
 part 'favorites_state.dart';
 
 @injectable
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   FavoritesBloc(this._favoritesManager) : super(FavoritesState.initial());
 
-  final IFavoritesManager _favoritesManager;
+  final FavoritesDao _favoritesManager;
 
   @override
   Stream<FavoritesState> mapEventToState(

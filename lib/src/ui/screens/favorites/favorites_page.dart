@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/schemas/movie/movie_data_model.dart';
+import '../../../data/model/schemas/movie/movie_data_model.dart';
 import '../../../di/injection.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/extensions.dart';

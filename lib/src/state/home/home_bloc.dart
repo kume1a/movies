@@ -5,13 +5,13 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/i_movie_repository.dart';
-import '../../data/models/movie_position/movie_position_model.dart';
-import '../../data/models/movie_position/saved_movies.dart';
-import '../../data/schemas/core/enums.dart';
-import '../../data/schemas/movie/movie_data_model.dart';
-import '../../data/schemas/movies/movies_model.dart';
-import '../../data/services/i_saved_movies_manager.dart';
+import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/models/movies/movie_position.dart';
+import '../../data/model/models/movies/saved_movies.dart';
+import '../../data/model/schemas/core/enums.dart';
+import '../../data/model/schemas/movie/movie_data_model.dart';
+import '../../data/model/schemas/movies/movies_model.dart';
+import '../../data/network/i_movie_repository.dart';
 
 part 'home_bloc.freezed.dart';
 part 'home_event.dart';
@@ -27,7 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   final IMovieRepository _repository;
-  final ISavedMoviesManager _savedMoviesManager;
+  final SavedMovieDao _savedMoviesManager;
 
   int _topMoviesPage;
   int _moviesPage;

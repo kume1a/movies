@@ -11,15 +11,15 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../data/i_movie_repository.dart';
-import '../../data/models/movie_position/movie_position_model.dart';
-import '../../data/schemas/actors/season_files/season_files_model.dart';
-import '../../data/schemas/core/enums.dart';
-import '../../data/schemas/core/utils.dart';
-import '../../data/schemas/movie/movie_data_model.dart';
-import '../../data/schemas/movies/movies_model.dart';
-import '../../data/services/i_saved_movies_manager.dart';
-import '../../data/services/i_settings_manager.dart';
+import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/models/movies/movie_position.dart';
+import '../../data/model/schemas/actors/season_files/season_files_model.dart';
+import '../../data/model/schemas/core/enums.dart';
+import '../../data/model/schemas/core/utils.dart';
+import '../../data/model/schemas/movie/movie_data_model.dart';
+import '../../data/model/schemas/movies/movies_model.dart';
+import '../../data/network/i_movie_repository.dart';
 import '../../ui/values/default_settings.dart';
 import '../../utils.dart';
 
@@ -38,8 +38,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   final IMovieRepository _repository;
-  final ISettingsManager _settingsManager;
-  final ISavedMoviesManager _savedMoviesManager;
+  final SettingsManager _settingsManager;
+  final SavedMovieDao _savedMoviesManager;
 
   Future<void> _init() async {
     final bool isAutoPlayEnabled = await _settingsManager.isAutoPlayEnabled();

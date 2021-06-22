@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/schemas/core/enums.dart';
+import '../../../../data/model/schemas/core/enums.dart';
 import '../../../../state/home/home_bloc.dart';
 import '../../../core/enum_converters.dart';
 import '../../../values/colors.dart';

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
 
-import '../../../../data/schemas/core/enums.dart';
+import '../../../../data/model/schemas/core/enums.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/extensions.dart';
 import '../../../values/colors.dart';

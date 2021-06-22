@@ -6,13 +6,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/i_movie_repository.dart';
-import '../../data/schemas/search/search_results_model.dart';
-import '../../data/services/i_history_manager.dart';
-import '../../data/services/i_settings_manager.dart';
+import '../../data/local/history/search_history_dao.dart';
+import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/schemas/search/search_results_model.dart';
+import '../../data/network/i_movie_repository.dart';
 
 part 'search_bloc.freezed.dart';
+
 part 'search_event.dart';
+
 part 'search_state.dart';
 
 @injectable
@@ -24,8 +26,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) : super(SearchState.initial());
 
   final IMovieRepository _repository;
-  final IHistoryManager _historyManager;
-  final ISettingsManager _settingsInteractor;
+  final SearchHistoryDao _historyManager;
+  final SettingsManager _settingsInteractor;
 
   bool _loading = false;
   int _page = 1;
@@ -67,10 +69,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           state.searchResultsOption.fold(
             () => searchResults,
             (SearchResults previousSearchResults) {
-              searchResults
-                  .getOrElse(() => SearchResults.empty())
-                  .results
-                  .insertAll(0, previousSearchResults.results);
+              searchResults.getOrElse(() => SearchResults.empty()).results.insertAll(0, previousSearchResults.results);
               return searchResults;
             },
           );
@@ -82,8 +81,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         }
       },
       searchResultSelected: (_SearchResultSelected e) async* {
-        final bool recordSearchHistoryEnabled =
-            await _settingsInteractor.isRecordSearchHistoryEnabled();
+        final bool recordSearchHistoryEnabled = await _settingsInteractor.isRecordSearchHistoryEnabled();
         if (recordSearchHistoryEnabled) {
           _historyManager.saveSearchResult(e.searchResult);
         }

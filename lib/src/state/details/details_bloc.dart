@@ -5,12 +5,12 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/i_movie_repository.dart';
-import '../../data/models/movie_position/movie_position_model.dart';
-import '../../data/schemas/actors/actors_model.dart';
-import '../../data/schemas/movie/movie_data_model.dart';
-import '../../data/services/i_favorites_manager.dart';
-import '../../data/services/i_saved_movies_manager.dart';
+import '../../data/local/favorites/favorites_dao.dart';
+import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/models/movies/movie_position.dart';
+import '../../data/model/schemas/actors/actors_model.dart';
+import '../../data/model/schemas/movie/movie_data_model.dart';
+import '../../data/network/i_movie_repository.dart';
 
 part 'details_bloc.freezed.dart';
 part 'details_event.dart';
@@ -26,8 +26,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   ) : super(DetailsState.initial());
 
   final IMovieRepository _repository;
-  final IFavoritesManager _favoritesManager;
-  final ISavedMoviesManager _savedMoviesManager;
+  final FavoritesDao _favoritesManager;
+  final SavedMovieDao _savedMoviesManager;
 
   final int movieId;
 

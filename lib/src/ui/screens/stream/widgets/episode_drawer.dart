@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/schemas/actors/season_files/season_files_model.dart';
-import '../../../../data/schemas/movie/movie_data_model.dart';
-import '../../../../data/schemas/movies/movies_model.dart';
+import '../../../../data/model/schemas/actors/season_files/season_files_model.dart';
+import '../../../../data/model/schemas/movie/movie_data_model.dart';
+import '../../../../data/model/schemas/movies/movies_model.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/extensions.dart';
 import '../../../core/widgets/movie_item.dart';
