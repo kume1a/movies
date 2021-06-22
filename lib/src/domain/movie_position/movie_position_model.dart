@@ -1,10 +1,21 @@
 import 'package:hive/hive.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../infrastructure/hive_box_holder.dart';
 
 part 'movie_position_model.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.moviePositionId)
 class MoviePosition {
+  const MoviePosition(
+    this.movieId,
+    this.durationInMillis,
+    this.leftAt,
+    this.isTvShow, // ignore: avoid_positional_boolean_parameters
+    this.season,
+    this.episode,
+    this.timestamp,
+  );
+
   @HiveField(0)
   final int movieId;
 
@@ -25,16 +36,6 @@ class MoviePosition {
 
   @HiveField(6)
   final int timestamp;
-
-  const MoviePosition(
-    this.movieId,
-    this.durationInMillis,
-    this.leftAt,
-    this.isTvShow, // ignore: avoid_positional_boolean_parameters
-    this.season,
-    this.episode,
-    this.timestamp,
-  );
 
   @override
   String toString() {

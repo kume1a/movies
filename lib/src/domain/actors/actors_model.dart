@@ -1,11 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/actors/actors_schema.dart';
+
+import 'actors_schema.dart';
 
 class Actors {
-  final List<Actor> actors;
-  final int totalCount;
-  final int totalPages;
-
   Actors._({
     @required this.actors,
     @required this.totalCount,
@@ -31,15 +28,13 @@ class Actors {
   factory Actors.empty() {
     return Actors._(actors: List<Actor>.empty(), totalCount: 0, totalPages: 0);
   }
+
+  final List<Actor> actors;
+  final int totalCount;
+  final int totalPages;
 }
 
 class Actor {
-  final int id;
-  final String name;
-  final String poster;
-  final String birthDate;
-  final String birthPlace;
-
   Actor._({
     @required this.id,
     @required this.name,
@@ -57,4 +52,10 @@ class Actor {
       birthPlace: schema.birthPlace ?? '',
     );
   }
+
+  final int id;
+  final String name;
+  final String poster;
+  final String birthDate;
+  final String birthPlace;
 }

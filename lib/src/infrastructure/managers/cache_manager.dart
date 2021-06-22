@@ -1,18 +1,18 @@
-import 'package:meta/meta.dart';
-
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+import 'package:meta/meta.dart';
+
+import '../../domain/movie/movie_data_model.dart';
+import '../hive_box_holder.dart';
 
 part 'cache_manager.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.cacheCleanDateId)
 class CacheCleanDate {
+  CacheCleanDate(this._dateString);
+
   @HiveField(0)
   final String _dateString;
-
-  CacheCleanDate(this._dateString);
 
   DateTime get dateTime => DateTime.tryParse(_dateString);
 
@@ -22,11 +22,12 @@ class CacheCleanDate {
 
 @injectable
 class CacheManager {
-  final HiveBoxHolder _boxHolder;
+  const CacheManager(this._boxHolder);
+
   static const String _seasonCacheCleanDate = 'season_clean_date';
   static const String _movieCacheCleanDate = 'movie_cache_clean_date';
 
-  const CacheManager(this._boxHolder);
+  final HiveBoxHolder _boxHolder;
 
   Future<void> configureCache() async {
     await _configure(

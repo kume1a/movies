@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/core/type_mappers.dart';
-import 'package:movo/src/domain/search/search_results_schema.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../infrastructure/hive_box_holder.dart';
+import '../core/enums.dart';
+import '../core/type_mappers.dart';
+import 'search_results_schema.dart';
 
 part 'search_results_model.g.dart';
 
 class SearchResults {
-  final List<SearchResult> results;
-  final int totalCount;
-  final int totalPages;
-
   SearchResults(this.results, this.totalCount, this.totalPages);
 
   factory SearchResults.fromSchema(SearchResultsSchema schema) {
@@ -34,37 +31,14 @@ class SearchResults {
   factory SearchResults.empty() {
     return SearchResults(List<SearchResult>.empty(), 0, 0);
   }
+
+  final List<SearchResult> results;
+  final int totalCount;
+  final int totalPages;
 }
 
 @HiveType(typeId: HiveTypeIdHolder.searchResultId)
 class SearchResult {
-  @HiveField(0)
-  final int id;
-
-  @HiveField(1)
-  final SearchType type;
-
-  @HiveField(2)
-  final int movieId;
-
-  @HiveField(3)
-  final String name;
-
-  @HiveField(4)
-  final String description;
-
-  @HiveField(5)
-  final String poster;
-
-  @HiveField(6)
-  final String secondaryPoster;
-
-  @HiveField(7)
-  final bool isTvShow;
-
-  @HiveField(8)
-  final int timestamp;
-
   SearchResult({
     @required this.id,
     @required this.type,
@@ -93,6 +67,33 @@ class SearchResult {
       timestamp: DateTime.now().millisecondsSinceEpoch,
     );
   }
+
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final SearchType type;
+
+  @HiveField(2)
+  final int movieId;
+
+  @HiveField(3)
+  final String name;
+
+  @HiveField(4)
+  final String description;
+
+  @HiveField(5)
+  final String poster;
+
+  @HiveField(6)
+  final String secondaryPoster;
+
+  @HiveField(7)
+  final bool isTvShow;
+
+  @HiveField(8)
+  final int timestamp;
 
   String get image => <String>[poster, secondaryPoster].firstWhere(
         (String e) => e.isNotEmpty,

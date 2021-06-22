@@ -1,8 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/managers/i_settings_manager.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../domain/managers/i_settings_manager.dart';
+import '../../domain/movie/movie_data_model.dart';
+import '../hive_box_holder.dart';
 
 enum _Setting {
   nightMode,
@@ -14,9 +15,9 @@ enum _Setting {
 
 @LazySingleton(as: ISettingsManager)
 class SettingsManager implements ISettingsManager {
-  final HiveBoxHolder _boxHolder;
-
   SettingsManager(this._boxHolder);
+
+  final HiveBoxHolder _boxHolder;
 
   // ---- theme ----
   @override

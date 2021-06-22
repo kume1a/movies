@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../infrastructure/hive_box_holder.dart';
 
 part 'enums.g.dart';
 

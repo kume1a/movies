@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/managers/i_favorites_manager.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
-import 'package:movo/src/utils.dart';
+import 'package:meta/meta.dart';
+
+import '../../domain/managers/i_favorites_manager.dart';
+import '../../domain/movie/movie_data_model.dart';
+import '../../utils.dart';
+import '../hive_box_holder.dart';
 
 @LazySingleton(as: IFavoritesManager)
 class FavoritesManager implements IFavoritesManager {
-  final HiveBoxHolder _boxHolder;
-
   const FavoritesManager(this._boxHolder);
+
+  final HiveBoxHolder _boxHolder;
 
   @override
   Future<bool> getMovieFavoriteStatus(int movieId) async {

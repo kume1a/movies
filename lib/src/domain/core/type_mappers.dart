@@ -1,5 +1,5 @@
 
-import 'package:movo/src/domain/core/enums.dart';
+import 'enums.dart';
 
 const String medium = 'MEDIUM';
 const String high = 'HIGH';

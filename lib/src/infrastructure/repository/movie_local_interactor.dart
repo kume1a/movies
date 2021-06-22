@@ -1,14 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../domain/actors/season_files/season_files_model.dart';
+import '../../domain/movie/movie_data_model.dart';
+import '../hive_box_holder.dart';
 
 @lazySingleton
 class MovieLocalInteractor {
-  final HiveBoxHolder _boxHolder;
-
   MovieLocalInteractor(this._boxHolder);
+
+  final HiveBoxHolder _boxHolder;
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
     return optionOf(_boxHolder.movieData.get(movieId));

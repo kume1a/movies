@@ -1,20 +1,15 @@
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/actors/season_files/season_files_schema.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/core/type_mappers.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../../infrastructure/hive_box_holder.dart';
+import '../../core/enums.dart';
+import '../../core/type_mappers.dart';
+import 'season_files_schema.dart';
 
 part 'season_files_model.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.seasonFilesId)
 class SeasonFiles {
-  @HiveField(0)
-  final int season;
-
-  @HiveField(1)
-  final List<Episode> data;
-
   SeasonFiles(this.season, this.data);
 
   factory SeasonFiles.fromSchema(int season, SeasonFilesSchema schema) {
@@ -29,33 +24,18 @@ class SeasonFiles {
     return SeasonFiles(season, episodes.cast<Episode>());
   }
 
+  @HiveField(0)
+  final int season;
+
+  @HiveField(1)
+  final List<Episode> data;
+
   @override
   String toString() => 'SeasonFiles{data: $data}';
 }
 
 @HiveType(typeId: HiveTypeIdHolder.episodeId)
 class Episode {
-  @HiveField(0)
-  final int episode;
-
-  @HiveField(1)
-  final String title;
-
-  @HiveField(2)
-  final String description;
-
-  @HiveField(3)
-  final dynamic rating;
-
-  @HiveField(4)
-  final String poster;
-
-  @HiveField(5)
-  final Map<Resolution, String> covers;
-
-  @HiveField(6)
-  final Map<Language, List<EpisodeFile>> episodes;
-
   Episode({
     @required this.episode,
     @required this.title,
@@ -91,6 +71,27 @@ class Episode {
     );
   }
 
+  @HiveField(0)
+  final int episode;
+
+  @HiveField(1)
+  final String title;
+
+  @HiveField(2)
+  final String description;
+
+  @HiveField(3)
+  final dynamic rating;
+
+  @HiveField(4)
+  final String poster;
+
+  @HiveField(5)
+  final Map<Resolution, String> covers;
+
+  @HiveField(6)
+  final Map<Language, List<EpisodeFile>> episodes;
+
   @override
   String toString() {
     return 'Episode{episode: $episode, title: $title, description: $description, rating: $rating, poster: $poster, covers: $covers, episodes: $episodes}';
@@ -118,18 +119,6 @@ class Episode {
 
 @HiveType(typeId: HiveTypeIdHolder.episodeFileId)
 class EpisodeFile {
-  @HiveField(0)
-  final int id;
-
-  @HiveField(1)
-  final Quality quality;
-
-  @HiveField(2)
-  final String src;
-
-  @HiveField(3)
-  final int duration;
-
   EpisodeFile({
     @required this.id,
     @required this.quality,
@@ -151,6 +140,18 @@ class EpisodeFile {
   factory EpisodeFile.empty() {
     return EpisodeFile(id: 0, quality: Quality.high, src: '', duration: 0);
   }
+
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final Quality quality;
+
+  @HiveField(2)
+  final String src;
+
+  @HiveField(3)
+  final int duration;
 
   @override
   String toString() {

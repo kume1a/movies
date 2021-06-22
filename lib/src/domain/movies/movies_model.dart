@@ -1,14 +1,8 @@
-
-
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movie/movie_data_schema.dart';
-import 'package:movo/src/domain/movies/movies_schema.dart';
+import '../movie/movie_data_model.dart';
+import '../movie/movie_data_schema.dart';
+import 'movies_schema.dart';
 
 class Movies {
-  final List<MovieData> data;
-  final int totalCount;
-  final int totalPages;
-
   const Movies._(this.data, this.totalCount, this.totalPages);
 
   factory Movies.fromSchema(MoviesSchema schema) {
@@ -22,6 +16,10 @@ class Movies {
   factory Movies.empty() {
     return Movies._(List<MovieData>.empty(growable: true), 0, 0);
   }
+
+  final List<MovieData> data;
+  final int totalCount;
+  final int totalPages;
 
   @override
   bool operator ==(Object other) =>

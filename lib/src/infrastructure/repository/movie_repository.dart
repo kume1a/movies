@@ -1,22 +1,23 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:movo/src/domain/actors/actors_model.dart';
-import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/i_movie_repository.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movies/movies_model.dart';
-import 'package:movo/src/domain/search/search_results_model.dart';
-import 'package:movo/src/infrastructure/repository/movie_local_interactor.dart';
-import 'package:movo/src/infrastructure/repository/movie_remote_provider.dart';
+
+import '../../domain/actors/actors_model.dart';
+import '../../domain/actors/season_files/season_files_model.dart';
+import '../../domain/core/enums.dart';
+import '../../domain/i_movie_repository.dart';
+import '../../domain/movie/movie_data_model.dart';
+import '../../domain/movies/movies_model.dart';
+import '../../domain/search/search_results_model.dart';
+import 'movie_local_interactor.dart';
+import 'movie_remote_provider.dart';
 
 @LazySingleton(as: IMovieRepository)
 class MovieRepository implements IMovieRepository {
+  MovieRepository(this._remoteProvider, this._localProvider);
+
   final MovieRemoteProvider _remoteProvider;
   final MovieLocalInteractor _localProvider;
-
-  MovieRepository(this._remoteProvider, this._localProvider);
 
   @override
   Future<Option<Movies>> fetchMovies(int page, Genre genre) {

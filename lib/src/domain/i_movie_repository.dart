@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:movo/src/domain/actors/actors_model.dart';
-import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movies/movies_model.dart';
 
+import 'actors/actors_model.dart';
+import 'actors/season_files/season_files_model.dart';
+import 'core/enums.dart';
+import 'movie/movie_data_model.dart';
+import 'movies/movies_model.dart';
 import 'search/search_results_model.dart';
 
 abstract class IMovieRepository {

@@ -1,13 +1,14 @@
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/managers/i_history_manager.dart';
-import 'package:movo/src/domain/search/search_results_model.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../domain/managers/i_history_manager.dart';
+import '../../domain/search/search_results_model.dart';
+import '../hive_box_holder.dart';
 
 @LazySingleton(as: IHistoryManager)
 class HistoryManager implements IHistoryManager {
-  final HiveBoxHolder _boxHolder;
-
   HistoryManager(this._boxHolder);
+
+  final HiveBoxHolder _boxHolder;
 
   @override
   Future<void> saveSearchResult(SearchResult searchResult) async {

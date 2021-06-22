@@ -1,12 +1,12 @@
 
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movie_position/movie_position_model.dart';
+import '../movie/movie_data_model.dart';
+import 'movie_position_model.dart';
 
 class SavedMovie {
+  SavedMovie(this.position, this.data);
+
   final MoviePosition position;
   final MovieData data;
-
-  SavedMovie(this.position, this.data);
 
   @override
   String toString() {

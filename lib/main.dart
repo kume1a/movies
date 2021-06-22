@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/di/injection.dart';
-import 'package:movo/src/infrastructure/managers/cache_manager.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
-import 'package:movo/src/presentation/app.dart';
+
+import 'src/di/injection.dart';
+import 'src/infrastructure/hive_box_holder.dart';
+import 'src/infrastructure/managers/cache_manager.dart';
+import 'src/ui/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

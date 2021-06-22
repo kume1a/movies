@@ -1,15 +1,15 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/managers/i_saved_movies_manager.dart';
-import 'package:movo/src/domain/movie_position/movie_position_model.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../domain/managers/i_saved_movies_manager.dart';
+import '../../domain/movie_position/movie_position_model.dart';
+import '../hive_box_holder.dart';
 
 @LazySingleton(as: ISavedMoviesManager)
 class SavedMoviesManager implements ISavedMoviesManager {
-  final HiveBoxHolder _boxHolder;
-
   const SavedMoviesManager(this._boxHolder);
+
+  final HiveBoxHolder _boxHolder;
 
   @override
   Future<void> saveMoviePosition(MoviePosition position) async {

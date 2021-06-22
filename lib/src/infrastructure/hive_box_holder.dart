@@ -1,12 +1,13 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/domain/actors/season_files/season_files_model.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/movie/movie_data_model.dart';
-import 'package:movo/src/domain/movie_position/movie_position_model.dart';
-import 'package:movo/src/domain/search/search_results_model.dart';
-import 'package:movo/src/infrastructure/managers/cache_manager.dart';
+
+import '../domain/actors/season_files/season_files_model.dart';
+import '../domain/core/enums.dart';
+import '../domain/movie/movie_data_model.dart';
+import '../domain/movie_position/movie_position_model.dart';
+import '../domain/search/search_results_model.dart';
+import 'managers/cache_manager.dart';
 
 class HiveTypeIdHolder {
   static const int movieDataId = 0;
@@ -26,14 +27,6 @@ class HiveTypeIdHolder {
 
 @lazySingleton
 class HiveBoxHolder {
-  static const String _movies = 'movies';
-  static const String _seasonFiles = 'season_files';
-  static const String _moviePositions = 'movie_positions';
-  static const String _enabledOptions = 'enabled_options';
-  static const String _valueOptions = 'value_options';
-  static const String _searchHistory = 'search_history';
-  static const String _cacheCleanDate = 'cache_clean_date';
-
   HiveBoxHolder() {
     Hive.registerAdapter<MovieData>(MovieDataAdapter());
     Hive.registerAdapter<Season>(SeasonAdapter());
@@ -49,6 +42,14 @@ class HiveBoxHolder {
     Hive.registerAdapter<Quality>(QualityAdapter());
     Hive.registerAdapter<CacheCleanDate>(CacheCleanDateAdapter());
   }
+
+  static const String _movies = 'movies';
+  static const String _seasonFiles = 'season_files';
+  static const String _moviePositions = 'movie_positions';
+  static const String _enabledOptions = 'enabled_options';
+  static const String _valueOptions = 'value_options';
+  static const String _searchHistory = 'search_history';
+  static const String _cacheCleanDate = 'cache_clean_date';
 
   Future<void> init() async {
     await Hive.initFlutter();

@@ -1,76 +1,15 @@
 import 'package:hive/hive.dart';
-import 'package:movo/src/domain/core/enums.dart';
-import 'package:movo/src/domain/core/type_mappers.dart';
-import 'package:movo/src/domain/movie/movie_data_schema.dart';
-import 'package:movo/src/domain/core/utils.dart';
-import 'package:movo/src/infrastructure/hive_box_holder.dart';
+
+import '../../infrastructure/hive_box_holder.dart';
+import '../core/enums.dart';
+import '../core/type_mappers.dart';
+import '../core/utils.dart';
+import 'movie_data_schema.dart';
 
 part 'movie_data_model.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.movieDataId)
 class MovieData {
-  @HiveField(0)
-  final int id;
-
-  @HiveField(1)
-  final int movieId;
-
-  @HiveField(2)
-  final String name;
-
-  @HiveField(3)
-  final int year;
-
-  @HiveField(4)
-  final String imdbUrl;
-
-  @HiveField(5)
-  final bool isTvShow;
-
-  @HiveField(6)
-  final int duration;
-
-  @HiveField(7)
-  final bool canBePlayed;
-
-  @HiveField(8)
-  final String poster;
-
-  @HiveField(9)
-  final double imdbRating;
-
-  @HiveField(10)
-  final int voterCount;
-
-  @HiveField(11)
-  final Map<ImageSize, String> covers;
-
-  @HiveField(12)
-  final Map<Resolution, String> secondaryCovers;
-
-  @HiveField(13)
-  final String plot;
-
-  @HiveField(14)
-  final List<String> genres;
-
-  @HiveField(15)
-  final Map<Language, String> trailers;
-
-  @HiveField(16)
-  final List<Language> languages;
-
-  @HiveField(17)
-  final List<Season> seasons;
-
-  @HiveField(18)
-  bool favorite;
-
-  /// timestamp in millis from epoch when user saves movie in favorites list
-  /// field equals -1 if it isn't saved
-  @HiveField(19)
-  int saveTimestamp;
-
   MovieData(
       this.id,
       this.movieId,
@@ -165,6 +104,68 @@ class MovieData {
     );
   }
 
+  @HiveField(0)
+  final int id;
+
+  @HiveField(1)
+  final int movieId;
+
+  @HiveField(2)
+  final String name;
+
+  @HiveField(3)
+  final int year;
+
+  @HiveField(4)
+  final String imdbUrl;
+
+  @HiveField(5)
+  final bool isTvShow;
+
+  @HiveField(6)
+  final int duration;
+
+  @HiveField(7)
+  final bool canBePlayed;
+
+  @HiveField(8)
+  final String poster;
+
+  @HiveField(9)
+  final double imdbRating;
+
+  @HiveField(10)
+  final int voterCount;
+
+  @HiveField(11)
+  final Map<ImageSize, String> covers;
+
+  @HiveField(12)
+  final Map<Resolution, String> secondaryCovers;
+
+  @HiveField(13)
+  final String plot;
+
+  @HiveField(14)
+  final List<String> genres;
+
+  @HiveField(15)
+  final Map<Language, String> trailers;
+
+  @HiveField(16)
+  final List<Language> languages;
+
+  @HiveField(17)
+  final List<Season> seasons;
+
+  @HiveField(18)
+  bool favorite;
+
+  /// timestamp in millis from epoch when user saves movie in favorites list
+  /// field equals -1 if it isn't saved
+  @HiveField(19)
+  int saveTimestamp;
+
   String get availableImage => <String>[
         covers[ImageSize.large],
         secondaryCovers[Resolution.fhd],
@@ -218,15 +219,6 @@ class MovieData {
 
 @HiveType(typeId: HiveTypeIdHolder.seasonId)
 class Season {
-  @HiveField(0)
-  final int movieId;
-  @HiveField(1)
-  final int number;
-  @HiveField(2)
-  final String name;
-  @HiveField(3)
-  final int episodesCount;
-
   Season(this.movieId, this.number, this.name, this.episodesCount);
 
   factory Season.fromSchema(SeasonsDataSchema schema) {
@@ -237,6 +229,15 @@ class Season {
       schema.episodesCount ?? 0,
     );
   }
+
+  @HiveField(0)
+  final int movieId;
+  @HiveField(1)
+  final int number;
+  @HiveField(2)
+  final String name;
+  @HiveField(3)
+  final int episodesCount;
 
   @override
   String toString() {
