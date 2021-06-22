@@ -2,13 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/actors/actors_model.dart';
-import '../../domain/actors/season_files/season_files_model.dart';
-import '../../domain/core/enums.dart';
-import '../../domain/i_movie_repository.dart';
-import '../../domain/movie/movie_data_model.dart';
-import '../../domain/movies/movies_model.dart';
-import '../../domain/search/search_results_model.dart';
+import '../../data/i_movie_repository.dart';
+import '../../data/schemas/actors/actors_model.dart';
+import '../../data/schemas/actors/season_files/season_files_model.dart';
+import '../../data/schemas/core/enums.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/schemas/movies/movies_model.dart';
+import '../../data/schemas/search/search_results_model.dart';
 import 'movie_local_interactor.dart';
 import 'movie_remote_provider.dart';
 

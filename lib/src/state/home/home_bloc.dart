@@ -5,13 +5,13 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/core/enums.dart';
-import '../../domain/i_movie_repository.dart';
-import '../../domain/managers/i_saved_movies_manager.dart';
-import '../../domain/movie/movie_data_model.dart';
-import '../../domain/movie_position/movie_position_model.dart';
-import '../../domain/movie_position/saved_movies.dart';
-import '../../domain/movies/movies_model.dart';
+import '../../data/i_movie_repository.dart';
+import '../../data/models/movie_position/movie_position_model.dart';
+import '../../data/models/movie_position/saved_movies.dart';
+import '../../data/schemas/core/enums.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/schemas/movies/movies_model.dart';
+import '../../data/services/i_saved_movies_manager.dart';
 
 part 'home_bloc.freezed.dart';
 part 'home_event.dart';

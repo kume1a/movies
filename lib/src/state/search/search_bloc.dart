@@ -6,10 +6,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/i_movie_repository.dart';
-import '../../domain/managers/i_history_manager.dart';
-import '../../domain/managers/i_settings_manager.dart';
-import '../../domain/search/search_results_model.dart';
+import '../../data/i_movie_repository.dart';
+import '../../data/schemas/search/search_results_model.dart';
+import '../../data/services/i_history_manager.dart';
+import '../../data/services/i_settings_manager.dart';
 
 part 'search_bloc.freezed.dart';
 part 'search_event.dart';

@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/movie/movie_data_model.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
 import '../hive_box_holder.dart';
 
 part 'cache_manager.g.dart';

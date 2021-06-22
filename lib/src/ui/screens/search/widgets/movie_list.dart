@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/search/search_results_model.dart';
+import '../../../../data/schemas/search/search_results_model.dart';
 import '../../../../state/search/search_bloc.dart';
 import '../../../core/widgets/movie_item.dart';
 import '../../../core/widgets/paged_list.dart';

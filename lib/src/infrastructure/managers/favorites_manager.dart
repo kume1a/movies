@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/managers/i_favorites_manager.dart';
-import '../../domain/movie/movie_data_model.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/services/i_favorites_manager.dart';
 import '../../utils.dart';
 import '../hive_box_holder.dart';
 

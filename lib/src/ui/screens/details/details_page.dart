@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/models/movie_position/movie_position_model.dart';
+import '../../../data/schemas/movie/movie_data_model.dart';
 import '../../../di/injection.dart';
-import '../../../domain/movie/movie_data_model.dart';
-import '../../../domain/movie_position/movie_position_model.dart';
 import '../../../state/details/details_bloc.dart';
 import '../../core/extensions.dart';
 import '../../core/widgets/genre_list.dart';

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/actors/season_files/season_files_model.dart';
-import '../../domain/movie/movie_data_model.dart';
+import '../../data/schemas/actors/season_files/season_files_model.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
 import '../hive_box_holder.dart';
 
 @lazySingleton

@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../../infrastructure/hive_box_holder.dart';
+import '../../../infrastructure/hive_box_holder.dart';
 import '../core/enums.dart';
 import '../core/type_mappers.dart';
 import '../core/utils.dart';

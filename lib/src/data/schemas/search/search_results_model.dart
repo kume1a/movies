@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
-import '../../infrastructure/hive_box_holder.dart';
+import '../../../infrastructure/hive_box_holder.dart';
 import '../core/enums.dart';
 import '../core/type_mappers.dart';
 import 'search_results_schema.dart';

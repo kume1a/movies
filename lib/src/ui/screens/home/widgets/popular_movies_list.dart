@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/core/enums.dart';
-import '../../../../domain/movie/movie_data_model.dart';
-import '../../../../domain/movies/movies_model.dart';
+import '../../../../data/schemas/core/enums.dart';
+import '../../../../data/schemas/movie/movie_data_model.dart';
+import '../../../../data/schemas/movies/movies_model.dart';
 import '../../../../state/home/home_bloc.dart';
 import '../../../core/widgets/safe_image.dart';
 import '../../../routes/route_args.dart';

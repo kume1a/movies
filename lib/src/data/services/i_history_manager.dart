@@ -1,4 +1,4 @@
-import '../search/search_results_model.dart';
+import '../schemas/search/search_results_model.dart';
 
 abstract class IHistoryManager {
   Future<void> saveSearchResult(SearchResult searchResult);

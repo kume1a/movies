@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/managers/i_saved_movies_manager.dart';
-import '../../domain/movie_position/movie_position_model.dart';
+import '../../data/models/movie_position/movie_position_model.dart';
+import '../../data/services/i_saved_movies_manager.dart';
 import '../hive_box_holder.dart';
 
 @LazySingleton(as: ISavedMoviesManager)

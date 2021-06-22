@@ -1,4 +1,4 @@
-import '../../domain/core/enums.dart';
+import '../../data/schemas/core/enums.dart';
 
 String getGenre(Genre genre) {
   switch (genre) {

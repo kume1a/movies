@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../movie_position/movie_position_model.dart';
+import '../models/movie_position/movie_position_model.dart';
 
 abstract class ISavedMoviesManager {
   Future<void> saveMoviePosition(MoviePosition position);

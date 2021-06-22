@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../../domain/core/enums.dart';
+import '../../../../../data/schemas/core/enums.dart';
 import '../../../../../state/stream/stream_bloc.dart';
 import '../../../../core/formatters.dart';
 import '../../../../core/rive_container.dart';

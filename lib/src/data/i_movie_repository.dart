@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 
-import 'actors/actors_model.dart';
-import 'actors/season_files/season_files_model.dart';
-import 'core/enums.dart';
-import 'movie/movie_data_model.dart';
-import 'movies/movies_model.dart';
-import 'search/search_results_model.dart';
+import 'schemas/actors/actors_model.dart';
+import 'schemas/actors/season_files/season_files_model.dart';
+import 'schemas/core/enums.dart';
+import 'schemas/movie/movie_data_model.dart';
+import 'schemas/movies/movies_model.dart';
+import 'schemas/search/search_results_model.dart';
 
 abstract class IMovieRepository {
   Future<Option<Movies>> fetchMovies(int page, Genre genre);

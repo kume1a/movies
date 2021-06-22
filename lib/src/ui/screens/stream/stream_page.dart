@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../data/schemas/movie/movie_data_model.dart';
 import '../../../di/injection.dart';
-import '../../../domain/movie/movie_data_model.dart';
 import '../../../state/stream/stream_bloc.dart';
 import '../../core/base_state.dart';
 import '../../core/widgets/rating_duration.dart';

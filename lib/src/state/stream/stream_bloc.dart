@@ -11,15 +11,15 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../domain/actors/season_files/season_files_model.dart';
-import '../../domain/core/enums.dart';
-import '../../domain/core/utils.dart';
-import '../../domain/i_movie_repository.dart';
-import '../../domain/managers/i_saved_movies_manager.dart';
-import '../../domain/managers/i_settings_manager.dart';
-import '../../domain/movie/movie_data_model.dart';
-import '../../domain/movie_position/movie_position_model.dart';
-import '../../domain/movies/movies_model.dart';
+import '../../data/i_movie_repository.dart';
+import '../../data/models/movie_position/movie_position_model.dart';
+import '../../data/schemas/actors/season_files/season_files_model.dart';
+import '../../data/schemas/core/enums.dart';
+import '../../data/schemas/core/utils.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/schemas/movies/movies_model.dart';
+import '../../data/services/i_saved_movies_manager.dart';
+import '../../data/services/i_settings_manager.dart';
 import '../../ui/values/default_settings.dart';
 import '../../utils.dart';
 

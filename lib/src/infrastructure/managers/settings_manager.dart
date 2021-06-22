@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/managers/i_settings_manager.dart';
-import '../../domain/movie/movie_data_model.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/services/i_settings_manager.dart';
 import '../hive_box_holder.dart';
 
 enum _Setting {

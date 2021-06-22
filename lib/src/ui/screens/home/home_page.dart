@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/models/movie_position/saved_movies.dart';
 import '../../../di/injection.dart';
-import '../../../domain/movie_position/saved_movies.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/extensions.dart';
 import '../../values/constants.dart';

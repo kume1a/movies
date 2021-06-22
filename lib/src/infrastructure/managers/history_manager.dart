@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
-import '../../domain/managers/i_history_manager.dart';
-import '../../domain/search/search_results_model.dart';
+import '../../data/schemas/search/search_results_model.dart';
+import '../../data/services/i_history_manager.dart';
 import '../hive_box_holder.dart';
 
 @LazySingleton(as: IHistoryManager)

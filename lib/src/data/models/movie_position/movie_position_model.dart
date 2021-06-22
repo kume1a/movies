@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../../infrastructure/hive_box_holder.dart';
+import '../../../infrastructure/hive_box_holder.dart';
 
 part 'movie_position_model.g.dart';
 

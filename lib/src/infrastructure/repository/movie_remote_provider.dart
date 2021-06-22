@@ -6,17 +6,17 @@ import 'package:http/http.dart' as http show get;
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/actors/actors_model.dart';
-import '../../domain/actors/actors_schema.dart';
-import '../../domain/actors/season_files/season_files_model.dart';
-import '../../domain/actors/season_files/season_files_schema.dart';
-import '../../domain/core/enums.dart';
-import '../../domain/movie/movie_data_model.dart';
-import '../../domain/movie/movie_data_schema.dart';
-import '../../domain/movies/movies_model.dart';
-import '../../domain/movies/movies_schema.dart';
-import '../../domain/search/search_results_model.dart';
-import '../../domain/search/search_results_schema.dart';
+import '../../data/schemas/actors/actors_model.dart';
+import '../../data/schemas/actors/actors_schema.dart';
+import '../../data/schemas/actors/season_files/season_files_model.dart';
+import '../../data/schemas/actors/season_files/season_files_schema.dart';
+import '../../data/schemas/core/enums.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/schemas/movie/movie_data_schema.dart';
+import '../../data/schemas/movies/movies_model.dart';
+import '../../data/schemas/movies/movies_schema.dart';
+import '../../data/schemas/search/search_results_model.dart';
+import '../../data/schemas/search/search_results_schema.dart';
 
 const String authority = 'https://api.adjaranet.com';
 const String base = 'api.adjaranet.com';

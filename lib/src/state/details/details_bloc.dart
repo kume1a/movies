@@ -5,12 +5,12 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../domain/actors/actors_model.dart';
-import '../../domain/i_movie_repository.dart';
-import '../../domain/managers/i_favorites_manager.dart';
-import '../../domain/managers/i_saved_movies_manager.dart';
-import '../../domain/movie/movie_data_model.dart';
-import '../../domain/movie_position/movie_position_model.dart';
+import '../../data/i_movie_repository.dart';
+import '../../data/models/movie_position/movie_position_model.dart';
+import '../../data/schemas/actors/actors_model.dart';
+import '../../data/schemas/movie/movie_data_model.dart';
+import '../../data/services/i_favorites_manager.dart';
+import '../../data/services/i_saved_movies_manager.dart';
 
 part 'details_bloc.freezed.dart';
 part 'details_event.dart';
