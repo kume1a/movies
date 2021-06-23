@@ -21,6 +21,8 @@ extension GeneralUtilsObjectExtension on Object? {
 }
 
 extension OptionX<T> on Option<T> {
+  void foldSome(void Function(T a) ifSome) => fold(() {}, (T a) => ifSome.call(a));
+
   bool equals(Option<T> other) {
     return fold(
       () {

@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-import '../../../utils.dart';
+import '../../../ui/core/extensions.dart';
 import '../../model/core/option.dart';
 import '../../model/schemas/movie/movie_data_model.dart';
 import '../hive_box_holder.dart';

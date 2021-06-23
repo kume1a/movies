@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-abstract class BaseState<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver {
+abstract class UIOverlaySaverState<T extends StatefulWidget> extends State<T> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
