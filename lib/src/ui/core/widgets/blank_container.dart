@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../values/colors.dart';
+import '../values/colors.dart';
 
 class BlankContainer extends StatelessWidget {
   const BlankContainer({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../values/colors.dart';
 import '../formatters.dart';
+import '../values/colors.dart';
 
 class RatingDurationYear extends StatelessWidget {
   const RatingDurationYear(

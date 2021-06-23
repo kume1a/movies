@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../values/colors.dart';
 import '../extensions.dart';
+import '../values/colors.dart';
 import 'blank_container.dart';
 
 class SafeImage extends StatelessWidget {

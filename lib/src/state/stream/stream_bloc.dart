@@ -20,8 +20,8 @@ import '../../data/model/schemas/core/utils.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
 import '../../data/model/schemas/movies/movies_model.dart';
 import '../../data/network/i_movie_repository.dart';
-import '../../ui/values/default_settings.dart';
-import '../../utils.dart';
+import '../../ui/core/extensions.dart';
+import '../../ui/core/values/default_settings.dart';
 
 part 'stream_bloc.freezed.dart';
 part 'stream_event.dart';

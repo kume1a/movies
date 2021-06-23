@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'routes/routes.dart';
-import 'values/colors.dart';
+import 'core/routes/routes.dart';
+import 'core/values/colors.dart';
 
 class App extends StatelessWidget {
   @override
