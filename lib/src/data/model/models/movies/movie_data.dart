@@ -16,27 +16,28 @@ part 'movie_data.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.movieDataId)
 class MovieData {
-  MovieData(
-      this.id,
-      this.movieId,
-      this.name,
-      this.year,
-      this.imdbUrl,
-      this.isTvShow, // ignore: avoid_positional_boolean_parameters
-      this.duration,
-      this.canBePlayed,
-      this.poster,
-      this.imdbRating,
-      this.voterCount,
-      this.covers,
-      this.secondaryCovers,
-      this.plot,
-      this.genres,
-      this.trailers,
-      this.languages,
-      this.seasons,
-      this.favorite,
-      [this.saveTimestamp = -1]);
+  MovieData({
+    required this.id,
+    required this.movieId,
+    required this.name,
+    required this.year,
+    required this.imdbUrl,
+    required this.isTvShow,
+    required this.duration,
+    required this.canBePlayed,
+    required this.poster,
+    required this.imdbRating,
+    required this.voterCount,
+    required this.covers,
+    required this.secondaryCovers,
+    required this.plot,
+    required this.genres,
+    required this.trailers,
+    required this.languages,
+    required this.seasons,
+    required this.favorite,
+    this.saveTimestamp = -1,
+  });
 
   factory MovieData.fromSchema(MovieDataSchema schema) {
     final int id = schema.id ?? 0;
@@ -81,32 +82,31 @@ class MovieData {
     };
 
     final List<Language> languages =
-        schema.languages?.data?.map((LanguagesDataSchema e) => getLanguage(e.code)).toList() ??
-            List<Language>.empty();
+        schema.languages?.data?.map((LanguagesDataSchema e) => getLanguage(e.code)).toList() ?? List<Language>.empty();
 
     final List<Season> seasons =
         schema.seasons?.data?.map((SeasonsDataSchema e) => Season.fromSchema(e)).toList() ?? List<Season>.empty();
 
     return MovieData(
-      id,
-      movieId,
-      name,
-      year,
-      imdbUrl,
-      isTvShow,
-      duration,
-      canBePlayed,
-      poster,
-      imdbRating,
-      voterCount,
-      primaryCovers,
-      secondaryCovers,
-      plot,
-      genres,
-      trailers,
-      languages,
-      seasons,
-      false,
+      id: id,
+      movieId: movieId,
+      name: name,
+      year: year,
+      imdbUrl: imdbUrl,
+      isTvShow: isTvShow,
+      duration: duration,
+      canBePlayed: canBePlayed,
+      poster: poster,
+      imdbRating: imdbRating,
+      voterCount: voterCount,
+      covers: primaryCovers,
+      secondaryCovers: secondaryCovers,
+      plot: plot,
+      genres: genres,
+      trailers: trailers,
+      languages: languages,
+      seasons: seasons,
+      favorite: false,
     );
   }
 
