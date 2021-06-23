@@ -1,7 +1,7 @@
 part of 'details_bloc.dart';
 
 @freezed
-abstract class DetailsState with _$DetailsState {
+class DetailsState with _$DetailsState {
   const factory DetailsState(
     Option<MovieData> movieOption,
     Option<Actors> actorsOption,
@@ -9,5 +9,10 @@ abstract class DetailsState with _$DetailsState {
     bool favorite, // ignore: avoid_positional_boolean_parameters
   ) = _DetailsState;
 
-  factory DetailsState.initial() => DetailsState(none(), none(), none(), false);
+  factory DetailsState.initial() => DetailsState(
+        none(),
+        none(),
+        none(),
+        false,
+      );
 }

@@ -1,7 +1,7 @@
 part of 'details_bloc.dart';
 
 @freezed
-abstract class DetailsEvent with _$DetailsEvent {
+class DetailsEvent with _$DetailsEvent {
   const factory DetailsEvent.init() = _Init;
 
   const factory DetailsEvent.movieFetchRequested() = _MovieFetchRequested;

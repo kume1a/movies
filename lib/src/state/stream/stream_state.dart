@@ -1,7 +1,7 @@
 part of 'stream_bloc.dart';
 
 @freezed
-abstract class StreamState with _$StreamState {
+class StreamState with _$StreamState {
   const factory StreamState(
       StreamSettings settings,
       Option<MovieData> movie,

@@ -1,7 +1,7 @@
 part of 'home_bloc.dart';
 
 @freezed
-abstract class HomeEvent with _$HomeEvent {
+class HomeEvent with _$HomeEvent {
   const factory HomeEvent.popularMoviesFetchRequested() = _PopularMoviesFetchRequested;
   const factory HomeEvent.topMoviesPageFetchRequested() = _TopMoviesPageFetchRequested;
   const factory HomeEvent.moviesPageFetchRequested() = _MoviesPageFetchRequested;

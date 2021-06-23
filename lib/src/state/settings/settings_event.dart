@@ -1,7 +1,7 @@
 part of 'settings_bloc.dart';
 
 @freezed
-abstract class SettingsEvent with _$SettingsEvent {
+class SettingsEvent with _$SettingsEvent {
   const factory SettingsEvent.initial({
     required bool isNightModeEnabled,
     required bool isAutoPlatEnabled,
