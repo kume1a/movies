@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/model/schemas/movie/movie_data_model.dart';
+import '../../../data/model/models/movies/movie_data.dart';
 import '../../core/routes/route_args.dart';
 import '../../core/routes/routes.dart';
 import '../../core/widgets/movie_item.dart';

@@ -14,7 +14,6 @@ T? getPreferredOrElse<T>(List<T>? ts, T preferred) {
   );
 }
 
-// ignore: always_specify_types
 List<E>? getPreferredListOrElse<T, E>(Map<T, List<E>> map, T preferred) {
   if (map.isEmpty) return List<E>.empty();
 

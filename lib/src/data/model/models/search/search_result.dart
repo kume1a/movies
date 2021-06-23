@@ -1,35 +1,11 @@
 import 'package:hive/hive.dart';
 
 import '../../../local/hive_box_holder.dart';
-import '../core/enums.dart';
-import '../core/type_mappers.dart';
-import 'search_results_schema.dart';
+import '../../schemas/core/enums.dart';
+import '../../schemas/core/type_mappers.dart';
+import '../../schemas/search/search_results_schema.dart';
 
-part 'search_results_model.g.dart';
-
-class SearchResults {
-  SearchResults(this.results, this.totalCount, this.totalPages);
-
-  factory SearchResults.fromSchema(SearchResultsSchema schema) {
-    final List<SearchResult> searchResults = schema.data
-        ?.map((SearchResultSchema elementSchema) => SearchResult.fromSchema(elementSchema))
-        .toList() ?? List<SearchResult>.empty();
-
-    return SearchResults(
-      searchResults.cast<SearchResult>(),
-      schema.meta?.pagination?.total ?? 0,
-      schema.meta?.pagination?.totalPages ?? 0,
-    );
-  }
-
-  factory SearchResults.empty() {
-    return SearchResults(List<SearchResult>.empty(), 0, 0);
-  }
-
-  final List<SearchResult> results;
-  final int totalCount;
-  final int totalPages;
-}
+part 'search_result.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.searchResultId)
 class SearchResult {
@@ -58,7 +34,9 @@ class SearchResult {
       poster: schema.posters?.data?.s240 ?? '',
       secondaryPoster: schema.poster ?? '',
       isTvShow: schema.isTvShow ?? false,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
+      timestamp: DateTime
+          .now()
+          .millisecondsSinceEpoch,
     );
   }
 
@@ -89,8 +67,9 @@ class SearchResult {
   @HiveField(8)
   final int timestamp;
 
-  String get image => <String>[poster, secondaryPoster].firstWhere(
-        (String e) => e.isNotEmpty,
+  String get image =>
+      <String>[poster, secondaryPoster].firstWhere(
+            (String e) => e.isNotEmpty,
         orElse: () => '',
       );
 

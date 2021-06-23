@@ -1,4 +1,4 @@
-import '../../schemas/movie/movie_data_model.dart';
+import 'movie_data.dart';
 import 'movie_position.dart';
 
 class SavedMovie {

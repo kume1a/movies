@@ -1,6 +1,6 @@
-import '../movie/movie_data_model.dart';
-import '../movie/movie_data_schema.dart';
-import 'movies_schema.dart';
+import '../../schemas/movie/movie_data_schema.dart';
+import '../../schemas/movie/movies_schema.dart';
+import 'movie_data.dart';
 
 class Movies {
   const Movies._(this.data, this.totalCount, this.totalPages);

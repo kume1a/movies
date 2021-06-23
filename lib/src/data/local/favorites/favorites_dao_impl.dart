@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../ui/core/extensions.dart';
 import '../../model/core/option.dart';
-import '../../model/schemas/movie/movie_data_model.dart';
+import '../../model/models/movies/movie_data.dart';
 import '../hive_box_holder.dart';
 import 'favorites_dao.dart';
 

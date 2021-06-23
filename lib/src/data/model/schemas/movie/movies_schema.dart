@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../actors/actors_schema.dart';
-import '../movie/movie_data_schema.dart';
+import '../core/meta_schema.dart';
+import 'movie_data_schema.dart';
 
 part 'movies_schema.g.dart';
 

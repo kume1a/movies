@@ -9,9 +9,9 @@ import '../../data/local/movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
+import '../../data/model/models/actors/actors.dart';
+import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movie_position.dart';
-import '../../data/model/schemas/actors/actors_model.dart';
-import '../../data/model/schemas/movie/movie_data_model.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'details_bloc.freezed.dart';

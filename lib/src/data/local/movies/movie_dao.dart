@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 
 import '../../model/core/option.dart';
-import '../../model/schemas/actors/season_files/season_files_model.dart';
-import '../../model/schemas/movie/movie_data_model.dart';
+import '../../model/models/movies/movie_data.dart';
+import '../../model/models/seasons/season_files.dart';
 import '../hive_box_holder.dart';
 
 @lazySingleton

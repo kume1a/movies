@@ -10,7 +10,8 @@ import '../../data/local/settings/settings_manager.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
-import '../../data/model/schemas/search/search_results_model.dart';
+import '../../data/model/models/search/search_result.dart';
+import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
 
 part 'search_bloc.freezed.dart';

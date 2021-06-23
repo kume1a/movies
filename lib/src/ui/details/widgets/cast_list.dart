@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/core/option.dart';
-import '../../../data/model/schemas/actors/actors_model.dart';
+import '../../../data/model/models/actors/actor.dart';
+import '../../../data/model/models/actors/actors.dart';
 import '../../../state/details/details_bloc.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/blank_container.dart';

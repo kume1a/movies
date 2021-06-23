@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
-import '../model/schemas/movie/movie_data_model.dart';
+import '../model/models/movies/movie_data.dart';
 import 'hive_box_holder.dart';
 
 part 'cache_manager.g.dart';

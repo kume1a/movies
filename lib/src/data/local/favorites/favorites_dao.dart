@@ -1,4 +1,4 @@
-import '../../model/schemas/movie/movie_data_model.dart';
+import '../../model/models/movies/movie_data.dart';
 
 abstract class FavoritesDao {
   Future<bool> getMovieFavoriteStatus(int movieId);

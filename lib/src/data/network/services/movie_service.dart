@@ -2,15 +2,15 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
-import '../../model/schemas/actors/actors_model.dart';
+import '../../model/models/actors/actors.dart';
+import '../../model/models/movies/movie_data.dart';
+import '../../model/models/movies/movies.dart';
+import '../../model/models/seasons/season_files.dart';
 import '../../model/schemas/actors/actors_schema.dart';
-import '../../model/schemas/actors/season_files/season_files_model.dart';
-import '../../model/schemas/actors/season_files/season_files_schema.dart';
 import '../../model/schemas/core/enums.dart';
-import '../../model/schemas/movie/movie_data_model.dart';
 import '../../model/schemas/movie/movie_data_schema.dart';
-import '../../model/schemas/movies/movies_model.dart';
-import '../../model/schemas/movies/movies_schema.dart';
+import '../../model/schemas/movie/movies_schema.dart';
+import '../../model/schemas/season_files/season_files_schema.dart';
 import '../api_service.dart';
 import 'core/base_service.dart';
 

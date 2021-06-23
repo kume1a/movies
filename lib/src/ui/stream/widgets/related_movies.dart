@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/model/schemas/movie/movie_data_model.dart';
-import '../../../data/model/schemas/movies/movies_model.dart';
+import '../../../data/model/models/movies/movie_data.dart';
+import '../../../data/model/models/movies/movies.dart';
 import '../../../state/stream/stream_bloc.dart';
 import '../../core/extensions.dart';
 import '../../core/widgets/movie_item.dart';

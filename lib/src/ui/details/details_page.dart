@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movie_position.dart';
-import '../../data/model/schemas/movie/movie_data_model.dart';
 import '../../di/injection.dart';
 import '../../state/details/details_bloc.dart';
 import '../core/extensions.dart';

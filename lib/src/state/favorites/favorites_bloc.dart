@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorites/favorites_dao.dart';
 import '../../data/model/core/option.dart';
-import '../../data/model/schemas/movie/movie_data_model.dart';
+import '../../data/model/models/movies/movie_data.dart';
 
 part 'favorites_bloc.freezed.dart';
 part 'favorites_event.dart';

@@ -2,11 +2,14 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
+import '../model/models/movies/movie_data.dart';
 import '../model/models/movies/movie_position.dart';
-import '../model/schemas/actors/season_files/season_files_model.dart';
+import '../model/models/search/search_result.dart';
+import '../model/models/seasons/episode.dart';
+import '../model/models/seasons/episode_file.dart';
+import '../model/models/seasons/season.dart';
+import '../model/models/seasons/season_files.dart';
 import '../model/schemas/core/enums.dart';
-import '../model/schemas/movie/movie_data_model.dart';
-import '../model/schemas/search/search_results_model.dart';
 import 'cache_manager.dart';
 
 class HiveTypeIdHolder {

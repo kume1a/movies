@@ -3,10 +3,10 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../core/constants.dart';
 import '../model/schemas/actors/actors_schema.dart';
-import '../model/schemas/actors/season_files/season_files_schema.dart';
 import '../model/schemas/movie/movie_data_schema.dart';
-import '../model/schemas/movies/movies_schema.dart';
+import '../model/schemas/movie/movies_schema.dart';
 import '../model/schemas/search/search_results_schema.dart';
+import '../model/schemas/season_files/season_files_schema.dart';
 
 part 'api_service.g.dart';
 

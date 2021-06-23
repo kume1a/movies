@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-import '../../model/schemas/search/search_results_model.dart';
+import '../../model/models/search/search_result.dart';
 import '../hive_box_holder.dart';
 import 'search_history_dao.dart';
 

@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
-import '../../model/schemas/search/search_results_model.dart';
+import '../../model/models/search/search_results.dart';
 import '../../model/schemas/search/search_results_schema.dart';
 import '../api_service.dart';
 import 'core/base_service.dart';

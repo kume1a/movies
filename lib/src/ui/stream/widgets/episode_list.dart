@@ -4,7 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/core/option.dart';
-import '../../../data/model/schemas/actors/season_files/season_files_model.dart';
+import '../../../data/model/models/seasons/episode.dart';
+import '../../../data/model/models/seasons/season_files.dart';
 import '../../../state/stream/stream_bloc.dart';
 import '../../core/extensions.dart';
 import '../../core/formatters.dart';

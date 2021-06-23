@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../actors/actors_schema.dart';
+import '../core/cover_schema.dart';
+import '../core/meta_schema.dart';
 import '../core/posters_schema.dart';
 import '../core/rating_schema.dart';
-import '../movie/movie_data_schema.dart';
 
 part 'search_results_schema.g.dart';
 

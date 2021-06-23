@@ -1,12 +1,18 @@
 import 'package:hive/hive.dart';
 
 import '../../../local/hive_box_holder.dart';
-import '../core/enums.dart';
-import '../core/type_mappers.dart';
-import '../core/utils.dart';
-import 'movie_data_schema.dart';
+import '../../schemas/core/enums.dart';
+import '../../schemas/core/type_mappers.dart';
+import '../../schemas/core/utils.dart';
+import '../../schemas/movie/genres_schema.dart';
+import '../../schemas/movie/languages_schema.dart';
+import '../../schemas/movie/movie_data_schema.dart';
+import '../../schemas/movie/movie_seasons_schema.dart';
+import '../../schemas/movie/plot_schema.dart';
+import '../../schemas/movie/trailers_schema.dart';
+import '../seasons/season.dart';
 
-part 'movie_data_model.g.dart';
+part 'movie_data.g.dart';
 
 @HiveType(typeId: HiveTypeIdHolder.movieDataId)
 class MovieData {
@@ -215,32 +221,4 @@ class MovieData {
       plot.hashCode ^
       languages.hashCode ^
       favorite.hashCode;
-}
-
-@HiveType(typeId: HiveTypeIdHolder.seasonId)
-class Season {
-  Season(this.movieId, this.number, this.name, this.episodesCount);
-
-  factory Season.fromSchema(SeasonsDataSchema schema) {
-    return Season(
-      schema.movieId ?? 0,
-      schema.number ?? 0,
-      schema.name ?? '',
-      schema.episodesCount ?? 0,
-    );
-  }
-
-  @HiveField(0)
-  final int movieId;
-  @HiveField(1)
-  final int number;
-  @HiveField(2)
-  final String name;
-  @HiveField(3)
-  final int episodesCount;
-
-  @override
-  String toString() {
-    return 'Season{movieId: $movieId, number: $number, name: $name, episodesCount: $episodesCount}';
-  }
 }

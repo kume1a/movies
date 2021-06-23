@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/model/schemas/search/search_results_model.dart';
+import '../../../data/model/models/search/search_result.dart';
+import '../../../data/model/models/search/search_results.dart';
 import '../../../state/search/search_bloc.dart';
 import '../../core/routes/route_args.dart';
 import '../../core/routes/routes.dart';
