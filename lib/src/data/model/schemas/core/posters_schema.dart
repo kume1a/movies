@@ -8,7 +8,7 @@ class PostersSchema {
 
   factory PostersSchema.fromJson(Map<String, dynamic> json) => _$PostersSchemaFromJson(json);
 
-  final PostersDataSchema data;
+  final PostersDataSchema? data;
 }
 
 @JsonSerializable(createToJson: false)
@@ -19,6 +19,6 @@ class PostersDataSchema {
       _$PostersDataSchemaFromJson(json);
 
   @JsonKey(name: '240')
-  final String s240;
-  final String blurhash;
+  final String? s240;
+  final String? blurhash;
 }

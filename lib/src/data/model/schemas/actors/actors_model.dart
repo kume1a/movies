@@ -1,27 +1,19 @@
-import 'package:meta/meta.dart';
-
 import 'actors_schema.dart';
 
 class Actors {
   Actors._({
-    @required this.actors,
-    @required this.totalCount,
-    @required this.totalPages,
+    required this.actors,
+    required this.totalCount,
+    required this.totalPages,
   });
 
   factory Actors.fromSchema(ActorsSchema schema) {
-    final List<Actor> actors = schema.data
-        .map((ActorSchema elementSchema) {
-          if (elementSchema == null) return null;
-          return Actor.fromSchema(elementSchema);
-        })
-        .where((Actor actor) => actor != null)
-        .toList();
+    final List<Actor> actors = schema.data?.map((ActorSchema e) => Actor.fromSchema(e)).toList() ?? List<Actor>.empty();
 
     return Actors._(
       actors: actors.cast<Actor>(),
-      totalCount: schema?.meta?.pagination?.total ?? 0,
-      totalPages: schema?.meta?.pagination?.totalPages ?? 0,
+      totalCount: schema.meta?.pagination?.total ?? 0,
+      totalPages: schema.meta?.pagination?.totalPages ?? 0,
     );
   }
 
@@ -36,11 +28,11 @@ class Actors {
 
 class Actor {
   Actor._({
-    @required this.id,
-    @required this.name,
-    @required this.poster,
-    @required this.birthDate,
-    @required this.birthPlace,
+    required this.id,
+    required this.name,
+    required this.poster,
+    required this.birthDate,
+    required this.birthPlace,
   });
 
   factory Actor.fromSchema(ActorSchema schema) {

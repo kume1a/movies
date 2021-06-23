@@ -68,13 +68,13 @@ class VideoPlayer extends StatelessWidget {
 
 class Mp4Handler extends StatefulWidget {
   const Mp4Handler({
-    @required this.src,
-    @required this.settings,
-    @required this.startPosition,
-    @required this.languages,
-    @required this.qualities,
-    @required this.selectedLanguage,
-    @required this.selectedQuality,
+    required this.src,
+    required this.settings,
+    required this.startPosition,
+    required this.languages,
+    required this.qualities,
+    required this.selectedLanguage,
+    required this.selectedQuality,
   });
 
   final String src;
@@ -90,9 +90,9 @@ class Mp4Handler extends StatefulWidget {
 }
 
 class _Mp4HandlerState extends State<Mp4Handler> {
-  ChewieController _chewieController;
-  VideoPlayerController _videoPlayerController;
-  Timer _ticker;
+  ChewieController? _chewieController;
+  VideoPlayerController? _videoPlayerController;
+  Timer? _ticker;
 
   @override
   void initState() {
@@ -101,11 +101,11 @@ class _Mp4HandlerState extends State<Mp4Handler> {
     _initControllers();
 
     _ticker = Timer.periodic(const Duration(seconds: 4), (Timer timer) async {
-      if (_videoPlayerController != null &&
-          _chewieController != null &&
-          _chewieController.isPlaying) {
-        final Duration position = await _videoPlayerController.position;
-        context.read<StreamBloc>().add(StreamEvent.onPositionTick(position));
+      if (_videoPlayerController != null && _chewieController != null && _chewieController?.isPlaying == true) {
+        final Duration? position = await _videoPlayerController!.position;
+        if (position != null) {
+          context.read<StreamBloc>().add(StreamEvent.onPositionTick(position));
+        }
       }
     });
   }
@@ -124,7 +124,7 @@ class _Mp4HandlerState extends State<Mp4Handler> {
 
     _videoPlayerController = VideoPlayerController.network(widget.src);
     _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
+      videoPlayerController: _videoPlayerController!,
       autoInitialize: true,
       looping: true,
       autoPlay: widget.settings.autoPlayEnabled,
@@ -134,12 +134,10 @@ class _Mp4HandlerState extends State<Mp4Handler> {
         doubleTapToSeekValue: widget.settings.doubleTapToSeekValue,
         languages: widget.languages,
         qualities: widget.qualities,
-        onLanguageChanged: (Language value) => context
-            .read<StreamBloc>()
-            .add(StreamEvent.languageChanged(value ?? widget.selectedLanguage)),
-        onQualityChanged: (Quality value) => context
-            .read<StreamBloc>()
-            .add(StreamEvent.qualityChanged(value ?? widget.selectedQuality)),
+        onLanguageChanged: (Language? value) =>
+            context.read<StreamBloc>().add(StreamEvent.languageChanged(value ?? widget.selectedLanguage)),
+        onQualityChanged: (Quality? value) =>
+            context.read<StreamBloc>().add(StreamEvent.qualityChanged(value ?? widget.selectedQuality)),
         selectedQuality: widget.selectedQuality,
         selectedLanguage: widget.selectedLanguage,
       ),
@@ -156,15 +154,15 @@ class _Mp4HandlerState extends State<Mp4Handler> {
 
   @override
   Widget build(BuildContext context) {
-    return Chewie(controller: _chewieController);
+    return _chewieController != null ? Chewie(controller: _chewieController!) : const SizedBox.shrink();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _videoPlayerController.dispose();
-    _chewieController.dispose();
-    _ticker.cancel();
+    _videoPlayerController?.dispose();
+    _chewieController?.dispose();
+    _ticker?.cancel();
 
     Wakelock.disable();
   }

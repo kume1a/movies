@@ -13,7 +13,7 @@ import '../../../values/text_styles.dart';
 
 class EpisodeDrawer extends StatefulWidget {
   const EpisodeDrawer({
-    @required this.child,
+    required this.child,
     this.showEpisodes = true,
     this.showRecommended = true,
   });
@@ -37,10 +37,10 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   static const double vMinDragStartEdge = 120;
   static const double vMaxDragStartEdge = vMaxSlide - 16;
 
-  AnimationController _horizontalController;
+  late AnimationController _horizontalController;
   bool _canBeDraggedHorizontally = false;
 
-  AnimationController _verticalController;
+  late AnimationController _verticalController;
   bool _canBeDraggedVertically = false;
 
   bool _absorbing = false;
@@ -56,7 +56,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   }
 
   // ignore: missing_return
-  bool _canBeDragged(Axis axis, {bool set}) {
+  bool _canBeDragged(Axis axis, {bool? set}) {
     switch (axis) {
       case Axis.horizontal:
         _canBeDraggedHorizontally = set ?? _canBeDraggedHorizontally;
@@ -109,8 +109,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) => _onDragStart(details, Axis.horizontal),
-      onHorizontalDragUpdate: (DragUpdateDetails details) =>
-          _onDragUpdate(details, Axis.horizontal),
+      onHorizontalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, Axis.horizontal),
       onHorizontalDragEnd: (DragEndDetails details) => _onDragEnd(details, Axis.horizontal),
       onVerticalDragStart: (DragStartDetails details) => _onDragStart(details, Axis.vertical),
       onVerticalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, Axis.vertical),
@@ -128,7 +127,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(width: hMaxSlide),
                 child: AnimatedBuilder(
                   animation: _horizontalController,
-                  builder: (BuildContext context, Widget child) {
+                  builder: (BuildContext context, Widget? child) {
                     final double offset = _horizontalController.value;
                     final double x = (1 - offset) * hMaxSlide;
                     final double opacity = offset <= .1 ? offset * 10 : 1;
@@ -151,7 +150,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 constraints: const BoxConstraints.expand(height: vMaxSlide),
                 child: AnimatedBuilder(
                   animation: _verticalController,
-                  builder: (BuildContext context, Widget child) {
+                  builder: (BuildContext context, Widget? child) {
                     final double y = (1 - _verticalController.value) * vMaxSlide;
                     return Transform.translate(
                       offset: Offset(0, y),
@@ -185,12 +184,11 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
         ? details.globalPosition.dx < size.width - hMaxDragStartEdge
         : details.globalPosition.dy < size.height - vMaxDragStartEdge;
 
-    final bool otherClosed = axis == Axis.horizontal
-        ? _verticalController.isDismissed
-        : _horizontalController.isDismissed;
+    final bool otherClosed =
+        axis == Axis.horizontal ? _verticalController.isDismissed : _horizontalController.isDismissed;
 
-    final bool canBeDragged = (controller.isDismissed && validOpenPosition && otherClosed) ||
-        (controller.isCompleted && validClosePosition);
+    final bool canBeDragged =
+        (controller.isDismissed && validOpenPosition && otherClosed) || (controller.isCompleted && validClosePosition);
 
     _absorbing = canBeDragged;
     _canBeDragged(axis, set: canBeDragged);
@@ -201,7 +199,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
 
     if (_canBeDragged(axis)) {
       final double maxSlide = axis == Axis.vertical ? vMaxSlide : hMaxSlide;
-      final double delta = details.primaryDelta / maxSlide;
+      final double delta = (details.primaryDelta ?? 0) / maxSlide;
       _getController(axis).value -= delta;
     }
   }
@@ -213,12 +211,10 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
 
     if (controller.isDismissed || controller.isCompleted) return;
 
-    final double size = axis == Axis.horizontal
-        ? MediaQuery.of(context).size.width
-        : MediaQuery.of(context).size.height;
-    final double pixelsPerSec = axis == Axis.horizontal
-        ? details.velocity.pixelsPerSecond.dx
-        : details.velocity.pixelsPerSecond.dy;
+    final double size =
+        axis == Axis.horizontal ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.height;
+    final double pixelsPerSec =
+        axis == Axis.horizontal ? details.velocity.pixelsPerSecond.dx : details.velocity.pixelsPerSecond.dy;
 
     if (pixelsPerSec >= minFlingVelocity) {
       final double visualVelocity = pixelsPerSec / size;
@@ -244,7 +240,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   static const Color backgroundColor = Colors.black26;
   static final Color activeColor = Colors.white.withOpacity(.15);
 
-  PageController _pageController;
+  late PageController _pageController;
 
   @override
   void initState() {
@@ -346,10 +342,10 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }
 
   Widget _buildEpisodeList({
-    @required SeasonFiles seasonFiles,
-    @required int episode,
-    @required int episodeSeason,
-    @required int season,
+    required SeasonFiles seasonFiles,
+    required int episode,
+    required int episodeSeason,
+    required int season,
   }) {
     return Column(
       children: <Widget>[
@@ -392,10 +388,10 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }
 
   Widget _buildItem({
-    @required BuildContext context,
-    @required int index,
-    @required Episode episode,
-    @required bool isSelected,
+    required BuildContext context,
+    required int index,
+    required Episode episode,
+    required bool isSelected,
   }) {
     return GestureDetector(
       onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(episode.episode)),
@@ -438,7 +434,9 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 }
 
 class DrawerRecommendedList extends StatelessWidget {
-  const DrawerRecommendedList({this.onItemTap});
+  const DrawerRecommendedList({
+    required this.onItemTap,
+  });
 
   static const double imageWidth = 225;
   static const double imageHeight = imageWidth / 16 * 9;
@@ -449,8 +447,7 @@ class DrawerRecommendedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) =>
-          !prev.relatedOption.equals(curr.relatedOption),
+      buildWhen: (StreamState prev, StreamState curr) => !prev.relatedOption.equals(curr.relatedOption),
       builder: (BuildContext context, StreamState state) {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -469,7 +466,7 @@ class DrawerRecommendedList extends StatelessWidget {
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () {
-        onItemTap?.call();
+        onItemTap.call();
         context.read<StreamBloc>()
           ..add(StreamEvent.movieChanged(movie.movieId))
           ..add(const StreamEvent.seasonChanged(1))
@@ -482,7 +479,7 @@ class DrawerRecommendedList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeImage(
-              imageUrl: movie.availableImage,
+              imageUrl: movie.availableImage ?? '',
               radius: radius,
               width: imageWidth,
               height: imageHeight,

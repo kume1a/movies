@@ -1,15 +1,16 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
-extension TextUtilsStringExtension on String {
+import '../../data/model/core/option.dart';
+
+extension TextUtilsStringExtension on String? {
   /// Returns true if string is:
   /// - null
   /// - empty
   /// - whitespace string.
-  bool get isNullEmptyOrWhitespace => this == null || isEmpty || trim().isEmpty;
+  bool get isNullEmptyOrWhitespace => this == null || this?.isEmpty == true || this?.trim().isEmpty == true;
 }
 
-extension GeneralUtilsObjectExtension on Object {
+extension GeneralUtilsObjectExtension on Object? {
   /// Returns true if object is:
   /// - null `Object`
   bool get isNull => this == null;

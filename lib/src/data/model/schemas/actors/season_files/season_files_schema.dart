@@ -11,7 +11,7 @@ class SeasonFilesSchema {
   factory SeasonFilesSchema.fromJson(Map<String, dynamic> json) =>
       _$SeasonFilesSchemaFromJson(json);
 
-  final List<SeasonFilesDataSchema> data;
+  final List<SeasonFilesDataSchema>? data;
 }
 
 @JsonSerializable(createToJson: false)
@@ -30,17 +30,17 @@ class SeasonFilesDataSchema {
   factory SeasonFilesDataSchema.fromJson(Map<String, dynamic> json) =>
       _$SeasonFilesDataSchemaFromJson(json);
 
-  final int episode;
+  final int? episode;
 
   @JsonKey(name: 'episodes_include')
-  final String episodesInclude;
+  final String? episodesInclude;
 
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final dynamic rating;
-  final String poster;
-  final CoversSchema covers;
-  final List<FilesSchema> files;
+  final String? poster;
+  final CoversSchema? covers;
+  final List<FilesSchema>? files;
 }
 
 @JsonSerializable(createToJson: false)
@@ -49,8 +49,8 @@ class FilesSchema {
 
   factory FilesSchema.fromJson(Map<String, dynamic> json) => _$FilesSchemaFromJson(json);
 
-  final String lang;
-  final List<FileSchema> files;
+  final String? lang;
+  final List<FileSchema>? files;
 }
 
 @JsonSerializable(createToJson: false)
@@ -59,11 +59,11 @@ class FileSchema {
 
   factory FileSchema.fromJson(Map<String, dynamic> json) => _$FileSchemaFromJson(json);
 
-  final int id;
-  final String quality;
-  final String src;
-  final int duration;
-  final List<ThumbnailSchema> thumbnails;
+  final int? id;
+  final String? quality;
+  final String? src;
+  final int? duration;
+  final List<ThumbnailSchema>? thumbnails;
 }
 
 @JsonSerializable(createToJson: false)
@@ -82,15 +82,15 @@ class ThumbnailSchema {
 
   factory ThumbnailSchema.fromJson(Map<String, dynamic> json) => _$ThumbnailSchemaFromJson(json);
 
-  final int id;
-  final String url;
+  final int? id;
+  final String? url;
   @JsonKey(name: 'start_time')
-  final int startTime;
+  final int? startTime;
   @JsonKey(name: 'end_time')
-  final int endTime;
-  final int duration;
-  final int interval;
-  final int width;
-  final int height;
-  final int columns;
+  final int? endTime;
+  final int? duration;
+  final int? interval;
+  final int? width;
+  final int? height;
+  final int? columns;
 }

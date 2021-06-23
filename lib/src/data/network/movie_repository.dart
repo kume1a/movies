@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 
 import '../local/movies/movie_dao.dart';
+import '../model/core/option.dart';
 import '../model/schemas/actors/actors_model.dart';
 import '../model/schemas/actors/season_files/season_files_model.dart';
 import '../model/schemas/core/enums.dart';
@@ -68,9 +67,9 @@ class MovieRepository implements IMovieRepository {
   }
 
   Future<Option<T>> fetchAndCache<T>({
-    @required Future<Option<T>> Function() localFetcher,
-    @required Future<Option<T>> Function() remoteFetcher,
-    @required Future<void> Function(T t) cacheWriter,
+    required Future<Option<T>> Function() localFetcher,
+    required Future<Option<T>> Function() remoteFetcher,
+    required Future<void> Function(T t) cacheWriter,
   }) async {
     final Option<T> localOption = await localFetcher.call();
     return await localOption.fold(

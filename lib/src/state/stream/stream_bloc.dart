@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -13,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../data/local/movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/schemas/actors/season_files/season_files_model.dart';
 import '../../data/model/schemas/core/enums.dart';
@@ -90,7 +90,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
     final Option<SeasonFiles> seasonFilesOption = await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
 
-    yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season ?? 1);
+    yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season);
   }
 
   Stream<StreamState> _onEpisodeChanged(_EpisodeChanged e) async* {
@@ -104,29 +104,29 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty
+        final Episode? episode = a.data.isNotEmpty
             ? a.data.firstWhere(
                 (Episode element) => element.episode == e.episode,
                 orElse: () => a.data.first,
               )
             : null;
 
-        final List<Language> episodeLanguages = episode?.episodes?.keys?.toList() ?? <Language>[];
+        final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
         if (!listEquals(languages, episodeLanguages)) {
           languages = episodeLanguages;
-          selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng);
+          selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng) ?? Language.eng;
 
           final List<Quality> episodeQualities =
-              episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality)?.toList() ?? <Quality>[];
+              episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
 
           if (!listEquals(qualities, episodeQualities)) {
             qualities = episodeQualities;
-            selectedQuality = getPreferredOrElse<Quality>(qualities, Quality.high);
+            selectedQuality = getPreferredOrElse<Quality>(qualities, Quality.high) ?? Quality.high;
           }
         }
 
         srcOption = optionOf(
-            episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality)?.src);
+            episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src);
       },
     );
 
@@ -148,7 +148,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty
+        final Episode? episode = a.data.isNotEmpty
             ? a.data.firstWhere(
                 (Episode element) => element.episode == state.episode,
                 orElse: () => a.data.first,
@@ -156,7 +156,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             : null;
 
         srcOption = optionOf(
-            episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality)?.src);
+            episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality).src);
       },
     );
 
@@ -172,7 +172,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     state.seasonFilesOption.foldSome(
       (SeasonFiles a) {
-        final Episode episode = a.data.isNotEmpty
+        final Episode? episode = a.data.isNotEmpty
             ? a.data.firstWhere(
                 (Episode element) => element.episode == state.episode,
                 orElse: () => a.data.first,
@@ -180,7 +180,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             : null;
 
         srcOption = optionOf(
-            episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality)?.src);
+            episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality).src);
       },
     );
 
@@ -244,15 +244,17 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       final MovieData movieData = state.movie.getOrElse(() => throw Exception()); // ignored
       final String fileName = '${movieData.name}__${DateTime.now().millisecondsSinceEpoch}.mp4';
 
-      final Directory externalDir = await getExternalStorageDirectory();
+      final Directory? externalDir = await getExternalStorageDirectory();
 
-      yield state.copyWith(shouldShowDownloadStartedMessage: true);
+      if (externalDir != null) {
+        yield state.copyWith(shouldShowDownloadStartedMessage: true);
 
-      await FlutterDownloader.enqueue(
-        url: videoSrcUrl,
-        savedDir: externalDir.path,
-        fileName: fileName,
-      );
+        await FlutterDownloader.enqueue(
+          url: videoSrcUrl,
+          savedDir: externalDir.path,
+          fileName: fileName,
+        );
+      }
     }
   }
 

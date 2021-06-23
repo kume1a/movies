@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 
 import '../model/schemas/movie/movie_data_model.dart';
 import 'hive_box_holder.dart';
@@ -14,7 +13,7 @@ class CacheCleanDate {
   @HiveField(0)
   final String _dateString;
 
-  DateTime get dateTime => DateTime.tryParse(_dateString);
+  DateTime get dateTime => DateTime.parse(_dateString);
 
   @override
   String toString() => 'LaunchTimestamp{_dateString: $_dateString}';
@@ -52,11 +51,11 @@ class CacheManager {
   }
 
   Future<void> _configure({
-    @required String key,
-    @required int cacheDeadlineInDays,
-    @required Future<void> Function() onClean,
+    required String key,
+    required int cacheDeadlineInDays,
+    required Future<void> Function() onClean,
   }) async {
-    final CacheCleanDate cacheCleanDate = _boxHolder.cacheCleanDate.get(key);
+    final CacheCleanDate? cacheCleanDate = _boxHolder.cacheCleanDate.get(key);
     final DateTime now = DateTime.now();
 
     if (cacheCleanDate == null) {

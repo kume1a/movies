@@ -1,6 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../model/core/option.dart';
 import '../../model/schemas/actors/season_files/season_files_model.dart';
 import '../../model/schemas/movie/movie_data_model.dart';
 import '../hive_box_holder.dart';

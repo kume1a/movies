@@ -8,8 +8,8 @@ class ActorsSchema {
 
   factory ActorsSchema.fromJson(Map<String, dynamic> json) => _$ActorsSchemaFromJson(json);
 
-  final List<ActorSchema> data;
-  final MetaSchema meta;
+  final List<ActorSchema>? data;
+  final MetaSchema? meta;
 }
 
 @JsonSerializable(createToJson: false)
@@ -32,19 +32,19 @@ class ActorSchema {
 
   factory ActorSchema.fromJson(Map<String, dynamic> json) => _$ActorSchemaFromJson(json);
 
-  final int id;
-  final String originalName;
-  final String primaryName;
-  final String secondaryName;
-  final String tertiaryName;
-  final String poster;
-  final String birthDate;
-  final String birthPlace;
-  final String deathDate;
-  final String deathPlace;
-  final int height;
-  final String slogan;
-  final String zodiacSign;
+  final int? id;
+  final String? originalName;
+  final String? primaryName;
+  final String? secondaryName;
+  final String? tertiaryName;
+  final String? poster;
+  final String? birthDate;
+  final String? birthPlace;
+  final String? deathDate;
+  final String? deathPlace;
+  final int? height;
+  final String? slogan;
+  final String? zodiacSign;
 }
 
 @JsonSerializable(createToJson: false)
@@ -53,7 +53,7 @@ class MetaSchema {
 
   factory MetaSchema.fromJson(Map<String, dynamic> json) => _$MetaSchemaFromJson(json);
 
-  final PaginationSchema pagination;
+  final PaginationSchema? pagination;
 }
 
 @JsonSerializable(createToJson: false)
@@ -69,18 +69,18 @@ class PaginationSchema {
 
   factory PaginationSchema.fromJson(Map<String, dynamic> json) => _$PaginationSchemaFromJson(json);
 
-  final int total;
-  final int count;
+  final int? total;
+  final int? count;
 
   @JsonKey(name: 'per_page')
-  final int perPage;
+  final int? perPage;
 
   @JsonKey(name: 'current_page')
-  final int currentPage;
+  final int? currentPage;
 
   @JsonKey(name: 'total_pages')
-  final int totalPages;
-  final LinksSchema links;
+  final int? totalPages;
+  final LinksSchema? links;
 }
 
 @JsonSerializable(createToJson: false)
@@ -89,6 +89,6 @@ class LinksSchema {
 
   factory LinksSchema.fromJson(Map<String, dynamic> json) => _$LinksSchemaFromJson(json);
 
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
 }

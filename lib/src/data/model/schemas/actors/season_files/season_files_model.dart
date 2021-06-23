@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../local/hive_box_holder.dart';
 import '../../core/enums.dart';
@@ -13,13 +12,8 @@ class SeasonFiles {
   SeasonFiles(this.season, this.data);
 
   factory SeasonFiles.fromSchema(int season, SeasonFilesSchema schema) {
-    final List<Episode> episodes = schema.data
-        .map((SeasonFilesDataSchema elementSchema) {
-          if (elementSchema == null) return null;
-          return Episode.fromSchema(elementSchema);
-        })
-        .where((Episode episode) => episode != null)
-        .toList();
+    final List<Episode> episodes =
+        schema.data?.map((SeasonFilesDataSchema e) => Episode.fromSchema(e)).toList() ?? List<Episode>.empty();
 
     return SeasonFiles(season, episodes.cast<Episode>());
   }
@@ -37,13 +31,13 @@ class SeasonFiles {
 @HiveType(typeId: HiveTypeIdHolder.episodeId)
 class Episode {
   Episode({
-    @required this.episode,
-    @required this.title,
-    @required this.description,
-    @required this.rating,
-    @required this.poster,
-    @required this.covers,
-    @required this.episodes,
+    required this.episode,
+    required this.title,
+    required this.description,
+    required this.rating,
+    required this.poster,
+    required this.covers,
+    required this.episodes,
   });
 
   factory Episode.fromSchema(SeasonFilesDataSchema schema) {
@@ -54,10 +48,10 @@ class Episode {
     };
 
     final Map<Language, List<EpisodeFile>> episodes = <Language, List<EpisodeFile>>{
-      for (FilesSchema e in schema.files)
-        getLanguage(e?.lang):
-            e?.files?.map((FileSchema file) => EpisodeFile.fromSchema(file))?.toList() ??
-                List<EpisodeFile>.empty()
+      if (schema.files != null)
+        for (FilesSchema e in schema.files!)
+          getLanguage(e.lang):
+              e.files?.map((FileSchema file) => EpisodeFile.fromSchema(file)).toList() ?? List<EpisodeFile>.empty()
     };
 
     return Episode(
@@ -109,26 +103,19 @@ class Episode {
           poster == other.poster;
 
   @override
-  int get hashCode =>
-      episode.hashCode ^
-      title.hashCode ^
-      description.hashCode ^
-      rating.hashCode ^
-      poster.hashCode;
+  int get hashCode => episode.hashCode ^ title.hashCode ^ description.hashCode ^ rating.hashCode ^ poster.hashCode;
 }
 
 @HiveType(typeId: HiveTypeIdHolder.episodeFileId)
 class EpisodeFile {
   EpisodeFile({
-    @required this.id,
-    @required this.quality,
-    @required this.src,
-    @required this.duration,
+    required this.id,
+    required this.quality,
+    required this.src,
+    required this.duration,
   });
 
   factory EpisodeFile.fromSchema(FileSchema schema) {
-    if (schema == null) return EpisodeFile.empty();
-
     return EpisodeFile(
       id: schema.id ?? 0,
       quality: getQuality(schema.quality),

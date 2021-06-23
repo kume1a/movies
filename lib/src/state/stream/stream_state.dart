@@ -17,8 +17,8 @@ abstract class StreamState with _$StreamState {
       Language language,
       List<Language> availableLanguages,
       List<Quality> availableQualities,
-      {@required bool shouldShowPermissionDeniedMessage,
-      @required bool shouldShowDownloadStartedMessage}) = _StreamState;
+      {required bool shouldShowPermissionDeniedMessage,
+      required bool shouldShowDownloadStartedMessage}) = _StreamState;
 
   factory StreamState.initial() => StreamState(
         StreamSettings.initial(),
@@ -42,9 +42,9 @@ abstract class StreamState with _$StreamState {
 
 class StreamSettings {
   const StreamSettings({
-    @required this.autoPlayEnabled,
-    @required this.recordWatchHistoryEnabled,
-    @required this.doubleTapToSeekValue,
+    required this.autoPlayEnabled,
+    required this.recordWatchHistoryEnabled,
+    required this.doubleTapToSeekValue,
   });
 
   factory StreamSettings.initial() => const StreamSettings(

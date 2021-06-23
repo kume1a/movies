@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorites/favorites_dao.dart';
 import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/schemas/actors/actors_model.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
@@ -29,7 +29,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   final FavoritesDao _favoritesManager;
   final SavedMovieDao _savedMoviesManager;
 
-  final int movieId;
+  final int? movieId;
 
   int _actorsPage = 1;
   bool _fetchingActors = false;
@@ -42,18 +42,18 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
     yield* event.map(
       init: (_Init event) async* {
-        final bool isFavorite = await _favoritesManager.getMovieFavoriteStatus(movieId);
+        final bool isFavorite = await _favoritesManager.getMovieFavoriteStatus(movieId!);
         yield state.copyWith(favorite: isFavorite);
       },
       movieFetchRequested: (_) async* {
-        final Option<MovieData> movieOption = await _repository.fetchMovie(movieId);
+        final Option<MovieData> movieOption = await _repository.fetchMovie(movieId!);
         yield state.copyWith(movieOption: movieOption);
       },
       castPageFetchRequested: (_) async* {
         if (!_fetchingActors) {
           _fetchingActors = true;
 
-          final Option<Actors> actorsOption = await _repository.fetchActors(movieId, _actorsPage);
+          final Option<Actors> actorsOption = await _repository.fetchActors(movieId!, _actorsPage);
           state.actorsOption.fold(
             () => actorsOption,
             (Actors prev) {
@@ -73,10 +73,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         final bool toggled = !state.favorite;
 
         yield state.copyWith(favorite: toggled);
-        _favoritesManager.updateMovieFavoriteStatus(movieId, isFavorite: toggled);
+        _favoritesManager.updateMovieFavoriteStatus(movieId!, isFavorite: toggled);
       },
       isSavedMovieRequested: (_IsSavedMovieRequested value) async* {
-        final Option<MoviePosition> moviePositionOption = await _savedMoviesManager.getSavedMovie(movieId);
+        final Option<MoviePosition> moviePositionOption = await _savedMoviesManager.getSavedMovie(movieId!);
         yield state.copyWith(moviePositionOption: moviePositionOption);
       },
     );

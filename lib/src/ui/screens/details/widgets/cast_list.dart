@@ -1,7 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/model/core/option.dart';
 import '../../../../data/model/schemas/actors/actors_model.dart';
 import '../../../../state/details/details_bloc.dart';
 import '../../../core/widgets/blank_container.dart';
@@ -37,8 +37,6 @@ class CastList extends StatelessWidget {
         length = actors.actors.length;
       },
     );
-
-    if (length == null) return const SizedBox.shrink();
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,

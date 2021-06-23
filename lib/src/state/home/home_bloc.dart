@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/models/movies/saved_movies.dart';
 import '../../data/model/schemas/core/enums.dart';
@@ -22,18 +22,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
     this._repository,
     this._savedMoviesManager,
-  ) : super(HomeState.initial()) {
-    _initFetchStates();
-  }
+  ) : super(HomeState.initial());
 
   final IMovieRepository _repository;
   final SavedMovieDao _savedMoviesManager;
 
-  int _topMoviesPage;
-  int _moviesPage;
+  int _topMoviesPage = 1;
+  int _moviesPage = 1;
 
-  bool _fetchingTopMovies;
-  bool _fetchingMovies;
+  bool _fetchingTopMovies = false;
+  bool _fetchingMovies = false;
 
   void _initFetchStates() {
     _topMoviesPage = 1;

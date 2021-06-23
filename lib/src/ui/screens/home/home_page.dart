@@ -36,7 +36,7 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   @override
   void initState() {

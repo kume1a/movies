@@ -6,7 +6,7 @@ import 'blank_container.dart';
 
 class SafeImage extends StatelessWidget {
   const SafeImage({
-    @required this.imageUrl,
+    required this.imageUrl,
     this.width = 0,
     this.height = 0,
     this.defaultAssetPath,
@@ -14,8 +14,8 @@ class SafeImage extends StatelessWidget {
     this.blankColor = colorPreview,
   });
 
-  final String imageUrl;
-  final String defaultAssetPath;
+  final String? imageUrl;
+  final String? defaultAssetPath;
   final double width;
   final double height;
   final double radius;
@@ -23,15 +23,15 @@ class SafeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl.isNullEmptyOrWhitespace) {
+    if (imageUrl == null || imageUrl!.isNullEmptyOrWhitespace) {
       if (defaultAssetPath != null) {
-        return _image(AssetImage(defaultAssetPath));
+        return _image(AssetImage(defaultAssetPath!));
       }
 
       return _blankContainer();
     }
 
-    return _image(NetworkImage(imageUrl));
+    return _image(NetworkImage(imageUrl!));
   }
 
   Widget _image(ImageProvider imageProvider) {

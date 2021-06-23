@@ -3,7 +3,7 @@ import 'package:rive/rive.dart';
 
 class RiveContainer extends StatelessWidget {
   const RiveContainer({
-    @required this.artboard,
+    required this.artboard,
     this.width = 24,
     this.height = 24,
   });
@@ -14,12 +14,10 @@ class RiveContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return artboard != null
-        ? SizedBox(
-            width: width,
-            height: height,
-            child: Rive(artboard: artboard),
-          )
-        : const SizedBox.shrink();
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Rive(artboard: artboard),
+    );
   }
 }

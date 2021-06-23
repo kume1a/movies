@@ -1,14 +1,12 @@
-import 'package:meta/meta.dart';
-
 class DetailsPageArgs {
-  DetailsPageArgs({@required this.movieId});
+  DetailsPageArgs({required this.movieId});
 
   final int movieId;
 }
 
 class StreamPageArgs {
   const StreamPageArgs({
-    @required this.movieId,
+    required this.movieId,
     this.season = 1,
     this.episode = 1,
     this.startAt = const Duration(),

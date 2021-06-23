@@ -1,20 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/local/history/search_history_dao.dart';
 import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/core/option.dart';
 import '../../data/model/schemas/search/search_results_model.dart';
 import '../../data/network/i_movie_repository.dart';
 
 part 'search_bloc.freezed.dart';
-
 part 'search_event.dart';
-
 part 'search_state.dart';
 
 @injectable

@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 import '../../model/schemas/movie/movie_data_model.dart';
 
 import '../hive_box_holder.dart';
@@ -21,18 +20,18 @@ class SettingsManagerImpl implements SettingsManager {
 
   // ---- theme ----
   @override
-  Future<void> setNightModeEnabled({@required bool enabled}) async {
+  Future<void> setNightModeEnabled({required bool enabled}) async {
     _boxHolder.enabledOptions.put(_Setting.nightMode.index, enabled);
   }
 
   @override
   Future<bool> isNightModeEnabled() async {
-    return _boxHolder.enabledOptions.get(_Setting.nightMode.index, defaultValue: true);
+    return _boxHolder.enabledOptions.get(_Setting.nightMode.index) ?? true;
   }
 
   // ---- video player ----
   @override
-  Future<void> setAutoPlayEnabled({@required bool enabled}) async {
+  Future<void> setAutoPlayEnabled({required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.autoPlay.index, enabled);
   }
 
@@ -43,12 +42,12 @@ class SettingsManagerImpl implements SettingsManager {
 
   @override
   Future<bool> isAutoPlayEnabled() async {
-    return _boxHolder.enabledOptions.get(_Setting.autoPlay.index, defaultValue: false);
+    return _boxHolder.enabledOptions.get(_Setting.autoPlay.index, defaultValue: false) ?? false;
   }
 
   @override
   Future<int> getDoubleTapToSeekValue() async {
-    return _boxHolder.valueOptions.get(_Setting.doubleTapToSeek.index, defaultValue: 10);
+    return _boxHolder.valueOptions.get(_Setting.doubleTapToSeek.index, defaultValue: 10) ?? 10;
   }
 
   // ---- history ----
@@ -70,22 +69,22 @@ class SettingsManagerImpl implements SettingsManager {
   }
 
   @override
-  Future<void> setRecordingSearchHistoryEnabled({@required bool enabled}) async {
+  Future<void> setRecordingSearchHistoryEnabled({required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.searchHistoryRecording.index, enabled);
   }
 
   @override
-  Future<void> setRecordingWatchHistoryEnabled({@required bool enabled}) async {
+  Future<void> setRecordingWatchHistoryEnabled({required bool enabled}) async {
     await _boxHolder.enabledOptions.put(_Setting.watchHistoryRecording.index, enabled);
   }
 
   @override
   Future<bool> isRecordSearchHistoryEnabled() async {
-    return _boxHolder.enabledOptions.get(_Setting.searchHistoryRecording.index, defaultValue: true);
+    return _boxHolder.enabledOptions.get(_Setting.searchHistoryRecording.index) ?? true;
   }
 
   @override
   Future<bool> isRecordWatchHistoryEnabled() async {
-    return _boxHolder.enabledOptions.get(_Setting.watchHistoryRecording.index, defaultValue: true);
+    return _boxHolder.enabledOptions.get(_Setting.watchHistoryRecording.index) ?? true;
   }
 }

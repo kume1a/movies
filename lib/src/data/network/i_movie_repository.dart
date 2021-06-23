@@ -1,5 +1,4 @@
-import 'package:dartz/dartz.dart';
-
+import '../model/core/option.dart';
 import '../model/schemas/actors/actors_model.dart';
 import '../model/schemas/actors/season_files/season_files_model.dart';
 import '../model/schemas/core/enums.dart';

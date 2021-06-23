@@ -12,10 +12,10 @@ import '../../../values/text_styles.dart';
 
 class ImageHeader implements SliverPersistentHeaderDelegate {
   const ImageHeader({
-    @required this.minExtent,
-    @required this.maxExtent,
-    @required this.src,
-    @required this.onBackPressed,
+    required this.minExtent,
+    required this.maxExtent,
+    required this.src,
+    required this.onBackPressed,
     this.onPlayPressed,
   });
 
@@ -27,7 +27,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
 
   final String src;
   final VoidCallback onBackPressed;
-  final VoidCallback onPlayPressed;
+  final VoidCallback? onPlayPressed;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -101,16 +101,16 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   bool shouldRebuild(SliverPersistentHeaderDelegate _) => true;
 
   @override
-  PersistentHeaderShowOnScreenConfiguration get showOnScreenConfiguration => null;
+  PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration => null;
 
   @override
-  FloatingHeaderSnapConfiguration get snapConfiguration => null;
+  FloatingHeaderSnapConfiguration? get snapConfiguration => null;
 
   @override
-  OverScrollHeaderStretchConfiguration get stretchConfiguration => null;
+  OverScrollHeaderStretchConfiguration? get stretchConfiguration => null;
 
   @override
-  TickerProvider get vsync => null;
+  TickerProvider? get vsync => null;
 }
 
 class FavoriteButton extends StatelessWidget {

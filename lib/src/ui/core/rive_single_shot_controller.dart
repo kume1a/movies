@@ -1,12 +1,12 @@
 import 'package:rive/rive.dart';
+
 // ignore: implementation_imports
 import 'package:rive/src/rive_core/animation/animation.dart';
 
 class SingleShotController extends RiveAnimationController<RuntimeArtboard> {
-  SingleShotController(this.animationName, {double mix, this.speed = 1})
-      : _mix = mix?.clamp(0, 1)?.toDouble() ?? 1.0;
+  SingleShotController(this.animationName, {double? mix, this.speed = 1}) : _mix = mix?.clamp(0, 1).toDouble() ?? 1.0;
 
-  LinearAnimationInstance _instance;
+  LinearAnimationInstance? _instance;
   final String animationName;
   final double speed;
 
@@ -15,27 +15,29 @@ class SingleShotController extends RiveAnimationController<RuntimeArtboard> {
 
   double get mix => _mix;
 
-  set mix(double value) => _mix = value?.clamp(0, 1)?.toDouble() ?? 1;
+  set mix(double value) => _mix = value.clamp(0, 1).toDouble();
 
-  LinearAnimationInstance get instance => _instance;
+  LinearAnimationInstance? get instance => _instance;
 
   @override
   bool init(RuntimeArtboard artboard) {
-    final Animation animation = artboard.animations.firstWhere(
-      (Animation animation) => animation is LinearAnimation && animation.name == animationName,
-      orElse: () => null,
-    );
+    Animation? animation;
+    for (final Animation a in artboard.animations) {
+      if (a is LinearAnimation && a.name == animationName) {
+        animation = a;
+      }
+    }
     if (animation != null) {
       _instance = LinearAnimationInstance(animation as LinearAnimation);
     }
-    _instance.animation.speed = speed;
+    _instance?.animation.speed = speed;
     return _instance != null;
   }
 
   @override
   void apply(RuntimeArtboard artboard, double elapsedSeconds) {
-    _instance.animation.apply(_instance.time, coreContext: artboard, mix: mix);
-    if (!_instance.advance(elapsedSeconds)) {
+    _instance?.animation.apply(_instance?.time ?? 0, coreContext: artboard, mix: mix);
+    if (_instance != null && !_instance!.advance(elapsedSeconds)) {
       isActive = false;
     }
   }
@@ -43,7 +45,7 @@ class SingleShotController extends RiveAnimationController<RuntimeArtboard> {
   void run() {
     if (isActive) return;
 
-    instance.time = 0;
+    instance?.time = 0;
     isActive = true;
   }
 }

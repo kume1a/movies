@@ -1,5 +1,4 @@
-import 'package:dartz/dartz.dart';
-
+import '../../model/core/option.dart';
 import '../../model/models/movies/movie_position.dart';
 
 abstract class SavedMovieDao {

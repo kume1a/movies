@@ -4,8 +4,8 @@ import '../../values/colors.dart';
 
 class BlankContainer extends StatelessWidget {
   const BlankContainer({
-    @required this.width,
-    @required this.height,
+    required this.width,
+    required this.height,
     this.radius = 0,
     this.color = colorPreview,
   });

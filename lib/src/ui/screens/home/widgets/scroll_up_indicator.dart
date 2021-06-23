@@ -5,9 +5,9 @@ import '../../../values/constants.dart';
 
 class ScrollUpRefreshIndicators extends StatefulWidget {
   const ScrollUpRefreshIndicators({
-    @required this.child,
-    @required this.onRefresh,
-    @required this.onScrollToUpPressed,
+    required this.child,
+    required this.onRefresh,
+    required this.onScrollToUpPressed,
   });
 
   final Widget child;
@@ -48,7 +48,7 @@ class _ScrollUpRefreshIndicatorsState extends State<ScrollUpRefreshIndicators>
             tween: Tween<double>(begin: _active ? 0 : 20, end: _active ? 20 : 0),
             duration: shortAnimDuration,
             curve: Curves.easeIn,
-            builder: (BuildContext context, double value, Widget child) {
+            builder: (BuildContext context, double value, Widget? child) {
               final double progress = value / 20;
               return Transform.translate(
                 offset: Offset(0, value),

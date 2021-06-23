@@ -53,5 +53,4 @@ String getGenre(Genre genre) {
     case Genre.anime:
       return 'Anime';
   }
-  return '';
 }

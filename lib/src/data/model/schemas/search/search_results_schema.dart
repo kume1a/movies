@@ -14,8 +14,8 @@ class SearchResultsSchema {
   factory SearchResultsSchema.fromJson(Map<String, dynamic> json) =>
       _$SearchResultsSchemaFromJson(json);
 
-  final List<SearchResultSchema> data;
-  final MetaSchema meta;
+  final List<SearchResultSchema>? data;
+  final MetaSchema? meta;
 }
 
 @JsonSerializable(createToJson: false)
@@ -44,22 +44,22 @@ class SearchResultSchema {
   factory SearchResultSchema.fromJson(Map<String, dynamic> json) =>
       _$SearchResultSchemaFromJson(json);
 
-  final int id;
-  final String type;
-  final int adjaraId;
-  final String originalName;
-  final String primaryName;
-  final String secondaryName;
-  final String tertiaryName;
-  final String primaryDescription;
-  final String secondaryDescription;
-  final String tertiaryDescription;
-  final String poster;
-  final bool isTvShow;
-  final bool isAdult;
-  final int year;
-  final double weight;
-  final RatingSchema rating;
-  final PostersSchema posters;
-  final CoverSchema covers;
+  final int? id;
+  final String? type;
+  final int? adjaraId;
+  final String? originalName;
+  final String? primaryName;
+  final String? secondaryName;
+  final String? tertiaryName;
+  final String? primaryDescription;
+  final String? secondaryDescription;
+  final String? tertiaryDescription;
+  final String? poster;
+  final bool? isTvShow;
+  final bool? isAdult;
+  final int? year;
+  final double? weight;
+  final RatingSchema? rating;
+  final PostersSchema? posters;
+  final CoverSchema? covers;
 }

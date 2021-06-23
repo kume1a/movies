@@ -207,8 +207,8 @@ class SettingsPageContent extends StatelessWidget {
       return RadioListTile<int>(
         title: Text('$e sec'),
         value: e,
-        onChanged: (int value) {
-          if (value != currentValue) {
+        onChanged: (int? value) {
+          if (value != null && value != currentValue) {
             context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(value));
           }
           Navigator.pop(context);

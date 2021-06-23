@@ -13,7 +13,7 @@ const String fre = 'FRE';
 const String movie = 'movie';
 const String person = 'person';
 
-Quality getQuality(String quality) {
+Quality getQuality(String? quality) {
   switch (quality) {
     case medium:
       return Quality.medium;
@@ -23,7 +23,7 @@ Quality getQuality(String quality) {
   return Quality.high;
 }
 
-Language getLanguage(String language) {
+Language getLanguage(String? language) {
   switch (language) {
     case geo:
       return Language.geo;
@@ -39,7 +39,7 @@ Language getLanguage(String language) {
   return Language.eng;
 }
 
-SearchType getSearchType(String type) {
+SearchType getSearchType(String? type) {
   switch (type) {
     case movie:
       return SearchType.movie;

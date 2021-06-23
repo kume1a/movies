@@ -1,7 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/model/core/option.dart';
 import '../../../../data/model/schemas/core/enums.dart';
 import '../../../../data/model/schemas/movie/movie_data_model.dart';
 import '../../../../data/model/schemas/movies/movies_model.dart';
@@ -63,7 +63,7 @@ class PopularMoviesList extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: _aspectRatio,
               child: SafeImage(
-                imageUrl: movie.covers[ImageSize.large],
+                imageUrl: movie.covers[ImageSize.large] ?? '',
                 radius: _radius,
               ),
             ),

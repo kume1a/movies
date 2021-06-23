@@ -1,6 +1,6 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../model/core/option.dart';
 import '../../model/models/movies/movie_position.dart';
 import '../hive_box_holder.dart';
 import 'saved_movie_dao.dart';
@@ -18,7 +18,7 @@ class SavedMovieDaoImpl implements SavedMovieDao {
 
   @override
   Future<Option<MoviePosition>> getSavedMovie(int movieId) async {
-    final MoviePosition moviePosition = _boxHolder.continueWatching.get(movieId);
+    final MoviePosition? moviePosition = _boxHolder.continueWatching.get(movieId);
     return optionOf(moviePosition);
   }
 

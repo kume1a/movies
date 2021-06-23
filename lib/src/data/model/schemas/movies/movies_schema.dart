@@ -11,6 +11,6 @@ class MoviesSchema {
 
   factory MoviesSchema.fromJson(Map<String, dynamic> json) => _$MoviesSchemaFromJson(json);
 
-  final List<MovieDataSchema> data;
-  final MetaSchema meta;
+  final List<MovieDataSchema>? data;
+  final MetaSchema? meta;
 }

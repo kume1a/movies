@@ -6,7 +6,7 @@ import '../../../values/constants.dart';
 import '../../../values/text_styles.dart';
 
 class SeasonList extends StatelessWidget {
-  const SeasonList({@required this.seasonNumbers});
+  const SeasonList({required this.seasonNumbers});
 
   final List<int> seasonNumbers;
 

@@ -42,7 +42,7 @@ class MovieData {
     final int duration = schema.duration ?? 0;
     final bool canBePlayed = schema.canBePlayed ?? true;
 
-    String poster = schema.posters?.data?.s240;
+    String? poster = schema.posters?.data?.s240;
     if (poster == null || poster.isEmpty) poster = schema.poster ?? '';
 
     final double imdbRating = schema.rating?.imdb?.score ?? 0;
@@ -59,27 +59,27 @@ class MovieData {
 
     String plot = '';
     if (schema.plots != null) {
-      for (final PlotDataSchema plotDataSchema in schema.plots.data) {
-        plot = plotDataSchema?.description ?? '';
-        if (plotDataSchema?.language == eng) break;
+      for (final PlotDataSchema plotDataSchema in schema.plots?.data ?? List<PlotDataSchema>.empty()) {
+        plot = plotDataSchema.description ?? '';
+        if (plotDataSchema.language == eng) break;
       }
     }
 
     final List<String> genres =
-        schema.genres?.data?.map((GenresDataSchema e) => e?.secondaryName ?? e?.primaryName ?? '')?.toList() ??
+        schema.genres?.data?.map((GenresDataSchema e) => e.secondaryName ?? e.primaryName ?? '').toList() ??
             List<String>.empty();
 
     final Map<Language, String> trailers = <Language, String>{
       for (TrailersDataSchema e in schema.trailers?.data ?? List<TrailersDataSchema>.empty())
-        getLanguage(e?.language): e?.fileUrl ?? ''
+        getLanguage(e.language): e.fileUrl ?? ''
     };
 
     final List<Language> languages =
-        schema.languages?.data?.map((LanguagesDataSchema e) => getLanguage(e?.code))?.toList() ??
+        schema.languages?.data?.map((LanguagesDataSchema e) => getLanguage(e.code)).toList() ??
             List<Language>.empty();
 
     final List<Season> seasons =
-        schema?.seasons?.data?.map((SeasonsDataSchema e) => Season.fromSchema(e))?.toList() ?? List<Season>.empty();
+        schema.seasons?.data?.map((SeasonsDataSchema e) => Season.fromSchema(e)).toList() ?? List<Season>.empty();
 
     return MovieData(
       id,
@@ -166,7 +166,7 @@ class MovieData {
   @HiveField(19)
   int saveTimestamp;
 
-  String get availableImage => <String>[
+  String? get availableImage => <String?>[
         covers[ImageSize.large],
         secondaryCovers[Resolution.fhd],
         secondaryCovers[Resolution.hd],

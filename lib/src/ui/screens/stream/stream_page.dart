@@ -18,10 +18,10 @@ import 'widgets/video_player.dart';
 
 class StreamPage extends StatelessWidget {
   const StreamPage({
-    @required this.movieId,
-    @required this.season,
-    @required this.episode,
-    @required this.startAt,
+    required this.movieId,
+    required this.season,
+    required this.episode,
+    required this.startAt,
   });
 
   final int movieId;

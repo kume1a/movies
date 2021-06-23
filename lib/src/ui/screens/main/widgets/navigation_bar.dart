@@ -9,14 +9,14 @@ import 'bottomnav_item.dart';
 class BottomAnimation extends StatefulWidget {
   // widget parameters
   const BottomAnimation({
-    Key key,
-    @required this.selectedIndex,
-    @required this.items,
-    @required this.activeIconColor,
-    @required this.inactiveIconColor,
-    @required this.backgroundColor,
-    @required this.onItemSelect,
-    @required this.itemHoverColor,
+    Key? key,
+    required this.selectedIndex,
+    required this.items,
+    required this.activeIconColor,
+    required this.inactiveIconColor,
+    required this.backgroundColor,
+    required this.onItemSelect,
+    required this.itemHoverColor,
     this.hoverAlignmentDuration = 700,
     this.iconSize = 30,
     this.textStyle,
@@ -34,7 +34,7 @@ class BottomAnimation extends StatefulWidget {
   final Color activeIconColor;
   final Color inactiveIconColor;
   final double iconSize;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final ValueChanged<int> onItemSelect;
   final double barHeight;
   final double barRadius;
@@ -51,8 +51,8 @@ class BottomAnimation extends StatefulWidget {
 }
 
 class _BottomAnimationState extends State<BottomAnimation> {
-  TextStyle _textStyle;
-  List<BottomNavItem> listItems;
+  TextStyle? _textStyle;
+  late List<BottomNavItem> listItems;
 
   double calculateContainerPosition(int index) {
     // lerp parameter
@@ -79,9 +79,9 @@ class _BottomAnimationState extends State<BottomAnimation> {
     }
     // return calculated lerp
     if (isLtr) {
-      return lerpDouble(-a, b, index / (listSize - 1));
+      return lerpDouble(-a, b, index / (listSize - 1))!;
     }
-    return lerpDouble(b, -a, index / (listSize - 1));
+    return lerpDouble(b, -a, index / (listSize - 1))!;
   }
 
   @override
@@ -152,14 +152,14 @@ class _BottomAnimationState extends State<BottomAnimation> {
 /// Each item in Bottom Navigation
 class BarItem extends StatefulWidget {
   const BarItem({
-    Key key,
-    @required this.icon,
-    @required this.title,
-    @required this.selected,
-    @required this.activeColor,
-    @required this.inactiveColor,
-    @required this.iconSize,
-    @required this.textStyle,
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.selected,
+    required this.activeColor,
+    required this.inactiveColor,
+    required this.iconSize,
+    required this.textStyle,
   }) : super(key: key);
 
   final IconData icon;
@@ -168,7 +168,7 @@ class BarItem extends StatefulWidget {
   final Color activeColor;
   final Color inactiveColor;
   final double iconSize;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   @override
   _BarItemState createState() => _BarItemState();

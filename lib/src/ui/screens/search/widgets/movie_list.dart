@@ -14,7 +14,7 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   @override
   void initState() {

@@ -18,7 +18,7 @@ import 'widgets/cast_list.dart';
 import 'widgets/image_header.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({@required this.movieId});
+  const DetailsPage({required this.movieId});
 
   final int movieId;
 
@@ -84,7 +84,7 @@ class DetailsPageContent extends StatelessWidget {
                       delegate: ImageHeader(
                         minExtent: 54,
                         maxExtent: w,
-                        src: movie.availableImage,
+                        src: movie.availableImage ?? '',
                         onBackPressed: () => Navigator.pop(context),
                         onPlayPressed: movie.canBePlayed
                             ? () {

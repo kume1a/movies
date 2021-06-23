@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
 
 import '../../../utils.dart';
+import '../../model/core/option.dart';
 import '../../model/schemas/movie/movie_data_model.dart';
 import '../hive_box_holder.dart';
 import 'favorites_dao.dart';
@@ -15,12 +14,12 @@ class FavoritesDaoImpl implements FavoritesDao {
 
   @override
   Future<bool> getMovieFavoriteStatus(int movieId) async {
-    final MovieData movieData = _boxHolder.movieData.get(movieId);
+    final MovieData? movieData = _boxHolder.movieData.get(movieId);
     return movieData?.favorite ?? false;
   }
 
   @override
-  Future<void> updateMovieFavoriteStatus(int movieId, {@required bool isFavorite}) async {
+  Future<void> updateMovieFavoriteStatus(int movieId, {required bool isFavorite}) async {
     final Option<MovieData> curr = optionOf(_boxHolder.movieData.get(movieId));
     curr.foldSome(
       (MovieData movie) => _boxHolder.movieData.put(

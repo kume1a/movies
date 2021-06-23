@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorites/favorites_dao.dart';
+import '../../data/model/core/option.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
 
 part 'favorites_bloc.freezed.dart';
-
 part 'favorites_event.dart';
-
 part 'favorites_state.dart';
 
 @injectable

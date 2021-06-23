@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
@@ -10,24 +10,21 @@ import 'package:video_player/video_player.dart';
 import '../../../../../data/model/schemas/core/enums.dart';
 import '../../../../../state/stream/stream_bloc.dart';
 import '../../../../core/formatters.dart';
-import '../../../../core/rive_container.dart';
-import '../../../../core/rive_single_shot_controller.dart';
 import '../../../../values/constants.dart';
 import '../../../../values/text_styles.dart';
 import 'player.dart';
 import 'progress_bar.dart';
 import 'progress_colors.dart';
 
-
 class VideoControls extends StatefulWidget {
   const VideoControls({
-    @required this.doubleTapToSeekValue,
-    @required this.onLanguageChanged,
-    @required this.onQualityChanged,
-    @required this.languages,
-    @required this.qualities,
-    @required this.selectedLanguage,
-    @required this.selectedQuality,
+    required this.doubleTapToSeekValue,
+    required this.onLanguageChanged,
+    required this.onQualityChanged,
+    required this.languages,
+    required this.qualities,
+    required this.selectedLanguage,
+    required this.selectedQuality,
   });
 
   final ValueChanged<Language> onLanguageChanged;
@@ -48,39 +45,38 @@ class VideoControls extends StatefulWidget {
 class _VideoControlsState extends State<VideoControls> with SingleTickerProviderStateMixin {
   static const double barHeight = 48;
 
-  VideoPlayerValue _latestValue;
-  double _latestVolume;
+  VideoPlayerValue? _latestValue;
+  double? _latestVolume;
 
   bool _hideControls = true;
-  Timer _hideTimer;
-  Timer _initTimer;
-  Timer _showAfterExpandCollapseTimer;
+  Timer? _hideTimer;
+  Timer? _initTimer;
+  Timer? _showAfterExpandCollapseTimer;
   bool _dragging = false;
   bool _displayTapped = false;
 
   bool _showForward = false;
   bool _showRewind = false;
-  Timer _forwardTimer;
-  Timer _rewindTimer;
-  Artboard _forwardArtboard;
-  Artboard _rewindArtboard;
-  SingleShotController _forwardController;
-  SingleShotController _rewindController;
+  Timer? _forwardTimer;
+  Timer? _rewindTimer;
 
-  Language _language;
-  Quality _quality;
+  late RiveAnimationController<RuntimeArtboard> _forwardController;
+  late RiveAnimationController<RuntimeArtboard> _rewindController;
 
-  VideoPlayerController _controller;
-  ChewieController _chewieController;
-  AnimationController _playPauseIconAnimController;
+  Language? _language;
+  Quality? _quality;
+
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+  AnimationController? _playPauseIconAnimController;
 
   @override
   Widget build(BuildContext context) {
-    if (_latestValue.hasError) {
-      if (_chewieController.errorBuilder != null) {
-        return _chewieController.errorBuilder(
+    if (_latestValue?.hasError == true) {
+      if (_chewieController?.errorBuilder != null) {
+        return _chewieController!.errorBuilder!(
           context,
-          _chewieController.videoPlayerController.value.errorDescription,
+          _chewieController!.videoPlayerController.value.errorDescription ?? '',
         );
       }
       return const Center(
@@ -92,8 +88,9 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       );
     }
 
-    final bool isInitializing =
-        _latestValue != null && !_latestValue.isPlaying && _latestValue.duration == null || _latestValue.isBuffering;
+    // final bool isInitializing =
+    //    _latestValue != null && !_latestValue!.isPlaying && _latestValue!.duration == null || _latestValue!.isBuffering;
+    final bool isInitializing = _latestValue != null && !_latestValue!.isInitialized;
 
     final List<Widget> content = <Widget>[];
     if (isInitializing) {
@@ -118,22 +115,28 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             final double x = details.localPosition.dx;
             if (x <= leftThreshold) {
               setState(() {
-                _rewindController?.run();
+                log('_VideoControlsState.build: rewinding');
+                _rewindController.isActive = true;
                 _showRewind = true;
                 _rewindTimer = Timer(const Duration(milliseconds: 250), () {
                   setState(() => _showRewind = false);
                 });
               });
-              _chewieController.seekTo(_latestValue.position - Duration(seconds: widget.doubleTapToSeekValue));
+              if (_latestValue != null && _chewieController != null) {
+                _chewieController!.seekTo(_latestValue!.position - Duration(seconds: widget.doubleTapToSeekValue));
+              }
             } else if (x >= rightThreshold) {
               setState(() {
-                _forwardController?.run();
+                log('_VideoControlsState.build: forwarding');
+                _forwardController.isActive = true;
                 _showForward = true;
                 _forwardTimer = Timer(const Duration(milliseconds: 250), () {
                   setState(() => _showForward = false);
                 });
               });
-              _chewieController.seekTo(_latestValue.position + Duration(seconds: widget.doubleTapToSeekValue));
+              if (_latestValue != null && _chewieController != null) {
+                _chewieController!.seekTo(_latestValue!.position + Duration(seconds: widget.doubleTapToSeekValue));
+              }
             }
           },
           child: AbsorbPointer(
@@ -169,31 +172,22 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   @override
   void initState() {
-    rootBundle.load('assets/rewind_forward.riv').then((ByteData data) async {
-      final RiveFile file = RiveFile();
-      if (file.import(data)) {
-        setState(() {
-          _forwardArtboard = file.artboardByName('forward')
-            ..addController(_forwardController = SingleShotController('forward', speed: 2));
-          _rewindArtboard = file.artboardByName('rewind')
-            ..addController(_rewindController = SingleShotController('forward', speed: 2));
-        });
-      }
-    });
+    _forwardController = OneShotAnimation('forward', autoplay: false);
+    _rewindController = OneShotAnimation('forward', autoplay: false);
     super.initState();
   }
 
   @override
   void dispose() {
     _playPauseIconAnimController?.dispose();
-    _forwardController?.dispose();
-    _rewindController?.dispose();
+    _forwardController.dispose();
+    _rewindController.dispose();
     _dispose();
     super.dispose();
   }
 
   void _dispose() {
-    _controller.removeListener(_updateState);
+    _controller?.removeListener(_updateState);
     _hideTimer?.cancel();
     _initTimer?.cancel();
     _forwardTimer?.cancel();
@@ -203,16 +197,16 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   @override
   void didChangeDependencies() {
-    final ChewieController _oldController = _chewieController;
+    final ChewieController? _oldController = _chewieController;
     _chewieController = ChewieController.of(context);
-    _controller = _chewieController.videoPlayerController;
+    _controller = _chewieController?.videoPlayerController;
 
     _playPauseIconAnimController ??= AnimationController(
       vsync: this,
       duration: longAnimDuration,
       reverseDuration: longAnimDuration,
     );
-    _playPauseIconAnimController.reset();
+    _playPauseIconAnimController?.reset();
 
     if (_oldController != _chewieController) {
       _dispose();
@@ -252,12 +246,12 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   Widget _buildHitArea() {
-    final bool isFinished = _latestValue.position >= _latestValue.duration;
+    final bool isFinished = _latestValue!.position >= _latestValue!.duration;
 
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          if (_latestValue != null && _latestValue.isPlaying) {
+          if (_latestValue != null && _latestValue?.isPlaying == true) {
             if (_displayTapped) {
               setState(() => _hideControls = true);
             } else {
@@ -273,13 +267,16 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              RiveContainer(
-                artboard: _rewindArtboard,
+              SizedBox(
                 width: 50,
                 height: 50,
+                child: RiveAnimation.asset(
+                  'assets/forward_rewind_new.riv',
+                  controllers: <RiveAnimationController<RuntimeArtboard>>[_rewindController],
+                ),
               ),
               AnimatedOpacity(
-                opacity: _latestValue != null && !_latestValue.isPlaying && !_dragging ? 1 : 0,
+                opacity: _latestValue != null && !_latestValue!.isPlaying && !_dragging ? 1 : 0,
                 duration: mediumAnimDuration,
                 child: GestureDetector(
                   onTap: () {
@@ -287,18 +284,26 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                   },
                   child: isFinished
                       ? const Icon(Icons.replay, size: 64)
-                      : AnimatedIcon(
-                    icon: AnimatedIcons.play_pause,
-                    progress: _playPauseIconAnimController,
-                    size: 64,
-                    color: Colors.white,
-                  ),
+                      : (_playPauseIconAnimController != null
+                          ? AnimatedIcon(
+                              icon: AnimatedIcons.play_pause,
+                              progress: _playPauseIconAnimController!,
+                              size: 64,
+                              color: Colors.white,
+                            )
+                          : const SizedBox.shrink()),
                 ),
               ),
-              RiveContainer(
-                artboard: _forwardArtboard,
-                width: 50,
-                height: 50,
+              RotatedBox(
+                quarterTurns: 2,
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: RiveAnimation.asset(
+                    'assets/forward_rewind_new.riv',
+                    controllers: <RiveAnimationController<RuntimeArtboard>>[_forwardController],
+                  ),
+                ),
               ),
             ],
           ),
@@ -308,6 +313,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   Widget _buildBottomBar() {
+    if (_controller == null || _chewieController == null) return const SizedBox.shrink();
+
     return SizedBox(
       height: barHeight,
       child: AnimatedOpacity(
@@ -315,16 +322,12 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         duration: mediumAnimDuration,
         child: Row(
           children: <Widget>[
-            _buildPlayPause(_controller),
-            if (MediaQuery
-                .of(context)
-                .orientation == Orientation.landscape)
-              _chewieController.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
-            if (!_chewieController.isLive) _buildProgressBar(),
-            if (_chewieController.allowMuting) _buildMuteButton(_controller) else
-              const SizedBox.shrink(),
-            if (_chewieController.allowFullScreen) _buildExpandButton() else
-              const SizedBox.shrink(),
+            _buildPlayPause(_controller!),
+            if (MediaQuery.of(context).orientation == Orientation.landscape)
+              _chewieController!.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
+            if (!_chewieController!.isLive) _buildProgressBar(),
+            if (_chewieController!.allowMuting) _buildMuteButton(_controller!) else const SizedBox.shrink(),
+            if (_chewieController!.allowFullScreen) _buildExpandButton() else const SizedBox.shrink(),
           ],
         ),
       ),
@@ -349,9 +352,11 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   Widget _buildPosition() {
     final Duration position =
-    _latestValue != null && _latestValue.position != null ? _latestValue.position : Duration.zero;
+        // ignore: unnecessary_null_comparison
+        _latestValue != null && _latestValue!.position != null ? _latestValue!.position : Duration.zero;
     final Duration duration =
-    _latestValue != null && _latestValue.duration != null ? _latestValue.duration : Duration.zero;
+        // ignore: unnecessary_null_comparison
+        _latestValue != null && _latestValue!.duration != null ? _latestValue!.duration : Duration.zero;
 
     return Padding(
       padding: const EdgeInsets.only(right: 24),
@@ -366,38 +371,32 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(right: 20),
-        child: VideoProgressBar(
-          _controller,
-          onDragStart: () {
-            setState(() {
-              _dragging = true;
-            });
+        child: _controller != null
+            ? VideoProgressBar(
+                _controller!,
+                onDragStart: () {
+                  setState(() {
+                    _dragging = true;
+                  });
 
-            _hideTimer?.cancel();
-          },
-          onDragEnd: () {
-            setState(() {
-              _dragging = false;
-            });
+                  _hideTimer?.cancel();
+                },
+                onDragEnd: () {
+                  setState(() {
+                    _dragging = false;
+                  });
 
-            _startHideTimer();
-          },
-          colors: _chewieController.materialProgressColors ??
-              ChewieProgressColors(
-                playedColor: Theme
-                    .of(context)
-                    .accentColor,
-                handleColor: Theme
-                    .of(context)
-                    .accentColor,
-                bufferedColor: Theme
-                    .of(context)
-                    .backgroundColor,
-                backgroundColor: Theme
-                    .of(context)
-                    .disabledColor,
-              ),
-        ),
+                  _startHideTimer();
+                },
+                colors: _chewieController?.materialProgressColors ??
+                    ChewieProgressColors(
+                      playedColor: Theme.of(context).accentColor,
+                      handleColor: Theme.of(context).accentColor,
+                      bufferedColor: Theme.of(context).backgroundColor,
+                      backgroundColor: Theme.of(context).disabledColor,
+                    ),
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }
@@ -421,7 +420,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context.read<StreamBloc>().add(const StreamEvent.permissionDenied());
               break;
             default:
-            // TODO: 30/03/21 implement for ios too
+              // TODO: 30/03/21 implement for ios too
               break;
           }
         }
@@ -435,7 +434,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       onPressed: () async {
         _hideTimer?.cancel();
 
-        final _Setting settingType = await showModalBottomSheet<_Setting>(
+        final _Setting? settingType = await showModalBottomSheet<_Setting>(
           context: context,
           isScrollControlled: true,
           useRootNavigator: true,
@@ -448,49 +447,48 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) =>
-                  _BottomSheetDialog<Language>(
-                    items: widget.languages,
-                    selected: _language ?? widget.selectedLanguage,
-                    nameMapper: (Language t) {
-                      switch (t) {
-                        case Language.geo:
-                          return 'geo';
-                        case Language.eng:
-                          return 'eng';
-                        case Language.rus:
-                          return 'rus';
-                        case Language.jpn:
-                          return 'jpn';
-                        case Language.fre:
-                          return 'fre';
-                      }
-                      return '';
-                    },
-                  ),
+              builder: (BuildContext context) => _BottomSheetDialog<Language>(
+                items: widget.languages,
+                selected: _language ?? widget.selectedLanguage,
+                nameMapper: (Language t) {
+                  switch (t) {
+                    case Language.geo:
+                      return 'geo';
+                    case Language.eng:
+                      return 'eng';
+                    case Language.rus:
+                      return 'rus';
+                    case Language.jpn:
+                      return 'jpn';
+                    case Language.fre:
+                      return 'fre';
+                  }
+                },
+              ),
             );
 
-            widget.onLanguageChanged.call(_language);
+            if (_language != null) {
+              widget.onLanguageChanged.call(_language!);
+            }
             break;
 
           case _Setting.playbackSpeed:
-            final double playbackSpeed = await showModalBottomSheet<double>(
+            final double? playbackSpeed = await showModalBottomSheet<double>(
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) =>
-                  _BottomSheetDialog<double>(
-                    items: _chewieController.playbackSpeeds,
-                    selected: _latestValue.playbackSpeed,
-                    nameMapper: (double t) => t.toString(),
-                  ),
+              builder: (BuildContext context) => _BottomSheetDialog<double>(
+                items: _chewieController?.playbackSpeeds ?? List<double>.empty(),
+                selected: _latestValue?.playbackSpeed ?? 1,
+                nameMapper: (double t) => t.toString(),
+              ),
             );
 
             if (playbackSpeed != null) {
-              _controller.setPlaybackSpeed(playbackSpeed);
+              _controller?.setPlaybackSpeed(playbackSpeed);
             }
 
-            if (_latestValue.isPlaying) {
+            if (_latestValue?.isPlaying == true) {
               _startHideTimer();
             }
             break;
@@ -500,23 +498,25 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               context: context,
               isScrollControlled: true,
               useRootNavigator: true,
-              builder: (BuildContext context) =>
-                  _BottomSheetDialog<Quality>(
-                    items: widget.qualities,
-                    selected: _quality ?? widget.selectedQuality,
-                    nameMapper: (Quality quality) {
-                      switch (quality) {
-                        case Quality.medium:
-                          return 'medium';
-                        case Quality.high:
-                          return 'high';
-                      }
-                      return '';
-                    },
-                  ),
+              builder: (BuildContext context) => _BottomSheetDialog<Quality>(
+                items: widget.qualities,
+                selected: _quality ?? widget.selectedQuality,
+                nameMapper: (Quality quality) {
+                  switch (quality) {
+                    case Quality.medium:
+                      return 'medium';
+                    case Quality.high:
+                      return 'high';
+                  }
+                },
+              ),
             );
 
-            widget.onQualityChanged.call(_quality);
+            if (_quality != null) {
+              widget.onQualityChanged.call(_quality!);
+            }
+            break;
+          default:
             break;
         }
       },
@@ -531,7 +531,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       onTap: () {
         _cancelAndRestartTimer();
 
-        if (_latestValue.volume == 0) {
+        if (_latestValue?.volume == 0) {
           controller.setVolume(_latestVolume ?? 0.5);
         } else {
           _latestVolume = controller.value.volume;
@@ -543,7 +543,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           height: barHeight,
           padding: const EdgeInsets.only(left: 8, right: 16),
           child: Icon(
-            (_latestValue != null && _latestValue.volume > 0) ? Icons.volume_up : Icons.volume_off,
+            (_latestValue != null && _latestValue!.volume > 0) ? Icons.volume_up : Icons.volume_off,
             color: Colors.white,
           ),
         ),
@@ -560,7 +560,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         padding: const EdgeInsets.only(left: 8, right: 8),
         child: Center(
           child: Icon(
-            _chewieController.isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+            _chewieController?.isFullScreen == true ? Icons.fullscreen_exit : Icons.fullscreen,
             color: Colors.white,
           ),
         ),
@@ -579,15 +579,15 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   Future<void> _initialize() async {
-    _controller.addListener(_updateState);
+    _controller?.addListener(_updateState);
 
     _updateState();
 
-    if ((_controller.value != null && _controller.value.isPlaying) || _chewieController.autoPlay) {
+    if ((_controller?.value != null && _controller?.value.isPlaying == true) || _chewieController?.autoPlay == true) {
       _startHideTimer();
     }
 
-    if (_chewieController.showControlsOnInitialize) {
+    if (_chewieController?.showControlsOnInitialize == true) {
       _initTimer = Timer(shortAnimDuration, () {
         setState(() {
           _hideControls = false;
@@ -600,7 +600,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     setState(() {
       _hideControls = true;
 
-      _chewieController.toggleFullScreen();
+      _chewieController?.toggleFullScreen();
       _showAfterExpandCollapseTimer = Timer(mediumAnimDuration, () {
         setState(() {
           _cancelAndRestartTimer();
@@ -611,32 +611,32 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   void _playPause() {
     bool isFinished;
-    if (_latestValue.duration != null) {
-      isFinished = _latestValue.position >= _latestValue.duration;
+    if (_latestValue?.duration != null) {
+      isFinished = _latestValue!.position >= _latestValue!.duration;
     } else {
       isFinished = false;
     }
 
     setState(() {
-      if (_controller.value.isPlaying) {
-        _playPauseIconAnimController.reverse();
+      if (_controller?.value.isPlaying == true) {
+        _playPauseIconAnimController?.reverse();
         _hideControls = false;
         _hideTimer?.cancel();
-        _controller.pause();
+        _controller?.pause();
       } else {
         _cancelAndRestartTimer();
 
-        if (!_controller.value.initialized) {
-          _controller.initialize().then((_) {
-            _controller.play();
-            _playPauseIconAnimController.forward();
+        if (_controller != null && !_controller!.value.isInitialized) {
+          _controller?.initialize().then((_) {
+            _controller?.play();
+            _playPauseIconAnimController?.forward();
           });
         } else {
           if (isFinished) {
-            _controller.seekTo(const Duration());
+            _controller?.seekTo(const Duration());
           }
-          _playPauseIconAnimController.forward();
-          _controller.play();
+          _playPauseIconAnimController?.forward();
+          _controller?.play();
         }
       }
     });
@@ -653,7 +653,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   void _updateState() {
     if (mounted) {
       setState(() {
-        _latestValue = _controller.value;
+        _latestValue = _controller?.value;
       });
     }
   }
@@ -749,14 +749,14 @@ class _SettingsDialog extends StatelessWidget {
 
 class _BottomSheetDialog<T> extends StatelessWidget {
   const _BottomSheetDialog({
-    @required this.items,
-    @required this.selected,
-    @required this.nameMapper,
+    required this.items,
+    required this.selected,
+    this.nameMapper,
   });
 
   final List<T> items;
   final T selected;
-  final String Function(T t) nameMapper;
+  final String Function(T t)? nameMapper;
 
   @override
   Widget build(BuildContext context) {
@@ -773,14 +773,12 @@ class _BottomSheetDialog<T> extends StatelessWidget {
                 Icon(
                   Icons.check,
                   size: 20,
-                  color: Theme
-                      .of(context)
-                      .accentColor,
+                  color: Theme.of(context).accentColor,
                 )
               else
                 Container(width: 20),
               const SizedBox(width: 16),
-              Text(nameMapper != null ? nameMapper.call(item) : item.toString()),
+              Text(nameMapper != null ? nameMapper!.call(item) : item.toString()),
             ],
           ),
           selected: item == selected,

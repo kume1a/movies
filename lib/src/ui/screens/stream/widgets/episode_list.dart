@@ -1,9 +1,9 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/model/core/option.dart';
 import '../../../../data/model/schemas/actors/season_files/season_files_model.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/extensions.dart';
@@ -50,9 +50,9 @@ class EpisodeList extends StatelessWidget {
   }
 
   Widget _buildItem({
-    @required BuildContext context,
-    @required Episode episode,
-    @required bool isSelected,
+    required BuildContext context,
+    required Episode episode,
+    required bool isSelected,
   }) {
     final int duration = episode.episodes.values.first.first.duration;
 

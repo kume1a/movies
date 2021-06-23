@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http show get;
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
+import '../model/core/option.dart';
 
 import '../model/schemas/actors/actors_model.dart';
 import '../model/schemas/actors/actors_schema.dart';
@@ -63,7 +63,7 @@ class MovieRemoteProvider {
       'sort': ' -upload_date',
       'source': 'adjaranet'
     };
-    final int genreId = _mapGenreToId(genre);
+    final int? genreId = _mapGenreToId(genre);
     if (genreId != null) {
       params['filters[genre]'] = genreId.toString();
     }
@@ -125,8 +125,11 @@ class MovieRemoteProvider {
     try {
       final String json = await _get('$apiBase/movies/$movieId', params);
       final MovieSchema schema = MovieSchema.fromJson(jsonDecode(json) as Map<String, dynamic>);
-      final MovieData movie = MovieData.fromSchema(schema.data);
-      return some(movie);
+      if (schema.data != null) {
+        final MovieData movie = MovieData.fromSchema(schema.data!);
+        return some(movie);
+      }
+      return none();
     } on Exception catch (e) {
       log('MovieRepository.fetchMovie: failure', error: e);
     }
@@ -210,7 +213,7 @@ class MovieRemoteProvider {
     return none();
   }
 
-  int _mapGenreToId(Genre genre) {
+  int? _mapGenreToId(Genre genre) {
     switch (genre) {
       case Genre.all:
         return null;
@@ -263,6 +266,5 @@ class MovieRemoteProvider {
       case Genre.anime:
         return 318;
     }
-    return 0;
   }
 }

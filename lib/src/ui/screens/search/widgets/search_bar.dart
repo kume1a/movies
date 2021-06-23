@@ -7,9 +7,9 @@ import '../../../values/text_styles.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({
-    this.onBackPressed,
-    this.onChanged,
-    this.decoration,
+    required this.onBackPressed,
+    required this.onChanged,
+    required this.decoration,
   });
 
   final VoidCallback onBackPressed;
@@ -21,15 +21,15 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
-  TextEditingController _controller;
-  Timer _debounce;
+  late TextEditingController _controller;
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(() {
-      if (_debounce?.isActive ?? false) _debounce.cancel();
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(
         const Duration(milliseconds: 500),
         () => widget.onChanged.call(_controller.text),
@@ -73,6 +73,6 @@ class _SearchBarState extends State<SearchBar> {
   void dispose() {
     super.dispose();
     _controller.dispose();
-    _debounce.cancel();
+    _debounce?.cancel();
   }
 }

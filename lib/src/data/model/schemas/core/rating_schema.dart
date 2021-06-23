@@ -8,10 +8,10 @@ class RatingSchema {
 
   factory RatingSchema.fromJson(Map<String, dynamic> json) => _$RatingSchemaFromJson(json);
 
-  final RatingItemSchema imovies;
-  final RatingItemSchema imdb;
-  final RatingItemSchema rotten;
-  final RatingItemSchema metacritic;
+  final RatingItemSchema? imovies;
+  final RatingItemSchema? imdb;
+  final RatingItemSchema? rotten;
+  final RatingItemSchema? metacritic;
 }
 
 @JsonSerializable(createToJson: false)
@@ -20,6 +20,6 @@ class RatingItemSchema {
 
   factory RatingItemSchema.fromJson(Map<String, dynamic> json) => _$RatingItemSchemaFromJson(json);
 
-  final double score;
-  final int voters;
+  final double? score;
+  final int? voters;
 }

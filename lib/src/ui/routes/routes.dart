@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 import '../core/invalid_page.dart';
 import '../screens/details/details_page.dart';
@@ -24,12 +23,14 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
         builder: (_) => MainPage(),
       );
     case Routes.detailsPage:
-      final DetailsPageArgs args = settings.arguments as DetailsPageArgs;
+      final DetailsPageArgs? args = settings.arguments as DetailsPageArgs?;
+      if (args == null) throw Exception();
       return MaterialPageRoute<DetailsPage>(
         builder: (_) => DetailsPage(movieId: args.movieId),
       );
     case Routes.streamPage:
-      final StreamPageArgs args = settings.arguments as StreamPageArgs;
+      final StreamPageArgs? args = settings.arguments as StreamPageArgs?;
+      if (args == null) throw Exception();
       return MaterialPageRoute<StreamPage>(
         builder: (_) => StreamPage(
           movieId: args.movieId,
@@ -51,14 +52,11 @@ Route<dynamic> generateRoutes(RouteSettings settings) {
 
 class FadeInPageRoute<T> extends MaterialPageRoute<T> {
   FadeInPageRoute({
-    @required WidgetBuilder builder,
-    RouteSettings settings,
+    required WidgetBuilder builder,
+    RouteSettings? settings,
     bool maintainState = true,
     bool fullscreenDialog = false,
-  })  : assert(builder != null),
-        assert(maintainState != null),
-        assert(fullscreenDialog != null),
-        super(
+  })  : super(
           builder: builder,
           settings: settings,
           maintainState: maintainState,

@@ -7,9 +7,9 @@ class Movies {
 
   factory Movies.fromSchema(MoviesSchema schema) {
     return Movies._(
-      schema.data.map((MovieDataSchema e) => MovieData.fromSchema(e)).toList(),
-      schema?.meta?.pagination?.total ?? 0,
-      schema?.meta?.pagination?.totalPages ?? 0,
+      schema.data?.map((MovieDataSchema e) => MovieData.fromSchema(e)).toList() ?? List<MovieData>.empty(),
+      schema.meta?.pagination?.total ?? 0,
+      schema.meta?.pagination?.totalPages ?? 0,
     );
   }
 

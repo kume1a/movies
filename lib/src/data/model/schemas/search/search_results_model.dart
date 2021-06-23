@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:meta/meta.dart';
 
 import '../../../local/hive_box_holder.dart';
 import '../core/enums.dart';
@@ -14,17 +12,13 @@ class SearchResults {
 
   factory SearchResults.fromSchema(SearchResultsSchema schema) {
     final List<SearchResult> searchResults = schema.data
-        .map((SearchResultSchema elementSchema) {
-          if (elementSchema == null) return null;
-          return SearchResult.fromSchema(elementSchema);
-        })
-        .where((SearchResult searchResult) => searchResult != null)
-        .toList();
+        ?.map((SearchResultSchema elementSchema) => SearchResult.fromSchema(elementSchema))
+        .toList() ?? List<SearchResult>.empty();
 
     return SearchResults(
       searchResults.cast<SearchResult>(),
-      schema?.meta?.pagination?.total ?? 0,
-      schema?.meta?.pagination?.totalPages ?? 0,
+      schema.meta?.pagination?.total ?? 0,
+      schema.meta?.pagination?.totalPages ?? 0,
     );
   }
 
@@ -40,15 +34,15 @@ class SearchResults {
 @HiveType(typeId: HiveTypeIdHolder.searchResultId)
 class SearchResult {
   SearchResult({
-    @required this.id,
-    @required this.type,
-    @required this.movieId,
-    @required this.name,
-    @required this.description,
-    @required this.poster,
-    @required this.secondaryPoster,
-    @required this.isTvShow,
-    @required this.timestamp,
+    required this.id,
+    required this.type,
+    required this.movieId,
+    required this.name,
+    required this.description,
+    required this.poster,
+    required this.secondaryPoster,
+    required this.isTvShow,
+    required this.timestamp,
   });
 
   factory SearchResult.fromSchema(SearchResultSchema schema) {
@@ -61,7 +55,7 @@ class SearchResult {
           schema.secondaryDescription ??
           schema.tertiaryDescription ??
           '',
-      poster: schema.posters.data.s240 ?? '',
+      poster: schema.posters?.data?.s240 ?? '',
       secondaryPoster: schema.poster ?? '',
       isTvShow: schema.isTvShow ?? false,
       timestamp: DateTime.now().millisecondsSinceEpoch,
