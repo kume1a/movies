@@ -12,6 +12,8 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../data/local/movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/core/either.dart';
+import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/schemas/actors/season_files/season_files_model.dart';
@@ -19,7 +21,7 @@ import '../../data/model/schemas/core/enums.dart';
 import '../../data/model/schemas/core/utils.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
 import '../../data/model/schemas/movies/movies_model.dart';
-import '../../data/network/i_movie_repository.dart';
+import '../../data/network/services/movie_service.dart';
 import '../../ui/core/extensions.dart';
 import '../../ui/core/values/default_settings.dart';
 
@@ -30,14 +32,14 @@ part 'stream_state.dart';
 @injectable
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   StreamBloc(
-    this._repository,
+    this._movieService,
     this._settingsManager,
     this._savedMoviesManager,
   ) : super(StreamState.initial()) {
     _init();
   }
 
-  final IMovieRepository _repository;
+  final MovieService _movieService;
   final SettingsManager _settingsManager;
   final SavedMovieDao _savedMoviesManager;
 
@@ -83,14 +85,15 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onMovieChanged(_MovieChanged e) async* {
-    final Option<MovieData> movie = await _repository.fetchMovie(e.movieId);
-    yield state.copyWith(movie: movie);
+    final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(e.movieId);
+    yield state.copyWith(movie: movie.toOption());
   }
 
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
-    final Option<SeasonFiles> seasonFilesOption = await _repository.fetchSeasonFiles(getMovieOrCrash.id, e.season);
+    final Either<FetchFailure, SeasonFiles> seasonFilesOption =
+        await _movieService.getSeasonFiles(getMovieOrCrash.id, e.season);
 
-    yield state.copyWith(seasonFilesOption: seasonFilesOption, season: e.season);
+    yield state.copyWith(seasonFilesOption: seasonFilesOption.toOption(), season: e.season);
   }
 
   Stream<StreamState> _onEpisodeChanged(_EpisodeChanged e) async* {
@@ -192,11 +195,13 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onFetchRelatedRequested(_FetchRelatedRequested e) async* {
-    final Option<Movies> related = await _repository.fetchRelated(getMovieOrCrash.movieId, 1);
-    related.foldSome((Movies a) {
-      a.data.removeWhere((MovieData element) => !element.canBePlayed);
-    });
-    yield state.copyWith(relatedOption: related);
+    final Either<FetchFailure, Movies> related = await _movieService.getRelatedMovies(getMovieOrCrash.movieId, 1);
+    yield state.copyWith(
+      relatedOption: related.map((Movies r) {
+        r.data.removeWhere((MovieData element) => !element.canBePlayed);
+        return r;
+      }).toOption(),
+    );
   }
 
   Stream<StreamState> _onStartPositionChanged(_StartPositionChanged e) async* {

@@ -6,11 +6,13 @@ import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorites/favorites_dao.dart';
 import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/core/either.dart';
+import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/schemas/actors/actors_model.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
-import '../../data/network/i_movie_repository.dart';
+import '../../data/network/services/movie_service.dart';
 
 part 'details_bloc.freezed.dart';
 part 'details_event.dart';
@@ -19,13 +21,13 @@ part 'details_state.dart';
 @injectable
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   DetailsBloc(
-    this._repository,
+    this._movieService,
     this._favoritesManager,
     this._savedMoviesManager,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial());
 
-  final IMovieRepository _repository;
+  final MovieService _movieService;
   final FavoritesDao _favoritesManager;
   final SavedMovieDao _savedMoviesManager;
 
@@ -46,14 +48,14 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         yield state.copyWith(favorite: isFavorite);
       },
       movieFetchRequested: (_) async* {
-        final Option<MovieData> movieOption = await _repository.fetchMovie(movieId!);
-        yield state.copyWith(movieOption: movieOption);
+        final Either<FetchFailure, MovieData> movieOption = await _movieService.getMovie(movieId!);
+        yield state.copyWith(movieOption: movieOption.toOption());
       },
       castPageFetchRequested: (_) async* {
         if (!_fetchingActors) {
           _fetchingActors = true;
 
-          final Option<Actors> actorsOption = await _repository.fetchActors(movieId!, _actorsPage);
+          final Either<FetchFailure, Actors> actorsOption = await _movieService.getActors(movieId!, _actorsPage);
           state.actorsOption.fold(
             () => actorsOption,
             (Actors prev) {
@@ -64,9 +66,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
           _actorsPage++;
           _fetchingActors = false;
-          yield state.copyWith(
-            actorsOption: actorsOption,
-          );
+          yield state.copyWith(actorsOption: actorsOption.toOption());
         }
       },
       favoriteToggled: (_FavoriteToggled e) async* {

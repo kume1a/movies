@@ -7,9 +7,11 @@ import 'package:meta/meta.dart';
 
 import '../../data/local/history/search_history_dao.dart';
 import '../../data/local/settings/settings_manager.dart';
+import '../../data/model/core/either.dart';
+import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/schemas/search/search_results_model.dart';
-import '../../data/network/i_movie_repository.dart';
+import '../../data/network/services/search_service.dart';
 
 part 'search_bloc.freezed.dart';
 part 'search_event.dart';
@@ -18,12 +20,12 @@ part 'search_state.dart';
 @injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc(
-    this._repository,
+    this._searchService,
     this._historyManager,
     this._settingsInteractor,
   ) : super(SearchState.initial());
 
-  final IMovieRepository _repository;
+  final SearchService _searchService;
   final SearchHistoryDao _historyManager;
   final SettingsManager _settingsInteractor;
 
@@ -48,13 +50,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             _loading = true;
             _page = 1;
 
-            final Option<SearchResults> searchResults = await _repository.search(e.query, _page);
+            final Either<FetchFailure, SearchResults> searchResults = await _searchService.search(e.query, _page);
 
             _page++;
             _loading = false;
             yield state.copyWith(
               query: e.query,
-              searchResultsOption: searchResults,
+              searchResultsOption: searchResults.toOption(),
             );
           }
         }
@@ -62,7 +64,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       nextPageRequested: (_NextPageRequested e) async* {
         if (!_loading) {
           _loading = true;
-          final Option<SearchResults> searchResults = await _repository.search(state.query, _page);
+          final Either<FetchFailure, SearchResults> searchResults = await _searchService.search(state.query, _page);
 
           state.searchResultsOption.fold(
             () => searchResults,
@@ -73,9 +75,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           );
           _page++;
           _loading = false;
-          yield state.copyWith(
-            searchResultsOption: searchResults,
-          );
+          yield state.copyWith(searchResultsOption: searchResults.toOption());
         }
       },
       searchResultSelected: (_SearchResultSelected e) async* {

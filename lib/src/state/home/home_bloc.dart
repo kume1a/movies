@@ -5,13 +5,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/model/core/either.dart';
+import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/models/movies/saved_movies.dart';
 import '../../data/model/schemas/core/enums.dart';
 import '../../data/model/schemas/movie/movie_data_model.dart';
 import '../../data/model/schemas/movies/movies_model.dart';
-import '../../data/network/i_movie_repository.dart';
+import '../../data/network/services/movie_service.dart';
 
 part 'home_bloc.freezed.dart';
 part 'home_event.dart';
@@ -20,11 +22,11 @@ part 'home_state.dart';
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
-    this._repository,
+    this._movieService,
     this._savedMoviesManager,
   ) : super(HomeState.initial());
 
-  final IMovieRepository _repository;
+  final MovieService _movieService;
   final SavedMovieDao _savedMoviesManager;
 
   int _topMoviesPage = 1;
@@ -47,22 +49,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async* {
     yield* event.map(
       popularMoviesFetchRequested: (_PopularMoviesFetchRequested e) async* {
-        final Option<Movies> movies = await _repository.fetchPopularMovies();
+        final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
         yield state.copyWith(
-          popularMoviesOption: movies,
+          popularMoviesOption: movies.toOption(),
         );
       },
       topMoviesPageFetchRequested: (_) async* {
         if (!_fetchingTopMovies) {
           _fetchingTopMovies = true;
 
-          final Option<Movies> movies = await _repository.fetchTopMovies(MovieType.movie, _topMoviesPage, Period.month);
-          state.topMoviesOption.combineData(movies);
+          final Either<FetchFailure, Movies> movies = await _movieService.getTopMovies(_topMoviesPage);
+          state.topMoviesOption.combineData(movies.toOption());
 
           _topMoviesPage++;
           _fetchingTopMovies = false;
           yield state.copyWith(
-            topMoviesOption: movies,
+            topMoviesOption: movies.toOption(),
           );
         }
       },
@@ -70,13 +72,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (!_fetchingMovies) {
           _fetchingMovies = true;
 
-          final Option<Movies> movies = await _repository.fetchMovies(_moviesPage, state.genre);
-          if (_moviesPage != 1) state.moviesOption.combineData(movies);
+          final Either<FetchFailure, Movies> movies = await _movieService.getMovies(_moviesPage, state.genre);
+          if (_moviesPage != 1) state.moviesOption.combineData(movies.toOption());
 
           _moviesPage++;
           _fetchingMovies = false;
           yield state.copyWith(
-            moviesOption: movies,
+            moviesOption: movies.toOption(),
           );
         }
       },
@@ -95,9 +97,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final List<MoviePosition> savedMoviePositions = await _savedMoviesManager.getSavedMovies();
         final List<SavedMovie> savedMovies = <SavedMovie>[];
         for (final MoviePosition position in savedMoviePositions) {
-          final Option<MovieData> data = await _repository.fetchMovie(position.movieId);
+          final Either<FetchFailure, MovieData> data = await _movieService.getMovie(position.movieId);
           data.fold(
-            () {},
+            (_) {},
             (MovieData a) {
               savedMovies.add(SavedMovie(position, a));
             },

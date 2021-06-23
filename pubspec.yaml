@@ -18,6 +18,8 @@ dependencies:
   # network
   http: ^0.13.3
   json_annotation: ^4.0.1
+  retrofit: ^2.0.0
+  dio: ^4.0.0
 
   # storage
   hive_flutter: ^1.1.0
@@ -46,6 +48,7 @@ dev_dependencies:
   freezed: ^0.14.2
   lint: ^1.5.3
   hive_generator: ^1.1.0
+  retrofit_generator: ^2.0.0
 
 flutter:
   uses-material-design: true
