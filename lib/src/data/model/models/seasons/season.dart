@@ -9,6 +9,7 @@ part 'season.g.dart';
 @HiveType(typeId: HiveTypeIdHolder.seasonId)
 class Season {
   Season({
+    this.id,
     required this.movieId,
     required this.number,
     required this.name,
@@ -26,6 +27,7 @@ class Season {
 
   factory Season.fromMap(Map<String, dynamic> map) {
     return Season(
+      id: map[TableSeasons.columnId] as int?,
       movieId: map[TableSeasons.columnMovieId] as int? ?? -1,
       number: map[TableSeasons.columnNumber] as int? ?? -1,
       name: map[TableSeasons.columnName] as String? ?? '',
@@ -33,6 +35,7 @@ class Season {
     );
   }
 
+  final int? id;
   @HiveField(0)
   final int movieId;
   @HiveField(1)

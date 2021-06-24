@@ -1,20 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../tables.dart';
+import '../../tables.dart';
 
 part 'movie_genre.freezed.dart';
 
 @freezed
 class MovieGenre with _$MovieGenre {
   const factory MovieGenre({
-    required int id,
+    int? id,
     required int movieId,
     required String genre,
   }) = _MovieGenre;
 
   factory MovieGenre.fromMap(Map<String, dynamic> map) {
     return MovieGenre(
-      id: map[TableMovieGenres.columnId] as int? ?? -1,
+      id: map[TableMovieGenres.columnId] as int?,
       movieId: map[TableMovieGenres.columnMovieId] as int? ?? -1,
       genre: map[TableMovieGenres.columnGenre] as String? ?? '',
     );

@@ -53,30 +53,34 @@ class TableMovieGenres {
   static const String columnGenre = 'genre';
 }
 
+class TableMovieLanguages {
+  TableMovieLanguages._();
 
-class TableMoviesData {
-  TableMoviesData._();
-
-  static const String name = 'movies_data';
+  static const String name = 'movie_languages';
 
   static const String columnId = 'id';
-  static const String columnMovieId = 'movieId';
+  static const String columnMovieId = 'movie_id';
+  static const String columnLanguage = 'language';
+}
+
+
+class TableDBMovies {
+  TableDBMovies._();
+
+  static const String name = 'db_movies';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
   static const String columnName = 'name';
   static const String columnYear = 'year';
-  static const String columnImdbUrl = 'imdbUrl';
-  static const String columnIsTvShow = 'isTvShow';
+  static const String columnImdbUrl = 'imdb_url';
+  static const String columnIsTvShow = 'is_tv_show';
   static const String columnDuration = 'duration';
-  static const String columnCanBePlayed = 'canBePlayed';
+  static const String columnCanBePlayed = 'can_be_played';
   static const String columnPoster = 'poster';
-  static const String columnImdbRating = 'imdbRating';
-  static const String columnVoterCount = 'voterCount';
-  static const String columnCovers = 'covers';
-  static const String columnSecondaryCovers = 'secondaryCovers';
+  static const String columnImdbRating = 'imdb_rating';
+  static const String columnVoterCount = 'voter_count';
   static const String columnPlot = 'plot';
-  static const String columnGenres = 'genres';
-  static const String columnTrailers = 'trailers';
-  static const String columnLanguages = 'languages';
-  static const String columnSeasons = 'seasons';
-  static const String columnFavorite = 'favorite';
-  static const String columnSaveTimestamp = 'saveTimestamp';
+  static const String columnIsFavorite = 'is_favorite';
+  static const String columnSaveTimestamp = 'save_timestamp';
 }

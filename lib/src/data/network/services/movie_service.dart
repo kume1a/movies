@@ -1,7 +1,9 @@
 import 'package:injectable/injectable.dart';
 
+import '../../local/movies/movie_dao.dart';
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
+import '../../model/core/option.dart';
 import '../../model/models/actors/actors.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/movies/movies.dart';
@@ -16,9 +18,13 @@ import 'core/base_service.dart';
 
 @lazySingleton
 class MovieService extends BaseService {
-  MovieService(this._apiService);
+  MovieService(
+    this._apiService,
+    this._movieDao,
+  );
 
   final ApiService _apiService;
+  final MovieDao _movieDao;
 
   Future<Either<FetchFailure, Movies>> getMovies(int page, Genre genre) async {
     int? genreId;
@@ -145,18 +151,29 @@ class MovieService extends BaseService {
   }
 
   Future<Either<FetchFailure, MovieData>> getMovie(int movieId) async {
-    final Either<FetchFailure, MovieSchema> result = await safeFetch(
-      () => _apiService.getMovie(
+    final Option<MovieData> movieData = await _movieDao.getMovieData(movieId);
+    if (movieData.isSome()) {
+      return right(movieData.getOrElse(() => throw Exception()));
+    }
+
+    final Either<FetchFailure, MovieSchema> result = await safeFetch(() {
+      return _apiService.getMovie(
         movieId: movieId,
         filterWithDirectors: 3.toString(),
         source: 'adjaranet',
-      ),
-    );
+      );
+    });
 
     return result.fold(
       (FetchFailure l) => left(l),
-      (MovieSchema r) =>
-          r.data != null ? right(MovieData.fromSchema(r.data!)) : left(const FetchFailure.unknownError()),
+      (MovieSchema r) async {
+        if (r.data != null) {
+          final MovieData movieData = MovieData.fromSchema(r.data!);
+          await _movieDao.writeMovieData(movieData);
+          return right(movieData);
+        }
+        return left(const FetchFailure.unknownError());
+      },
     );
   }
 
