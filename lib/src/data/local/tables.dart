@@ -132,3 +132,19 @@ class TableEpisodeFiles {
   static const String columnSrc = 'src';
   static const String columnDuration = 'duration';
 }
+
+class TableSearchResults {
+  TableSearchResults._();
+
+  static const String name= 'search_results';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
+  static const String columnSearchType = 'search_type';
+  static const String columnName = 'name';
+  static const String columnDescription = 'description';
+  static const String columnPoster = 'poster';
+  static const String columnSecondaryPoster = 'secondary_poster';
+  static const String columnIsTvShow = 'is_tv_show';
+  static const String columnTimestamp = 'timestamp';
+}

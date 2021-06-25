@@ -155,5 +155,20 @@ class DbFactory {
         FOREIGN KEY (${TableEpisodeFiles.columnEpisodeId}) REFERENCES ${TableEpisodes.name} (${TableEpisodes.columnId})
       );
     ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableSearchResults.name}
+      (
+        ${TableSearchResults.columnId} INTEGER PRIMARY KEY ON CONFLICT IGNORE,
+        ${TableSearchResults.columnMovieId} INTEGER NOT NULL,
+        ${TableSearchResults.columnSearchType} TEXT NOT NULL,
+        ${TableSearchResults.columnName} TEXT NOT NULL,
+        ${TableSearchResults.columnDescription} TEXT NOT NULL,
+        ${TableSearchResults.columnPoster} TEXT NOT NULL,
+        ${TableSearchResults.columnSecondaryPoster} TEXT NOT NULL,
+        ${TableSearchResults.columnIsTvShow} INTEGER NOT NULL CHECK (${TableSearchResults.columnIsTvShow} IN (0, 1)),
+        ${TableSearchResults.columnTimestamp} INTEGER NOT NULl 
+      );
+    ''');
   }
 }

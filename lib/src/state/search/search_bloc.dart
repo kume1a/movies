@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/local/history/search_history_dao.dart';
+import '../../data/local/search_result/search_result_dao.dart';
 import '../../data/local/settings/settings_manager.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
@@ -22,12 +22,12 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc(
     this._searchService,
-    this._historyManager,
+    this._searchResultDao,
     this._settingsInteractor,
   ) : super(SearchState.initial());
 
   final SearchService _searchService;
-  final SearchHistoryDao _historyManager;
+  final SearchResultDao _searchResultDao;
   final SettingsManager _settingsInteractor;
 
   bool _loading = false;
@@ -40,7 +40,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     yield* event.map(
       queryChanged: (_QueryChanged e) async* {
         if (e.query.isEmpty) {
-          final List<SearchResult> history = await _historyManager.getSearchHistory();
+          final List<SearchResult> history = await _searchResultDao.getSearchResults();
           final SearchResults savedSearchResults = SearchResults(history, history.length, 1);
           yield state.copyWith(
             query: e.query,
@@ -82,7 +82,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       searchResultSelected: (_SearchResultSelected e) async* {
         final bool recordSearchHistoryEnabled = await _settingsInteractor.isRecordSearchHistoryEnabled();
         if (recordSearchHistoryEnabled) {
-          _historyManager.saveSearchResult(e.searchResult);
+          _searchResultDao.insertSearchResult(e.searchResult);
         }
       },
     );
