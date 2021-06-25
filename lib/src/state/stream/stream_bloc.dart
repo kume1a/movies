@@ -10,7 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/local/movies/movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
@@ -35,15 +35,15 @@ part 'stream_state.dart';
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   StreamBloc(
     this._movieService,
+    this._movieDao,
     this._settingsHelper,
-    this._savedMoviesManager,
   ) : super(StreamState.initial()) {
     _init();
   }
 
   final MovieService _movieService;
+  final MovieDao _movieDao;
   final SettingsHelper _settingsHelper;
-  final SavedMovieDao _savedMoviesManager;
 
   Future<void> _init() async {
     final bool isAutoPlayEnabled = await _settingsHelper.isAutoPlayEnabled();
@@ -216,29 +216,33 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
     if (state.settings.recordWatchHistoryEnabled) {
       state.seasonFilesOption.foldSome(
-        (SeasonFiles a) {
+        (SeasonFiles a) async {
           final MovieData movie = getMovieOrCrash;
-          final int durationInSeconds = a.data
-              .firstWhere(
-                (Episode element) => element.episode == state.episode,
-                orElse: () => a.data.first,
-              )
-              .episodes
-              .values
-              .first
-              .first
-              .duration;
+          if (await _movieDao.positionForMovieExists(movie.movieId)) {
+            await _movieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
+          } else {
+            final int durationInSeconds = a.data
+                .firstWhere(
+                  (Episode element) => element.episode == state.episode,
+              orElse: () => a.data.first,
+            )
+                .episodes
+                .values
+                .first
+                .first
+                .duration;
 
-          final MoviePosition position = MoviePosition(
-            movie.movieId,
-            durationInSeconds * 1000,
-            e.position.inMilliseconds,
-            movie.isTvShow,
-            state.season,
-            state.episode,
-            DateTime.now().millisecondsSinceEpoch,
-          );
-          _savedMoviesManager.saveMoviePosition(position);
+            final MoviePosition position = MoviePosition(
+              movie.movieId,
+              durationInSeconds * 1000,
+              e.position.inMilliseconds,
+              movie.isTvShow,
+              state.season,
+              state.episode,
+              DateTime.now().millisecondsSinceEpoch,
+            );
+            _movieDao.insertMoviePosition(position);
+          }
         },
       );
     }

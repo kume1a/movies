@@ -4,12 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/local/movies/saved_movie_dao.dart';
+import '../../data/local/movies/movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
-import '../../data/model/models/movies/movie_data.dart';
-import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/movies/saved_movies.dart';
 import '../../data/model/schemas/core/enums.dart';
@@ -23,11 +21,11 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
     this._movieService,
-    this._savedMoviesManager,
+    this._movieDao,
   ) : super(HomeState.initial());
 
   final MovieService _movieService;
-  final SavedMovieDao _savedMoviesManager;
+  final MovieDao _movieDao;
 
   int _topMoviesPage = 1;
   int _moviesPage = 1;
@@ -94,17 +92,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         add(const HomeEvent.moviesPageFetchRequested());
       },
       savedMoviesRequested: (_SavedMoviesRequested value) async* {
-        final List<MoviePosition> savedMoviePositions = await _savedMoviesManager.getSavedMovies();
-        final List<SavedMovie> savedMovies = <SavedMovie>[];
-        for (final MoviePosition position in savedMoviePositions) {
-          final Either<FetchFailure, MovieData> data = await _movieService.getMovie(position.movieId);
-          data.fold(
-            (_) {},
-            (MovieData a) {
-              savedMovies.add(SavedMovie(position, a));
-            },
-          );
-        }
+        final List<SavedMovie> savedMovies = await _movieDao.getSavedMovies();
         yield state.copyWith(savedMoviesOption: some(savedMovies));
       },
     );

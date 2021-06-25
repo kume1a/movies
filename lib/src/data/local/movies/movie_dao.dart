@@ -2,6 +2,8 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
+import '../../model/models/movies/movie_position.dart';
+import '../../model/models/movies/saved_movies.dart';
 import '../../model/models/seasons/season.dart';
 import '../../model/schemas/core/enums.dart';
 import 'db_movie/db_movie.dart';
@@ -12,6 +14,8 @@ import 'db_movie_genre/db_movie_genre.dart';
 import 'db_movie_genre/db_movie_genre_dao.dart';
 import 'db_movie_language/db_movie_language.dart';
 import 'db_movie_language/db_movie_language_dao.dart';
+import 'db_movie_position/db_movie_position.dart';
+import 'db_movie_position/db_movie_position_dao.dart';
 import 'db_movie_season/db_movie_season_dao.dart';
 import 'db_movie_secondary_cover/db_movie_secondary_cover.dart';
 import 'db_movie_secondary_cover/db_movie_secondary_cover_dao.dart';
@@ -28,6 +32,7 @@ class MovieDao {
     this._movieLanguageDao,
     this._movieTrailerDao,
     this._movieSeasonDao,
+    this._moviePositionDao,
   );
 
   final DBMovieDao _movieDao;
@@ -37,6 +42,7 @@ class MovieDao {
   final DBMovieLanguageDao _movieLanguageDao;
   final DBMovieTrailerDao _movieTrailerDao;
   final DBMovieSeasonDao _movieSeasonDao;
+  final DBMoviePositionDao _moviePositionDao;
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
     final DBMovie? dbMovie = await _movieDao.getDBMovie(movieId);
@@ -84,7 +90,7 @@ class MovieDao {
       languages: languages,
       seasons: seasons,
       favorite: dbMovie.isFavorite,
-      saveTimestamp: dbMovie.saveTimestamp
+      saveTimestamp: dbMovie.saveTimestamp,
     ));
   }
 
@@ -166,6 +172,56 @@ class MovieDao {
     return Future.wait(favoritedMovieIds.map((int movieId) async {
       final Option<MovieData> movieData = await getMovieData(movieId);
       return movieData.getOrElse(() => throw Exception());
+    }));
+  }
+
+  Future<void> insertMoviePosition(MoviePosition moviePosition) =>
+      _moviePositionDao.insertMoviePosition(DBMoviePosition(
+        movieId: moviePosition.movieId,
+        durationInMillis: moviePosition.durationInMillis,
+        leftAt: moviePosition.leftAt,
+        isTvShow: moviePosition.isTvShow,
+        season: moviePosition.season,
+        episode: moviePosition.episode,
+        saveTimestamp: moviePosition.timestamp,
+      ));
+
+  Future<bool> positionForMovieExists(int movieId) async => _moviePositionDao.positionForMovieIdExists(movieId);
+
+  Future<Option<SavedMovie>> getSavedMovie(int movieId) async {
+    final DBMoviePosition? moviePosition = await _moviePositionDao.getMoviePosition(movieId);
+    if (moviePosition == null) return none();
+
+    final MoviePosition position = MoviePosition(
+      moviePosition.movieId,
+      moviePosition.durationInMillis,
+      moviePosition.leftAt,
+      moviePosition.isTvShow,
+      moviePosition.season,
+      moviePosition.episode,
+      moviePosition.saveTimestamp,
+    );
+    final Option<MovieData> movieData = await getMovieData(movieId);
+    return some(SavedMovie(position, movieData.getOrElse(() => throw Exception())));
+  }
+
+  Future<void> updateMoviePosition(int movieId, int leftAt) async =>
+      _moviePositionDao.updateMoviePosition(movieId, leftAt);
+
+  Future<List<SavedMovie>> getSavedMovies() async {
+    final List<DBMoviePosition> moviePositions = await _moviePositionDao.getMoviePositions();
+    return Future.wait(moviePositions.map((DBMoviePosition e) async {
+      final Option<MovieData> movieData = await getMovieData(e.movieId);
+      final MoviePosition moviePosition = MoviePosition(
+        e.movieId,
+        e.durationInMillis,
+        e.leftAt,
+        e.isTvShow,
+        e.season,
+        e.episode,
+        e.saveTimestamp,
+      );
+      return SavedMovie(moviePosition, movieData.getOrElse(() => throw Exception()));
     }));
   }
 }

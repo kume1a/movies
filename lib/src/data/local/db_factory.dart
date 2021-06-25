@@ -170,5 +170,20 @@ class DbFactory {
         ${TableSearchResults.columnTimestamp} INTEGER NOT NULl 
       );
     ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableMoviePositions.name}
+      (
+        ${TableMoviePositions.columnId} INTEGER PRIMARY KEY,
+        ${TableMoviePositions.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE,
+        ${TableMoviePositions.columnDurationInMillis} INTEGER NOT NULL,
+        ${TableMoviePositions.columnLeftAt} INTEGER NOT NULL,
+        ${TableMoviePositions.columnIsTvShow} INTEGER NOT NULL CHECK (${TableMoviePositions.columnIsTvShow} IN (0, 1)),
+        ${TableMoviePositions.columnSeason} INTEGER NOT NULL,
+        ${TableMoviePositions.columnEpisode} INTEGER NOT NULL,
+        ${TableMoviePositions.columnSaveTimestamp} INTEGER NOT NULL,
+        FOREIGN KEY (${TableMoviePositions.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
+      ); 
+    ''');
   }
 }

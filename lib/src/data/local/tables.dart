@@ -148,3 +148,18 @@ class TableSearchResults {
   static const String columnIsTvShow = 'is_tv_show';
   static const String columnTimestamp = 'timestamp';
 }
+
+class TableMoviePositions {
+  TableMoviePositions._();
+
+  static const String name = 'movie_positions';
+
+  static const String columnId = 'id';
+  static const String columnMovieId =  'movie_id';
+  static const String columnDurationInMillis = 'duration_in_millis';
+  static const String columnLeftAt = 'left_at';
+  static const String columnIsTvShow = 'is_tv_show';
+  static const String columnSeason = 'season';
+  static const String columnEpisode = 'episode';
+  static const String columnSaveTimestamp = 'save_timestamp';
+}
