@@ -4,21 +4,21 @@ import '../../../../core/helpers/enum_to_string.dart';
 import '../../../model/schemas/core/enums.dart';
 import '../../tables.dart';
 
-part 'movie_cover.freezed.dart';
+part 'db_movie_cover.freezed.dart';
 
 @freezed
-class MovieCover with _$MovieCover {
-  const factory MovieCover({
+class DBMovieCover with _$DBMovieCover {
+  const factory DBMovieCover({
     int? id,
     required int movieId,
     required ImageSize imageSize,
     required String cover,
-  }) = _MovieCover;
+  }) = _DBMovieCover;
 
-  factory MovieCover.fromMap(Map<String, dynamic> map) {
+  factory DBMovieCover.fromMap(Map<String, dynamic> map) {
     final String imageSize = map[TableMovieCovers.columnImageSize] as String? ?? '';
 
-    return MovieCover(
+    return DBMovieCover(
       id: map[TableMovieCovers.columnId] as int?,
       movieId: map[TableMovieCovers.columnMovieId] as int? ?? -1,
       imageSize: EnumToString.fromString(ImageSize.values, imageSize)!,

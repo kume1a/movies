@@ -4,21 +4,21 @@ import '../../../../core/helpers/enum_to_string.dart';
 import '../../../model/schemas/core/enums.dart';
 import '../../tables.dart';
 
-part 'movie_trailer.freezed.dart';
+part 'db_movie_trailer.freezed.dart';
 
 @freezed
-class MovieTrailer with _$MovieTrailer {
-  const factory MovieTrailer({
+class DBMovieTrailer with _$DBMovieTrailer {
+  const factory DBMovieTrailer({
     int? id,
     required int movieId,
     required Language language,
     required String trailerUrl,
-  }) = _MovieTrailer;
+  }) = _DBMovieTrailer;
 
-  factory MovieTrailer.fromMap(Map<String, dynamic> map) {
+  factory DBMovieTrailer.fromMap(Map<String, dynamic> map) {
     final String language = map[TableMovieTrailers.columnLanguage] as String? ?? '';
 
-    return MovieTrailer(
+    return DBMovieTrailer(
       id: map[TableMovieTrailers.columnId] as int?,
       movieId: map[TableMovieTrailers.columnMovieId] as int? ?? -1,
       language: EnumToString.fromString(Language.values, language)!,

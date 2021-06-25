@@ -30,7 +30,7 @@ class DbFactory {
         ${TableSeasons.columnNumber} INTEGER NOT NULL,
         ${TableSeasons.columnName} TEXT NOT NULL,
         ${TableSeasons.columnEpisodesCount} INTEGER NOT NULL,
-        FOREIGN KEY (${TableSeasons.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnId})
+        FOREIGN KEY (${TableSeasons.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnId})
       );
     ''');
 
@@ -41,7 +41,7 @@ class DbFactory {
         ${TableMovieCovers.columnMovieId} INTEGER NOT NULL,
         ${TableMovieCovers.columnImageSize} TEXT NOT NULL,
         ${TableMovieCovers.columnCover} TEXT NOT NULL,
-        FOREIGN KEY (${TableMovieCovers.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnMovieId})
+        FOREIGN KEY (${TableMovieCovers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
     ''');
 
@@ -52,7 +52,7 @@ class DbFactory {
         ${TableMovieSecondaryCovers.columnMovieId} INTEGER NOT NULL,
         ${TableMovieSecondaryCovers.columnResolution} TEXT NOT NULL,
         ${TableMovieSecondaryCovers.columnSecondaryCover} TEXT NOT NULL,
-        FOREIGN KEY (${TableMovieSecondaryCovers.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnMovieId})
+        FOREIGN KEY (${TableMovieSecondaryCovers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
     ''');
 
@@ -63,7 +63,7 @@ class DbFactory {
         ${TableMovieTrailers.columnMovieId} INTEGER NOT NULL,
         ${TableMovieTrailers.columnLanguage} TEXT NOT NULL,
         ${TableMovieTrailers.columnTrailerUrl} TEXT NOT NULL,
-        FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnMovieId})
+        FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
     ''');
 
@@ -73,7 +73,7 @@ class DbFactory {
         ${TableMovieGenres.columnId} INTEGER PRIMARY KEY,
         ${TableMovieGenres.columnMovieId} INTEGER NOT NULL,
         ${TableMovieGenres.columnGenre} TEXT NOT NULL,
-        FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnMovieId})
+        FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
     ''');
 
@@ -83,51 +83,51 @@ class DbFactory {
         ${TableMovieLanguages.columnId} INTEGER PRIMARY KEY,
         ${TableMovieLanguages.columnMovieId} INTEGER NOT NULL,
         ${TableMovieLanguages.columnLanguage} TEXT NOT NULL,
-        FOREIGN KEY (${TableMovieLanguages.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnMovieId})
+        FOREIGN KEY (${TableMovieLanguages.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
     ''');
 
     db.execute('''
-      CREATE TABLE IF NOT EXISTS ${TableDBMovies.name}
+      CREATE TABLE IF NOT EXISTS ${TableMovies.name}
       (
-        ${TableDBMovies.columnId} INTEGER PRIMARY KEY,
-        ${TableDBMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT IGNORE,
-        ${TableDBMovies.columnName} TEXT NOT NULL,
-        ${TableDBMovies.columnYear} INTEGER NOT NULL,
-        ${TableDBMovies.columnImdbUrl} TEXT NOT NULL,
-        ${TableDBMovies.columnIsTvShow} INTEGER NOT NULL CHECK (${TableDBMovies.columnIsTvShow} IN (0, 1)),
-        ${TableDBMovies.columnDuration} INTEGER NOT NULL,
-        ${TableDBMovies.columnCanBePlayed} INTEGER NOT NULL CHECK (${TableDBMovies.columnCanBePlayed} IN (0, 1)),
-        ${TableDBMovies.columnPoster} TEXT NOT NULL,
-        ${TableDBMovies.columnImdbRating} REAL NOT NULL,
-        ${TableDBMovies.columnVoterCount} INTEGER NOT NULL,
-        ${TableDBMovies.columnPlot} TEXT NOT NULL,
-        ${TableDBMovies.columnIsFavorite} INTEGER NOT NULL CHECK (${TableDBMovies.columnIsFavorite} IN (0, 1)),
-        ${TableDBMovies.columnSaveTimestamp} INTEGER NOT NULL
+        ${TableMovies.columnId} INTEGER PRIMARY KEY,
+        ${TableMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT IGNORE,
+        ${TableMovies.columnName} TEXT NOT NULL,
+        ${TableMovies.columnYear} INTEGER NOT NULL,
+        ${TableMovies.columnImdbUrl} TEXT NOT NULL,
+        ${TableMovies.columnIsTvShow} INTEGER NOT NULL CHECK (${TableMovies.columnIsTvShow} IN (0, 1)),
+        ${TableMovies.columnDuration} INTEGER NOT NULL,
+        ${TableMovies.columnCanBePlayed} INTEGER NOT NULL CHECK (${TableMovies.columnCanBePlayed} IN (0, 1)),
+        ${TableMovies.columnPoster} TEXT NOT NULL,
+        ${TableMovies.columnImdbRating} REAL NOT NULL,
+        ${TableMovies.columnVoterCount} INTEGER NOT NULL,
+        ${TableMovies.columnPlot} TEXT NOT NULL,
+        ${TableMovies.columnIsFavorite} INTEGER NOT NULL CHECK (${TableMovies.columnIsFavorite} IN (0, 1)),
+        ${TableMovies.columnSaveTimestamp} INTEGER NOT NULL
       );
     ''');
 
     db.execute('''
-      CREATE TABLE IF NOT EXISTS ${TableDBSeasonFiles.name}
+      CREATE TABLE IF NOT EXISTS ${TableSeasonFiles.name}
       (
-        ${TableDBSeasonFiles.columnId} INTEGER PRIMARY KEY,
-        ${TableDBSeasonFiles.columnMovieId} INTEGER NOT NULL,
-        ${TableDBSeasonFiles.columnSeason} INTEGER NOT NULL,
-        FOREIGN KEY (${TableDBSeasonFiles.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnId})
+        ${TableSeasonFiles.columnId} INTEGER PRIMARY KEY,
+        ${TableSeasonFiles.columnMovieId} INTEGER NOT NULL,
+        ${TableSeasonFiles.columnSeason} INTEGER NOT NULL,
+        FOREIGN KEY (${TableSeasonFiles.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnId})
       );
     ''');
 
     db.execute('''
-      CREATE TABLE IF NOT EXISTS ${TableDBEpisodes.name}
+      CREATE TABLE IF NOT EXISTS ${TableEpisodes.name}
       (
-        ${TableDBEpisodes.columnId} INTEGER PRIMARY KEY,
-        ${TableDBEpisodes.columnSeasonFilesId} INTEGER NOT NULL,
-        ${TableDBEpisodes.columnEpisode} INTEGER NOT NULL,
-        ${TableDBEpisodes.columnTitle} TEXT NOT NULL,
-        ${TableDBEpisodes.columnDescription} TEXT NOT NULL,
-        ${TableDBEpisodes.columnRating} TEXT NOT NULL,
-        ${TableDBEpisodes.columnPoster} TEXT NOT NULL,
-        FOREIGN KEY (${TableDBEpisodes.columnSeasonFilesId}) REFERENCES ${TableDBSeasonFiles.name} (${TableDBSeasonFiles.columnId})
+        ${TableEpisodes.columnId} INTEGER PRIMARY KEY,
+        ${TableEpisodes.columnSeasonFilesId} INTEGER NOT NULL,
+        ${TableEpisodes.columnEpisode} INTEGER NOT NULL,
+        ${TableEpisodes.columnTitle} TEXT NOT NULL,
+        ${TableEpisodes.columnDescription} TEXT NOT NULL,
+        ${TableEpisodes.columnRating} TEXT NOT NULL,
+        ${TableEpisodes.columnPoster} TEXT NOT NULL,
+        FOREIGN KEY (${TableEpisodes.columnSeasonFilesId}) REFERENCES ${TableSeasonFiles.name} (${TableSeasonFiles.columnId})
       );
     ''');
 
@@ -138,21 +138,21 @@ class DbFactory {
         ${TableEpisodeCovers.columnEpisodeId} INTEGER NOT NULL,
         ${TableEpisodeCovers.columnResolution} TEXT NOT NULL,
         ${TableEpisodeCovers.columnCover} TEXT NOT NULL,
-        FOREIGN KEY (${TableEpisodeCovers.columnEpisodeId}) REFERENCES ${TableDBEpisodes.name} (${TableDBEpisodes.columnId})
+        FOREIGN KEY (${TableEpisodeCovers.columnEpisodeId}) REFERENCES ${TableEpisodes.name} (${TableEpisodes.columnId})
       );
     ''');
 
     db.execute('''
-      CREATE TABLE IF NOT EXISTS ${TableDBEpisodeFiles.name}
+      CREATE TABLE IF NOT EXISTS ${TableEpisodeFiles.name}
       (
-        ${TableDBEpisodeFiles.columnId} INTEGER PRIMARY KEY,
-        ${TableDBEpisodeFiles.columnEpisodeId} INTEGER NOT NULL,
-        ${TableDBEpisodeFiles.columnLanguage} TEXT NOT NULL,
-        ${TableDBEpisodeFiles.columnEpisodeFileId} INTEGER NOT NULL,
-        ${TableDBEpisodeFiles.columnQuality} TEXT NOT NULL,
-        ${TableDBEpisodeFiles.columnSrc} TEXT NOT NULL,
-        ${TableDBEpisodeFiles.columnDuration} INTEGER NOT NULL,
-        FOREIGN KEY (${TableDBEpisodeFiles.columnEpisodeId}) REFERENCES ${TableDBEpisodes.name} (${TableDBEpisodes.columnId})
+        ${TableEpisodeFiles.columnId} INTEGER PRIMARY KEY,
+        ${TableEpisodeFiles.columnEpisodeId} INTEGER NOT NULL,
+        ${TableEpisodeFiles.columnLanguage} TEXT NOT NULL,
+        ${TableEpisodeFiles.columnEpisodeFileId} INTEGER NOT NULL,
+        ${TableEpisodeFiles.columnQuality} TEXT NOT NULL,
+        ${TableEpisodeFiles.columnSrc} TEXT NOT NULL,
+        ${TableEpisodeFiles.columnDuration} INTEGER NOT NULL,
+        FOREIGN KEY (${TableEpisodeFiles.columnEpisodeId}) REFERENCES ${TableEpisodes.name} (${TableEpisodes.columnId})
       );
     ''');
   }

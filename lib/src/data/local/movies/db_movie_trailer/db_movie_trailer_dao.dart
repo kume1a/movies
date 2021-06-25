@@ -3,15 +3,15 @@ import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/helpers/enum_to_string.dart';
 import '../../tables.dart';
-import 'movie_trailer.dart';
+import 'db_movie_trailer.dart';
 
 @lazySingleton
-class MovieTrailerDao {
-  MovieTrailerDao(this._db);
+class DBMovieTrailerDao {
+  DBMovieTrailerDao(this._db);
 
   final Database _db;
 
-  Future<void> insertMovieTrailer(MovieTrailer movieTrailer) async {
+  Future<void> insertMovieTrailer(DBMovieTrailer movieTrailer) async {
     await _db.rawInsert('''
       INSERT INTO ${TableMovieTrailers.name}
       (
@@ -28,7 +28,7 @@ class MovieTrailerDao {
     ]);
   }
 
-  Future<List<MovieTrailer>> getMovieTrailers(int movieId) async {
+  Future<List<DBMovieTrailer>> getMovieTrailers(int movieId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
       SELECT * FROM ${TableMovieTrailers.name}
         WHERE ${TableMovieTrailers.columnMovieId} = ?;
@@ -36,6 +36,6 @@ class MovieTrailerDao {
       movieId,
     ]);
 
-    return result.map((Map<String, Object?> e) => MovieTrailer.fromMap(e)).toList();
+    return result.map((Map<String, Object?> e) => DBMovieTrailer.fromMap(e)).toList();
   }
 }

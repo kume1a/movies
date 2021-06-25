@@ -6,17 +6,17 @@ import '../../model/models/seasons/season.dart';
 import '../../model/schemas/core/enums.dart';
 import 'db_movie/db_movie.dart';
 import 'db_movie/db_movie_dao.dart';
-import 'movie_cover/movie_cover.dart';
-import 'movie_cover/movie_cover_dao.dart';
-import 'movie_genre/movie_genre.dart';
-import 'movie_genre/movie_genre_dao.dart';
-import 'movie_language/movie_language.dart';
-import 'movie_language/movie_language_dao.dart';
-import 'movie_season/movie_season_dao.dart';
-import 'movie_secondary_cover/movie_secondary_cover.dart';
-import 'movie_secondary_cover/movie_secondary_cover_dao.dart';
-import 'movie_trailer/movie_trailer.dart';
-import 'movie_trailer/movie_trailer_dao.dart';
+import 'db_movie_cover/db_movie_cover.dart';
+import 'db_movie_cover/db_movie_cover_dao.dart';
+import 'db_movie_genre/db_movie_genre.dart';
+import 'db_movie_genre/db_movie_genre_dao.dart';
+import 'db_movie_language/db_movie_language.dart';
+import 'db_movie_language/db_movie_language_dao.dart';
+import 'db_movie_season/db_movie_season_dao.dart';
+import 'db_movie_secondary_cover/db_movie_secondary_cover.dart';
+import 'db_movie_secondary_cover/db_movie_secondary_cover_dao.dart';
+import 'db_movie_trailer/db_movie_trailer.dart';
+import 'db_movie_trailer/db_movie_trailer_dao.dart';
 
 @lazySingleton
 class MovieDao {
@@ -31,35 +31,35 @@ class MovieDao {
   );
 
   final DBMovieDao _dbMovieDao;
-  final MovieCoverDao _movieCoverDao;
-  final MovieSecondaryCoverDao _movieSecondaryCoverDao;
-  final MovieGenreDao _movieGenreDao;
-  final MovieLanguageDao _movieLanguageDao;
-  final MovieTrailerDao _movieTrailerDao;
-  final MovieSeasonDao _movieSeasonDao;
+  final DBMovieCoverDao _movieCoverDao;
+  final DBMovieSecondaryCoverDao _movieSecondaryCoverDao;
+  final DBMovieGenreDao _movieGenreDao;
+  final DBMovieLanguageDao _movieLanguageDao;
+  final DBMovieTrailerDao _movieTrailerDao;
+  final DBMovieSeasonDao _movieSeasonDao;
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
     final DBMovie? dbMovie = await _dbMovieDao.getDBMovie(movieId);
     if (dbMovie == null) return none();
 
-    final List<MovieCover> movieCovers = await _movieCoverDao.getMovieCovers(movieId);
-    final Map<ImageSize, String> covers = <ImageSize, String>{for (MovieCover e in movieCovers) e.imageSize: e.cover};
+    final List<DBMovieCover> movieCovers = await _movieCoverDao.getMovieCovers(movieId);
+    final Map<ImageSize, String> covers = <ImageSize, String>{for (DBMovieCover e in movieCovers) e.imageSize: e.cover};
 
-    final List<MovieSecondaryCover> movieSecondaryCovers =
+    final List<DBMovieSecondaryCover> movieSecondaryCovers =
         await _movieSecondaryCoverDao.getMovieSecondaryCovers(movieId);
     final Map<Resolution, String> secondaryCovers = <Resolution, String>{
-      for (MovieSecondaryCover e in movieSecondaryCovers) e.resolution: e.secondaryCover
+      for (DBMovieSecondaryCover e in movieSecondaryCovers) e.resolution: e.secondaryCover
     };
 
-    final List<MovieGenre> movieGenres = await _movieGenreDao.getMovieGenres(movieId);
-    final List<String> genres = movieGenres.map((MovieGenre e) => e.genre).toList();
+    final List<DBMovieGenre> movieGenres = await _movieGenreDao.getMovieGenres(movieId);
+    final List<String> genres = movieGenres.map((DBMovieGenre e) => e.genre).toList();
 
-    final List<MovieLanguage> movieLanguages = await _movieLanguageDao.getMovieLanguages(movieId);
-    final List<Language> languages = movieLanguages.map((MovieLanguage e) => e.language).toList();
+    final List<DBMovieLanguage> movieLanguages = await _movieLanguageDao.getMovieLanguages(movieId);
+    final List<Language> languages = movieLanguages.map((DBMovieLanguage e) => e.language).toList();
 
-    final List<MovieTrailer> movieTrailers = await _movieTrailerDao.getMovieTrailers(movieId);
+    final List<DBMovieTrailer> movieTrailers = await _movieTrailerDao.getMovieTrailers(movieId);
     final Map<Language, String> trailers = <Language, String>{
-      for (MovieTrailer e in movieTrailers) e.language: e.trailerUrl
+      for (DBMovieTrailer e in movieTrailers) e.language: e.trailerUrl
     };
 
     final List<Season> seasons = await _movieSeasonDao.getMovieSeasons(dbMovie.id!);
@@ -105,46 +105,46 @@ class MovieDao {
       saveTimestamp: movieData.saveTimestamp,
     ));
 
-    movieData.covers.entries.map((MapEntry<ImageSize, String> entry) {
-      return MovieCover(
+    for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {
+      await _movieCoverDao.insertMovieCover(DBMovieCover(
         movieId: movieData.movieId,
-        imageSize: entry.key,
-        cover: entry.value,
-      );
-    }).forEach((MovieCover e) => _movieCoverDao.insertMovieCover(e));
+        imageSize: e.key,
+        cover: e.value,
+      ));
+    }
 
-    movieData.secondaryCovers.entries.map((MapEntry<Resolution, String> e) {
-      return MovieSecondaryCover(
+    for (final MapEntry<Resolution, String> e in movieData.secondaryCovers.entries) {
+      await _movieSecondaryCoverDao.insertMovieSecondaryCover(DBMovieSecondaryCover(
         movieId: movieData.movieId,
         resolution: e.key,
         secondaryCover: e.value,
-      );
-    }).forEach((MovieSecondaryCover e) => _movieSecondaryCoverDao.insertMovieSecondaryCover(e));
+      ));
+    }
 
-    movieData.genres.map((String e) {
-      return MovieGenre(
+    for (final String genre in movieData.genres) {
+      await _movieGenreDao.insertMovieGenre(DBMovieGenre(
         movieId: movieData.movieId,
-        genre: e,
-      );
-    }).forEach((MovieGenre e) => _movieGenreDao.insertMovieGenre(e));
+        genre: genre,
+      ));
+    }
 
-    movieData.languages.map((Language e) {
-      return MovieLanguage(
+    for (final Language language in movieData.languages) {
+      await _movieLanguageDao.insertMovieLanguage(DBMovieLanguage(
         movieId: movieData.movieId,
-        language: e,
-      );
-    }).forEach((MovieLanguage e) => _movieLanguageDao.insertMovieLanguage(e));
+        language: language,
+      ));
+    }
 
-    movieData.trailers.entries.map((MapEntry<Language, String> e) {
-      return MovieTrailer(
+    for (final MapEntry<Language, String> e in movieData.trailers.entries) {
+      await _movieTrailerDao.insertMovieTrailer(DBMovieTrailer(
         movieId: movieData.movieId,
         language: e.key,
         trailerUrl: e.value,
-      );
-    }).forEach((MovieTrailer e) => _movieTrailerDao.insertMovieTrailer(e));
+      ));
+    }
 
     for (final Season e in movieData.seasons) {
-      _movieSeasonDao.insertMovieSeason(e);
+      await _movieSeasonDao.insertMovieSeason(e);
     }
   }
 }

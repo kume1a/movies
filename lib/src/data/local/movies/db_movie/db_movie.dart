@@ -25,20 +25,20 @@ class DBMovie with _$DBMovie {
 
   factory DBMovie.fromMap(Map<String, dynamic> map) {
     return DBMovie(
-      id: map[TableDBMovies.columnId] as int?,
-      movieId: map[TableDBMovies.columnMovieId] as int? ?? -1,
-      name: map[TableDBMovies.columnName] as String? ?? '',
-      year: map[TableDBMovies.columnYear] as int? ?? -1,
-      imdbUrl: map[TableDBMovies.columnImdbUrl] as String? ?? '',
-      isTvShow: map[TableDBMovies.columnIsTvShow] == 1,
-      duration: map[TableDBMovies.columnDuration] as int? ?? -1,
-      canBePlayed: map[TableDBMovies.columnCanBePlayed] == 1,
-      poster: map[TableDBMovies.columnPoster] as String? ?? '',
-      imdbRating: map[TableDBMovies.columnImdbRating] as double? ?? -1,
-      voterCount: map[TableDBMovies.columnVoterCount] as int? ?? -1,
-      plot: map[TableDBMovies.columnPlot] as String? ?? '',
-      isFavorite: map[TableDBMovies.columnIsFavorite] == 1,
-      saveTimestamp: map[TableDBMovies.columnSaveTimestamp] as int? ?? -1,
+      id: map[TableMovies.columnId] as int?,
+      movieId: map[TableMovies.columnMovieId] as int? ?? -1,
+      name: map[TableMovies.columnName] as String? ?? '',
+      year: map[TableMovies.columnYear] as int? ?? -1,
+      imdbUrl: map[TableMovies.columnImdbUrl] as String? ?? '',
+      isTvShow: map[TableMovies.columnIsTvShow] == 1,
+      duration: map[TableMovies.columnDuration] as int? ?? -1,
+      canBePlayed: map[TableMovies.columnCanBePlayed] == 1,
+      poster: map[TableMovies.columnPoster] as String? ?? '',
+      imdbRating: map[TableMovies.columnImdbRating] as double? ?? -1,
+      voterCount: map[TableMovies.columnVoterCount] as int? ?? -1,
+      plot: map[TableMovies.columnPlot] as String? ?? '',
+      isFavorite: map[TableMovies.columnIsFavorite] == 1,
+      saveTimestamp: map[TableMovies.columnSaveTimestamp] as int? ?? -1,
     );
   }
 }

@@ -12,22 +12,22 @@ class DBMovieDao {
 
   Future<void> insertDBMovie(DBMovie dbMovie) async {
     await _db.rawInsert('''
-      INSERT INTO ${TableDBMovies.name}
+      INSERT INTO ${TableMovies.name}
       (
-        ${TableDBMovies.columnId},
-        ${TableDBMovies.columnMovieId},
-        ${TableDBMovies.columnName},
-        ${TableDBMovies.columnYear},
-        ${TableDBMovies.columnImdbUrl},
-        ${TableDBMovies.columnIsTvShow},
-        ${TableDBMovies.columnDuration},
-        ${TableDBMovies.columnCanBePlayed},
-        ${TableDBMovies.columnPoster},
-        ${TableDBMovies.columnImdbRating},
-        ${TableDBMovies.columnVoterCount},
-        ${TableDBMovies.columnPlot},
-        ${TableDBMovies.columnIsFavorite},
-        ${TableDBMovies.columnSaveTimestamp}
+        ${TableMovies.columnId},
+        ${TableMovies.columnMovieId},
+        ${TableMovies.columnName},
+        ${TableMovies.columnYear},
+        ${TableMovies.columnImdbUrl},
+        ${TableMovies.columnIsTvShow},
+        ${TableMovies.columnDuration},
+        ${TableMovies.columnCanBePlayed},
+        ${TableMovies.columnPoster},
+        ${TableMovies.columnImdbRating},
+        ${TableMovies.columnVoterCount},
+        ${TableMovies.columnPlot},
+        ${TableMovies.columnIsFavorite},
+        ${TableMovies.columnSaveTimestamp}
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       dbMovie.id,
@@ -49,8 +49,8 @@ class DBMovieDao {
 
   Future<DBMovie?> getDBMovie(int movieId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableDBMovies.name}
-        WHERE ${TableDBMovies.columnMovieId} = ?;
+      SELECT * FROM ${TableMovies.name}
+        WHERE ${TableMovies.columnMovieId} = ?;
     ''', <Object?>[
       movieId,
     ]);

@@ -12,11 +12,11 @@ class DBSeasonFileDao {
 
   Future<void> insertSeasonFile(DBSeasonFile seasonFile) async {
     await _db.rawInsert('''
-      INSERT INTO ${TableDBSeasonFiles.name}
+      INSERT INTO ${TableSeasonFiles.name}
       (
-        ${TableDBSeasonFiles.columnId},
-        ${TableDBSeasonFiles.columnMovieId},
-        ${TableDBSeasonFiles.columnSeason}
+        ${TableSeasonFiles.columnId},
+        ${TableSeasonFiles.columnMovieId},
+        ${TableSeasonFiles.columnSeason}
       ) VALUES (?, ?, ?);
     ''', <Object?>[
       seasonFile.id,
@@ -27,8 +27,8 @@ class DBSeasonFileDao {
 
   Future<DBSeasonFile?> getSeasonFile(int movieId, int season) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableDBSeasonFiles.name}
-        WHERE ${TableDBSeasonFiles.columnMovieId} = ? AND ${TableDBSeasonFiles.columnSeason} = ?;
+      SELECT * FROM ${TableSeasonFiles.name}
+        WHERE ${TableSeasonFiles.columnMovieId} = ? AND ${TableSeasonFiles.columnSeason} = ?;
     ''', <Object?>[
       movieId,
       season,

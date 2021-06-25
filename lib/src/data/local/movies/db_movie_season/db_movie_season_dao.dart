@@ -5,8 +5,8 @@ import '../../../model/models/seasons/season.dart';
 import '../../tables.dart';
 
 @lazySingleton
-class MovieSeasonDao {
-  MovieSeasonDao(this._db);
+class DBMovieSeasonDao {
+  DBMovieSeasonDao(this._db);
 
   final Database _db;
 

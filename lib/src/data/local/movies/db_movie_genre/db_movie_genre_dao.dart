@@ -2,15 +2,15 @@ import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../tables.dart';
-import 'movie_genre.dart';
+import 'db_movie_genre.dart';
 
 @lazySingleton
-class MovieGenreDao {
-  MovieGenreDao(this._db);
+class DBMovieGenreDao {
+  DBMovieGenreDao(this._db);
 
   final Database _db;
 
-  Future<void> insertMovieGenre(MovieGenre movieGenre) async {
+  Future<void> insertMovieGenre(DBMovieGenre movieGenre) async {
     await _db.rawInsert('''
       INSERT INTO ${TableMovieGenres.name}
       (
@@ -25,7 +25,7 @@ class MovieGenreDao {
     ]);
   }
 
-  Future<List<MovieGenre>> getMovieGenres(int movieId) async {
+  Future<List<DBMovieGenre>> getMovieGenres(int movieId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
       SELECT * FROM ${TableMovieGenres.name} 
         WHERE ${TableMovieGenres.columnMovieId} = ?;
@@ -33,6 +33,6 @@ class MovieGenreDao {
       movieId,
     ]);
 
-    return result.map((Map<String, Object?> e) => MovieGenre.fromMap(e)).toList();
+    return result.map((Map<String, Object?> e) => DBMovieGenre.fromMap(e)).toList();
   }
 }

@@ -19,17 +19,17 @@ class DBEpisodeFile with _$DBEpisodeFile {
   }) = _DBEpisodeFile;
 
   factory DBEpisodeFile.fromMap(Map<String, dynamic> map) {
-    final String language = map[TableDBEpisodeFiles.columnLanguage] as String? ?? '';
-    final String quality = map[TableDBEpisodeFiles.columnQuality] as String? ?? '';
+    final String language = map[TableEpisodeFiles.columnLanguage] as String? ?? '';
+    final String quality = map[TableEpisodeFiles.columnQuality] as String? ?? '';
 
     return DBEpisodeFile(
-      id: map[TableDBEpisodeFiles.columnId] as int?,
-      episodeId: map[TableDBEpisodeFiles.columnId] as int? ?? -1,
+      id: map[TableEpisodeFiles.columnId] as int?,
+      episodeId: map[TableEpisodeFiles.columnId] as int? ?? -1,
       language: EnumToString.fromString(Language.values, language)!,
-      episodeFileId: map[TableDBEpisodeFiles.columnEpisodeFileId] as int? ?? -1,
+      episodeFileId: map[TableEpisodeFiles.columnEpisodeFileId] as int? ?? -1,
       quality: EnumToString.fromString(Quality.values, quality)!,
-      src: map[TableDBEpisodeFiles.columnSrc] as String? ?? '',
-      duration: map[TableDBEpisodeFiles.columnDuration] as int? ?? -1,
+      src: map[TableEpisodeFiles.columnSrc] as String? ?? '',
+      duration: map[TableEpisodeFiles.columnDuration] as int? ?? -1,
     );
   }
 }

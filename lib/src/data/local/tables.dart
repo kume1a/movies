@@ -63,10 +63,10 @@ class TableMovieLanguages {
   static const String columnLanguage = 'language';
 }
 
-class TableDBMovies {
-  TableDBMovies._();
+class TableMovies {
+  TableMovies._();
 
-  static const String name = 'db_movies';
+  static const String name = 'movies';
 
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
@@ -84,8 +84,8 @@ class TableDBMovies {
   static const String columnSaveTimestamp = 'save_timestamp';
 }
 
-class TableDBSeasonFiles {
-  TableDBSeasonFiles._();
+class TableSeasonFiles {
+  TableSeasonFiles._();
 
   static const String name = 'season_files';
 
@@ -94,8 +94,8 @@ class TableDBSeasonFiles {
   static const String columnSeason = 'season';
 }
 
-class TableDBEpisodes {
-  TableDBEpisodes._();
+class TableEpisodes {
+  TableEpisodes._();
 
   static const String name = 'episodes';
 
@@ -119,8 +119,8 @@ class TableEpisodeCovers {
   static const String columnCover = 'cover';
 }
 
-class TableDBEpisodeFiles {
-  TableDBEpisodeFiles._();
+class TableEpisodeFiles {
+  TableEpisodeFiles._();
 
   static const String name = 'episode_files';
 

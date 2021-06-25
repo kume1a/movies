@@ -18,13 +18,13 @@ class DBEpisode with _$DBEpisode {
 
   factory DBEpisode.fromMap(Map<String, dynamic> map) {
     return DBEpisode(
-      id: map[TableDBEpisodes.columnId] as int?,
-      seasonFilesId: map[TableDBEpisodes.columnSeasonFilesId] as int? ?? -1,
-      episode: map[TableDBEpisodes.columnEpisode] as int? ?? -1,
-      title: map[TableDBEpisodes.columnTitle] as String? ?? '',
-      description: map[TableDBEpisodes.columnDescription] as String? ?? '',
-      rating: map[TableDBEpisodes.columnRating],
-      poster: map[TableDBEpisodes.columnPoster] as String? ?? '',
+      id: map[TableEpisodes.columnId] as int?,
+      seasonFilesId: map[TableEpisodes.columnSeasonFilesId] as int? ?? -1,
+      episode: map[TableEpisodes.columnEpisode] as int? ?? -1,
+      title: map[TableEpisodes.columnTitle] as String? ?? '',
+      description: map[TableEpisodes.columnDescription] as String? ?? '',
+      rating: map[TableEpisodes.columnRating],
+      poster: map[TableEpisodes.columnPoster] as String? ?? '',
     );
   }
 }

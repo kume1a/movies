@@ -12,15 +12,15 @@ class DBEpisodeDao {
 
   Future<int> insertDBEpisode(DBEpisode episode) async {
     return _db.rawInsert('''
-      INSERT INTO ${TableDBEpisodes.name}
+      INSERT INTO ${TableEpisodes.name}
       (
-        ${TableDBEpisodes.columnId},
-        ${TableDBEpisodes.columnSeasonFilesId},
-        ${TableDBEpisodes.columnEpisode},
-        ${TableDBEpisodes.columnTitle},
-        ${TableDBEpisodes.columnDescription},
-        ${TableDBEpisodes.columnRating},
-        ${TableDBEpisodes.columnPoster}
+        ${TableEpisodes.columnId},
+        ${TableEpisodes.columnSeasonFilesId},
+        ${TableEpisodes.columnEpisode},
+        ${TableEpisodes.columnTitle},
+        ${TableEpisodes.columnDescription},
+        ${TableEpisodes.columnRating},
+        ${TableEpisodes.columnPoster}
       ) VALUES (?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       episode.id,
@@ -35,8 +35,8 @@ class DBEpisodeDao {
 
   Future<List<DBEpisode>> getEpisodes(int seasonFilesId) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableDBEpisodes.name}
-        WHERE ${TableDBEpisodes.columnSeasonFilesId} = ?;
+      SELECT * FROM ${TableEpisodes.name}
+        WHERE ${TableEpisodes.columnSeasonFilesId} = ?;
     ''', <Object?>[
       seasonFilesId,
     ]);
