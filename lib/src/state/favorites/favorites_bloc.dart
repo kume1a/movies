@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/local/favorites/favorites_dao.dart';
+import '../../data/local/movies/movie_dao.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_data.dart';
 
@@ -14,9 +14,11 @@ part 'favorites_state.dart';
 
 @injectable
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
-  FavoritesBloc(this._favoritesManager) : super(FavoritesState.initial());
+  FavoritesBloc(
+    this._movieDao,
+  ) : super(FavoritesState.initial());
 
-  final FavoritesDao _favoritesManager;
+  final MovieDao _movieDao;
 
   @override
   Stream<FavoritesState> mapEventToState(
@@ -24,7 +26,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   ) async* {
     yield* event.map(
       favoriteMoviesRequested: (_FavoriteMoviesRequested e) async* {
-        final List<MovieData> movies = await _favoritesManager.getFavoriteMovies();
+        final List<MovieData> movies = await _movieDao.getFavoritedMovies();
         yield state.copyWith(moviesOption: some(movies));
       },
     );

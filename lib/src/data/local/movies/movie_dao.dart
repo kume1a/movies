@@ -21,7 +21,7 @@ import 'db_movie_trailer/db_movie_trailer_dao.dart';
 @lazySingleton
 class MovieDao {
   MovieDao(
-    this._dbMovieDao,
+    this._movieDao,
     this._movieCoverDao,
     this._movieSecondaryCoverDao,
     this._movieGenreDao,
@@ -30,7 +30,7 @@ class MovieDao {
     this._movieSeasonDao,
   );
 
-  final DBMovieDao _dbMovieDao;
+  final DBMovieDao _movieDao;
   final DBMovieCoverDao _movieCoverDao;
   final DBMovieSecondaryCoverDao _movieSecondaryCoverDao;
   final DBMovieGenreDao _movieGenreDao;
@@ -39,7 +39,7 @@ class MovieDao {
   final DBMovieSeasonDao _movieSeasonDao;
 
   Future<Option<MovieData>> getMovieData(int movieId) async {
-    final DBMovie? dbMovie = await _dbMovieDao.getDBMovie(movieId);
+    final DBMovie? dbMovie = await _movieDao.getDBMovie(movieId);
     if (dbMovie == null) return none();
 
     final List<DBMovieCover> movieCovers = await _movieCoverDao.getMovieCovers(movieId);
@@ -84,11 +84,12 @@ class MovieDao {
       languages: languages,
       seasons: seasons,
       favorite: dbMovie.isFavorite,
+      saveTimestamp: dbMovie.saveTimestamp
     ));
   }
 
   Future<void> writeMovieData(MovieData movieData) async {
-    await _dbMovieDao.insertDBMovie(DBMovie(
+    await _movieDao.insertDBMovie(DBMovie(
       id: movieData.id,
       movieId: movieData.movieId,
       name: movieData.name,
@@ -102,7 +103,7 @@ class MovieDao {
       voterCount: movieData.voterCount,
       plot: movieData.plot,
       isFavorite: movieData.favorite,
-      saveTimestamp: movieData.saveTimestamp,
+      saveTimestamp: DateTime.now().millisecondsSinceEpoch,
     ));
 
     for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {
@@ -146,5 +147,18 @@ class MovieDao {
     for (final Season e in movieData.seasons) {
       await _movieSeasonDao.insertMovieSeason(e);
     }
+  }
+
+  Future<bool> isMovieFavorited(int movieId) async => _movieDao.isMovieFavorited(movieId);
+
+  Future<void> changeMovieFavoriteStatus(int movieId, {required bool isFavorite}) async =>
+      _movieDao.changeMovieFavoriteStatus(movieId, isFavorite: isFavorite);
+
+  Future<List<MovieData>> getFavoritedMovies() async {
+    final List<int> favoritedMovieIds = await _movieDao.getFavoritedMovieIds();
+    return Future.wait(favoritedMovieIds.map((int movieId) async {
+      final Option<MovieData> movieData = await getMovieData(movieId);
+      return movieData.getOrElse(() => throw Exception());
+    }));
   }
 }

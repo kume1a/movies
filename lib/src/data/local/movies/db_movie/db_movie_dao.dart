@@ -57,4 +57,39 @@ class DBMovieDao {
 
     return result.isEmpty ? null : DBMovie.fromMap(result.first);
   }
+
+  Future<bool> isMovieFavorited(int movieId)async {
+    final List<Map<String, Object?>> favorite = await _db.rawQuery('''
+      SELECT 
+        ${TableMovies.columnIsFavorite} 
+      FROM ${TableMovies.name}
+        WHERE ${TableMovies.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+
+    return Sqflite.firstIntValue(favorite) == 1;
+  }
+
+  Future<void> changeMovieFavoriteStatus(int movieId, {required bool isFavorite}) async {
+    await _db.rawUpdate('''
+      UPDATE ${TableMovies.name}
+        SET ${TableMovies.columnIsFavorite} = ?, ${TableMovies.columnSaveTimestamp} = ?
+      WHERE ${TableMovies.columnMovieId} = ?;
+    ''', <Object?>[
+      if (isFavorite) 1 else 0,
+      DateTime.now().millisecondsSinceEpoch,
+      movieId,
+    ]);
+  }
+
+  Future<List<int>> getFavoritedMovieIds() async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableMovies.columnMovieId} FROM ${TableMovies.name}
+        WHERE ${TableMovies.columnIsFavorite} = 1
+      ORDER BY ${TableMovies.columnSaveTimestamp} DESC;
+    ''');
+
+    return result.map((Map<String, Object?> e) => e[TableMovies.columnMovieId] as int? ?? -1).toList();
+  }
 }
