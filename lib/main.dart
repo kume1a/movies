@@ -4,19 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:injectable/injectable.dart';
 
-import 'src/data/local/cache_manager.dart';
-import 'src/data/local/hive_box_holder.dart';
+import 'src/data/local/cache_dumper.dart';
 import 'src/di/injection.dart';
 import 'src/ui/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureInjection(Environment.prod);
-  await getIt<HiveBoxHolder>().init();
-  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-    DeviceOrientation.portraitUp,
-  ]);
+
+  await configureInjection(Environment.prod);
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]);
   await FlutterDownloader.initialize();
+  getIt<CacheDumper>().dumpCacheIfNeeded();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
@@ -24,6 +22,6 @@ Future<void> main() async {
       // exit(1);
     }
   };
+
   runApp(App());
-  getIt<CacheManager>().configureCache();
 }

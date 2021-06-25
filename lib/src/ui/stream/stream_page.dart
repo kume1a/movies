@@ -107,7 +107,7 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
       },
       builder: (BuildContext context, StreamState state) {
         return state.movie.fold(
-          () => const CircularProgressIndicator(),
+          () => const Center(child: CircularProgressIndicator()),
           (MovieData movie) {
             final List<Widget> content = <Widget>[
               SizedBox(

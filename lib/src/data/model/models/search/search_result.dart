@@ -1,15 +1,9 @@
-import 'package:hive/hive.dart';
-
 import '../../../../core/helpers/enum_to_string.dart';
-import '../../../local/hive_box_holder.dart';
 import '../../../local/tables.dart';
 import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/search/search_results_schema.dart';
 
-part 'search_result.g.dart';
-
-@HiveType(typeId: HiveTypeIdHolder.searchResultId)
 class SearchResult {
   SearchResult({
     required this.id,
@@ -53,31 +47,14 @@ class SearchResult {
     );
   }
 
-  @HiveField(0)
   final int id;
-
-  @HiveField(1)
   final SearchType type;
-
-  @HiveField(2)
   final int movieId;
-
-  @HiveField(3)
   final String name;
-
-  @HiveField(4)
   final String description;
-
-  @HiveField(5)
   final String poster;
-
-  @HiveField(6)
   final String secondaryPoster;
-
-  @HiveField(7)
   final bool isTvShow;
-
-  @HiveField(8)
   final int timestamp;
 
   String get image => <String>[poster, secondaryPoster].firstWhere(

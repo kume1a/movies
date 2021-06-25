@@ -1,10 +1,3 @@
-import 'package:hive/hive.dart';
-
-import '../../../local/hive_box_holder.dart';
-
-part 'movie_position.g.dart';
-
-@HiveType(typeId: HiveTypeIdHolder.moviePositionId)
 class MoviePosition {
   const MoviePosition(
     this.movieId,
@@ -16,25 +9,12 @@ class MoviePosition {
     this.timestamp,
   );
 
-  @HiveField(0)
   final int movieId;
-
-  @HiveField(1)
   final int durationInMillis;
-
-  @HiveField(2)
   final int leftAt;
-
-  @HiveField(3)
   final bool isTvShow;
-
-  @HiveField(4)
   final int season;
-
-  @HiveField(5)
   final int episode;
-
-  @HiveField(6)
   final int timestamp;
 
   @override

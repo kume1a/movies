@@ -1,15 +1,9 @@
-import 'package:hive/hive.dart';
-
-import '../../../local/hive_box_holder.dart';
 import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/season_files/files_schema.dart';
 import '../../schemas/season_files/season_files_schema.dart';
 import 'episode_file.dart';
 
-part 'episode.g.dart';
-
-@HiveType(typeId: HiveTypeIdHolder.episodeId)
 class Episode {
   Episode({
     required this.episode,
@@ -46,25 +40,12 @@ class Episode {
     );
   }
 
-  @HiveField(0)
   final int episode;
-
-  @HiveField(1)
   final String title;
-
-  @HiveField(2)
   final String description;
-
-  @HiveField(3)
   final dynamic rating;
-
-  @HiveField(4)
   final String poster;
-
-  @HiveField(5)
   final Map<Resolution, String> covers;
-
-  @HiveField(6)
   final Map<Language, List<EpisodeFile>> episodes;
 
   @override
