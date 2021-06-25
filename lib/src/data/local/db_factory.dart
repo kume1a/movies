@@ -106,5 +106,54 @@ class DbFactory {
         ${TableDBMovies.columnSaveTimestamp} INTEGER NOT NULL
       );
     ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableDBSeasonFiles.name}
+      (
+        ${TableDBSeasonFiles.columnId} INTEGER PRIMARY KEY,
+        ${TableDBSeasonFiles.columnMovieId} INTEGER NOT NULL,
+        ${TableDBSeasonFiles.columnSeason} INTEGER NOT NULL,
+        FOREIGN KEY (${TableDBSeasonFiles.columnMovieId}) REFERENCES ${TableDBMovies.name} (${TableDBMovies.columnId})
+      );
+    ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableDBEpisodes.name}
+      (
+        ${TableDBEpisodes.columnId} INTEGER PRIMARY KEY,
+        ${TableDBEpisodes.columnSeasonFilesId} INTEGER NOT NULL,
+        ${TableDBEpisodes.columnEpisode} INTEGER NOT NULL,
+        ${TableDBEpisodes.columnTitle} TEXT NOT NULL,
+        ${TableDBEpisodes.columnDescription} TEXT NOT NULL,
+        ${TableDBEpisodes.columnRating} TEXT NOT NULL,
+        ${TableDBEpisodes.columnPoster} TEXT NOT NULL,
+        FOREIGN KEY (${TableDBEpisodes.columnSeasonFilesId}) REFERENCES ${TableDBSeasonFiles.name} (${TableDBSeasonFiles.columnId})
+      );
+    ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableEpisodeCovers.name}
+      (
+        ${TableEpisodeCovers.columnId} INTEGER PRIMARY KEY,
+        ${TableEpisodeCovers.columnEpisodeId} INTEGER NOT NULL,
+        ${TableEpisodeCovers.columnResolution} TEXT NOT NULL,
+        ${TableEpisodeCovers.columnCover} TEXT NOT NULL,
+        FOREIGN KEY (${TableEpisodeCovers.columnEpisodeId}) REFERENCES ${TableDBEpisodes.name} (${TableDBEpisodes.columnId})
+      );
+    ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableDBEpisodeFiles.name}
+      (
+        ${TableDBEpisodeFiles.columnId} INTEGER PRIMARY KEY,
+        ${TableDBEpisodeFiles.columnEpisodeId} INTEGER NOT NULL,
+        ${TableDBEpisodeFiles.columnLanguage} TEXT NOT NULL,
+        ${TableDBEpisodeFiles.columnEpisodeFileId} INTEGER NOT NULL,
+        ${TableDBEpisodeFiles.columnQuality} TEXT NOT NULL,
+        ${TableDBEpisodeFiles.columnSrc} TEXT NOT NULL,
+        ${TableDBEpisodeFiles.columnDuration} INTEGER NOT NULL,
+        FOREIGN KEY (${TableDBEpisodeFiles.columnEpisodeId}) REFERENCES ${TableDBEpisodes.name} (${TableDBEpisodes.columnId})
+      );
+    ''');
   }
 }

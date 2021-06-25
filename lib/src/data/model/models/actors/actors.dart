@@ -13,7 +13,7 @@ class Actors {
     final List<Actor> actors = schema.data?.map((ActorSchema e) => Actor.fromSchema(e)).toList() ?? List<Actor>.empty();
 
     return Actors._(
-      actors: actors.cast<Actor>(),
+      actors: actors,
       totalCount: schema.meta?.pagination?.total ?? 0,
       totalPages: schema.meta?.pagination?.totalPages ?? 0,
     );

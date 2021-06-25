@@ -3,9 +3,7 @@ import 'package:injectable/injectable.dart';
 import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/seasons/season.dart';
-import '../../model/models/seasons/season_files.dart';
 import '../../model/schemas/core/enums.dart';
-import '../hive_box_holder.dart';
 import 'db_movie/db_movie.dart';
 import 'db_movie/db_movie_dao.dart';
 import 'movie_cover/movie_cover.dart';
@@ -23,7 +21,6 @@ import 'movie_trailer/movie_trailer_dao.dart';
 @lazySingleton
 class MovieDao {
   MovieDao(
-    this._boxHolder,
     this._dbMovieDao,
     this._movieCoverDao,
     this._movieSecondaryCoverDao,
@@ -33,7 +30,6 @@ class MovieDao {
     this._movieSeasonDao,
   );
 
-  final HiveBoxHolder _boxHolder;
   final DBMovieDao _dbMovieDao;
   final MovieCoverDao _movieCoverDao;
   final MovieSecondaryCoverDao _movieSecondaryCoverDao;
@@ -150,13 +146,5 @@ class MovieDao {
     for (final Season e in movieData.seasons) {
       _movieSeasonDao.insertMovieSeason(e);
     }
-  }
-
-  Future<Option<SeasonFiles>> getSeasonFiles(int id, int season) async {
-    return optionOf(_boxHolder.seasonFiles.get('${id}_$season'));
-  }
-
-  Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {
-    await _boxHolder.seasonFiles.put('${id}_${seasonFiles.season}', seasonFiles);
   }
 }

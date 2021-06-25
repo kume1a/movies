@@ -63,7 +63,6 @@ class TableMovieLanguages {
   static const String columnLanguage = 'language';
 }
 
-
 class TableDBMovies {
   TableDBMovies._();
 
@@ -83,4 +82,53 @@ class TableDBMovies {
   static const String columnPlot = 'plot';
   static const String columnIsFavorite = 'is_favorite';
   static const String columnSaveTimestamp = 'save_timestamp';
+}
+
+class TableDBSeasonFiles {
+  TableDBSeasonFiles._();
+
+  static const String name = 'season_files';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
+  static const String columnSeason = 'season';
+}
+
+class TableDBEpisodes {
+  TableDBEpisodes._();
+
+  static const String name = 'episodes';
+
+  static const String columnId = 'id';
+  static const String columnSeasonFilesId = 'season_files_id';
+  static const String columnEpisode = 'episode';
+  static const String columnTitle = 'title';
+  static const String columnDescription = 'description';
+  static const String columnRating = 'rating';
+  static const String columnPoster = 'poster';
+}
+
+class TableEpisodeCovers {
+  TableEpisodeCovers._();
+
+  static const String name = 'episode_covers';
+
+  static const String columnId = 'id';
+  static const String columnEpisodeId = 'episode_id';
+  static const String columnResolution = 'resolution';
+  static const String columnCover = 'cover';
+}
+
+class TableDBEpisodeFiles {
+  TableDBEpisodeFiles._();
+
+  static const String name = 'episode_files';
+
+  static const String columnId = 'id';
+  static const String columnEpisodeId = 'episode_id';
+  static const String columnLanguage = 'language';
+  static const String columnEpisodeFileId = 'episode_file_id';
+  static const String columnQuality = 'quality';
+  static const String columnSrc = 'src';
+  static const String columnDuration = 'duration';
 }

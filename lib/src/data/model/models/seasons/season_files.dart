@@ -14,7 +14,7 @@ class SeasonFiles {
     final List<Episode> episodes =
         schema.data?.map((SeasonFilesDataSchema e) => Episode.fromSchema(e)).toList() ?? List<Episode>.empty();
 
-    return SeasonFiles(season, episodes.cast<Episode>());
+    return SeasonFiles(season, episodes);
   }
 
   @HiveField(0)

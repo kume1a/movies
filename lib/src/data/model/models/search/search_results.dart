@@ -10,7 +10,7 @@ class SearchResults {
         .toList() ?? List<SearchResult>.empty();
 
     return SearchResults(
-      searchResults.cast<SearchResult>(),
+      searchResults,
       schema.meta?.pagination?.total ?? 0,
       schema.meta?.pagination?.totalPages ?? 0,
     );

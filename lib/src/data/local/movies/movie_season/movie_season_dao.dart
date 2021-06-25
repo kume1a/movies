@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -32,7 +30,6 @@ class MovieSeasonDao {
   }
 
   Future<List<Season>> getMovieSeasons(int movieId) async {
-    log('MovieSeasonDao.getMovieSeasons: movieId = $movieId');
     final List<Map<String, Object?>> result = await _db.rawQuery('''
       SELECT * FROM ${TableSeasons.name}
         WHERE ${TableSeasons.columnMovieId} = ?;
