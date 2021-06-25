@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../data/local/db_factory.dart';
@@ -9,7 +10,7 @@ abstract class StorageModule {
   @singleton
   Future<Database> get database => DbFactory.create();
 
-  // @preResolve
-  // @singleton
-  // Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
+  @preResolve
+  @singleton
+  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
 }

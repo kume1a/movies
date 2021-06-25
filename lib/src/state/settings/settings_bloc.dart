@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/local/settings/settings_manager.dart';
+import '../../data/local/settings/settings_helper.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_event.dart';
@@ -17,10 +17,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _init();
   }
 
-  final SettingsManager _settingsInteractor;
+  final SettingsHelper _settingsInteractor;
 
   Future<void> _init() async {
-    final bool isNightModeEnabled = await _settingsInteractor.isNightModeEnabled();
     final bool isAutoPlatEnabled = await _settingsInteractor.isAutoPlayEnabled();
     final int seekValue = await _settingsInteractor.getDoubleTapToSeekValue();
     final bool isRecordSearchHistoryEnabled =
@@ -29,7 +28,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         await _settingsInteractor.isRecordWatchHistoryEnabled();
 
     add(SettingsEvent.initial(
-      isNightModeEnabled: isNightModeEnabled,
       isAutoPlatEnabled: isAutoPlatEnabled,
       seekValue: seekValue,
       isRecordSearchHistoryEnabled: isRecordSearchHistoryEnabled,
@@ -44,16 +42,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     yield* event.map(
       initial: (_Initial e) async* {
         yield state.copyWith(
-          nightModeEnabled: e.isNightModeEnabled,
           autoPlayEnabled: e.isAutoPlatEnabled,
           doubleTapToSeekValue: e.seekValue,
           recordSearchHistoryEnabled: e.isRecordSearchHistoryEnabled,
           recordWatchHistoryEnabled: e.isRecordWatchHistoryEnabled,
         );
-      },
-      nightModeSwitched: (_NightModeSwitched e) async* {
-        yield state.copyWith(nightModeEnabled: e.enabled);
-        await _settingsInteractor.setNightModeEnabled(enabled: e.enabled);
       },
       autoPlaySwitched: (_AutoPlaySwitched e) async* {
         yield state.copyWith(autoPlayEnabled: e.enabled);

@@ -11,7 +11,7 @@ import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../data/local/movies/saved_movie_dao.dart';
-import '../../data/local/settings/settings_manager.dart';
+import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
@@ -35,20 +35,20 @@ part 'stream_state.dart';
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   StreamBloc(
     this._movieService,
-    this._settingsManager,
+    this._settingsHelper,
     this._savedMoviesManager,
   ) : super(StreamState.initial()) {
     _init();
   }
 
   final MovieService _movieService;
-  final SettingsManager _settingsManager;
+  final SettingsHelper _settingsHelper;
   final SavedMovieDao _savedMoviesManager;
 
   Future<void> _init() async {
-    final bool isAutoPlayEnabled = await _settingsManager.isAutoPlayEnabled();
-    final bool recordWatchHistoryEnabled = await _settingsManager.isRecordWatchHistoryEnabled();
-    final int doubleTapToSeekValue = await _settingsManager.getDoubleTapToSeekValue();
+    final bool isAutoPlayEnabled = await _settingsHelper.isAutoPlayEnabled();
+    final bool recordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
+    final int doubleTapToSeekValue = await _settingsHelper.getDoubleTapToSeekValue();
 
     final StreamSettings settings = StreamSettings(
       autoPlayEnabled: isAutoPlayEnabled,

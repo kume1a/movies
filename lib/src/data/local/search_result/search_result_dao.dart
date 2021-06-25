@@ -46,4 +46,6 @@ class SearchResultDao {
 
     return result.map((Map<String, Object?> e) => SearchResult.fromMap(e)).toList();
   }
+
+  Future<void> deleteSearchResults() async => _db.delete(TableSearchResults.name);
 }

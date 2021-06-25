@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/local/search_result/search_result_dao.dart';
-import '../../data/local/settings/settings_manager.dart';
+import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
@@ -28,7 +28,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   final SearchService _searchService;
   final SearchResultDao _searchResultDao;
-  final SettingsManager _settingsInteractor;
+  final SettingsHelper _settingsInteractor;
 
   bool _loading = false;
   int _page = 1;

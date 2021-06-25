@@ -16,7 +16,6 @@ dependencies:
   flutter_bloc: ^7.0.0
 
   # network
-  http: ^0.13.3
   json_annotation: ^4.0.1
   retrofit: ^2.0.0
   dio: ^4.0.0
@@ -26,6 +25,7 @@ dependencies:
   hive: ^2.0.4
   path_provider: ^2.0.2
   sqflite: ^2.0.0+3
+  shared_preferences: ^2.0.6
 
   # helpers
   video_player: ^2.1.6
