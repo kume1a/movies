@@ -224,4 +224,16 @@ class MovieDao {
       return SavedMovie(moviePosition, movieData.getOrElse(() => throw Exception()));
     }));
   }
+
+  Future<void> deleteMoviePositions() async => _moviePositionDao.deleteMoviePositions();
+
+  Future<void> deleteMovies() async {
+    await _movieSeasonDao.deleteAll();
+    await _movieCoverDao.deleteAll();
+    await _movieSecondaryCoverDao.deleteAll();
+    await _movieTrailerDao.deleteAll();
+    await _movieGenreDao.deleteAll();
+    await _movieLanguageDao.deleteAll();
+    await _movieDao.deleteAll();
+  }
 }

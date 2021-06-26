@@ -36,4 +36,6 @@ class DBMovieLanguageDao {
 
     return result.map((Map<String, Object?> e) => DBMovieLanguage.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovieLanguages.name);
 }

@@ -38,4 +38,6 @@ class DBEpisodeCoverDao {
 
     return result.map((Map<String, Object?> e) => DBEpisodeCover.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableEpisodeCovers.name);
 }

@@ -38,4 +38,6 @@ class DBMovieCoverDao {
 
     return result.map((Map<String, Object?> e) => DBMovieCover.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovieCovers.name);
 }

@@ -43,4 +43,6 @@ class DBEpisodeDao {
 
     return result.map((Map<String, Object?> e) => DBEpisode.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableEpisodes.name);
 }

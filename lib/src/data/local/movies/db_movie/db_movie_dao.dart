@@ -58,7 +58,7 @@ class DBMovieDao {
     return result.isEmpty ? null : DBMovie.fromMap(result.first);
   }
 
-  Future<bool> isMovieFavorited(int movieId)async {
+  Future<bool> isMovieFavorited(int movieId) async {
     final List<Map<String, Object?>> favorite = await _db.rawQuery('''
       SELECT 
         ${TableMovies.columnIsFavorite} 
@@ -92,4 +92,6 @@ class DBMovieDao {
 
     return result.map((Map<String, Object?> e) => e[TableMovies.columnMovieId] as int? ?? -1).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovies.name);
 }

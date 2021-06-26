@@ -38,4 +38,6 @@ class DBMovieTrailerDao {
 
     return result.map((Map<String, Object?> e) => DBMovieTrailer.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovieTrailers.name);
 }

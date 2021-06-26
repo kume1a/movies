@@ -38,4 +38,6 @@ class DBMovieSecondaryCoverDao {
 
     return result.map((Map<String, Object?> e) => DBMovieSecondaryCover.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovieSecondaryCovers.name);
 }

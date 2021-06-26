@@ -113,4 +113,11 @@ class SeasonFileDao {
       }
     }
   }
+
+  Future<void> deleteSeasonFiles() async  {
+    await _episodeCoverDao.deleteAll();
+    await _episodeFileDao.deleteAll();
+    await _episodeDao.deleteAll();
+    await _seasonFileDao.deleteAll();
+  }
 }

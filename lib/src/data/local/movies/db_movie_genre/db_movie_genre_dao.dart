@@ -35,4 +35,6 @@ class DBMovieGenreDao {
 
     return result.map((Map<String, Object?> e) => DBMovieGenre.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableMovieGenres.name);
 }

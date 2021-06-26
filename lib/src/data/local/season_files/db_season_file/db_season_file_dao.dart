@@ -36,4 +36,6 @@ class DBSeasonFileDao {
 
     return result.isEmpty ? null : DBSeasonFile.fromMap(result.first);
   }
+
+  Future<void> deleteAll() async => _db.delete(TableSeasonFiles.name);
 }

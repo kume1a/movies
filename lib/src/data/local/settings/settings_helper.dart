@@ -34,10 +34,7 @@ class SettingsHelper {
   // ---- history ----
   Future<void> clearSearchHistory() async => _searchResultDao.deleteSearchResults();
 
-  Future<void> clearSavedMovies() async {
-    // TODO: 25/06/2021 clear saved movies
-    // await _boxHolder.continueWatching.clear();
-  }
+  Future<void> clearSavedMovies() async => _movieDao.deleteMoviePositions();
 
   Future<void> clearFavorites() async => _movieDao.unfavoriteMovies();
 

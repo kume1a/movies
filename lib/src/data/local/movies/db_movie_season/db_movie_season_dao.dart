@@ -39,4 +39,6 @@ class DBMovieSeasonDao {
 
     return result.map((Map<String, Object?> e) => Season.fromMap(e)).toList();
   }
+
+  Future<void> deleteAll() async => _db.delete(TableSeasons.name);
 }

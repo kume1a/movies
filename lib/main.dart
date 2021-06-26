@@ -14,7 +14,7 @@ Future<void> main() async {
   await configureInjection(Environment.prod);
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]);
   await FlutterDownloader.initialize();
-  getIt<CacheDumper>().dumpCacheIfNeeded();
+  await getIt<CacheDumper>().dumpCacheIfNeeded();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
