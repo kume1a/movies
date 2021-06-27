@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../movies/movie_dao.dart';
+import '../favorite_movie/favorite_movie_dao.dart';
 import '../saved_movies/saved_movie_dao.dart';
 import '../search_result/search_result_dao.dart';
 
@@ -9,15 +9,15 @@ import '../search_result/search_result_dao.dart';
 class SettingsHelper {
   SettingsHelper(
     this._sharedPreferences,
-    this._movieDao,
     this._searchResultDao,
     this._savedMovieDao,
+    this._favoriteMovieDao,
   );
 
   final SharedPreferences _sharedPreferences;
-  final MovieDao _movieDao;
   final SearchResultDao _searchResultDao;
   final SavedMovieDao _savedMovieDao;
+  final FavoriteMovieDao _favoriteMovieDao;
 
   static const String _keyAutoPlay = 'key_auto_play';
   static const String _keyDoubleTapToSeek = 'key_double_tap_to_seek';
@@ -39,7 +39,7 @@ class SettingsHelper {
 
   Future<void> clearSavedMovies() async => _savedMovieDao.deleteMoviePositions();
 
-  Future<void> clearFavorites() async => _movieDao.unfavoriteMovies();
+  Future<void> clearFavorites() async => _favoriteMovieDao.unfavoriteMovies();
 
   Future<void> setRecordingSearchHistoryEnabled({required bool enabled}) async =>
       _sharedPreferences.setBool(_keyRecordSearchHistory, enabled);

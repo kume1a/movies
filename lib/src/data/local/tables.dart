@@ -163,3 +163,12 @@ class TableMoviePositions {
   static const String columnEpisode = 'episode';
   static const String columnSaveTimestamp = 'save_timestamp';
 }
+
+class TableFavoriteMovies {
+  TableFavoriteMovies._();
+
+  static const String name = 'favorite_movies';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
+}

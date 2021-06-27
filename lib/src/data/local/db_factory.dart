@@ -181,9 +181,16 @@ class DbFactory {
         ${TableMoviePositions.columnIsTvShow} INTEGER NOT NULL CHECK (${TableMoviePositions.columnIsTvShow} IN (0, 1)),
         ${TableMoviePositions.columnSeason} INTEGER NOT NULL,
         ${TableMoviePositions.columnEpisode} INTEGER NOT NULL,
-        ${TableMoviePositions.columnSaveTimestamp} INTEGER NOT NULL,
-        FOREIGN KEY (${TableMoviePositions.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
+        ${TableMoviePositions.columnSaveTimestamp} INTEGER NOT NULL
       ); 
+    ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableFavoriteMovies.name}
+      (
+        ${TableFavoriteMovies.columnId} INTEGER PRIMARY KEY NOT NULL,
+        ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL
+      );
     ''');
   }
 }

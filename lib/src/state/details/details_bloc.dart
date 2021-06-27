@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/local/movies/movie_dao.dart';
+import '../../data/local/favorite_movie/favorite_movie_dao.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
@@ -23,13 +23,13 @@ part 'details_state.dart';
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   DetailsBloc(
     this._movieService,
-    this._movieDao,
+    this._favoriteMovieDao,
     this._savedMovieDao,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial());
 
   final MovieService _movieService;
-  final MovieDao _movieDao;
+  final FavoriteMovieDao _favoriteMovieDao;
   final SavedMovieDao _savedMovieDao;
 
   final int? movieId;
@@ -45,7 +45,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
     yield* event.map(
       init: (_Init event) async* {
-        final bool isFavorite = await _movieDao.isMovieFavorited(movieId!);
+        final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
         yield state.copyWith(favorite: isFavorite);
       },
       movieFetchRequested: (_) async* {
@@ -74,7 +74,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         final bool toggled = !state.favorite;
 
         yield state.copyWith(favorite: toggled);
-        _movieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
+        _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
       },
       isSavedMovieRequested: (_IsSavedMovieRequested value) async* {
         final Option<SavedMovie> moviePositionOption = await _savedMovieDao.getSavedMovie(movieId!);

@@ -149,26 +149,6 @@ class MovieDao {
     }
   }
 
-  Future<bool> isMovieFavorited(int movieId) async => _movieDao.isMovieFavorited(movieId);
-
-  Future<void> changeMovieFavoriteStatus(int movieId, {required bool isFavorite}) async =>
-      _movieDao.changeMovieFavoriteStatus(movieId, isFavorite: isFavorite);
-
-  Future<void> unfavoriteMovies() async {
-    final List<int> favoritedMovieIds = await _movieDao.getFavoritedMovieIds();
-    for (final int movieId in favoritedMovieIds) {
-      await _movieDao.changeMovieFavoriteStatus(movieId, isFavorite: false);
-    }
-  }
-
-  Future<List<MovieData>> getFavoritedMovies() async {
-    final List<int> favoritedMovieIds = await _movieDao.getFavoritedMovieIds();
-    return Future.wait(favoritedMovieIds.map((int movieId) async {
-      final Option<MovieData> movieData = await getMovieData(movieId);
-      return movieData.getOrElse(() => throw Exception());
-    }));
-  }
-
   Future<void> deleteMovies() async {
     await _movieSeasonDao.deleteAll();
     await _movieCoverDao.deleteAll();
