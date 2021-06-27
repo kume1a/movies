@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/local/movies/movie_dao.dart';
+import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
@@ -21,11 +21,11 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(
     this._movieService,
-    this._movieDao,
+    this._savedMovieDao,
   ) : super(HomeState.initial());
 
   final MovieService _movieService;
-  final MovieDao _movieDao;
+  final SavedMovieDao _savedMovieDao;
 
   int _topMoviesPage = 1;
   int _moviesPage = 1;
@@ -92,8 +92,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         add(const HomeEvent.moviesPageFetchRequested());
       },
       savedMoviesRequested: (_SavedMoviesRequested value) async* {
-        final List<SavedMovie> savedMovies = await _movieDao.getSavedMovies();
-        yield state.copyWith(savedMoviesOption: some(savedMovies));
+        final Option<List<SavedMovie>> savedMovies = await _savedMovieDao.getSavedMovies();
+        yield state.copyWith(savedMoviesOption: savedMovies);
       },
     );
   }

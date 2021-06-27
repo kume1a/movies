@@ -27,7 +27,7 @@ class CacheDumper {
     } else {
       final DateTime lastDumpDate = DateTime.fromMillisecondsSinceEpoch(lastDumpTimestamp);
 
-      if (now.difference(lastDumpDate).inSeconds >= 10) {
+      if (now.difference(lastDumpDate).inHours >= 24) {
         await _dumpCache();
         await _sharedPreferences.setInt(_keyLastDumpTimestamp, now.millisecondsSinceEpoch);
       }

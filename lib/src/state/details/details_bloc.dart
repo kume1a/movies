@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/movies/movie_dao.dart';
+import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
@@ -23,11 +24,13 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   DetailsBloc(
     this._movieService,
     this._movieDao,
+    this._savedMovieDao,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial());
 
   final MovieService _movieService;
   final MovieDao _movieDao;
+  final SavedMovieDao _savedMovieDao;
 
   final int? movieId;
 
@@ -74,7 +77,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         _movieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
       },
       isSavedMovieRequested: (_IsSavedMovieRequested value) async* {
-        final Option<SavedMovie> moviePositionOption = await _movieDao.getSavedMovie(movieId!);
+        final Option<SavedMovie> moviePositionOption = await _savedMovieDao.getSavedMovie(movieId!);
         yield state.copyWith(
           moviePositionOption: moviePositionOption.fold(
             () => none(),

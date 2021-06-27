@@ -10,7 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../data/local/movies/movie_dao.dart';
+import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
@@ -35,14 +35,14 @@ part 'stream_state.dart';
 class StreamBloc extends Bloc<StreamEvent, StreamState> {
   StreamBloc(
     this._movieService,
-    this._movieDao,
+    this._savedMovieDao,
     this._settingsHelper,
   ) : super(StreamState.initial()) {
     _init();
   }
 
   final MovieService _movieService;
-  final MovieDao _movieDao;
+  final SavedMovieDao _savedMovieDao;
   final SettingsHelper _settingsHelper;
 
   Future<void> _init() async {
@@ -218,8 +218,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       state.seasonFilesOption.foldSome(
         (SeasonFiles a) async {
           final MovieData movie = getMovieOrCrash;
-          if (await _movieDao.positionForMovieExists(movie.movieId)) {
-            await _movieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
+          if (await _savedMovieDao.positionForMovieExists(movie.movieId)) {
+            await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
           } else {
             final int durationInSeconds = a.data
                 .firstWhere(
@@ -241,7 +241,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
               state.episode,
               DateTime.now().millisecondsSinceEpoch,
             );
-            _movieDao.insertMoviePosition(position);
+            _savedMovieDao.insertMoviePosition(position);
           }
         },
       );

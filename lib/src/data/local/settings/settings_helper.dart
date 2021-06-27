@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../movies/movie_dao.dart';
+import '../saved_movies/saved_movie_dao.dart';
 import '../search_result/search_result_dao.dart';
 
 @lazySingleton
@@ -10,11 +11,13 @@ class SettingsHelper {
     this._sharedPreferences,
     this._movieDao,
     this._searchResultDao,
+    this._savedMovieDao,
   );
 
   final SharedPreferences _sharedPreferences;
   final MovieDao _movieDao;
   final SearchResultDao _searchResultDao;
+  final SavedMovieDao _savedMovieDao;
 
   static const String _keyAutoPlay = 'key_auto_play';
   static const String _keyDoubleTapToSeek = 'key_double_tap_to_seek';
@@ -34,7 +37,7 @@ class SettingsHelper {
   // ---- history ----
   Future<void> clearSearchHistory() async => _searchResultDao.deleteSearchResults();
 
-  Future<void> clearSavedMovies() async => _movieDao.deleteMoviePositions();
+  Future<void> clearSavedMovies() async => _savedMovieDao.deleteMoviePositions();
 
   Future<void> clearFavorites() async => _movieDao.unfavoriteMovies();
 
