@@ -2,9 +2,9 @@ part of 'favorites_bloc.dart';
 
 @freezed
 class FavoritesState with _$FavoritesState {
-  const factory FavoritesState(Option<List<MovieData>> moviesOption) = _FavoritesState;
+  const factory FavoritesState({
+    List<MovieData>? movies,
+  }) = _FavoritesState;
 
-  factory FavoritesState.initial() => FavoritesState(
-        none(),
-      );
+  factory FavoritesState.initial() => const FavoritesState();
 }

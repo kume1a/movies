@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/models/movies/movie_data.dart';
 import '../../di/injection.dart';
 import '../../state/favorites/favorites_bloc.dart';
-import '../core/extensions.dart';
 import '../core/values/constants.dart';
 import 'widgets/widgets.dart';
 
@@ -27,18 +25,14 @@ class _FavoritesPageContentState extends State<FavoritesPageContent> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
-      buildWhen: (FavoritesState prev, FavoritesState curr) =>
-          !prev.moviesOption.equals(curr.moviesOption),
+      buildWhen: (FavoritesState prev, FavoritesState curr) => prev.movies != curr.movies,
       builder: (BuildContext context, FavoritesState state) {
-        return state.moviesOption.fold(
-          () => const Center(child: CircularProgressIndicator()),
-          (List<MovieData> a) {
-            return AnimatedSwitcher(
-              duration: mediumAnimDuration,
-              child: a.isNotEmpty ? MovieList(a) : EmptyFavoriteListMessage(),
-            );
-          },
-        );
+        return state.movies != null
+            ? AnimatedSwitcher(
+                duration: mediumAnimDuration,
+                child: state.movies!.isNotEmpty ? MovieList(state.movies!) : EmptyFavoriteListMessage(),
+              )
+            : const Center(child: CircularProgressIndicator());
       },
     );
   }

@@ -31,6 +31,6 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
 
   Stream<FavoritesState> _favoriteMoviesRequested(_FavoriteMoviesRequested event) async* {
     final Option<List<MovieData>> movies = await _favoriteMovieDao.getFavoritedMovies();
-    yield state.copyWith(moviesOption: movies);
+    yield state.copyWith(movies: movies.get);
   }
 }

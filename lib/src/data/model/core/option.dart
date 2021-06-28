@@ -8,6 +8,8 @@ abstract class Option<A> {
   A operator |(A dflt) => getOrElse(() => dflt);
   bool isSome() => fold(() => false, (_) => true);
 
+  A? get get => fold(() => null, (A a) => a);
+
   @override String toString() => fold(() => 'None', (A a) => 'Some($a)');
 }
 
