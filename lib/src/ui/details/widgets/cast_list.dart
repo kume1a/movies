@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/model/core/option.dart';
 import '../../../data/model/models/actors/actor.dart';
 import '../../../data/model/models/actors/actors.dart';
 import '../../../state/details/details_bloc.dart';
@@ -21,40 +20,35 @@ class CastList extends StatelessWidget {
     return SizedBox(
       height: 250,
       child: BlocBuilder<DetailsBloc, DetailsState>(
-        buildWhen: (DetailsState prev, DetailsState curr) => prev.actorsOption != curr.actorsOption,
+        buildWhen: (DetailsState prev, DetailsState curr) => prev.actors != curr.actors,
         builder: (BuildContext context, DetailsState state) {
-          return _buildList(state.actorsOption);
+          return _buildList(state.actors);
         },
       ),
     );
   }
 
-  Widget _buildList(Option<Actors> actorsOption) {
+  Widget _buildList(Actors? actors) {
     int total = 0;
     int length = 0;
-    actorsOption.fold(
-      () {},
-      (Actors actors) {
-        total = actors.totalCount;
-        length = actors.actors.length;
-      },
-    );
+    if (actors != null) {
+      total = actors.totalCount;
+      length = actors.actors.length;
+    }
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
       itemCount: total == length ? length : length + 10,
       itemBuilder: (BuildContext context, int index) {
-        return actorsOption.fold(
-          () => _buildBlankItem(),
-          (Actors actors) {
-            if (index >= length) {
-              context.read<DetailsBloc>().add(const DetailsEvent.castPageFetchRequested());
-              return _buildBlankItem();
-            }
-            return _buildItem(actors.actors[index]);
-          },
-        );
+        if (actors == null) {
+          return _buildBlankItem();
+        }
+        if (index >= length) {
+          context.read<DetailsBloc>().add(const DetailsEvent.castPageFetchRequested());
+          return _buildBlankItem();
+        }
+        return _buildItem(actors.actors[index]);
       },
     );
   }

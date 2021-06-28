@@ -16,7 +16,9 @@ import '../../data/model/models/movies/saved_movie.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'details_bloc.freezed.dart';
+
 part 'details_event.dart';
+
 part 'details_state.dart';
 
 @injectable
@@ -54,12 +56,12 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
   Stream<DetailsState> _init(_Init event) async* {
     final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
-    yield state.copyWith(favorite: isFavorite);
+    yield state.copyWith(isFavorite: isFavorite);
   }
 
   Stream<DetailsState> _movieFetchRequested(_MovieFetchRequested event) async* {
     final Either<FetchFailure, MovieData> movieOption = await _movieService.getMovie(movieId!);
-    yield state.copyWith(movieOption: movieOption.toOption());
+    yield state.copyWith(movie: movieOption.toOption().get);
   }
 
   Stream<DetailsState> _castPageFetchRequested(_CastPageFetchRequested event) async* {
@@ -67,33 +69,29 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       _fetchingActors = true;
 
       final Either<FetchFailure, Actors> actorsOption = await _movieService.getActors(movieId!, _actorsPage);
-      state.actorsOption.fold(
-        () => actorsOption,
-        (Actors prev) {
-          actorsOption.getOrElse(() => Actors.empty()).actors.insertAll(0, prev.actors);
-          return actorsOption;
-        },
-      );
+      if (state.actors != null) {
+        actorsOption.getOrElse(() => Actors.empty()).actors.insertAll(0, state.actors!.actors);
+      }
 
       _actorsPage++;
       _fetchingActors = false;
-      yield state.copyWith(actorsOption: actorsOption.toOption());
+      yield state.copyWith(actors: actorsOption.toOption().get);
     }
   }
 
   Stream<DetailsState> _favoriteToggled(_FavoriteToggled event) async* {
-    final bool toggled = !state.favorite;
+    final bool toggled = !state.isFavorite;
 
-    yield state.copyWith(favorite: toggled);
+    yield state.copyWith(isFavorite: toggled);
     _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
   }
 
   Stream<DetailsState> _isSavedMovieRequested(_IsSavedMovieRequested event) async* {
     final Option<SavedMovie> moviePositionOption = await _savedMovieDao.getSavedMovie(movieId!);
     yield state.copyWith(
-      moviePositionOption: moviePositionOption.fold(
-        () => none(),
-        (SavedMovie a) => some(a.position),
+      moviePosition: moviePositionOption.fold(
+        () => null,
+        (SavedMovie a) => a.position,
       ),
     );
   }

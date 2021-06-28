@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/models/movies/movie_data.dart';
-import '../../data/model/models/movies/movie_position.dart';
 import '../../di/injection.dart';
 import '../../state/details/details_bloc.dart';
-import '../core/extensions.dart';
 import '../core/routes/route_args.dart';
 import '../core/routes/routes.dart';
 import '../core/values/colors.dart';
@@ -40,96 +37,94 @@ class DetailsPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState prev, DetailsState curr) =>
-          !prev.movieOption.equals(curr.movieOption) || !prev.moviePositionOption.equals(curr.moviePositionOption),
+          prev.movie != curr.movie || prev.moviePosition != curr.moviePosition,
       builder: (BuildContext context, DetailsState state) {
-        return state.movieOption.fold(
-          () => const SizedBox.shrink(),
-          (MovieData movie) {
-            final double w = MediaQuery.of(context).size.width;
-            final Widget fab = state.moviePositionOption.fold(
-              () => const SizedBox.shrink(),
-              (MoviePosition a) => FloatingActionButton.extended(
+        if (state.movie == null) {
+          return const SizedBox.shrink();
+        }
+
+        final double w = MediaQuery.of(context).size.width;
+        final Widget fab = state.moviePosition != null
+            ? FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
                     Routes.streamPage,
                     arguments: StreamPageArgs(
-                      movieId: a.movieId,
-                      season: a.season,
-                      episode: a.episode,
-                      startAt: Duration(milliseconds: a.leftAt),
+                      movieId: state.moviePosition!.movieId,
+                      season: state.moviePosition!.season,
+                      episode: state.moviePosition!.episode,
+                      startAt: Duration(milliseconds: state.moviePosition!.leftAt),
                     ),
                   );
                 },
                 backgroundColor: colorAccent,
                 icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
                 label: const Text('continue', style: prB15),
-              ),
-            );
+              )
+            : const SizedBox.shrink();
 
-            return Scaffold(
-              backgroundColor: colorPrimary,
-              floatingActionButton: AnimatedOpacity(
-                duration: const Duration(seconds: 1),
-                opacity: state.moviePositionOption.isSome() ? 1 : 0,
-                child: fab,
-              ),
-              body: SafeArea(
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: ImageHeader(
-                        minExtent: 54,
-                        maxExtent: w,
-                        src: movie.availableImage ?? '',
-                        onBackPressed: () => Navigator.pop(context),
-                        onPlayPressed: movie.canBePlayed
-                            ? () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.streamPage,
-                                  arguments: StreamPageArgs(movieId: movie.movieId),
-                                );
-                              }
-                            : null,
-                      ),
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(movie.name, style: prB32),
-                          ),
-                          const SizedBox(height: 4),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: RatingDurationYear(movie.imdbRating, movie.duration, movie.year),
-                          ),
-                          const SizedBox(height: 18),
-                          GenreList(movie.genres),
-                          const SizedBox(height: 32),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(movie.plot, style: pr15),
-                          ),
-                          const SizedBox(height: 32),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text('Cast', style: prB22),
-                          ),
-                          const SizedBox(height: 16),
-                          CastList(),
-                          const SizedBox(height: 160),
-                        ],
-                      ),
-                    )
-                  ],
+        return Scaffold(
+          backgroundColor: colorPrimary,
+          floatingActionButton: AnimatedOpacity(
+            duration: const Duration(seconds: 1),
+            opacity: state.moviePosition != null ? 1 : 0,
+            child: fab,
+          ),
+          body: SafeArea(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: ImageHeader(
+                    minExtent: 54,
+                    maxExtent: w,
+                    src: state.movie!.availableImage ?? '',
+                    onBackPressed: () => Navigator.pop(context),
+                    onPlayPressed: state.movie!.canBePlayed
+                        ? () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.streamPage,
+                              arguments: StreamPageArgs(movieId: state.movie!.movieId),
+                            );
+                          }
+                        : null,
+                  ),
                 ),
-              ),
-            );
-          },
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(state.movie!.name, style: prB32),
+                      ),
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+                      ),
+                      const SizedBox(height: 18),
+                      GenreList(state.movie!.genres),
+                      const SizedBox(height: 32),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(state.movie!.plot, style: pr15),
+                      ),
+                      const SizedBox(height: 32),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text('Cast', style: prB22),
+                      ),
+                      const SizedBox(height: 16),
+                      CastList(),
+                      const SizedBox(height: 160),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         );
       },
     );

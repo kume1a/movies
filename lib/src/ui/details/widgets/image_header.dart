@@ -117,9 +117,9 @@ class FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsBloc, DetailsState>(
-      buildWhen: (DetailsState prev, DetailsState curr) => prev.favorite != curr.favorite,
+      buildWhen: (DetailsState prev, DetailsState curr) => prev.isFavorite != curr.isFavorite,
       builder: (BuildContext context, DetailsState state) {
-        final Icon icon = state.favorite
+        final Icon icon = state.isFavorite
             ? const Icon(
                 Icons.favorite,
                 color: colorAccent,
