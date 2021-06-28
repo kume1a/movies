@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/model/core/option.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../data/model/schemas/core/enums.dart';
@@ -23,26 +22,21 @@ class PopularMoviesList extends StatelessWidget {
     return SizedBox(
       height: _itemHeight,
       child: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (HomeState previous, HomeState current) {
-          return previous.popularMoviesOption != current.popularMoviesOption;
-        },
+        buildWhen: (HomeState previous, HomeState current) => previous.popularMovies != current.popularMovies,
         builder: (BuildContext context, HomeState state) {
-          return _buildList(state.popularMoviesOption);
+          return _buildList(state.popularMovies);
         },
       ),
     );
   }
 
-  Widget _buildList(Option<Movies> moviesOption) {
+  Widget _buildList(Movies? movies) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: _spacing /2),
+      padding: const EdgeInsets.symmetric(horizontal: _spacing / 2),
       scrollDirection: Axis.horizontal,
-      itemCount: moviesOption.fold(() => 3, (Movies a) => a.data.length),
+      itemCount: movies != null ? movies.data.length : 3,
       itemBuilder: (BuildContext context, int index) {
-        return moviesOption.fold(
-          () => _blankBuilder(),
-          (Movies movies) => _itemBuilder(context, movies.data[index]),
-        );
+        return movies != null ? _itemBuilder(context, movies.data[index]) : _blankBuilder();
       },
     );
   }
@@ -59,7 +53,7 @@ class PopularMoviesList extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Container(
-            margin:  const EdgeInsets.symmetric(horizontal: _spacing /2),
+            margin: const EdgeInsets.symmetric(horizontal: _spacing / 2),
             child: AspectRatio(
               aspectRatio: _aspectRatio,
               child: SafeImage(

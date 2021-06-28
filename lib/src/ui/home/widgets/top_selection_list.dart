@@ -23,28 +23,25 @@ class TopSelectionList extends StatelessWidget {
     return SizedBox(
       height: itemHeight,
       child: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (HomeState prev, HomeState cur) => prev.topMoviesOption != cur.topMoviesOption,
-        builder: (BuildContext context, HomeState state) => state.topMoviesOption.fold(
-          () {
-            return ListView.builder(
-              itemCount: 4,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, __) {
-                return _blankBuilder(null);
-              },
-            );
-          },
-          (Movies a) => _buildList(a),
-        ),
-      ),
+          buildWhen: (HomeState previous, HomeState current) => previous.topMovies != current.topMovies,
+          builder: (BuildContext context, HomeState state) {
+            return state.topMovies == null
+                ? ListView.builder(
+                    itemCount: 4,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (_, __) {
+                      return _blankBuilder(null);
+                    },
+                  )
+                : _buildList(state.topMovies!);
+          }),
     );
   }
 
   Widget _buildList(Movies movies) {
     return PagedList<MovieData>(
       axis: Axis.horizontal,
-      request: (BuildContext context) =>
-          context.read<HomeBloc>().add(const HomeEvent.topMoviesPageFetchRequested()),
+      request: (BuildContext context) => context.read<HomeBloc>().add(const HomeEvent.topMoviesPageFetchRequested()),
       blankBuilder: _blankBuilder,
       itemBuilder: _itemBuilder,
       items: movies.data,

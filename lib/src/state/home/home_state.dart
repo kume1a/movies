@@ -2,19 +2,15 @@ part of 'home_bloc.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState(
-    Option<Movies> popularMoviesOption,
-    Option<Movies> topMoviesOption,
-    Option<Movies> moviesOption,
-    Option<List<SavedMovie>> savedMoviesOption,
-    Genre genre,
-  ) = _HomeState;
+  const factory HomeState({
+    Movies? popularMovies,
+    Movies? topMovies,
+    Movies? movies,
+    List<SavedMovie>? savedMovies,
+    required Genre genre,
+  }) = _HomeState;
 
-  factory HomeState.initial() => HomeState(
-        none(),
-        none(),
-        none(),
-        none(),
-        Genre.all,
+  factory HomeState.initial() => const HomeState(
+        genre: Genre.all,
       );
 }

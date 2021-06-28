@@ -1,9 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movies/saved_movie.dart';
 import '../../../state/home/home_bloc.dart';
-import '../../core/extensions.dart';
 import '../../core/formatters.dart';
 import '../../core/routes/route_args.dart';
 import '../../core/routes/routes.dart';
@@ -20,12 +20,14 @@ class ContinueWatchingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (HomeState prev, HomeState curr) => !prev.savedMoviesOption.equals(curr.savedMoviesOption),
+      buildWhen: (HomeState prev, HomeState curr) =>
+          !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
       builder: (BuildContext context, HomeState state) {
-        return state.savedMoviesOption.fold(
-          () => const SizedBox.shrink(),
-          (List<SavedMovie> a) => a.isNotEmpty ? _buildList(a) : const SizedBox.shrink(),
-        );
+        return state.savedMovies != null
+            ? state.savedMovies!.isNotEmpty
+                ? _buildList(state.savedMovies!)
+                : const SizedBox.shrink()
+            : const SizedBox.shrink();
       },
     );
   }

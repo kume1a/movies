@@ -13,9 +13,9 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (HomeState prev, HomeState curr) => prev.moviesOption != curr.moviesOption,
+      buildWhen: (HomeState prev, HomeState curr) => prev.movies != curr.movies,
       builder: (BuildContext context, HomeState state) {
-        return state.moviesOption.fold(() => const SliverToBoxAdapter(), _buildList);
+        return state.movies != null ? _buildList(state.movies!) : const SliverToBoxAdapter();
       },
     );
   }

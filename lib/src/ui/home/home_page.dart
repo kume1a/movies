@@ -1,10 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/model/models/movies/saved_movie.dart';
 import '../../di/injection.dart';
 import '../../state/home/home_bloc.dart';
-import '../core/extensions.dart';
 import '../core/values/constants.dart';
 import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
@@ -66,12 +65,14 @@ class _HomePageContentState extends State<HomePageContent> with SingleTickerProv
           SliverToBoxAdapter(child: PopularMoviesList()),
           SliverToBoxAdapter(
             child: BlocBuilder<HomeBloc, HomeState>(
-              buildWhen: (HomeState prev, HomeState curr) => !prev.savedMoviesOption.equals(curr.savedMoviesOption),
+              buildWhen: (HomeState prev, HomeState curr) =>
+                  !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
               builder: (BuildContext context, HomeState state) {
-                return state.savedMoviesOption.fold(
-                  () => const SizedBox.shrink(),
-                  (List<SavedMovie> a) => a.isNotEmpty ? _buildHeader('Continue Watching') : const SizedBox.shrink(),
-                );
+                return state.savedMovies != null
+                    ? state.savedMovies!.isNotEmpty
+                        ? _buildHeader('Continue Watching')
+                        : const SizedBox.shrink()
+                    : const SizedBox.shrink();
               },
             ),
           ),

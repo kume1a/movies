@@ -14,7 +14,9 @@ import '../../data/model/schemas/core/enums.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'home_bloc.freezed.dart';
+
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 @injectable
@@ -57,7 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Stream<HomeState> _popularMoviesFetchRequested(_PopularMoviesFetchRequested event) async* {
     final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
-    yield state.copyWith(popularMoviesOption: movies.toOption());
+    yield state.copyWith(popularMovies: movies.toOption().get);
   }
 
   Stream<HomeState> _topMoviesPageFetchRequested(_TopMoviesPageFetchRequested event) async* {
@@ -65,12 +67,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _fetchingTopMovies = true;
 
       final Either<FetchFailure, Movies> movies = await _movieService.getTopMovies(_topMoviesPage);
-      state.topMoviesOption.combineData(movies.toOption());
+      if (state.topMovies != null) {
+        movies.getOrElse(() => Movies.empty()).data.insertAll(0, state.topMovies!.data);
+      }
 
       _topMoviesPage++;
       _fetchingTopMovies = false;
       yield state.copyWith(
-        topMoviesOption: movies.toOption(),
+        topMovies: movies.toOption().get,
       );
     }
   }
@@ -80,13 +84,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _fetchingMovies = true;
 
       final Either<FetchFailure, Movies> movies = await _movieService.getMovies(_moviesPage, state.genre);
-      if (_moviesPage != 1) state.moviesOption.combineData(movies.toOption());
+      if (_moviesPage != 1 && state.movies != null) {
+        movies.getOrElse(() => Movies.empty()).data.insertAll(0, state.movies!.data);
+      }
 
       _moviesPage++;
       _fetchingMovies = false;
-      yield state.copyWith(
-        moviesOption: movies.toOption(),
-      );
+      yield state.copyWith(movies: movies.toOption().get);
     }
   }
 
@@ -105,7 +109,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
     final Option<List<SavedMovie>> savedMovies = await _savedMovieDao.getSavedMovies();
-    yield state.copyWith(savedMoviesOption: savedMovies);
+    yield state.copyWith(savedMovies: savedMovies.get);
   }
 }
 
