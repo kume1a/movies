@@ -44,47 +44,57 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     if (movieId == -1) throw StateError('movieId should be initialized before using bloc');
 
     yield* event.map(
-      init: (_Init event) async* {
-        final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
-        yield state.copyWith(favorite: isFavorite);
-      },
-      movieFetchRequested: (_) async* {
-        final Either<FetchFailure, MovieData> movieOption = await _movieService.getMovie(movieId!);
-        yield state.copyWith(movieOption: movieOption.toOption());
-      },
-      castPageFetchRequested: (_) async* {
-        if (!_fetchingActors) {
-          _fetchingActors = true;
+      init: _init,
+      movieFetchRequested: _movieFetchRequested,
+      castPageFetchRequested: _castPageFetchRequested,
+      favoriteToggled: _favoriteToggled,
+      isSavedMovieRequested: _isSavedMovieRequested,
+    );
+  }
 
-          final Either<FetchFailure, Actors> actorsOption = await _movieService.getActors(movieId!, _actorsPage);
-          state.actorsOption.fold(
-            () => actorsOption,
-            (Actors prev) {
-              actorsOption.getOrElse(() => Actors.empty()).actors.insertAll(0, prev.actors);
-              return actorsOption;
-            },
-          );
+  Stream<DetailsState> _init(_Init event) async* {
+    final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
+    yield state.copyWith(favorite: isFavorite);
+  }
 
-          _actorsPage++;
-          _fetchingActors = false;
-          yield state.copyWith(actorsOption: actorsOption.toOption());
-        }
-      },
-      favoriteToggled: (_FavoriteToggled e) async* {
-        final bool toggled = !state.favorite;
+  Stream<DetailsState> _movieFetchRequested(_MovieFetchRequested event) async* {
+    final Either<FetchFailure, MovieData> movieOption = await _movieService.getMovie(movieId!);
+    yield state.copyWith(movieOption: movieOption.toOption());
+  }
 
-        yield state.copyWith(favorite: toggled);
-        _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
-      },
-      isSavedMovieRequested: (_IsSavedMovieRequested value) async* {
-        final Option<SavedMovie> moviePositionOption = await _savedMovieDao.getSavedMovie(movieId!);
-        yield state.copyWith(
-          moviePositionOption: moviePositionOption.fold(
-            () => none(),
-            (SavedMovie a) => some(a.position),
-          ),
-        );
-      },
+  Stream<DetailsState> _castPageFetchRequested(_CastPageFetchRequested event) async* {
+    if (!_fetchingActors) {
+      _fetchingActors = true;
+
+      final Either<FetchFailure, Actors> actorsOption = await _movieService.getActors(movieId!, _actorsPage);
+      state.actorsOption.fold(
+        () => actorsOption,
+        (Actors prev) {
+          actorsOption.getOrElse(() => Actors.empty()).actors.insertAll(0, prev.actors);
+          return actorsOption;
+        },
+      );
+
+      _actorsPage++;
+      _fetchingActors = false;
+      yield state.copyWith(actorsOption: actorsOption.toOption());
+    }
+  }
+
+  Stream<DetailsState> _favoriteToggled(_FavoriteToggled event) async* {
+    final bool toggled = !state.favorite;
+
+    yield state.copyWith(favorite: toggled);
+    _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
+  }
+
+  Stream<DetailsState> _isSavedMovieRequested(_IsSavedMovieRequested event) async* {
+    final Option<SavedMovie> moviePositionOption = await _savedMovieDao.getSavedMovie(movieId!);
+    yield state.copyWith(
+      moviePositionOption: moviePositionOption.fold(
+        () => none(),
+        (SavedMovie a) => some(a.position),
+      ),
     );
   }
 }

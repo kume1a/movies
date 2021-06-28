@@ -46,56 +46,66 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     yield* event.map(
-      popularMoviesFetchRequested: (_PopularMoviesFetchRequested e) async* {
-        final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
-        yield state.copyWith(
-          popularMoviesOption: movies.toOption(),
-        );
-      },
-      topMoviesPageFetchRequested: (_) async* {
-        if (!_fetchingTopMovies) {
-          _fetchingTopMovies = true;
-
-          final Either<FetchFailure, Movies> movies = await _movieService.getTopMovies(_topMoviesPage);
-          state.topMoviesOption.combineData(movies.toOption());
-
-          _topMoviesPage++;
-          _fetchingTopMovies = false;
-          yield state.copyWith(
-            topMoviesOption: movies.toOption(),
-          );
-        }
-      },
-      moviesPageFetchRequested: (_MoviesPageFetchRequested e) async* {
-        if (!_fetchingMovies) {
-          _fetchingMovies = true;
-
-          final Either<FetchFailure, Movies> movies = await _movieService.getMovies(_moviesPage, state.genre);
-          if (_moviesPage != 1) state.moviesOption.combineData(movies.toOption());
-
-          _moviesPage++;
-          _fetchingMovies = false;
-          yield state.copyWith(
-            moviesOption: movies.toOption(),
-          );
-        }
-      },
-      clear: (_Clear e) async* {
-        _initFetchStates();
-        yield HomeState.initial();
-      },
-      genreChanged: (_GenreChanged e) async* {
-        yield state.copyWith(genre: e.genre);
-
-        _moviesPage = 1;
-        _fetchingMovies = false;
-        add(const HomeEvent.moviesPageFetchRequested());
-      },
-      savedMoviesRequested: (_SavedMoviesRequested value) async* {
-        final Option<List<SavedMovie>> savedMovies = await _savedMovieDao.getSavedMovies();
-        yield state.copyWith(savedMoviesOption: savedMovies);
-      },
+      popularMoviesFetchRequested: _popularMoviesFetchRequested,
+      topMoviesPageFetchRequested: _topMoviesPageFetchRequested,
+      moviesPageFetchRequested: _moviesPageFetchRequested,
+      clear: _clear,
+      genreChanged: _genreChanged,
+      savedMoviesRequested: _savedMoviesRequested,
     );
+  }
+
+  Stream<HomeState> _popularMoviesFetchRequested(_PopularMoviesFetchRequested event) async* {
+    final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
+    yield state.copyWith(popularMoviesOption: movies.toOption());
+  }
+
+  Stream<HomeState> _topMoviesPageFetchRequested(_TopMoviesPageFetchRequested event) async* {
+    if (!_fetchingTopMovies) {
+      _fetchingTopMovies = true;
+
+      final Either<FetchFailure, Movies> movies = await _movieService.getTopMovies(_topMoviesPage);
+      state.topMoviesOption.combineData(movies.toOption());
+
+      _topMoviesPage++;
+      _fetchingTopMovies = false;
+      yield state.copyWith(
+        topMoviesOption: movies.toOption(),
+      );
+    }
+  }
+
+  Stream<HomeState> _moviesPageFetchRequested(_MoviesPageFetchRequested event) async* {
+    if (!_fetchingMovies) {
+      _fetchingMovies = true;
+
+      final Either<FetchFailure, Movies> movies = await _movieService.getMovies(_moviesPage, state.genre);
+      if (_moviesPage != 1) state.moviesOption.combineData(movies.toOption());
+
+      _moviesPage++;
+      _fetchingMovies = false;
+      yield state.copyWith(
+        moviesOption: movies.toOption(),
+      );
+    }
+  }
+
+  Stream<HomeState> _clear(_Clear event) async* {
+    _initFetchStates();
+    yield HomeState.initial();
+  }
+
+  Stream<HomeState> _genreChanged(_GenreChanged event) async* {
+    yield state.copyWith(genre: event.genre);
+
+    _moviesPage = 1;
+    _fetchingMovies = false;
+    add(const HomeEvent.moviesPageFetchRequested());
+  }
+
+  Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
+    final Option<List<SavedMovie>> savedMovies = await _savedMovieDao.getSavedMovies();
+    yield state.copyWith(savedMoviesOption: savedMovies);
   }
 }
 

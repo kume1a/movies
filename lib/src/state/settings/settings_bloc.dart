@@ -22,10 +22,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _init() async {
     final bool isAutoPlatEnabled = await _settingsHelper.isAutoPlayEnabled();
     final int seekValue = await _settingsHelper.getDoubleTapToSeekValue();
-    final bool isRecordSearchHistoryEnabled =
-        await _settingsHelper.isRecordSearchHistoryEnabled();
-    final bool isRecordWatchHistoryEnabled =
-        await _settingsHelper.isRecordWatchHistoryEnabled();
+    final bool isRecordSearchHistoryEnabled = await _settingsHelper.isRecordSearchHistoryEnabled();
+    final bool isRecordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
 
     add(SettingsEvent.initial(
       isAutoPlatEnabled: isAutoPlatEnabled,
@@ -40,42 +38,60 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     yield* event.map(
-      initial: (_Initial e) async* {
-        yield state.copyWith(
-          autoPlayEnabled: e.isAutoPlatEnabled,
-          doubleTapToSeekValue: e.seekValue,
-          recordSearchHistoryEnabled: e.isRecordSearchHistoryEnabled,
-          recordWatchHistoryEnabled: e.isRecordWatchHistoryEnabled,
-        );
-      },
-      autoPlaySwitched: (_AutoPlaySwitched e) async* {
-        yield state.copyWith(autoPlayEnabled: e.enabled);
-        await _settingsHelper.setAutoPlayEnabled(enabled: e.enabled);
-      },
-      doubleTapToSeekValueChanged: (_DoubleTapToSeekValueChanged e) async* {
-        yield state.copyWith(doubleTapToSeekValue: e.value);
-        await _settingsHelper.setDoubleTapToSeek(e.value);
-      },
-      clearSearchHistoryRequested: (_ClearSearchHistoryRequested e) async* {
-        await _settingsHelper.clearSearchHistory();
-      },
-      clearWatchHistoryRequested: (_ClearWatchHistoryRequested e) async* {
-        await _settingsHelper.clearSavedMovies();
-      },
-      searchHistoryEnabledSwitched: (_SearchHistoryEnabledSwitched e) async* {
-        yield state.copyWith(recordSearchHistoryEnabled: e.enabled);
-        await _settingsHelper.setRecordingSearchHistoryEnabled(enabled: e.enabled);
-      },
-      watchHistoryEnabledSwitched: (_WatchHistoryEnabledSwitched e) async* {
-        yield state.copyWith(recordWatchHistoryEnabled: e.enabled);
-        await _settingsHelper.setRecordingWatchHistoryEnabled(enabled: e.enabled);
-      },
-      clearFavoritesRequested: (_ClearFavoritesRequested e) async* {
-        await _settingsHelper.clearFavorites();
-      },
-      clearCacheRequested: (_ClearCacheRequested e) async* {
-        await _settingsHelper.clearCache();
-      },
+      initial: _initial,
+      autoPlaySwitched: _autoPlaySwitched,
+      doubleTapToSeekValueChanged: _doubleTapToSeekValueChanged,
+      clearSearchHistoryRequested: _clearSearchHistoryRequested,
+      clearWatchHistoryRequested: _clearWatchHistoryRequested,
+      searchHistoryEnabledSwitched: _searchHistoryEnabledSwitched,
+      watchHistoryEnabledSwitched: _watchHistoryEnabledSwitched,
+      clearFavoritesRequested: _clearFavoritesRequested,
+      clearCacheRequested: _clearCacheRequested,
     );
+  }
+
+  Stream<SettingsState> _initial(_Initial event) async* {
+    yield state.copyWith(
+      autoPlayEnabled: event.isAutoPlatEnabled,
+      doubleTapToSeekValue: event.seekValue,
+      recordSearchHistoryEnabled: event.isRecordSearchHistoryEnabled,
+      recordWatchHistoryEnabled: event.isRecordWatchHistoryEnabled,
+    );
+  }
+
+  Stream<SettingsState> _autoPlaySwitched(_AutoPlaySwitched event) async* {
+    yield state.copyWith(autoPlayEnabled: event.enabled);
+    await _settingsHelper.setAutoPlayEnabled(enabled: event.enabled);
+  }
+
+  Stream<SettingsState> _doubleTapToSeekValueChanged(_DoubleTapToSeekValueChanged event) async* {
+    yield state.copyWith(doubleTapToSeekValue: event.value);
+    await _settingsHelper.setDoubleTapToSeek(event.value);
+  }
+
+  Stream<SettingsState> _clearSearchHistoryRequested(_ClearSearchHistoryRequested event) async* {
+    await _settingsHelper.clearSearchHistory();
+  }
+
+  Stream<SettingsState> _clearWatchHistoryRequested(_ClearWatchHistoryRequested event) async* {
+    await _settingsHelper.clearSavedMovies();
+  }
+
+  Stream<SettingsState> _searchHistoryEnabledSwitched(_SearchHistoryEnabledSwitched event) async* {
+    yield state.copyWith(recordSearchHistoryEnabled: event.enabled);
+    await _settingsHelper.setRecordingSearchHistoryEnabled(enabled: event.enabled);
+  }
+
+  Stream<SettingsState> _watchHistoryEnabledSwitched(_WatchHistoryEnabledSwitched event) async* {
+    yield state.copyWith(recordWatchHistoryEnabled: event.enabled);
+    await _settingsHelper.setRecordingWatchHistoryEnabled(enabled: event.enabled);
+  }
+
+  Stream<SettingsState> _clearFavoritesRequested(_ClearFavoritesRequested event) async* {
+    await _settingsHelper.clearFavorites();
+  }
+
+  Stream<SettingsState> _clearCacheRequested(_ClearCacheRequested event) async* {
+    await _settingsHelper.clearCache();
   }
 }
