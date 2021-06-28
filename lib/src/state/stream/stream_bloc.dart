@@ -37,26 +37,11 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     this._movieService,
     this._savedMovieDao,
     this._settingsHelper,
-  ) : super(StreamState.initial()) {
-    _init();
-  }
+  ) : super(StreamState.initial());
 
   final MovieService _movieService;
   final SavedMovieDao _savedMovieDao;
   final SettingsHelper _settingsHelper;
-
-  Future<void> _init() async {
-    final bool isAutoPlayEnabled = await _settingsHelper.isAutoPlayEnabled();
-    final bool recordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
-    final int doubleTapToSeekValue = await _settingsHelper.getDoubleTapToSeekValue();
-
-    final StreamSettings settings = StreamSettings(
-      autoPlayEnabled: isAutoPlayEnabled,
-      recordWatchHistoryEnabled: recordWatchHistoryEnabled,
-      doubleTapToSeekValue: doubleTapToSeekValue,
-    );
-    add(StreamEvent.settingsFetched(settings));
-  }
 
   bool firstEpisodePassed = false;
 
@@ -67,7 +52,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     StreamEvent event,
   ) async* {
     yield* event.map(
-      settingsFetched: _onSettingsFetched,
+      init: _init,
       movieChanged: _onMovieChanged,
       seasonChanged: _onSeasonChanged,
       episodeChanged: _onEpisodeChanged,
@@ -82,8 +67,17 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     );
   }
 
-  Stream<StreamState> _onSettingsFetched(_SettingsFetched e) async* {
-    yield state.copyWith(settings: e.settings);
+  Stream<StreamState> _init(_Init e) async* {
+    final bool isAutoPlayEnabled = await _settingsHelper.isAutoPlayEnabled();
+    final bool recordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
+    final int doubleTapToSeekValue = await _settingsHelper.getDoubleTapToSeekValue();
+
+    final StreamSettings settings = StreamSettings(
+      autoPlayEnabled: isAutoPlayEnabled,
+      recordWatchHistoryEnabled: recordWatchHistoryEnabled,
+      doubleTapToSeekValue: doubleTapToSeekValue,
+    );
+    yield state.copyWith(settings: settings);
   }
 
   Stream<StreamState> _onMovieChanged(_MovieChanged e) async* {
@@ -224,8 +218,8 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             final int durationInSeconds = a.data
                 .firstWhere(
                   (Episode element) => element.episode == state.episode,
-              orElse: () => a.data.first,
-            )
+                  orElse: () => a.data.first,
+                )
                 .episodes
                 .values
                 .first

@@ -30,6 +30,7 @@ class StreamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<StreamBloc>(
       create: (_) => getIt<StreamBloc>()
+        ..add(const StreamEvent.init())
         ..add(StreamEvent.movieChanged(movieId))
         ..add(StreamEvent.startPositionChanged(startAt))
         ..add(StreamEvent.seasonChanged(season))

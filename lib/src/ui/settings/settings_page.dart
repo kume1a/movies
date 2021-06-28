@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingsBloc>(
-      create: (_) => getIt<SettingsBloc>(),
+      create: (_) => getIt<SettingsBloc>()..add(const SettingsEvent.init()),
       child: SettingsPageContent(),
     );
   }

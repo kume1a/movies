@@ -2,7 +2,7 @@ part of 'stream_bloc.dart';
 
 @freezed
 class StreamEvent with _$StreamEvent {
-  const factory StreamEvent.settingsFetched(StreamSettings settings) = _SettingsFetched;
+  const factory StreamEvent.init() = _Init;
 
   const factory StreamEvent.movieChanged(int movieId) = _MovieChanged;
 

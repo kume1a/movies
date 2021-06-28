@@ -13,32 +13,16 @@ part 'settings_state.dart';
 
 @injectable
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc(this._settingsHelper) : super(SettingsState.initial()) {
-    _init();
-  }
+  SettingsBloc(this._settingsHelper) : super(SettingsState.initial());
 
   final SettingsHelper _settingsHelper;
-
-  Future<void> _init() async {
-    final bool isAutoPlatEnabled = await _settingsHelper.isAutoPlayEnabled();
-    final int seekValue = await _settingsHelper.getDoubleTapToSeekValue();
-    final bool isRecordSearchHistoryEnabled = await _settingsHelper.isRecordSearchHistoryEnabled();
-    final bool isRecordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
-
-    add(SettingsEvent.initial(
-      isAutoPlatEnabled: isAutoPlatEnabled,
-      seekValue: seekValue,
-      isRecordSearchHistoryEnabled: isRecordSearchHistoryEnabled,
-      isRecordWatchHistoryEnabled: isRecordWatchHistoryEnabled,
-    ));
-  }
 
   @override
   Stream<SettingsState> mapEventToState(
     SettingsEvent event,
   ) async* {
     yield* event.map(
-      initial: _initial,
+      init: _init,
       autoPlaySwitched: _autoPlaySwitched,
       doubleTapToSeekValueChanged: _doubleTapToSeekValueChanged,
       clearSearchHistoryRequested: _clearSearchHistoryRequested,
@@ -50,12 +34,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  Stream<SettingsState> _initial(_Initial event) async* {
+  Stream<SettingsState> _init(_Init event) async* {
+    final bool isAutoPlatEnabled = await _settingsHelper.isAutoPlayEnabled();
+    final int seekValue = await _settingsHelper.getDoubleTapToSeekValue();
+    final bool isRecordSearchHistoryEnabled = await _settingsHelper.isRecordSearchHistoryEnabled();
+    final bool isRecordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
+
     yield state.copyWith(
-      autoPlayEnabled: event.isAutoPlatEnabled,
-      doubleTapToSeekValue: event.seekValue,
-      recordSearchHistoryEnabled: event.isRecordSearchHistoryEnabled,
-      recordWatchHistoryEnabled: event.isRecordWatchHistoryEnabled,
+      autoPlayEnabled: isAutoPlatEnabled,
+      doubleTapToSeekValue: seekValue,
+      recordSearchHistoryEnabled: isRecordSearchHistoryEnabled,
+      recordWatchHistoryEnabled: isRecordWatchHistoryEnabled,
     );
   }
 

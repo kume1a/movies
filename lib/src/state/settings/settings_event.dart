@@ -2,12 +2,7 @@ part of 'settings_bloc.dart';
 
 @freezed
 class SettingsEvent with _$SettingsEvent {
-  const factory SettingsEvent.initial({
-    required bool isAutoPlatEnabled,
-    required int seekValue,
-    required bool isRecordSearchHistoryEnabled,
-    required bool isRecordWatchHistoryEnabled,
-  }) = _Initial;
+  const factory SettingsEvent.init() = _Init;
 
   const factory SettingsEvent.autoPlaySwitched({required bool enabled}) = _AutoPlaySwitched;
   const factory SettingsEvent.doubleTapToSeekValueChanged(int value) = _DoubleTapToSeekValueChanged;
