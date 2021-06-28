@@ -14,7 +14,6 @@ import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
-import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/models/movies/movies.dart';
@@ -92,7 +91,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onEpisodeChanged(_EpisodeChanged e) async* {
-    Option<String> srcOption = none();
+    String? videoSrc;
 
     Language selectedLanguage = state.language;
     List<Language> languages = state.availableLanguages;
@@ -122,12 +121,11 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
         }
       }
 
-      srcOption = optionOf(
-          episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src);
+      videoSrc = episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src;
     }
 
     yield state.copyWith(
-      videoSrc: srcOption.get,
+      videoSrc: videoSrc,
       startPosition: firstEpisodePassed ? const Duration() : state.startPosition,
       episode: e.episode,
       quality: selectedQuality,
@@ -140,7 +138,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onLanguageChanged(_LanguageChanged e) async* {
-    Option<String> srcOption = none();
+    String? videoSrc;
 
     if (state.seasonFiles != null) {
       final Episode? episode = state.seasonFiles!.data.isNotEmpty
@@ -150,19 +148,19 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             )
           : null;
 
-      srcOption = optionOf(
-          episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality).src);
+      videoSrc =
+          episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality).src;
     }
 
     yield state.copyWith(
-      videoSrc: srcOption.get,
+      videoSrc: videoSrc,
       startPosition: state.currentPosition,
       language: e.language,
     );
   }
 
   Stream<StreamState> _onQualityChanged(_QualityChanged e) async* {
-    Option<String> srcOption = none();
+    String? videoSrc;
 
     if (state.seasonFiles != null) {
       final Episode? episode = state.seasonFiles!.data.isNotEmpty
@@ -172,12 +170,12 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
             )
           : null;
 
-      srcOption = optionOf(
-          episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality).src);
+      videoSrc =
+          episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality).src;
     }
 
     yield state.copyWith(
-      videoSrc: srcOption.get,
+      videoSrc: videoSrc,
       startPosition: state.currentPosition,
       quality: e.quality,
     );

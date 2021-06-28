@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
 import '../../state/favorites/favorites_bloc.dart';
-import '../core/values/constants.dart';
 import 'widgets/widgets.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -29,7 +28,7 @@ class _FavoritesPageContentState extends State<FavoritesPageContent> {
       builder: (BuildContext context, FavoritesState state) {
         return state.movies != null
             ? AnimatedSwitcher(
-                duration: mediumAnimDuration,
+                duration: const Duration(milliseconds: 300),
                 child: state.movies!.isNotEmpty ? MovieList(state.movies!) : EmptyFavoriteListMessage(),
               )
             : const Center(child: CircularProgressIndicator());

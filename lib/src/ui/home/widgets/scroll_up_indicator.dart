@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/values/colors.dart';
-import '../../core/values/constants.dart';
 
 class ScrollUpRefreshIndicators extends StatefulWidget {
   const ScrollUpRefreshIndicators({
@@ -44,7 +43,7 @@ class _ScrollUpRefreshIndicatorsState extends State<ScrollUpRefreshIndicators> w
           ),
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: _active ? 0 : 20, end: _active ? 20 : 0),
-            duration: shortAnimDuration,
+            duration: const Duration(milliseconds: 200),
             curve: Curves.easeIn,
             builder: (BuildContext context, double value, Widget? child) {
               final double progress = value / 20;

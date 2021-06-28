@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../details/details_page.dart';
 import '../../main/main_page.dart';
 import '../../search/search_page.dart';
 import '../../stream/stream_page.dart';
 import 'route_args.dart';
+import 'transition_routes.dart';
 
 class Routes {
   Routes._();
@@ -15,60 +17,56 @@ class Routes {
   static const String searchPage = 'searchPage';
 }
 
-Route<dynamic> generateRoutes(RouteSettings settings) {
-  switch (settings.name) {
-    case Routes.root:
-      return MaterialPageRoute<MainPage>(
-        builder: (_) => MainPage(),
-      );
-    case Routes.detailsPage:
-      final DetailsPageArgs? args = settings.arguments as DetailsPageArgs?;
-      if (args == null) throw Exception();
-      return MaterialPageRoute<DetailsPage>(
-        builder: (_) => DetailsPage(movieId: args.movieId),
-      );
-    case Routes.streamPage:
-      final StreamPageArgs? args = settings.arguments as StreamPageArgs?;
-      if (args == null) throw Exception();
-      return MaterialPageRoute<StreamPage>(
-        builder: (_) => StreamPage(
-          movieId: args.movieId,
-          season: args.season,
-          episode: args.episode,
-          startAt: args.startAt,
-        ),
-      );
-    case Routes.searchPage:
-      return FadeInPageRoute<SearchPage>(
-        builder: (_) => SearchPage(),
-      );
-    default:
-      throw Exception('invalid page route: ${settings.name}');
-  }
-}
-
-class FadeInPageRoute<T> extends MaterialPageRoute<T> {
-  FadeInPageRoute({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-  })  : super(
-          builder: builder,
-          settings: settings,
-          maintainState: maintainState,
-          fullscreenDialog: fullscreenDialog,
-        ) {
-    assert(opaque);
+@injectable
+class RouteGenerator {
+  Route<dynamic> generateRoutes(RouteSettings settings) {
+    switch (settings.name) {
+      case Routes.root:
+        return _createMainPageRoute(settings);
+      case Routes.detailsPage:
+        return _createDetailsPageRoute(settings);
+      case Routes.streamPage:
+        return _createStreamPageRoute(settings);
+      case Routes.searchPage:
+        return _createSearchPageRoute(settings);
+      default:
+        throw Exception('invalid page route: ${settings.name}');
+    }
   }
 
-  @override
-  Widget buildTransitions(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return FadeTransition(opacity: animation, child: child);
+  MaterialPageRoute<void> _createMainPageRoute(RouteSettings settings) {
+    return MaterialPageRoute<void>(
+      settings: settings,
+      builder: (_) => MainPage(),
+    );
+  }
+
+  MaterialPageRoute<void> _createDetailsPageRoute(RouteSettings settings) {
+    final DetailsPageArgs? args = settings.arguments as DetailsPageArgs?;
+    if (args == null) throw Exception();
+    return MaterialPageRoute<void>(
+      settings: settings,
+      builder: (_) => DetailsPage(movieId: args.movieId),
+    );
+  }
+
+  MaterialPageRoute<void> _createStreamPageRoute(RouteSettings settings) {
+    final StreamPageArgs? args = settings.arguments as StreamPageArgs?;
+    if (args == null) throw Exception();
+    return MaterialPageRoute<void>(
+      settings: settings,
+      builder: (_) => StreamPage(
+        movieId: args.movieId,
+        season: args.season,
+        episode: args.episode,
+        startAt: args.startAt,
+      ),
+    );
+  }
+
+  MaterialPageRoute<void> _createSearchPageRoute(RouteSettings settings) {
+    return FadeInPageRoute<void>(
+      builder: (_) => SearchPage(),
+    );
   }
 }

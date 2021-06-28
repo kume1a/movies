@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../state/home/home_bloc.dart';
-import '../../core/routes/route_args.dart';
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/paged_list.dart';
@@ -53,13 +52,7 @@ class TopSelectionList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.detailsPage,
-          arguments: DetailsPageArgs(movieId: movie.movieId),
-        );
-      },
+      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
         child: Column(

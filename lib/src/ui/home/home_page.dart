@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
 import '../../state/home/home_bloc.dart';
-import '../core/values/constants.dart';
 import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
 
@@ -56,7 +55,7 @@ class _HomePageContentState extends State<HomePageContent> with SingleTickerProv
         return Future<void>.delayed(const Duration(milliseconds: 500));
       },
       onScrollToUpPressed: () {
-        _scrollController.animateTo(0, duration: longAnimDuration, curve: Curves.easeIn);
+        _scrollController.animateTo(0, duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
       },
       child: CustomScrollView(
         controller: _scrollController,

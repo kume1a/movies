@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/models/search/search_result.dart';
 import '../../../data/model/models/search/search_results.dart';
 import '../../../state/search/search_bloc.dart';
-import '../../core/routes/route_args.dart';
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/paged_list.dart';
 
@@ -72,11 +71,7 @@ class _MovieListState extends State<MovieList> {
     return GestureDetector(
       onTap: () {
         context.read<SearchBloc>().add(SearchEvent.searchResultSelected(searchResult));
-        Navigator.pushNamed(
-          context,
-          Routes.detailsPage,
-          arguments: DetailsPageArgs(movieId: searchResult.movieId),
-        );
+        ScreensNavigator.pushDetailsPage(searchResult.movieId);
       },
       child: item,
     );

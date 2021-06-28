@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../state/home/home_bloc.dart';
-import '../../core/routes/route_args.dart';
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/paged_list.dart';
 
@@ -24,8 +23,7 @@ class MoviesList extends StatelessWidget {
     return PagedList<MovieData>(
       extent: 1,
       listType: ListType.sliverBuilder,
-      request: (BuildContext context) =>
-          context.read<HomeBloc>().add(const HomeEvent.moviesPageFetchRequested()),
+      request: (BuildContext context) => context.read<HomeBloc>().add(const HomeEvent.moviesPageFetchRequested()),
       blankBuilder: _blankBuilder,
       itemBuilder: _itemBuilder,
       items: movies.data,
@@ -43,13 +41,7 @@ class MoviesList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.detailsPage,
-          arguments: DetailsPageArgs(movieId: movie.movieId),
-        );
-      },
+      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
       child: MovieItem(
         imageUrl: movie.poster,
         name: movie.name,

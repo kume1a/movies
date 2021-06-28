@@ -1,6 +1,5 @@
 import 'package:injectable/injectable.dart';
 
-import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/seasons/season.dart';
 import '../../model/schemas/core/enums.dart';
@@ -38,9 +37,9 @@ class MovieDao {
   final DBMovieTrailerDao _movieTrailerDao;
   final DBMovieSeasonDao _movieSeasonDao;
 
-  Future<Option<MovieData>> getMovieData(int movieId) async {
+  Future<MovieData?> getMovieData(int movieId) async {
     final DBMovie? dbMovie = await _movieDao.getDBMovie(movieId);
-    if (dbMovie == null) return none();
+    if (dbMovie == null) return null;
 
     final List<DBMovieCover> movieCovers = await _movieCoverDao.getMovieCovers(movieId);
     final Map<ImageSize, String> covers = <ImageSize, String>{for (DBMovieCover e in movieCovers) e.imageSize: e.cover};
@@ -64,7 +63,7 @@ class MovieDao {
 
     final List<Season> seasons = await _movieSeasonDao.getMovieSeasons(dbMovie.id!);
 
-    return some(MovieData(
+    return MovieData(
       id: dbMovie.id ?? -1,
       movieId: dbMovie.movieId,
       name: dbMovie.name,
@@ -83,7 +82,7 @@ class MovieDao {
       trailers: trailers,
       languages: languages,
       seasons: seasons,
-    ));
+    );
   }
 
   Future<void> writeMovieData(MovieData movieData) async {

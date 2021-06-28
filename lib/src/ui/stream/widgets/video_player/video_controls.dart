@@ -10,7 +10,6 @@ import 'package:video_player/video_player.dart';
 import '../../../../data/model/schemas/core/enums.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/formatters.dart';
-import '../../../core/values/constants.dart';
 import '../../../core/values/text_styles.dart';
 import 'player.dart';
 import 'progress_bar.dart';
@@ -144,20 +143,20 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             child: Stack(
               children: <Widget>[
                 AnimatedContainer(
-                  duration: shortAnimDuration,
+                  duration: const Duration(milliseconds: 200),
                   color: _hideControls ? Colors.transparent : Colors.black26,
                 ),
                 ClipPath(
                   clipper: RewindClipper(),
                   child: AnimatedContainer(
-                    duration: longAnimDuration,
+                    duration: const Duration(milliseconds: 400),
                     color: _showRewind ? Colors.white38 : Colors.transparent,
                   ),
                 ),
                 ClipPath(
                   clipper: ForwardClipper(),
                   child: AnimatedContainer(
-                    duration: longAnimDuration,
+                    duration: const Duration(milliseconds: 400),
                     color: _showForward ? Colors.white38 : Colors.transparent,
                   ),
                 ),
@@ -203,8 +202,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
     _playPauseIconAnimController ??= AnimationController(
       vsync: this,
-      duration: longAnimDuration,
-      reverseDuration: longAnimDuration,
+      duration: const Duration(milliseconds: 400),
     );
     _playPauseIconAnimController?.reset();
 
@@ -221,7 +219,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       height: barHeight,
       child: AnimatedOpacity(
         opacity: _hideControls ? 0 : 1,
-        duration: mediumAnimDuration,
+        duration: const Duration(milliseconds: 300),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -277,7 +275,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               ),
               AnimatedOpacity(
                 opacity: _latestValue != null && !_latestValue!.isPlaying && !_dragging ? 1 : 0,
-                duration: mediumAnimDuration,
+                duration: const Duration(milliseconds: 300),
                 child: GestureDetector(
                   onTap: () {
                     _playPause();
@@ -319,7 +317,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       height: barHeight,
       child: AnimatedOpacity(
         opacity: _hideControls ? 0 : 1,
-        duration: mediumAnimDuration,
+        duration: const Duration(milliseconds: 300),
         child: Row(
           children: <Widget>[
             _buildPlayPause(_controller!),
@@ -588,7 +586,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     }
 
     if (_chewieController?.showControlsOnInitialize == true) {
-      _initTimer = Timer(shortAnimDuration, () {
+      _initTimer = Timer(const Duration(milliseconds: 200), () {
         setState(() {
           _hideControls = false;
         });
@@ -601,7 +599,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       _hideControls = true;
 
       _chewieController?.toggleFullScreen();
-      _showAfterExpandCollapseTimer = Timer(mediumAnimDuration, () {
+      _showAfterExpandCollapseTimer = Timer(const Duration(milliseconds: 300), () {
         setState(() {
           _cancelAndRestartTimer();
         });

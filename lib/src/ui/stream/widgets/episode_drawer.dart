@@ -6,7 +6,6 @@ import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season.dart';
 import '../../../data/model/models/seasons/season_files.dart';
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/values/constants.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/safe_image.dart';
@@ -80,8 +79,8 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _horizontalController = AnimationController(vsync: this, duration: shortAnimDuration);
-    _verticalController = AnimationController(vsync: this, duration: shortAnimDuration);
+    _horizontalController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
+    _verticalController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
   }
 
   @override
@@ -315,7 +314,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           onPressed: () {
             _pageController.animateToPage(
               1,
-              duration: shortAnimDuration,
+              duration: const Duration(milliseconds: 200),
               curve: Curves.bounceIn,
             );
 
@@ -349,7 +348,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           onPressed: () {
             _pageController.animateToPage(
               0,
-              duration: shortAnimDuration,
+              duration: const Duration(milliseconds: 200),
               curve: Curves.bounceIn,
             );
           },
@@ -448,9 +447,7 @@ class DrawerRecommendedList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: state.related != null ? state.related!.data.length : 0,
           itemBuilder: (BuildContext context, int index) {
-            return state.related != null
-                ? _buildItem(context, state.related!.data[index])
-                : const MovieItem();
+            return state.related != null ? _buildItem(context, state.related!.data[index]) : const MovieItem();
           },
         );
       },

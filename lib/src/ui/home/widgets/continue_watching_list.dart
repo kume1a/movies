@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/models/movies/saved_movie.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/formatters.dart';
-import '../../core/routes/route_args.dart';
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
@@ -54,18 +53,12 @@ class ContinueWatchingList extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.streamPage,
-          arguments: StreamPageArgs(
-            movieId: savedMovie.data.movieId,
-            season: savedMovie.position.season,
-            episode: savedMovie.position.episode,
-            startAt: Duration(milliseconds: savedMovie.position.leftAt),
-          ),
-        );
-      },
+      onTap: () => ScreensNavigator.pushStreamPage(
+        movieId: savedMovie.position.movieId,
+        season: savedMovie.position.season,
+        episode: savedMovie.position.episode,
+        leftAt: savedMovie.position.leftAt,
+      ),
       child: Padding(
         padding: const EdgeInsets.only(left: 16),
         child: Column(

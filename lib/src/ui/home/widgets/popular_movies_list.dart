@@ -5,8 +5,7 @@ import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../data/model/schemas/core/enums.dart';
 import '../../../state/home/home_bloc.dart';
-import '../../core/routes/route_args.dart';
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
@@ -43,13 +42,7 @@ class PopularMoviesList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.detailsPage,
-          arguments: DetailsPageArgs(movieId: movie.movieId),
-        );
-      },
+      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
       child: Stack(
         children: <Widget>[
           Container(

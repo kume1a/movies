@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/values/constants.dart';
 import '../../core/values/text_styles.dart';
 
 class SeasonList extends StatelessWidget {
@@ -39,7 +38,7 @@ class SeasonList extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12, right: 8),
         child: AnimatedDefaultTextStyle(
           style: isActive ? prSB18 : scSB18,
-          duration: mediumAnimDuration,
+          duration: const Duration(milliseconds: 300),
           child: Text('Season $seasonNumber'),
         ),
       ),

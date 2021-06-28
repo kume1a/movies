@@ -14,7 +14,7 @@ abstract class NetworkModule {
       sendTimeout: 5000,
     ));
     dio.interceptors.add(headerInterceptor);
-    // dio.interceptors.add(LogInterceptor(responseBody: true));
+    dio.interceptors.add(LogInterceptor(responseBody: true));
 
     return dio;
   }

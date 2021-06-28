@@ -83,7 +83,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       _page++;
       _loading = false;
-      yield state.copyWith(searchResults: searchResults.toOption().get);
+      yield state.copyWith(searchResults: searchResults.get);
     }
   }
 

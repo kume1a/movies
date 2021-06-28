@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
 import '../../state/details/details_bloc.dart';
-import '../core/routes/route_args.dart';
-import '../core/routes/routes.dart';
+import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
 import '../core/widgets/rating_duration.dart';
@@ -46,18 +45,12 @@ class DetailsPageContent extends StatelessWidget {
         final double w = MediaQuery.of(context).size.width;
         final Widget fab = state.moviePosition != null
             ? FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.streamPage,
-                    arguments: StreamPageArgs(
-                      movieId: state.moviePosition!.movieId,
-                      season: state.moviePosition!.season,
-                      episode: state.moviePosition!.episode,
-                      startAt: Duration(milliseconds: state.moviePosition!.leftAt),
-                    ),
-                  );
-                },
+                onPressed: () => ScreensNavigator.pushStreamPage(
+                  movieId: state.moviePosition!.movieId,
+                  episode: state.moviePosition!.season,
+                  season: state.moviePosition!.season,
+                  leftAt: state.moviePosition!.leftAt,
+                ),
                 backgroundColor: colorAccent,
                 icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
                 label: const Text('continue', style: prB15),
@@ -82,13 +75,7 @@ class DetailsPageContent extends StatelessWidget {
                     src: state.movie!.availableImage ?? '',
                     onBackPressed: () => Navigator.pop(context),
                     onPlayPressed: state.movie!.canBePlayed
-                        ? () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.streamPage,
-                              arguments: StreamPageArgs(movieId: state.movie!.movieId),
-                            );
-                          }
+                        ? () => ScreensNavigator.pushStreamPage(movieId: state.movie!.movieId)
                         : null,
                   ),
                 ),

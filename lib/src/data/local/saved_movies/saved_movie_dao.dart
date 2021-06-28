@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
-import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/movies/movie_position.dart';
 import '../../model/models/movies/saved_movie.dart';
@@ -33,9 +32,9 @@ class SavedMovieDao {
 
   Future<bool> positionForMovieExists(int movieId) async => _moviePositionDao.positionForMovieIdExists(movieId);
 
-  Future<Option<SavedMovie>> getSavedMovie(int movieId) async {
+  Future<SavedMovie?> getSavedMovie(int movieId) async {
     final DBMoviePosition? moviePosition = await _moviePositionDao.getMoviePosition(movieId);
-    if (moviePosition == null) return none();
+    if (moviePosition == null) return null;
 
     final MoviePosition position = MoviePosition(
       movieId: moviePosition.movieId,
@@ -48,17 +47,17 @@ class SavedMovieDao {
     );
     final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(movieId);
     return movieData.fold(
-      (_) => none(),
-      (MovieData r) => some(SavedMovie(position: position, data: r)),
+      (_) => null,
+      (MovieData r) => SavedMovie(position: position, data: r),
     );
   }
 
   Future<void> updateMoviePosition(int movieId, int leftAt) async =>
       _moviePositionDao.updateMoviePosition(movieId, leftAt);
 
-  Future<Option<List<SavedMovie>>> getSavedMovies() async {
+  Future<List<SavedMovie>> getSavedMovies() async {
     final List<DBMoviePosition> moviePositions = await _moviePositionDao.getMoviePositions();
-    final List<Option<SavedMovie>> savedMovies = await Future.wait(moviePositions.map((DBMoviePosition e) async {
+    final List<SavedMovie?> savedMovies = await Future.wait(moviePositions.map((DBMoviePosition e) async {
       final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(e.movieId);
       final MoviePosition moviePosition = MoviePosition(
         movieId: e.movieId,
@@ -70,14 +69,11 @@ class SavedMovieDao {
         timestamp: e.saveTimestamp,
       );
       return movieData.fold(
-        (_) => none(),
-        (MovieData r) => some(SavedMovie(position: moviePosition, data: r)),
+        (_) => null,
+        (MovieData r) => SavedMovie(position: moviePosition, data: r),
       );
     }));
-    if (savedMovies.every((Option<SavedMovie> e) => e.isSome())) {
-      return some(savedMovies.map((Option<SavedMovie> e) => e.getOrElse(() => throw Exception())).toList());
-    }
-    return none();
+    return savedMovies.where((SavedMovie? e) => e != null).cast<SavedMovie>().toList();
   }
 
   Future<void> deleteMoviePositions() async => _moviePositionDao.deleteMoviePositions();

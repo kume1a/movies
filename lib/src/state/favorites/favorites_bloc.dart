@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorite_movie/favorite_movie_dao.dart';
-import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movie_data.dart';
 
 part 'favorites_bloc.freezed.dart';
@@ -30,7 +29,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   }
 
   Stream<FavoritesState> _favoriteMoviesRequested(_FavoriteMoviesRequested event) async* {
-    final Option<List<MovieData>> movies = await _favoriteMovieDao.getFavoritedMovies();
-    yield state.copyWith(movies: movies.get);
+    final List<MovieData> movies = await _favoriteMovieDao.getFavoritedMovies();
+    yield state.copyWith(movies: movies);
   }
 }

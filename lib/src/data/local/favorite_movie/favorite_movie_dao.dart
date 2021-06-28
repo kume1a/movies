@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
-import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../network/services/movie_service.dart';
 import 'db_favorite_movie/db_favorite_movie.dart';
@@ -35,17 +34,15 @@ class FavoriteMovieDao {
 
   Future<void> unfavoriteMovies() async => _favoriteMovieDao.deleteAll();
 
-  Future<Option<List<MovieData>>> getFavoritedMovies() async {
+  Future<List<MovieData>> getFavoritedMovies() async {
     final List<DBFavoriteMovie> dbFavoriteMovies = await _favoriteMovieDao.getFavoriteMovies();
-    final List<Option<MovieData>> favoriteMovies =
-        await Future.wait(dbFavoriteMovies.map((DBFavoriteMovie favoriteMovie) async {
-      final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(favoriteMovie.movieId);
-      return movieData.fold((_) => none(), (MovieData r) => some(r));
-    }));
+    final List<MovieData?> favoriteMovies = await Future.wait(dbFavoriteMovies.map(
+      (DBFavoriteMovie favoriteMovie) async {
+        final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(favoriteMovie.movieId);
+        return movieData.get;
+      },
+    ));
 
-    if (favoriteMovies.every((Option<MovieData> e) => e.isSome())) {
-      return some(favoriteMovies.map((Option<MovieData> e) => e.getOrElse(() => throw Exception())).toList());
-    }
-    return none();
+    return favoriteMovies.where((MovieData? e) => e != null).cast<MovieData>().toList();
   }
 }

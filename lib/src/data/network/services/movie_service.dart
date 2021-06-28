@@ -4,7 +4,6 @@ import '../../local/movies/movie_dao.dart';
 import '../../local/season_files/season_files_dao.dart';
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
-import '../../model/core/option.dart';
 import '../../model/models/actors/actors.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/movies/movies.dart';
@@ -154,9 +153,9 @@ class MovieService extends BaseService {
   }
 
   Future<Either<FetchFailure, MovieData>> getMovie(int movieId) async {
-    final Option<MovieData> savedMovieData = await _movieDao.getMovieData(movieId);
-    if (savedMovieData.isSome()) {
-      return right(savedMovieData.getOrElse(() => throw Exception()));
+    final MovieData? savedMovieData = await _movieDao.getMovieData(movieId);
+    if (savedMovieData != null) {
+      return right(savedMovieData);
     }
 
     final Either<FetchFailure, MovieSchema> result = await safeFetch(() {
@@ -183,9 +182,9 @@ class MovieService extends BaseService {
   }
 
   Future<Either<FetchFailure, SeasonFiles>> getSeasonFiles(int id, int season) async {
-    final Option<SeasonFiles> savedSeasonFiles = await _seasonFileDao.getSeasonFiles(id, season);
-    if (savedSeasonFiles.isSome()) {
-      return right(savedSeasonFiles.getOrElse(() => throw Exception()));
+    final SeasonFiles? savedSeasonFiles = await _seasonFileDao.getSeasonFiles(id, season);
+    if (savedSeasonFiles != null) {
+      return right(savedSeasonFiles);
     }
 
     final Either<FetchFailure, SeasonFilesSchema> result = await safeFetch(

@@ -7,9 +7,9 @@ class DetailsPageArgs {
 class StreamPageArgs {
   const StreamPageArgs({
     required this.movieId,
-    this.season = 1,
-    this.episode = 1,
-    this.startAt = const Duration(),
+    required this.season,
+    required this.episode,
+    required this.startAt,
   });
 
   final int movieId;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../extensions.dart';
 import '../values/colors.dart';
 import 'blank_container.dart';
 
@@ -23,7 +22,7 @@ class SafeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl == null || imageUrl!.isNullEmptyOrWhitespace) {
+    if (imageUrl == null || imageUrl!.trim().isEmpty) {
       if (defaultAssetPath != null) {
         return _image(AssetImage(defaultAssetPath!));
       }

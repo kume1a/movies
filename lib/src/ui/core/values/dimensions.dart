@@ -1,1 +1,0 @@
-const double defaultIconSize = 24;

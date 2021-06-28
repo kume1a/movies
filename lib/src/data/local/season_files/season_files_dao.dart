@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/core/option.dart';
 import '../../model/models/seasons/episode.dart';
 import '../../model/models/seasons/episode_file.dart';
 import '../../model/models/seasons/season_files.dart';
@@ -29,11 +28,9 @@ class SeasonFileDao {
   final DBSeasonFileDao _seasonFileDao;
   final DBEpisodeCoverDao _episodeCoverDao;
 
-  Future<Option<SeasonFiles>> getSeasonFiles(int id, int season) async {
+  Future<SeasonFiles?> getSeasonFiles(int id, int season) async {
     final DBSeasonFile? seasonFile = await _seasonFileDao.getSeasonFile(id, season);
-    if (seasonFile == null) {
-      return none();
-    }
+    if (seasonFile == null) return null;
 
     final List<DBEpisode> dbEpisodes = await _episodeDao.getEpisodes(seasonFile.id!);
     final List<Episode> episodes = await Future.wait(dbEpisodes.map((DBEpisode e) async {
@@ -69,7 +66,7 @@ class SeasonFileDao {
       );
     }));
 
-    return some(SeasonFiles(season: season, data: episodes));
+    return SeasonFiles(season: season, data: episodes);
   }
 
   Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {

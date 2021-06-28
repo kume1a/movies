@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'option.dart';
-
 typedef _Function1<A, B> = B Function(A a);
 
 A _id<A>(A a) => a;
@@ -10,8 +8,6 @@ A _id<A>(A a) => a;
 /// functional entity, holding either a failure or a value
 abstract class Either<L, R> {
   const Either();
-
-  Option<R> toOption() => fold((L l) => none(), (R r) => some(r));
 
   B fold<B>(B Function(L l) ifLeft, B Function(R r) ifRight);
 

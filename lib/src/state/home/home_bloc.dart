@@ -7,16 +7,13 @@ import 'package:injectable/injectable.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
-import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/movies/saved_movie.dart';
 import '../../data/model/schemas/core/enums.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'home_bloc.freezed.dart';
-
 part 'home_event.dart';
-
 part 'home_state.dart';
 
 @injectable
@@ -59,7 +56,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Stream<HomeState> _popularMoviesFetchRequested(_PopularMoviesFetchRequested event) async* {
     final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
-    yield state.copyWith(popularMovies: movies.toOption().get);
+    yield state.copyWith(popularMovies: movies.get);
   }
 
   Stream<HomeState> _topMoviesPageFetchRequested(_TopMoviesPageFetchRequested event) async* {
@@ -74,7 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _topMoviesPage++;
       _fetchingTopMovies = false;
       yield state.copyWith(
-        topMovies: movies.toOption().get,
+        topMovies: movies.get,
       );
     }
   }
@@ -90,7 +87,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       _moviesPage++;
       _fetchingMovies = false;
-      yield state.copyWith(movies: movies.toOption().get);
+      yield state.copyWith(movies: movies.get);
     }
   }
 
@@ -108,19 +105,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
-    final Option<List<SavedMovie>> savedMovies = await _savedMovieDao.getSavedMovies();
-    yield state.copyWith(savedMovies: savedMovies.get);
-  }
-}
-
-extension MoviesOptionX on Option<Movies> {
-  Option<Movies> combineData(Option<Movies> other) {
-    return fold(
-      () => other,
-      (Movies a) {
-        other.getOrElse(() => Movies.empty()).data.insertAll(0, a.data);
-        return other;
-      },
-    );
+    final List<SavedMovie> savedMovies = await _savedMovieDao.getSavedMovies();
+    yield state.copyWith(savedMovies: savedMovies);
   }
 }

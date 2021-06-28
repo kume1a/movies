@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/details/details_bloc.dart';
 import '../../core/values/colors.dart';
-import '../../core/values/constants.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
 
@@ -138,7 +137,7 @@ class FavoriteButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: AnimatedSwitcher(
-              duration: shortAnimDuration,
+              duration: const Duration(milliseconds: 200),
               switchOutCurve: Curves.bounceIn,
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return ScaleTransition(

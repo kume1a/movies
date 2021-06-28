@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/routes/routes.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 
@@ -10,9 +10,7 @@ class SearchHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
       child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, Routes.searchPage);
-        },
+        onTap: () => ScreensNavigator.pushSearchPage(),
         child: Container(
           color: Colors.transparent,
           child: Column(

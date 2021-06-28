@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../di/injection.dart';
 import 'core/routes/routes.dart';
+import 'core/routes/screens_navigator.dart' show navigatorKey;
 import 'core/values/colors.dart';
 
 class App extends StatelessWidget {
@@ -9,7 +11,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'movo',
-      onGenerateRoute: generateRoutes,
+      onGenerateRoute: getIt<RouteGenerator>().generateRoutes,
+      navigatorKey: navigatorKey,
       theme: ThemeData.dark().copyWith(
         backgroundColor: colorPrimary,
         accentColor: colorAccent,
@@ -19,7 +22,7 @@ class App extends StatelessWidget {
           backgroundColor: colorPrimaryLight,
           actionTextColor: colorAccent,
           contentTextStyle: TextStyle(color: colorTextPrimary),
-          elevation: 12
+          elevation: 12,
         ),
       ),
     );
