@@ -13,19 +13,19 @@ part 'settings_state.dart';
 
 @injectable
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc(this._settingsInteractor) : super(SettingsState.initial()) {
+  SettingsBloc(this._settingsHelper) : super(SettingsState.initial()) {
     _init();
   }
 
-  final SettingsHelper _settingsInteractor;
+  final SettingsHelper _settingsHelper;
 
   Future<void> _init() async {
-    final bool isAutoPlatEnabled = await _settingsInteractor.isAutoPlayEnabled();
-    final int seekValue = await _settingsInteractor.getDoubleTapToSeekValue();
+    final bool isAutoPlatEnabled = await _settingsHelper.isAutoPlayEnabled();
+    final int seekValue = await _settingsHelper.getDoubleTapToSeekValue();
     final bool isRecordSearchHistoryEnabled =
-        await _settingsInteractor.isRecordSearchHistoryEnabled();
+        await _settingsHelper.isRecordSearchHistoryEnabled();
     final bool isRecordWatchHistoryEnabled =
-        await _settingsInteractor.isRecordWatchHistoryEnabled();
+        await _settingsHelper.isRecordWatchHistoryEnabled();
 
     add(SettingsEvent.initial(
       isAutoPlatEnabled: isAutoPlatEnabled,
@@ -50,28 +50,31 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       },
       autoPlaySwitched: (_AutoPlaySwitched e) async* {
         yield state.copyWith(autoPlayEnabled: e.enabled);
-        await _settingsInteractor.setAutoPlayEnabled(enabled: e.enabled);
+        await _settingsHelper.setAutoPlayEnabled(enabled: e.enabled);
       },
       doubleTapToSeekValueChanged: (_DoubleTapToSeekValueChanged e) async* {
         yield state.copyWith(doubleTapToSeekValue: e.value);
-        await _settingsInteractor.setDoubleTapToSeek(e.value);
+        await _settingsHelper.setDoubleTapToSeek(e.value);
       },
       clearSearchHistoryRequested: (_ClearSearchHistoryRequested e) async* {
-        await _settingsInteractor.clearSearchHistory();
+        await _settingsHelper.clearSearchHistory();
       },
       clearWatchHistoryRequested: (_ClearWatchHistoryRequested e) async* {
-        await _settingsInteractor.clearSavedMovies();
+        await _settingsHelper.clearSavedMovies();
       },
       searchHistoryEnabledSwitched: (_SearchHistoryEnabledSwitched e) async* {
         yield state.copyWith(recordSearchHistoryEnabled: e.enabled);
-        await _settingsInteractor.setRecordingSearchHistoryEnabled(enabled: e.enabled);
+        await _settingsHelper.setRecordingSearchHistoryEnabled(enabled: e.enabled);
       },
       watchHistoryEnabledSwitched: (_WatchHistoryEnabledSwitched e) async* {
         yield state.copyWith(recordWatchHistoryEnabled: e.enabled);
-        await _settingsInteractor.setRecordingWatchHistoryEnabled(enabled: e.enabled);
+        await _settingsHelper.setRecordingWatchHistoryEnabled(enabled: e.enabled);
       },
       clearFavoritesRequested: (_ClearFavoritesRequested e) async* {
-        await _settingsInteractor.clearFavorites();
+        await _settingsHelper.clearFavorites();
+      },
+      clearCacheRequested: (_ClearCacheRequested e) async* {
+        await _settingsHelper.clearCache();
       },
     );
   }

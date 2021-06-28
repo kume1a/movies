@@ -167,7 +167,7 @@ class MovieService extends BaseService {
       );
     });
 
-    if (result.isRight() && result.rightOrCrash.data != null) {
+    if (result.isRight() && result.rightOrCrash.data != null && result.rightOrCrash.data?.canBePlayed == true) {
       await _movieDao.writeMovieData(MovieData.fromSchema(result.rightOrCrash.data!));
     }
 

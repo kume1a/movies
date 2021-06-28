@@ -28,6 +28,8 @@ class SettingsPageContent extends StatelessWidget {
         const SizedBox(height: 32),
         ..._historySection(context),
         const SizedBox(height: 32),
+        ..._cacheSection(context),
+        const SizedBox(height: 32),
       ],
     );
   }
@@ -61,8 +63,7 @@ class SettingsPageContent extends StatelessWidget {
         child: Text('Video Player', style: prB24),
       ),
       BlocBuilder<SettingsBloc, SettingsState>(
-        buildWhen: (SettingsState prev, SettingsState curr) =>
-            prev.autoPlayEnabled != curr.autoPlayEnabled,
+        buildWhen: (SettingsState prev, SettingsState curr) => prev.autoPlayEnabled != curr.autoPlayEnabled,
         builder: (BuildContext context, SettingsState state) {
           return SwitchListTile(
             value: state.autoPlayEnabled,
@@ -75,8 +76,7 @@ class SettingsPageContent extends StatelessWidget {
         },
       ),
       BlocBuilder<SettingsBloc, SettingsState>(
-        buildWhen: (SettingsState prev, SettingsState curr) =>
-            prev.doubleTapToSeekValue != curr.doubleTapToSeekValue,
+        buildWhen: (SettingsState prev, SettingsState curr) => prev.doubleTapToSeekValue != curr.doubleTapToSeekValue,
         builder: (BuildContext context, SettingsState state) {
           return ListTile(
             title: const Text('Double-tap to seek'),
@@ -161,6 +161,30 @@ class SettingsPageContent extends StatelessWidget {
             'DELETE FAVOURITES',
             () {
               context.read<SettingsBloc>().add(const SettingsEvent.clearFavoritesRequested());
+            },
+          );
+        },
+      ),
+    ];
+  }
+
+  List<Widget> _cacheSection(BuildContext context) {
+    return <Widget>[
+      const Padding(
+        padding: EdgeInsets.only(left: 16, bottom: 4),
+        child: Text('Cache', style: prB24),
+      ),
+      ListTile(
+        title: const Text('Clear cache'),
+        subtitle: const Text('clear cached movies and season files'),
+        onTap: () {
+          showConfirmationDialog(
+            context,
+            'Clear cache?',
+            'The action will delete all the cached movies and seasons',
+            'DELETE CACHE',
+            () {
+              context.read<SettingsBloc>().add(const SettingsEvent.clearCacheRequested());
             },
           );
         },

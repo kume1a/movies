@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../cache_dumper.dart';
 import '../favorite_movie/favorite_movie_dao.dart';
 import '../saved_movies/saved_movie_dao.dart';
 import '../search_result/search_result_dao.dart';
@@ -12,12 +13,14 @@ class SettingsHelper {
     this._searchResultDao,
     this._savedMovieDao,
     this._favoriteMovieDao,
+    this._cacheDumper,
   );
 
   final SharedPreferences _sharedPreferences;
   final SearchResultDao _searchResultDao;
   final SavedMovieDao _savedMovieDao;
   final FavoriteMovieDao _favoriteMovieDao;
+  final CacheDumper _cacheDumper;
 
   static const String _keyAutoPlay = 'key_auto_play';
   static const String _keyDoubleTapToSeek = 'key_double_tap_to_seek';
@@ -50,4 +53,6 @@ class SettingsHelper {
   Future<bool> isRecordSearchHistoryEnabled() async => _sharedPreferences.getBool(_keyRecordSearchHistory) ?? true;
 
   Future<bool> isRecordWatchHistoryEnabled() async => _sharedPreferences.getBool(_keyRecordWatchHistory) ?? true;
+
+  Future<void> clearCache() async => _cacheDumper.dumpCache();
 }
