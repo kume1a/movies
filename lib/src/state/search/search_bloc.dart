@@ -15,7 +15,9 @@ import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
 
 part 'search_bloc.freezed.dart';
+
 part 'search_event.dart';
+
 part 'search_state.dart';
 
 @injectable
@@ -41,7 +43,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       queryChanged: (_QueryChanged e) async* {
         if (e.query.isEmpty) {
           final List<SearchResult> history = await _searchResultDao.getSearchResults();
-          final SearchResults savedSearchResults = SearchResults(history, history.length, 1);
+          final SearchResults savedSearchResults = SearchResults(
+            results: history,
+            totalCount: history.length,
+            totalPages: 1,
+          );
           yield state.copyWith(
             query: e.query,
             searchResultsOption: some(savedSearchResults),

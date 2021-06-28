@@ -5,7 +5,7 @@ import '../../model/core/fetch_failure.dart';
 import '../../model/core/option.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/movies/movie_position.dart';
-import '../../model/models/movies/saved_movies.dart';
+import '../../model/models/movies/saved_movie.dart';
 import '../../network/services/movie_service.dart';
 import 'db_movie_position/db_movie_position.dart';
 import 'db_movie_position/db_movie_position_dao.dart';
@@ -38,16 +38,19 @@ class SavedMovieDao {
     if (moviePosition == null) return none();
 
     final MoviePosition position = MoviePosition(
-      moviePosition.movieId,
-      moviePosition.durationInMillis,
-      moviePosition.leftAt,
-      moviePosition.isTvShow,
-      moviePosition.season,
-      moviePosition.episode,
-      moviePosition.saveTimestamp,
+      movieId: moviePosition.movieId,
+      durationInMillis: moviePosition.durationInMillis,
+      leftAt: moviePosition.leftAt,
+      isTvShow: moviePosition.isTvShow,
+      season: moviePosition.season,
+      episode: moviePosition.episode,
+      timestamp: moviePosition.saveTimestamp,
     );
     final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(movieId);
-    return movieData.fold((_) => none(), (MovieData r) => some(SavedMovie(position, r)));
+    return movieData.fold(
+      (_) => none(),
+      (MovieData r) => some(SavedMovie(position: position, data: r)),
+    );
   }
 
   Future<void> updateMoviePosition(int movieId, int leftAt) async =>
@@ -58,15 +61,18 @@ class SavedMovieDao {
     final List<Option<SavedMovie>> savedMovies = await Future.wait(moviePositions.map((DBMoviePosition e) async {
       final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(e.movieId);
       final MoviePosition moviePosition = MoviePosition(
-        e.movieId,
-        e.durationInMillis,
-        e.leftAt,
-        e.isTvShow,
-        e.season,
-        e.episode,
-        e.saveTimestamp,
+        movieId: e.movieId,
+        durationInMillis: e.durationInMillis,
+        leftAt: e.leftAt,
+        isTvShow: e.isTvShow,
+        season: e.season,
+        episode: e.episode,
+        timestamp: e.saveTimestamp,
       );
-      return movieData.fold((_) => none(), (MovieData r) => some(SavedMovie(moviePosition, r)));
+      return movieData.fold(
+        (_) => none(),
+        (MovieData r) => some(SavedMovie(position: moviePosition, data: r)),
+      );
     }));
     if (savedMovies.every((Option<SavedMovie> e) => e.isSome())) {
       return some(savedMovies.map((Option<SavedMovie> e) => e.getOrElse(() => throw Exception())).toList());

@@ -69,7 +69,7 @@ class SeasonFileDao {
       );
     }));
 
-    return some(SeasonFiles(season, episodes));
+    return some(SeasonFiles(season: season, data: episodes));
   }
 
   Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {
@@ -114,7 +114,7 @@ class SeasonFileDao {
     }
   }
 
-  Future<void> deleteSeasonFiles() async  {
+  Future<void> deleteSeasonFiles() async {
     await _episodeCoverDao.deleteAll();
     await _episodeFileDao.deleteAll();
     await _episodeDao.deleteAll();

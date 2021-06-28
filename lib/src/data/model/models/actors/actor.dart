@@ -1,16 +1,21 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../schemas/actors/actor_schema.dart';
 
-class Actor {
-  Actor._({
-    required this.id,
-    required this.name,
-    required this.poster,
-    required this.birthDate,
-    required this.birthPlace,
-  });
+part 'actor.freezed.dart';
+
+@freezed
+class Actor with _$Actor {
+  const factory Actor({
+    required int id,
+    required String name,
+    required String poster,
+    required String birthDate,
+    required String birthPlace,
+  }) = _Actor;
 
   factory Actor.fromSchema(ActorSchema schema) {
-    return Actor._(
+    return Actor(
       id: schema.id ?? 0,
       name: schema.secondaryName ?? schema.originalName ?? schema.primaryName ?? '',
       poster: schema.poster ?? '',
@@ -18,10 +23,4 @@ class Actor {
       birthPlace: schema.birthPlace ?? '',
     );
   }
-
-  final int id;
-  final String name;
-  final String poster;
-  final String birthDate;
-  final String birthPlace;
 }

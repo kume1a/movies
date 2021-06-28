@@ -1,21 +1,28 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../../../core/helpers/enum_to_string.dart';
 import '../../../local/tables.dart';
 import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/search/search_results_schema.dart';
 
-class SearchResult {
-  SearchResult({
-    required this.id,
-    required this.type,
-    required this.movieId,
-    required this.name,
-    required this.description,
-    required this.poster,
-    required this.secondaryPoster,
-    required this.isTvShow,
-    required this.timestamp,
-  });
+part 'search_result.freezed.dart';
+
+@freezed
+class SearchResult with _$SearchResult {
+  const factory SearchResult({
+    required int id,
+    required SearchType type,
+    required int movieId,
+    required String name,
+    required String description,
+    required String poster,
+    required String secondaryPoster,
+    required bool isTvShow,
+    required int timestamp,
+  }) = _SearchResult;
+
+  const SearchResult._();
 
   factory SearchResult.fromSchema(SearchResultSchema schema) {
     return SearchResult(
@@ -47,23 +54,8 @@ class SearchResult {
     );
   }
 
-  final int id;
-  final SearchType type;
-  final int movieId;
-  final String name;
-  final String description;
-  final String poster;
-  final String secondaryPoster;
-  final bool isTvShow;
-  final int timestamp;
-
   String get image => <String>[poster, secondaryPoster].firstWhere(
         (String e) => e.isNotEmpty,
         orElse: () => '',
       );
-
-  @override
-  String toString() {
-    return 'SearchResult{id: $id, type: $type, movieId: $movieId, name: $name, description: $description, poster: $poster, secondaryPoster: $secondaryPoster, isTvShow: $isTvShow, timestamp: $timestamp}';
-  }
 }

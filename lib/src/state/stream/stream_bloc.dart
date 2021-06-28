@@ -233,13 +233,13 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
                 .duration;
 
             final MoviePosition position = MoviePosition(
-              movie.movieId,
-              durationInSeconds * 1000,
-              e.position.inMilliseconds,
-              movie.isTvShow,
-              state.season,
-              state.episode,
-              DateTime.now().millisecondsSinceEpoch,
+              movieId: movie.movieId,
+              durationInMillis: durationInSeconds * 1000,
+              leftAt: e.position.inMilliseconds,
+              isTvShow: movie.isTvShow,
+              season: state.season,
+              episode: state.episode,
+              timestamp: DateTime.now().millisecondsSinceEpoch,
             );
             _savedMovieDao.insertMoviePosition(position);
           }

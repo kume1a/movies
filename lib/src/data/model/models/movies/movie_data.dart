@@ -1,3 +1,5 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/core/utils.dart';
@@ -9,27 +11,32 @@ import '../../schemas/movie/plot_schema.dart';
 import '../../schemas/movie/trailers_schema.dart';
 import '../seasons/season.dart';
 
-class MovieData {
-  MovieData({
-    required this.id,
-    required this.movieId,
-    required this.name,
-    required this.year,
-    required this.imdbUrl,
-    required this.isTvShow,
-    required this.duration,
-    required this.canBePlayed,
-    required this.poster,
-    required this.imdbRating,
-    required this.voterCount,
-    required this.covers,
-    required this.secondaryCovers,
-    required this.plot,
-    required this.genres,
-    required this.trailers,
-    required this.languages,
-    required this.seasons,
-  });
+part 'movie_data.freezed.dart';
+
+@freezed
+class MovieData with _$MovieData {
+  const factory MovieData({
+    required int id,
+    required int movieId,
+    required String name,
+    required int year,
+    required String imdbUrl,
+    required bool isTvShow,
+    required int duration,
+    required bool canBePlayed,
+    required String poster,
+    required double imdbRating,
+    required int voterCount,
+    required Map<ImageSize, String> covers,
+    required Map<Resolution, String> secondaryCovers,
+    required String plot,
+    required List<String> genres,
+    required Map<Language, String> trailers,
+    required List<Language> languages,
+    required List<Season> seasons,
+  }) = _MovieData;
+
+  const MovieData._();
 
   factory MovieData.fromSchema(MovieDataSchema schema) {
     final int id = schema.id ?? 0;
@@ -101,25 +108,6 @@ class MovieData {
     );
   }
 
-  final int id;
-  final int movieId;
-  final String name;
-  final int year;
-  final String imdbUrl;
-  final bool isTvShow;
-  final int duration;
-  final bool canBePlayed;
-  final String poster;
-  final double imdbRating;
-  final int voterCount;
-  final Map<ImageSize, String> covers;
-  final Map<Resolution, String> secondaryCovers;
-  final String plot;
-  final List<String> genres;
-  final Map<Language, String> trailers;
-  final List<Language> languages;
-  final List<Season> seasons;
-
   String? get availableImage => <String?>[
         covers[ImageSize.large],
         secondaryCovers[Resolution.fhd],
@@ -127,44 +115,4 @@ class MovieData {
         covers[ImageSize.small],
         secondaryCovers[Resolution.vga],
       ].firstValid;
-
-  @override
-  String toString() {
-    return 'MovieData{id: $id, movieId: $movieId, name: $name, year: $year, imdbUrl: $imdbUrl, isTvShow: $isTvShow, duration: $duration, canBePlayed: $canBePlayed, poster: $poster, imdbRating: $imdbRating, voterCount: $voterCount, covers: $covers, secondaryCovers: $secondaryCovers, plot: $plot, genres: $genres, trailers: $trailers, languages: $languages, seasons: $seasons';
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is MovieData &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          movieId == other.movieId &&
-          name == other.name &&
-          year == other.year &&
-          imdbUrl == other.imdbUrl &&
-          isTvShow == other.isTvShow &&
-          duration == other.duration &&
-          canBePlayed == other.canBePlayed &&
-          poster == other.poster &&
-          imdbRating == other.imdbRating &&
-          voterCount == other.voterCount &&
-          plot == other.plot &&
-          languages == other.languages;
-
-  @override
-  int get hashCode =>
-      id.hashCode ^
-      movieId.hashCode ^
-      name.hashCode ^
-      year.hashCode ^
-      imdbUrl.hashCode ^
-      isTvShow.hashCode ^
-      duration.hashCode ^
-      canBePlayed.hashCode ^
-      poster.hashCode ^
-      imdbRating.hashCode ^
-      voterCount.hashCode ^
-      plot.hashCode ^
-      languages.hashCode;
 }

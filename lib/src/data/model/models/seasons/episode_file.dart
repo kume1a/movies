@@ -1,14 +1,19 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/season_files/files_schema.dart';
 
-class EpisodeFile {
-  EpisodeFile({
-    required this.id,
-    required this.quality,
-    required this.src,
-    required this.duration,
-  });
+part 'episode_file.freezed.dart';
+
+@freezed
+class EpisodeFile with _$EpisodeFile {
+  const factory EpisodeFile({
+    required int id,
+    required Quality quality,
+    required String src,
+    required int duration,
+  }) = _EpisodeFile;
 
   factory EpisodeFile.fromSchema(FileSchema schema) {
     return EpisodeFile(
@@ -20,16 +25,11 @@ class EpisodeFile {
   }
 
   factory EpisodeFile.empty() {
-    return EpisodeFile(id: 0, quality: Quality.high, src: '', duration: 0);
-  }
-
-  final int id;
-  final Quality quality;
-  final String src;
-  final int duration;
-
-  @override
-  String toString() {
-    return 'EpisodeFile{id: $id, quality: $quality, src: $src, duration: $duration}';
+    return const EpisodeFile(
+      id: 0,
+      quality: Quality.high,
+      src: '',
+      duration: 0,
+    );
   }
 }

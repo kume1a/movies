@@ -1,14 +1,19 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../../local/tables.dart';
 import '../../schemas/movie/movie_seasons_schema.dart';
 
-class Season {
-  Season({
-    this.id,
-    required this.movieId,
-    required this.number,
-    required this.name,
-    required this.episodesCount,
-  });
+part 'season.freezed.dart';
+
+@freezed
+class Season with _$Season {
+  const factory Season({
+    int? id,
+    required int movieId,
+    required int number,
+    required String name,
+    required int episodesCount,
+  }) = _Season;
 
   factory Season.fromSchema(SeasonsDataSchema schema) {
     return Season(
@@ -27,16 +32,5 @@ class Season {
       name: map[TableSeasons.columnName] as String? ?? '',
       episodesCount: map[TableSeasons.columnEpisodesCount] as int? ?? -1,
     );
-  }
-
-  final int? id;
-  final int movieId;
-  final int number;
-  final String name;
-  final int episodesCount;
-
-  @override
-  String toString() {
-    return 'Season{movieId: $movieId, number: $number, name: $name, episodesCount: $episodesCount}';
   }
 }

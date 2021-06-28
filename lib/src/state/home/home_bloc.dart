@@ -9,7 +9,7 @@ import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/core/option.dart';
 import '../../data/model/models/movies/movies.dart';
-import '../../data/model/models/movies/saved_movies.dart';
+import '../../data/model/models/movies/saved_movie.dart';
 import '../../data/model/schemas/core/enums.dart';
 import '../../data/network/services/movie_service.dart';
 
