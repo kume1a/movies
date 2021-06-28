@@ -21,20 +21,24 @@ class FavoriteMovieDao {
   Future<bool> isMovieFavorited(int movieId) async => _favoriteMovieDao.isMovieFavorited(movieId);
 
   Future<void> changeMovieFavoriteStatus(int movieId, {required bool isFavorite}) async {
-    final DBFavoriteMovie favoriteMovie = DBFavoriteMovie(movieId: movieId);
+    final DBFavoriteMovie favoriteMovie = DBFavoriteMovie(
+      movieId: movieId,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
+
     if (isFavorite) {
-      _favoriteMovieDao.deleteFavoriteMovie(favoriteMovie);
-    } else {
       _favoriteMovieDao.insertFavoriteMovie(favoriteMovie);
+    } else {
+      _favoriteMovieDao.deleteFavoriteMovie(favoriteMovie);
     }
   }
 
   Future<void> unfavoriteMovies() async => _favoriteMovieDao.deleteAll();
 
   Future<Option<List<MovieData>>> getFavoritedMovies() async {
-    final List<DBFavoriteMovie> favoritedMovieIds = await _favoriteMovieDao.getFavoriteMovies();
+    final List<DBFavoriteMovie> dbFavoriteMovies = await _favoriteMovieDao.getFavoriteMovies();
     final List<Option<MovieData>> favoriteMovies =
-        await Future.wait(favoritedMovieIds.map((DBFavoriteMovie favoriteMovie) async {
+        await Future.wait(dbFavoriteMovies.map((DBFavoriteMovie favoriteMovie) async {
       final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(favoriteMovie.movieId);
       return movieData.fold((_) => none(), (MovieData r) => some(r));
     }));

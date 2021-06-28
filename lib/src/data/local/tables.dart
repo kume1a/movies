@@ -171,4 +171,5 @@ class TableFavoriteMovies {
 
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
+  static const String columnTimestamp = 'timestamp';
 }

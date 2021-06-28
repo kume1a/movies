@@ -15,17 +15,20 @@ class DBFavoriteMovieDao {
       INSERT INTO ${TableFavoriteMovies.name}
       (
         ${TableFavoriteMovies.columnId},
-        ${TableFavoriteMovies.columnMovieId}
-      ) VALUES (?, ?);
+        ${TableFavoriteMovies.columnMovieId},
+        ${TableFavoriteMovies.columnTimestamp}
+      ) VALUES (?, ?, ?);
     ''', <Object?>[
       favoriteMovie.id,
       favoriteMovie.movieId,
+      favoriteMovie.timestamp,
     ]);
   }
 
   Future<List<DBFavoriteMovie>> getFavoriteMovies() async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableFavoriteMovies.name};
+      SELECT * FROM ${TableFavoriteMovies.name}
+        ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
     ''');
 
     return result.map((Map<String, Object?> e) => DBFavoriteMovie.fromMap(e)).toList();
