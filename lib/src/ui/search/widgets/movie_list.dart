@@ -39,10 +39,7 @@ class _MovieListState extends State<MovieList> {
         }
       },
       builder: (BuildContext context, SearchState state) {
-        return state.searchResultsOption.fold(
-          () => const SizedBox.shrink(),
-          (SearchResults searchResults) => _buildList(searchResults),
-        );
+        return state.searchResults != null ? _buildList(state.searchResults!) : const SizedBox.shrink();
       },
     );
   }

@@ -9,7 +9,6 @@ import '../../data/local/search_result/search_result_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
-import '../../data/model/core/option.dart';
 import '../../data/model/models/search/search_result.dart';
 import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
@@ -54,7 +53,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
       yield state.copyWith(
         query: event.query,
-        searchResultsOption: some(savedSearchResults),
+        searchResults: savedSearchResults,
       );
     } else {
       if (!_loading && state.query != event.query) {
@@ -67,7 +66,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         _loading = false;
         yield state.copyWith(
           query: event.query,
-          searchResultsOption: searchResults.toOption(),
+          searchResults: searchResults.get,
         );
       }
     }
@@ -78,16 +77,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       _loading = true;
       final Either<FetchFailure, SearchResults> searchResults = await _searchService.search(state.query, _page);
 
-      state.searchResultsOption.fold(
-        () => searchResults,
-        (SearchResults previousSearchResults) {
-          searchResults.getOrElse(() => SearchResults.empty()).results.insertAll(0, previousSearchResults.results);
-          return searchResults;
-        },
-      );
+      if (state.searchResults != null) {
+        searchResults.getOrElse(() => SearchResults.empty()).results.insertAll(0, state.searchResults!.results);
+      }
+
       _page++;
       _loading = false;
-      yield state.copyWith(searchResultsOption: searchResults.toOption());
+      yield state.copyWith(searchResults: searchResults.toOption().get);
     }
   }
 
