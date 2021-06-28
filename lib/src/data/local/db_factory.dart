@@ -101,9 +101,7 @@ class DbFactory {
         ${TableMovies.columnPoster} TEXT NOT NULL,
         ${TableMovies.columnImdbRating} REAL NOT NULL,
         ${TableMovies.columnVoterCount} INTEGER NOT NULL,
-        ${TableMovies.columnPlot} TEXT NOT NULL,
-        ${TableMovies.columnIsFavorite} INTEGER NOT NULL CHECK (${TableMovies.columnIsFavorite} IN (0, 1)),
-        ${TableMovies.columnSaveTimestamp} INTEGER NOT NULL
+        ${TableMovies.columnPlot} TEXT NOT NULL
       );
     ''');
 
@@ -189,7 +187,8 @@ class DbFactory {
       CREATE TABLE IF NOT EXISTS ${TableFavoriteMovies.name}
       (
         ${TableFavoriteMovies.columnId} INTEGER PRIMARY KEY NOT NULL,
-        ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL
+        ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE,
+        ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL
       );
     ''');
   }

@@ -19,8 +19,6 @@ class DBMovie with _$DBMovie {
     required double imdbRating,
     required int voterCount,
     required String plot,
-    required bool isFavorite,
-    required int saveTimestamp,
   }) = _DBMovie;
 
   factory DBMovie.fromMap(Map<String, dynamic> map) {
@@ -37,8 +35,6 @@ class DBMovie with _$DBMovie {
       imdbRating: map[TableMovies.columnImdbRating] as double? ?? -1,
       voterCount: map[TableMovies.columnVoterCount] as int? ?? -1,
       plot: map[TableMovies.columnPlot] as String? ?? '',
-      isFavorite: map[TableMovies.columnIsFavorite] == 1,
-      saveTimestamp: map[TableMovies.columnSaveTimestamp] as int? ?? -1,
     );
   }
 }

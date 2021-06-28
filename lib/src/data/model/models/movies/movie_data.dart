@@ -29,8 +29,6 @@ class MovieData {
     required this.trailers,
     required this.languages,
     required this.seasons,
-    required this.favorite,
-    this.saveTimestamp = -1,
   });
 
   factory MovieData.fromSchema(MovieDataSchema schema) {
@@ -100,7 +98,6 @@ class MovieData {
       trailers: trailers,
       languages: languages,
       seasons: seasons,
-      favorite: false,
     );
   }
 
@@ -122,11 +119,6 @@ class MovieData {
   final Map<Language, String> trailers;
   final List<Language> languages;
   final List<Season> seasons;
-  bool favorite;
-
-  /// timestamp in millis from epoch when user saves movie in favorites list
-  /// field equals -1 if it isn't saved
-  int saveTimestamp;
 
   String? get availableImage => <String?>[
         covers[ImageSize.large],
@@ -138,7 +130,7 @@ class MovieData {
 
   @override
   String toString() {
-    return 'MovieData{id: $id, movieId: $movieId, name: $name, year: $year, imdbUrl: $imdbUrl, isTvShow: $isTvShow, duration: $duration, canBePlayed: $canBePlayed, poster: $poster, imdbRating: $imdbRating, voterCount: $voterCount, covers: $covers, secondaryCovers: $secondaryCovers, plot: $plot, genres: $genres, trailers: $trailers, languages: $languages, seasons: $seasons, favorite: $favorite}';
+    return 'MovieData{id: $id, movieId: $movieId, name: $name, year: $year, imdbUrl: $imdbUrl, isTvShow: $isTvShow, duration: $duration, canBePlayed: $canBePlayed, poster: $poster, imdbRating: $imdbRating, voterCount: $voterCount, covers: $covers, secondaryCovers: $secondaryCovers, plot: $plot, genres: $genres, trailers: $trailers, languages: $languages, seasons: $seasons';
   }
 
   @override
@@ -158,8 +150,7 @@ class MovieData {
           imdbRating == other.imdbRating &&
           voterCount == other.voterCount &&
           plot == other.plot &&
-          languages == other.languages &&
-          favorite == other.favorite;
+          languages == other.languages;
 
   @override
   int get hashCode =>
@@ -175,6 +166,5 @@ class MovieData {
       imdbRating.hashCode ^
       voterCount.hashCode ^
       plot.hashCode ^
-      languages.hashCode ^
-      favorite.hashCode;
+      languages.hashCode;
 }

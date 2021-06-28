@@ -25,10 +25,8 @@ class DBMovieDao {
         ${TableMovies.columnPoster},
         ${TableMovies.columnImdbRating},
         ${TableMovies.columnVoterCount},
-        ${TableMovies.columnPlot},
-        ${TableMovies.columnIsFavorite},
-        ${TableMovies.columnSaveTimestamp}
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        ${TableMovies.columnPlot}
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       dbMovie.id,
       dbMovie.movieId,
@@ -42,8 +40,6 @@ class DBMovieDao {
       dbMovie.imdbRating,
       dbMovie.voterCount,
       dbMovie.plot,
-      if (dbMovie.isFavorite) 1 else 0,
-      dbMovie.saveTimestamp,
     ]);
   }
 

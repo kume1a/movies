@@ -83,8 +83,6 @@ class MovieDao {
       trailers: trailers,
       languages: languages,
       seasons: seasons,
-      favorite: dbMovie.isFavorite,
-      saveTimestamp: dbMovie.saveTimestamp,
     ));
   }
 
@@ -102,8 +100,6 @@ class MovieDao {
       imdbRating: movieData.imdbRating,
       voterCount: movieData.voterCount,
       plot: movieData.plot,
-      isFavorite: movieData.favorite,
-      saveTimestamp: DateTime.now().millisecondsSinceEpoch,
     ));
 
     for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {
