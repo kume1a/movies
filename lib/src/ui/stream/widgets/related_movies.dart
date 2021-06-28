@@ -2,26 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../data/model/models/movies/movies.dart';
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/extensions.dart';
 import '../../core/widgets/movie_item.dart';
 
 class RelatedMovies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) => !prev.relatedOption.equals(curr.relatedOption),
+      buildWhen: (StreamState prev, StreamState curr) => prev.related != curr.related,
       builder: (BuildContext context, StreamState state) {
         return Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            itemCount: state.relatedOption.fold(() => 0, (Movies movies) => movies.data.length),
+            itemCount: state.related != null ? state.related!.data.length : 0,
             itemBuilder: (BuildContext context, int index) {
-              return state.relatedOption.fold(
-                () => const MovieItem(),
-                (Movies movies) => _buildItem(context, movies.data[index]),
-              );
+              return state.related != null
+                  ? _buildItem(context, state.related!.data[index])
+                  : const MovieItem();
             },
           ),
         );

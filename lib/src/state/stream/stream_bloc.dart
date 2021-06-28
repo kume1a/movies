@@ -24,7 +24,6 @@ import '../../data/model/models/seasons/season_files.dart';
 import '../../data/model/schemas/core/enums.dart';
 import '../../data/model/schemas/core/utils.dart';
 import '../../data/network/services/movie_service.dart';
-import '../../ui/core/extensions.dart';
 import '../../ui/core/values/default_settings.dart';
 
 part 'stream_bloc.freezed.dart';
@@ -45,7 +44,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   bool firstEpisodePassed = false;
 
-  MovieData get getMovieOrCrash => state.movie.getOrElse(() => throw StateError("movie can't be none"));
+  MovieData get getMovieOrCrash => state.movie!;
 
   @override
   Stream<StreamState> mapEventToState(
@@ -82,14 +81,14 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   Stream<StreamState> _onMovieChanged(_MovieChanged e) async* {
     final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(e.movieId);
-    yield state.copyWith(movie: movie.toOption());
+    yield state.copyWith(movie: movie.get);
   }
 
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
-    final Either<FetchFailure, SeasonFiles> seasonFilesOption =
+    final Either<FetchFailure, SeasonFiles> seasonFiles =
         await _movieService.getSeasonFiles(getMovieOrCrash.id, e.season);
 
-    yield state.copyWith(seasonFilesOption: seasonFilesOption.toOption(), season: e.season);
+    yield state.copyWith(seasonFiles: seasonFiles.get, season: e.season);
   }
 
   Stream<StreamState> _onEpisodeChanged(_EpisodeChanged e) async* {
@@ -101,36 +100,34 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     Quality selectedQuality = state.quality;
     List<Quality> qualities = state.availableQualities;
 
-    state.seasonFilesOption.foldSome(
-      (SeasonFiles a) {
-        final Episode? episode = a.data.isNotEmpty
-            ? a.data.firstWhere(
-                (Episode element) => element.episode == e.episode,
-                orElse: () => a.data.first,
-              )
-            : null;
+    if (state.seasonFiles != null) {
+      final Episode? episode = state.seasonFiles!.data.isNotEmpty
+          ? state.seasonFiles!.data.firstWhere(
+              (Episode element) => element.episode == e.episode,
+              orElse: () => state.seasonFiles!.data.first,
+            )
+          : null;
 
-        final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
-        if (!listEquals(languages, episodeLanguages)) {
-          languages = episodeLanguages;
-          selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng) ?? Language.eng;
+      final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
+      if (!listEquals(languages, episodeLanguages)) {
+        languages = episodeLanguages;
+        selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng) ?? Language.eng;
 
-          final List<Quality> episodeQualities =
-              episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
+        final List<Quality> episodeQualities =
+            episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
 
-          if (!listEquals(qualities, episodeQualities)) {
-            qualities = episodeQualities;
-            selectedQuality = getPreferredOrElse<Quality>(qualities, Quality.high) ?? Quality.high;
-          }
+        if (!listEquals(qualities, episodeQualities)) {
+          qualities = episodeQualities;
+          selectedQuality = getPreferredOrElse<Quality>(qualities, Quality.high) ?? Quality.high;
         }
+      }
 
-        srcOption = optionOf(
-            episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src);
-      },
-    );
+      srcOption = optionOf(
+          episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src);
+    }
 
     yield state.copyWith(
-      videoSrcOption: srcOption,
+      videoSrc: srcOption.get,
       startPosition: firstEpisodePassed ? const Duration() : state.startPosition,
       episode: e.episode,
       quality: selectedQuality,
@@ -145,22 +142,20 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onLanguageChanged(_LanguageChanged e) async* {
     Option<String> srcOption = none();
 
-    state.seasonFilesOption.foldSome(
-      (SeasonFiles a) {
-        final Episode? episode = a.data.isNotEmpty
-            ? a.data.firstWhere(
-                (Episode element) => element.episode == state.episode,
-                orElse: () => a.data.first,
-              )
-            : null;
+    if (state.seasonFiles != null) {
+      final Episode? episode = state.seasonFiles!.data.isNotEmpty
+          ? state.seasonFiles!.data.firstWhere(
+              (Episode element) => element.episode == state.episode,
+              orElse: () => state.seasonFiles!.data.first,
+            )
+          : null;
 
-        srcOption = optionOf(
-            episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality).src);
-      },
-    );
+      srcOption = optionOf(
+          episode?.episodes[e.language]?.firstWhere((EpisodeFile element) => element.quality == state.quality).src);
+    }
 
     yield state.copyWith(
-      videoSrcOption: srcOption,
+      videoSrc: srcOption.get,
       startPosition: state.currentPosition,
       language: e.language,
     );
@@ -169,22 +164,20 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onQualityChanged(_QualityChanged e) async* {
     Option<String> srcOption = none();
 
-    state.seasonFilesOption.foldSome(
-      (SeasonFiles a) {
-        final Episode? episode = a.data.isNotEmpty
-            ? a.data.firstWhere(
-                (Episode element) => element.episode == state.episode,
-                orElse: () => a.data.first,
-              )
-            : null;
+    if (state.seasonFiles != null) {
+      final Episode? episode = state.seasonFiles!.data.isNotEmpty
+          ? state.seasonFiles!.data.firstWhere(
+              (Episode element) => element.episode == state.episode,
+              orElse: () => state.seasonFiles!.data.first,
+            )
+          : null;
 
-        srcOption = optionOf(
-            episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality).src);
-      },
-    );
+      srcOption = optionOf(
+          episode?.episodes[state.language]?.firstWhere((EpisodeFile element) => element.quality == e.quality).src);
+    }
 
     yield state.copyWith(
-      videoSrcOption: srcOption,
+      videoSrc: srcOption.get,
       startPosition: state.currentPosition,
       quality: e.quality,
     );
@@ -193,10 +186,10 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onFetchRelatedRequested(_FetchRelatedRequested e) async* {
     final Either<FetchFailure, Movies> related = await _movieService.getRelatedMovies(getMovieOrCrash.movieId, 1);
     yield state.copyWith(
-      relatedOption: related.map((Movies r) {
+      related: related.map((Movies r) {
         r.data.removeWhere((MovieData element) => !element.canBePlayed);
         return r;
-      }).toOption(),
+      }).get,
     );
   }
 
@@ -208,45 +201,41 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   }
 
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
-    if (state.settings.recordWatchHistoryEnabled) {
-      state.seasonFilesOption.foldSome(
-        (SeasonFiles a) async {
-          final MovieData movie = getMovieOrCrash;
-          if (await _savedMovieDao.positionForMovieExists(movie.movieId)) {
-            await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
-          } else {
-            final int durationInSeconds = a.data
-                .firstWhere(
-                  (Episode element) => element.episode == state.episode,
-                  orElse: () => a.data.first,
-                )
-                .episodes
-                .values
-                .first
-                .first
-                .duration;
+    if (state.settings.recordWatchHistoryEnabled && state.seasonFiles != null) {
+      final MovieData movie = getMovieOrCrash;
+      if (await _savedMovieDao.positionForMovieExists(movie.movieId)) {
+        await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
+      } else {
+        final int durationInSeconds = state.seasonFiles!.data
+            .firstWhere(
+              (Episode element) => element.episode == state.episode,
+              orElse: () => state.seasonFiles!.data.first,
+            )
+            .episodes
+            .values
+            .first
+            .first
+            .duration;
 
-            final MoviePosition position = MoviePosition(
-              movieId: movie.movieId,
-              durationInMillis: durationInSeconds * 1000,
-              leftAt: e.position.inMilliseconds,
-              isTvShow: movie.isTvShow,
-              season: state.season,
-              episode: state.episode,
-              timestamp: DateTime.now().millisecondsSinceEpoch,
-            );
-            _savedMovieDao.insertMoviePosition(position);
-          }
-        },
-      );
+        final MoviePosition position = MoviePosition(
+          movieId: movie.movieId,
+          durationInMillis: durationInSeconds * 1000,
+          leftAt: e.position.inMilliseconds,
+          isTvShow: movie.isTvShow,
+          season: state.season,
+          episode: state.episode,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+        );
+        _savedMovieDao.insertMoviePosition(position);
+      }
     }
     yield state.copyWith(currentPosition: e.position);
   }
 
   Stream<StreamState> _downloadRequested(_DownloadRequested e) async* {
-    if (state.videoSrcOption.isSome() && state.movie.isSome()) {
-      final String videoSrcUrl = state.videoSrcOption.getOrElse(() => throw Exception()); // ignored
-      final MovieData movieData = state.movie.getOrElse(() => throw Exception()); // ignored
+    if (state.videoSrc != null && state.movie != null) {
+      final String videoSrcUrl = state.videoSrc!;
+      final MovieData movieData = state.movie!;
       final String fileName = '${movieData.name}__${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       final Directory? externalDir = await getExternalStorageDirectory();

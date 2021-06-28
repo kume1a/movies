@@ -7,7 +7,6 @@ import 'package:wakelock/wakelock.dart';
 
 import '../../../data/model/schemas/core/enums.dart';
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/extensions.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import 'video_player/player.dart';
@@ -22,22 +21,19 @@ class VideoPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<StreamBloc, StreamState>(
       buildWhen: (StreamState prev, StreamState curr) =>
-          !prev.videoSrcOption.equals(curr.videoSrcOption) || prev.settings != curr.settings,
+          prev.videoSrc != curr.videoSrc || prev.settings != curr.settings,
       builder: (BuildContext context, StreamState state) {
-        return state.videoSrcOption.fold(
-          () => Container(color: colorPreview),
-          (String src) {
-            return _buildPlayer(
-              src,
-              state.settings,
-              state.startPosition,
-              state.availableLanguages,
-              state.availableQualities,
-              state.language,
-              state.quality,
-            );
-          },
-        );
+        return state.videoSrc != null
+            ? _buildPlayer(
+                state.videoSrc!,
+                state.settings,
+                state.startPosition,
+                state.availableLanguages,
+                state.availableQualities,
+                state.language,
+                state.quality,
+              )
+            : Container(color: colorPreview);
       },
     );
   }

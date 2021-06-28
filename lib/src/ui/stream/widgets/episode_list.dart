@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/model/core/option.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season_files.dart';
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/extensions.dart';
 import '../../core/formatters.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
@@ -24,30 +22,27 @@ class EpisodeList extends StatelessWidget {
           prev.episode != curr.episode ||
           prev.season != curr.season ||
           prev.episodeSeason != curr.episodeSeason ||
-          !prev.seasonFilesOption.equals(curr.seasonFilesOption),
+          prev.seasonFiles != curr.seasonFiles,
       builder: (BuildContext context, StreamState state) =>
-          _buildList(state.seasonFilesOption, state.episode, state.episodeSeason),
+          _buildList(state.seasonFiles, state.episode, state.episodeSeason),
     );
   }
 
-  Widget _buildList(Option<SeasonFiles> seasonFilesOption, int episode, int episodeSeason) {
-    return seasonFilesOption.fold(
-      () => const SizedBox.shrink(),
-      (SeasonFiles seasonFiles) {
-        return Expanded(
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return _buildItem(
-                context: context,
-                episode: seasonFiles.data[index],
-                isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
-              );
-            },
-            itemCount: seasonFiles.data.length,
-          ),
-        );
-      },
-    );
+  Widget _buildList(SeasonFiles? seasonFiles, int episode, int episodeSeason) {
+    return seasonFiles != null
+        ? const SizedBox.shrink()
+        : Expanded(
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return _buildItem(
+                  context: context,
+                  episode: seasonFiles!.data[index],
+                  isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
+                );
+              },
+              itemCount: seasonFiles!.data.length,
+            ),
+          );
   }
 
   Widget _buildItem({

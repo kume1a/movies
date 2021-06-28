@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/seasons/season.dart';
 import '../../di/injection.dart';
 import '../../state/stream/stream_bloc.dart';
@@ -107,55 +106,53 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
         context.read<StreamBloc>().add(const StreamEvent.removeMessages());
       },
       builder: (BuildContext context, StreamState state) {
-        return state.movie.fold(
-          () => const Center(child: CircularProgressIndicator()),
-          (MovieData movie) {
-            final List<Widget> content = <Widget>[
-              SizedBox(
-                width: playerWidth,
-                height: playerHeight,
-                child: EpisodeDrawer(
-                  showEpisodes: !isPortrait && movie.isTvShow,
-                  showRecommended: !isPortrait,
-                  child: VideoPlayer(movie.id),
-                ),
-              ),
-            ];
+        if (state.movie == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final List<Widget> content = <Widget>[
+          SizedBox(
+            width: playerWidth,
+            height: playerHeight,
+            child: EpisodeDrawer(
+              showEpisodes: !isPortrait && state.movie!.isTvShow,
+              showRecommended: !isPortrait,
+              child: VideoPlayer(state.movie!.id),
+            ),
+          ),
+        ];
 
-            if (isPortrait) {
-              content.add(Padding(
-                padding: const EdgeInsets.only(left: 12, top: 16),
-                child: RatingDurationYear(movie.imdbRating, movie.duration, movie.year),
-              ));
-              if (movie.isTvShow) {
-                content.addAll(<Widget>[
-                  const SizedBox(height: 10),
-                  SeasonList(
-                    seasonNumbers: movie.seasons.map((Season e) => e.number).toList(),
-                  ),
-                  const SizedBox(height: 4),
-                  EpisodeList(),
-                ]);
-              } else {
-                content.add(const Padding(
-                  padding: EdgeInsets.only(left: 16, top: 16),
-                  child: Text('Recommended', style: prB22),
-                ));
-                content.add(RelatedMovies());
-              }
-            }
-
-            return Scaffold(
-              backgroundColor: colorPrimary,
-              resizeToAvoidBottomInset: false,
-              body: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: content,
-                ),
+        if (isPortrait) {
+          content.add(Padding(
+            padding: const EdgeInsets.only(left: 12, top: 16),
+            child: RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+          ));
+          if (state.movie!.isTvShow) {
+            content.addAll(<Widget>[
+              const SizedBox(height: 10),
+              SeasonList(
+                seasonNumbers: state.movie!.seasons.map((Season e) => e.number).toList(),
               ),
-            );
-          },
+              const SizedBox(height: 4),
+              EpisodeList(),
+            ]);
+          } else {
+            content.add(const Padding(
+              padding: EdgeInsets.only(left: 16, top: 16),
+              child: Text('Recommended', style: prB22),
+            ));
+            content.add(RelatedMovies());
+          }
+        }
+
+        return Scaffold(
+          backgroundColor: colorPrimary,
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: content,
+            ),
+          ),
         );
       },
     );

@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../data/model/models/movies/movies.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season.dart';
 import '../../../data/model/models/seasons/season_files.dart';
 import '../../../state/stream/stream_bloc.dart';
-import '../../core/extensions.dart';
 import '../../core/values/constants.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/movie_item.dart';
@@ -263,23 +261,18 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           prev.episode != curr.episode ||
           prev.season != curr.season ||
           prev.episodeSeason != curr.episodeSeason ||
-          !prev.seasonFilesOption.equals(curr.seasonFilesOption) ||
-          !prev.movie.equals(curr.movie),
+          prev.seasonFiles != curr.seasonFiles ||
+          prev.movie != curr.movie,
       builder: (BuildContext context, StreamState state) {
-        return state.seasonFilesOption.fold(
-          () => const SizedBox.shrink(),
-          (SeasonFiles a) {
-            return _buildContent(
-                a,
+        return state.seasonFiles != null
+            ? _buildContent(
+                state.seasonFiles!,
                 state.episode,
                 state.episodeSeason,
                 state.season,
-                state.movie.fold(
-                  () => List<int>.empty(),
-                  (MovieData a) => a.seasons.map((Season e) => e.number).toList(),
-                ));
-          },
-        );
+                state.movie != null ? state.movie!.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
+              )
+            : const SizedBox.shrink();
       },
     );
   }
@@ -449,16 +442,15 @@ class DrawerRecommendedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) => !prev.relatedOption.equals(curr.relatedOption),
+      buildWhen: (StreamState prev, StreamState curr) => prev.related != curr.related,
       builder: (BuildContext context, StreamState state) {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: state.relatedOption.fold(() => 0, (Movies movies) => movies.data.length),
+          itemCount: state.related != null ? state.related!.data.length : 0,
           itemBuilder: (BuildContext context, int index) {
-            return state.relatedOption.fold(
-              () => const MovieItem(),
-              (Movies movies) => _buildItem(context, movies.data[index]),
-            );
+            return state.related != null
+                ? _buildItem(context, state.related!.data[index])
+                : const MovieItem();
           },
         );
       },
