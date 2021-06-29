@@ -12,10 +12,17 @@ class FavoritesPage extends StatelessWidget {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
       buildWhen: (FavoritesState prev, FavoritesState curr) => prev.movies != curr.movies,
       builder: (BuildContext context, FavoritesState state) {
-        if (state.movies != null) {
-          return MovieList(movies: state.movies!);
-        }
-        return MovieGroups(movieGroups: state.movieGroups);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            const SizedBox(height: 12),
+            const ListToGroupSwitcher(),
+            Expanded(
+              child:
+                  state.movies != null ? MovieList(movies: state.movies!) : MovieGroups(movieGroups: state.movieGroups),
+            ),
+          ],
+        );
       },
     );
   }
