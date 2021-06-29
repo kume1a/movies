@@ -12,12 +12,10 @@ class FavoritesPage extends StatelessWidget {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
       buildWhen: (FavoritesState prev, FavoritesState curr) => prev.movies != curr.movies,
       builder: (BuildContext context, FavoritesState state) {
-        return state.movies != null
-            ? AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: state.movies!.isNotEmpty ? MovieList(state.movies!) : EmptyFavoriteListMessage(),
-              )
-            : const Center(child: CircularProgressIndicator());
+        if (state.movies != null) {
+          return MovieList(movies: state.movies!);
+        }
+        return MovieGroups(movieGroups: state.movieGroups);
       },
     );
   }

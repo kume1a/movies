@@ -1,20 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/details/details_bloc.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
+import 'movie_group_selector.dart';
 
 class ImageHeader implements SliverPersistentHeaderDelegate {
   const ImageHeader({
     required this.minExtent,
     required this.maxExtent,
     required this.src,
-    required this.onBackPressed,
     this.onPlayPressed,
   });
 
@@ -25,7 +28,6 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   final double maxExtent;
 
   final String src;
-  final VoidCallback onBackPressed;
   final VoidCallback? onPlayPressed;
 
   @override
@@ -34,76 +36,36 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        SafeImage(imageUrl: src),
+        _buildImage(),
         if (onPlayPressed == null)
           Container(
             color: Colors.black.withOpacity((1 - offset) * .4),
           ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            height: 54,
-            width: maxExtent,
-            decoration: BoxDecoration(
-              color: colorPrimary,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(27 * (1 - offset))),
-            ),
-          ),
-        ),
+        _buildBottomContainer(offset),
         if (onPlayPressed == null) const Center(child: Text('Coming Soon', style: prB22)),
         if (onPlayPressed != null)
           Positioned.fill(
             bottom: minExtent / 2,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: onPlayPressed,
-                child: SizedBox(
-                  width: minExtent,
-                  height: minExtent,
-                  child: Center(
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 100),
-                      width: offset <= .3 ? minExtent : 0,
-                      height: offset <= .3 ? minExtent : 0,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(minExtent / 2),
-                        color: colorAccent,
-                      ),
-                      child: const FittedBox(
-                        child: Icon(
-                          Icons.play_arrow_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: _buildPlayButton(offset),
             ),
           ),
         if (onPlayPressed != null)
           Positioned(
             right: 0,
-            child: FavoriteButton(),
+            child: _buildAddToGroupButton(context),
           ),
-        Positioned(
+        const Positioned(
           left: 0,
-          child: IconButton(
-            onPressed: onBackPressed,
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-          ),
+          child: BackButton(color: Colors.white),
         ),
       ],
     );
   }
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate _) => true;
+  bool shouldRebuild(SliverPersistentHeaderDelegate delegate) => true;
 
   @override
   PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration => null;
@@ -116,44 +78,82 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
 
   @override
   TickerProvider? get vsync => null;
-}
 
-class FavoriteButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DetailsBloc, DetailsState>(
-      buildWhen: (DetailsState prev, DetailsState curr) => prev.isFavorite != curr.isFavorite,
-      builder: (BuildContext context, DetailsState state) {
-        final Icon icon = state.isFavorite
-            ? const Icon(
-                Icons.favorite,
-                color: colorAccent,
-                key: Key('favorite'),
-              )
-            : const Icon(
-                Icons.favorite_border_sharp,
+  Widget _buildImage() {
+    return Container(
+      foregroundDecoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[Colors.black26, Colors.transparent],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: <double>[0, .2],
+        ),
+      ),
+      child: SafeImage(imageUrl: src),
+    );
+  }
+
+  Widget _buildBottomContainer(double offset) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        height: 54,
+        width: maxExtent,
+        decoration: BoxDecoration(
+          color: colorPrimary,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(27 * (1 - offset))),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPlayButton(double offset) {
+    return GestureDetector(
+      onTap: onPlayPressed,
+      child: SizedBox(
+        width: minExtent,
+        height: minExtent,
+        child: Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            width: offset <= .3 ? minExtent : 0,
+            height: offset <= .3 ? minExtent : 0,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(minExtent / 2),
+              color: colorAccent,
+            ),
+            child: const FittedBox(
+              child: Icon(
+                Icons.play_arrow_outlined,
                 color: Colors.white,
-                key: Key('favorite_border_sharp'),
-              );
-
-        return GestureDetector(
-          onTap: () {
-            context.read<DetailsBloc>().add(const DetailsEvent.favoriteToggled());
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              switchOutCurve: Curves.bounceIn,
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-              child: icon,
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddToGroupButton(BuildContext context) {
+    return BlocBuilder<DetailsBloc, DetailsState>(
+      buildWhen: (DetailsState previous, DetailsState current) =>
+          previous.movie != current.movie || previous.shouldShowGroupSelector != current.shouldShowGroupSelector,
+      builder: (BuildContext context, DetailsState state) {
+        return IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () async {
+            context.read<DetailsBloc>().add(const DetailsEvent.addToGroupClicked());
+
+            final int? movieId = state.movie?.movieId;
+
+            if (movieId != null && state.shouldShowGroupSelector) {
+              final MovieGroup? selectedMovieGroup = await showMovieGroupSelector(context, movieId);
+              log('AddToGroupButton.build: $selectedMovieGroup');
+            }
+          },
+          splashColor: Colors.transparent,
+          icon: const Icon(Icons.library_add_outlined, color: Colors.white),
         );
       },
     );
