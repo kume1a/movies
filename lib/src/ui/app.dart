@@ -18,6 +18,7 @@ class App extends StatelessWidget {
         accentColor: colorAccent,
         splashColor: colorAccent,
         toggleableActiveColor: colorAccent,
+        colorScheme: const ColorScheme.light().copyWith(primary: colorAccent),
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: colorPrimaryLight,
           actionTextColor: colorAccent,
