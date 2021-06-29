@@ -23,12 +23,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void didUpdateWidget(HomePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScrollUpRefreshIndicators(
       onRefresh: () async {

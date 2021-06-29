@@ -35,5 +35,8 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       movies.add(movie);
       return state.copyWith(movies: movies);
     });
+    if (state.movies == null) {
+      yield state.copyWith(movies: List<MovieData>.empty());
+    }
   }
 }
