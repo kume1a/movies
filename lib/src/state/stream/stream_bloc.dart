@@ -201,7 +201,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
     if (state.settings.recordWatchHistoryEnabled && state.seasonFiles != null) {
       final MovieData movie = getMovieOrCrash;
-      if (await _savedMovieDao.positionForMovieExists(movie.movieId)) {
+      if (await _savedMovieDao.positionForMovieExists(movie.movieId, state.episodeSeason, state.episode)) {
         await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
       } else {
         final int durationInSeconds = state.seasonFiles!.data

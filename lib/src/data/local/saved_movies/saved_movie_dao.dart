@@ -32,7 +32,8 @@ class SavedMovieDao {
         saveTimestamp: moviePosition.timestamp,
       ));
 
-  Future<bool> positionForMovieExists(int movieId) async => _moviePositionDao.positionForMovieIdExists(movieId);
+  Future<bool> positionForMovieExists(int movieId, int season, int episode) async =>
+      _moviePositionDao.positionExists(movieId, season, episode);
 
   Future<SavedMovie?> getSavedMovie(int movieId) async {
     final DBMoviePosition? moviePosition = await _moviePositionDao.getMoviePosition(movieId);

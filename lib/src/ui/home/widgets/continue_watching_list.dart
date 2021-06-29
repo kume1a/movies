@@ -50,12 +50,15 @@ class ContinueWatchingList extends StatelessWidget {
               : 0;
 
           return GestureDetector(
-            onTap: () => ScreensNavigator.pushStreamPage(
-              movieId: savedMovie.position.movieId,
-              season: savedMovie.position.season,
-              episode: savedMovie.position.episode,
-              leftAt: savedMovie.position.leftAt,
-            ),
+            onTap: () async {
+              await ScreensNavigator.pushStreamPage(
+                movieId: savedMovie.position.movieId,
+                season: savedMovie.position.season,
+                episode: savedMovie.position.episode,
+                leftAt: savedMovie.position.leftAt,
+              );
+              context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(

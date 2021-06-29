@@ -35,13 +35,17 @@ class DBMoviePositionDao {
     ]);
   }
 
-  Future<bool> positionForMovieIdExists(int movieId) async {
+  Future<bool> positionExists(int movieId, int season, int episode) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
       SELECT COUNT(${TableMoviePositions.columnId}) 
         FROM ${TableMoviePositions.name}
-      WHERE ${TableMoviePositions.columnMovieId} = ?;
+      WHERE ${TableMoviePositions.columnMovieId} = ?
+        AND ${TableMoviePositions.columnSeason} = ?
+        AND ${TableMoviePositions.columnEpisode} = ?;
     ''', <Object?>[
       movieId,
+      season,
+      episode,
     ]);
 
     return (Sqflite.firstIntValue(result) ?? -1) > 0;
