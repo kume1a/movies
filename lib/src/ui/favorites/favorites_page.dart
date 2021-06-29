@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../di/injection.dart';
 import '../../state/favorites/favorites_bloc.dart';
 import 'widgets/widgets.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
+  const FavoritesPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<FavoritesBloc>(
-      create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.favoriteMoviesRequested()),
-      child: FavoritesPageContent(),
-    );
-  }
+  _FavoritesPageState createState() => _FavoritesPageState();
 }
 
-class FavoritesPageContent extends StatefulWidget {
-  @override
-  _FavoritesPageContentState createState() => _FavoritesPageContentState();
-}
-
-class _FavoritesPageContentState extends State<FavoritesPageContent> {
+class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
@@ -37,7 +28,7 @@ class _FavoritesPageContentState extends State<FavoritesPageContent> {
   }
 
   @override
-  void didUpdateWidget(FavoritesPageContent oldWidget) {
+  void didUpdateWidget(FavoritesPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
   }

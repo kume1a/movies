@@ -2,21 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../di/injection.dart';
 import '../../state/settings/settings_bloc.dart';
 import '../core/values/text_styles.dart';
 
 class SettingsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-      create: (_) => getIt<SettingsBloc>()..add(const SettingsEvent.init()),
-      child: SettingsPageContent(),
-    );
-  }
-}
+  const SettingsPage({Key? key}) : super(key: key);
 
-class SettingsPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(

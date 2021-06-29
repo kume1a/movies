@@ -2,31 +2,18 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../di/injection.dart';
 import '../../state/home/home_bloc.dart';
 import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (_) => getIt<HomeBloc>()
-        ..add(const HomeEvent.popularMoviesFetchRequested())
-        ..add(const HomeEvent.savedMoviesRequested())
-        ..add(const HomeEvent.topMoviesPageFetchRequested())
-        ..add(const HomeEvent.moviesPageFetchRequested()),
-      child: HomePageContent(),
-    );
-  }
+  _HomePageState createState() => _HomePageState();
 }
 
-class HomePageContent extends StatefulWidget {
-  @override
-  _HomePageContentState createState() => _HomePageContentState();
-}
-
-class _HomePageContentState extends State<HomePageContent> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _HomePageState extends State<HomePage> {
   late ScrollController _scrollController;
 
   @override
@@ -36,7 +23,7 @@ class _HomePageContentState extends State<HomePageContent> with SingleTickerProv
   }
 
   @override
-  void didUpdateWidget(HomePageContent oldWidget) {
+  void didUpdateWidget(HomePage oldWidget) {
     super.didUpdateWidget(oldWidget);
     context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
   }

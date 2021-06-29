@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../di/injection.dart';
+import '../../state/favorites/favorites_bloc.dart';
+import '../../state/home/home_bloc.dart';
+import '../../state/settings/settings_bloc.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
 import '../favorites/favorites_page.dart';
@@ -43,9 +48,30 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin<MainP
         hoverAlignmentDuration: 300,
       ),
       body: SafeArea(
-        child: IndexedStack(
-          index: _index,
-          children: <Widget>[HomePage(), FavoritesPage(), SettingsPage()],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<FavoritesBloc>(
+              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.favoriteMoviesRequested()),
+            ),
+            BlocProvider<HomeBloc>(
+              create: (_) => getIt<HomeBloc>()
+                ..add(const HomeEvent.popularMoviesFetchRequested())
+                ..add(const HomeEvent.savedMoviesRequested())
+                ..add(const HomeEvent.topMoviesPageFetchRequested())
+                ..add(const HomeEvent.moviesPageFetchRequested()),
+            ),
+            BlocProvider<SettingsBloc>(
+              create: (_) => getIt<SettingsBloc>()..add(const SettingsEvent.init()),
+            ),
+          ],
+          child: IndexedStack(
+            index: _index,
+            children: const <Widget>[
+              HomePage(),
+              FavoritesPage(),
+              SettingsPage(),
+            ],
+          ),
         ),
       ),
     );
