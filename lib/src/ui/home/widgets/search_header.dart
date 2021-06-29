@@ -17,7 +17,7 @@ class SearchHeader extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           await ScreensNavigator.pushSearchPage();
-          context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+          context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
           context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
         },
         child: Container(

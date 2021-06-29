@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider<FavoritesBloc>(
-              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.favoriteMoviesRequested()),
+              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.init()),
             ),
             BlocProvider<HomeBloc>(
               create: (_) => getIt<HomeBloc>()

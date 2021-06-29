@@ -56,7 +56,7 @@ class TopSelectionList extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         await ScreensNavigator.pushDetailsPage(movie.movieId);
-        context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+        context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
         context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
       },
       child: Padding(
