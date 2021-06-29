@@ -12,6 +12,8 @@ import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
 
 class TopSelectionList extends StatelessWidget {
+  const TopSelectionList({Key? key}) : super(key: key);
+
   static const double itemWidth = 110;
   static const double imageHeight = itemWidth / 3 * 4;
   static const double itemHeight = imageHeight + 55;
@@ -23,18 +25,17 @@ class TopSelectionList extends StatelessWidget {
     return SizedBox(
       height: itemHeight,
       child: BlocBuilder<HomeBloc, HomeState>(
-          buildWhen: (HomeState previous, HomeState current) => previous.topMovies != current.topMovies,
-          builder: (BuildContext context, HomeState state) {
-            return state.topMovies == null
-                ? ListView.builder(
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (_, __) {
-                      return _blankBuilder(null);
-                    },
-                  )
-                : _buildList(state.topMovies!);
-          }),
+        buildWhen: (HomeState previous, HomeState current) => previous.topMovies != current.topMovies,
+        builder: (BuildContext context, HomeState state) {
+          return state.topMovies == null
+              ? ListView.builder(
+                  itemCount: 4,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (_, __) => _blankBuilder(null),
+                )
+              : _buildList(state.topMovies!);
+        },
+      ),
     );
   }
 

@@ -8,12 +8,14 @@ import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 
 class GenreChooser extends StatelessWidget {
+  const GenreChooser({Key? key}) : super(key: key);
+
   static const List<Genre> _genres = Genre.values;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 28,
+      height: 36,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) => _buildList(state.genre),
         buildWhen: (HomeState prev, HomeState curr) => prev.genre != curr.genre,
@@ -25,6 +27,7 @@ class GenreChooser extends StatelessWidget {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: _genres.length,
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       itemBuilder: (BuildContext context, int index) {
         final Genre current = _genres[index];
         final bool isActive = current == genre;
@@ -34,7 +37,7 @@ class GenreChooser extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeIn,
-            margin: const EdgeInsets.only(left: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             padding: const EdgeInsets.symmetric(horizontal: 18),
             decoration: BoxDecoration(
               color: isActive ? colorAccent : colorInactive,

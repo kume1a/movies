@@ -8,6 +8,8 @@ import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 
 class SearchHeader extends StatelessWidget {
+  const SearchHeader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

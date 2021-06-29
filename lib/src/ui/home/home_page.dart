@@ -1,35 +1,19 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../state/home/home_bloc.dart';
 import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-  }
-
-  @override
-  void didUpdateWidget(HomePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = useScrollController();
+
     return ScrollUpRefreshIndicators(
       onRefresh: () async {
         context.read<HomeBloc>()
@@ -41,34 +25,34 @@ class _HomePageState extends State<HomePage> {
 
         return Future<void>.delayed(const Duration(milliseconds: 500));
       },
-      onScrollToUpPressed: () {
-        _scrollController.animateTo(0, duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-      },
+      onScrollToUpPressed: () =>
+          scrollController.animateTo(0, duration: const Duration(milliseconds: 400), curve: Curves.easeIn),
       child: CustomScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         slivers: <Widget>[
-          SliverToBoxAdapter(child: SearchHeader()),
-          SliverToBoxAdapter(child: PopularMoviesList()),
-          SliverToBoxAdapter(
-            child: BlocBuilder<HomeBloc, HomeState>(
-              buildWhen: (HomeState prev, HomeState curr) =>
-                  !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
-              builder: (BuildContext context, HomeState state) {
-                return state.savedMovies != null
-                    ? state.savedMovies!.isNotEmpty
+          SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                const SearchHeader(),
+                const PopularMoviesList(),
+                BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (HomeState prev, HomeState curr) =>
+                      !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
+                  builder: (BuildContext context, HomeState state) {
+                    return state.savedMovies?.isNotEmpty == true
                         ? _buildHeader('Continue Watching')
-                        : const SizedBox.shrink()
-                    : const SizedBox.shrink();
-              },
+                        : const SizedBox.shrink();
+                  },
+                ),
+                const ContinueWatchingList(),
+                _buildHeader('Top Selection'),
+                const TopSelectionList(),
+                _buildHeader('Movies'),
+                const GenreChooser(),
+                const SizedBox(height: 16),
+              ],
             ),
           ),
-          SliverToBoxAdapter(child: ContinueWatchingList()),
-          SliverToBoxAdapter(child: _buildHeader('Top Selection')),
-          SliverToBoxAdapter(child: TopSelectionList()),
-          SliverToBoxAdapter(child: _buildHeader('Movies')),
-          const SliverToBoxAdapter(child: SizedBox(height: 8)),
-          SliverToBoxAdapter(child: GenreChooser()),
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
           MoviesList(),
         ],
       ),
@@ -80,11 +64,5 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(16, 36, 16, 16),
       child: Text(header, style: prB24),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
   }
 }
