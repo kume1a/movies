@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
@@ -58,13 +56,11 @@ class SavedMovieDao {
   Future<void> updateMoviePosition(int movieId, int leftAt) async =>
       _moviePositionDao.updateMoviePosition(movieId, leftAt);
 
-  Stream<SavedMovie> getSavedMovies() async* {
+  Future<List<SavedMovie>> getSavedMovies() async {
     final List<DBMoviePosition> moviePositions = await _moviePositionDao.getMoviePositions();
-    final Random random = Random();
+    final List<SavedMovie> savedMovies = List<SavedMovie>.empty(growable: true);
     for (final DBMoviePosition e in moviePositions) {
       final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(e.movieId);
-      await Future<void>.delayed(Duration(milliseconds: 100 + random.nextInt(50)));
-
       final MoviePosition moviePosition = MoviePosition(
         movieId: e.movieId,
         durationInMillis: e.durationInMillis,
@@ -75,12 +71,13 @@ class SavedMovieDao {
         timestamp: e.saveTimestamp,
       );
       if (movieData.isRight()) {
-        yield SavedMovie(
+        savedMovies.add(SavedMovie(
           position: moviePosition,
           data: movieData.rightOrCrash,
-        );
+        ));
       }
     }
+    return savedMovies;
   }
 
   Future<void> deleteMoviePositions() async => _moviePositionDao.deleteMoviePositions();

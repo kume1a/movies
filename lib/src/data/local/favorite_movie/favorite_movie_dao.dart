@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:injectable/injectable.dart';
 
 import '../../model/core/either.dart';
@@ -36,16 +34,16 @@ class FavoriteMovieDao {
 
   Future<void> unfavoriteMovies() async => _favoriteMovieDao.deleteAll();
 
-  Stream<MovieData> getFavoritedMovies() async* {
+  Future<List<MovieData>> getFavoritedMovies() async {
     final List<DBFavoriteMovie> dbFavoriteMovies = await _favoriteMovieDao.getFavoriteMovies();
+    final List<MovieData> favoriteMovies = List<MovieData>.empty(growable: true);
 
-    final Random random = Random();
     for (final DBFavoriteMovie favoriteMovie in dbFavoriteMovies) {
       final Either<FetchFailure, MovieData> movieData = await _movieService.getMovie(favoriteMovie.movieId);
-      await Future<void>.delayed(Duration(milliseconds: 150 + random.nextInt(50)));
       if (movieData.isRight()) {
-        yield movieData.rightOrCrash;
+        favoriteMovies.add(movieData.rightOrCrash);
       }
     }
+    return favoriteMovies;
   }
 }

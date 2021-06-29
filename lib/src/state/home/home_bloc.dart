@@ -106,14 +106,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
-    yield state.copyWith(savedMovies: null);
-    yield* _savedMovieDao.getSavedMovies().map((SavedMovie savedMovie) {
-      final List<SavedMovie> savedMovies = List<SavedMovie>.of(state.savedMovies ?? <SavedMovie>[]);
-      savedMovies.add(savedMovie);
-      return state.copyWith(savedMovies: savedMovies);
-    });
-    if (state.savedMovies == null) {
-      yield state.copyWith(savedMovies: List<SavedMovie>.empty());
-    }
+    final List<SavedMovie> savedMovies = await _savedMovieDao.getSavedMovies();
+    yield state.copyWith(savedMovies: savedMovies);
   }
 }
