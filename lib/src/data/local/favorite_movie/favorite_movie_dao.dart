@@ -19,9 +19,13 @@ class FavoriteMovieDao {
 
   Future<bool> isMovieFavorited(int movieId) async => _favoriteMovieDao.isMovieFavorited(movieId);
 
-  Future<void> changeMovieFavoriteStatus(int movieId, {required bool isFavorite}) async {
+  Future<List<String>> getMovieNamesForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesForGroup(groupId);
+
+  Future<void> changeMovieFavoriteStatus(int movieId, String movieName, int groupId, {required bool isFavorite}) async {
     final DBFavoriteMovie favoriteMovie = DBFavoriteMovie(
       movieId: movieId,
+      movieName: movieName,
+      groupId: groupId,
       timestamp: DateTime.now().millisecondsSinceEpoch,
     );
 
@@ -34,8 +38,8 @@ class FavoriteMovieDao {
 
   Future<void> unfavoriteMovies() async => _favoriteMovieDao.deleteAll();
 
-  Future<List<MovieData>> getFavoritedMovies() async {
-    final List<DBFavoriteMovie> dbFavoriteMovies = await _favoriteMovieDao.getFavoriteMovies();
+  Future<List<MovieData>> getFavoritedMovies([int? groupId]) async {
+    final List<DBFavoriteMovie> dbFavoriteMovies = await _favoriteMovieDao.getFavoriteMovies(groupId);
     final List<MovieData> favoriteMovies = List<MovieData>.empty(growable: true);
 
     for (final DBFavoriteMovie favoriteMovie in dbFavoriteMovies) {

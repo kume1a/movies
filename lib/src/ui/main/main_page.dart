@@ -19,7 +19,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with TickerProviderStateMixin<MainPage> {
+class _MainPageState extends State<MainPage> {
   int _index = 0;
 
   @override

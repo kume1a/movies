@@ -188,7 +188,18 @@ class DbFactory {
       (
         ${TableFavoriteMovies.columnId} INTEGER PRIMARY KEY NOT NULL,
         ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE,
+        ${TableFavoriteMovies.columnGroupId} INTEGER NOT NULL,
+        ${TableFavoriteMovies.columnMovieName} STRING NOT NULL,
         ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL
+      );
+    ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableMovieGroups.name}
+      (
+        ${TableMovieGroups.columnId} INTEGER PRIMARY KEY,
+        ${TableMovieGroups.columnName} STRING NOT NULL,
+        ${TableMovieGroups.columnTimestamp} INTEGER NOT NULL
       );
     ''');
   }

@@ -80,7 +80,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     final bool toggled = !state.isFavorite;
 
     yield state.copyWith(isFavorite: toggled);
-    _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, isFavorite: toggled);
+    // TODO: 29/06/2021 change group id
+    _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, state.movie!.name, -1, isFavorite: toggled);
   }
 
   Stream<DetailsState> _isSavedMovieRequested(_IsSavedMovieRequested event) async* {

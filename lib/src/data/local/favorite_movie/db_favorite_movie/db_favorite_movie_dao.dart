@@ -16,20 +16,35 @@ class DBFavoriteMovieDao {
       (
         ${TableFavoriteMovies.columnId},
         ${TableFavoriteMovies.columnMovieId},
+        ${TableFavoriteMovies.columnGroupId},
+        ${TableFavoriteMovies.columnMovieName},
         ${TableFavoriteMovies.columnTimestamp}
       ) VALUES (?, ?, ?);
     ''', <Object?>[
       favoriteMovie.id,
       favoriteMovie.movieId,
+      favoriteMovie.groupId,
+      favoriteMovie.movieName,
       favoriteMovie.timestamp,
     ]);
   }
 
-  Future<List<DBFavoriteMovie>> getFavoriteMovies() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableFavoriteMovies.name}
+  Future<List<DBFavoriteMovie>> getFavoriteMovies(int? groupId) async {
+    late List<Map<String, Object?>> result;
+    if (groupId != null) {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableFavoriteMovies.name}
+          WHERE ${TableFavoriteMovies.columnGroupId} = ?
         ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
-    ''');
+      ''', <Object?>[
+        groupId,
+      ]);
+    } else {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableFavoriteMovies.name}
+        ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
+      ''');
+    }
 
     return result.map((Map<String, Object?> e) => DBFavoriteMovie.fromMap(e)).toList();
   }
@@ -56,4 +71,16 @@ class DBFavoriteMovieDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableFavoriteMovies.name);
+
+  Future<List<String>> getFavoriteMovieNamesForGroup(int groupId) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableFavoriteMovies.columnMovieName} 
+        FROM ${TableFavoriteMovies.name}
+      WHERE ${TableFavoriteMovies.columnGroupId} = ?;
+    ''', <Object?>[
+      groupId,
+    ]);
+
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieName] as String? ?? '').toList();
+  }
 }
