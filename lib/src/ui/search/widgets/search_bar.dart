@@ -23,12 +23,16 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   late TextEditingController _controller;
   Timer? _debounce;
+  bool _showClear = false;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(() {
+      setState(() {
+        _showClear = _controller.text.isNotEmpty;
+      });
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(
         const Duration(milliseconds: 500),
@@ -60,11 +64,12 @@ class _SearchBarState extends State<SearchBar> {
           ),
         ),
         const SizedBox(width: 12),
-        IconButton(
-          icon: const Icon(Icons.close, color: Colors.white),
-          splashColor: Colors.transparent,
-          onPressed: () => _controller.clear(),
-        ),
+        if (_showClear)
+          IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
+            splashColor: Colors.transparent,
+            onPressed: () => _controller.clear(),
+          ),
       ],
     );
   }

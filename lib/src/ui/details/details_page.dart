@@ -92,7 +92,7 @@ class DetailsPageContent extends StatelessWidget {
                         child: RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
                       ),
                       const SizedBox(height: 18),
-                      GenreList(state.movie!.genres),
+                      GenreList(genres: state.movie!.genres),
                       const SizedBox(height: 32),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -105,7 +105,7 @@ class DetailsPageContent extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       CastList(),
-                      const SizedBox(height: 160),
+                      const SizedBox(height: 260),
                     ],
                   ),
                 )

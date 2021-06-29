@@ -18,7 +18,7 @@ class CastList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 200,
       child: BlocBuilder<DetailsBloc, DetailsState>(
         buildWhen: (DetailsState prev, DetailsState curr) => prev.actors != curr.actors,
         builder: (BuildContext context, DetailsState state) {

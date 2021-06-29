@@ -58,19 +58,25 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                 onTap: onPlayPressed,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 100),
-                  width: offset <= .3 ? minExtent : 0,
-                  height: offset <= .3 ? minExtent : 0,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(minExtent / 2),
-                    color: colorAccent,
-                  ),
-                  child: const FittedBox(
-                    child: Icon(
-                      Icons.play_arrow_outlined,
-                      color: Colors.white,
+                child: SizedBox(
+                  width: minExtent,
+                  height: minExtent,
+                  child: Center(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      width: offset <= .3 ? minExtent : 0,
+                      height: offset <= .3 ? minExtent : 0,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(minExtent / 2),
+                        color: colorAccent,
+                      ),
+                      child: const FittedBox(
+                        child: Icon(
+                          Icons.play_arrow_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
