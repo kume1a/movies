@@ -157,7 +157,7 @@ class DbFactory {
     db.execute('''
       CREATE TABLE IF NOT EXISTS ${TableSearchResults.name}
       (
-        ${TableSearchResults.columnId} INTEGER PRIMARY KEY ON CONFLICT IGNORE,
+        ${TableSearchResults.columnId} INTEGER PRIMARY KEY ON CONFLICT REPLACE,
         ${TableSearchResults.columnMovieId} INTEGER NOT NULL,
         ${TableSearchResults.columnSearchType} TEXT NOT NULL,
         ${TableSearchResults.columnName} TEXT NOT NULL,

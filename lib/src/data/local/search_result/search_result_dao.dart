@@ -34,7 +34,7 @@ class SearchResultDao {
       searchResult.poster,
       searchResult.secondaryPoster,
       if (searchResult.isTvShow) 1 else 0,
-      searchResult.timestamp,
+      DateTime.now().millisecondsSinceEpoch,
     ]);
   }
 
