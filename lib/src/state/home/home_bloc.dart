@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -105,7 +106,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
-    final List<SavedMovie> savedMovies = await _savedMovieDao.getSavedMovies();
-    yield state.copyWith(savedMovies: savedMovies);
+    yield state.copyWith(savedMovies: null);
+    yield* _savedMovieDao.getSavedMovies().map((SavedMovie savedMovie) {
+      final List<SavedMovie> savedMovies = List<SavedMovie>.of(state.savedMovies ?? <SavedMovie>[]);
+      savedMovies.add(savedMovie);
+      return state.copyWith(savedMovies: savedMovies);
+    });
+    if (state.savedMovies == null) {
+      yield state.copyWith(savedMovies: List<SavedMovie>.empty());
+    }
   }
 }

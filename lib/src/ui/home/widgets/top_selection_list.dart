@@ -57,6 +57,7 @@ class TopSelectionList extends StatelessWidget {
       onTap: () async {
         await ScreensNavigator.pushDetailsPage(movie.movieId);
         context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+        context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
