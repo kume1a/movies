@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/local/favorite_movie/favorite_movie_dao.dart';
+import '../../data/local/movie_group/movie_group_dao.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
@@ -24,12 +25,14 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     this._movieService,
     this._favoriteMovieDao,
     this._savedMovieDao,
+    this._movieGroupDao,
     @factoryParam this.movieId,
   ) : super(DetailsState.initial());
 
   final MovieService _movieService;
   final FavoriteMovieDao _favoriteMovieDao;
   final SavedMovieDao _savedMovieDao;
+  final MovieGroupDao _movieGroupDao;
 
   final int? movieId;
 
@@ -46,14 +49,18 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       init: _init,
       movieFetchRequested: _movieFetchRequested,
       castPageFetchRequested: _castPageFetchRequested,
-      favoriteToggled: _favoriteToggled,
-      isSavedMovieRequested: _isSavedMovieRequested,
+      addToGroupClicked: _addToGroupClicked,
     );
   }
 
   Stream<DetailsState> _init(_Init event) async* {
-    final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
-    yield state.copyWith(isFavorite: isFavorite);
+    final int movieGroupCount = await _movieGroupDao.count();
+    final SavedMovie? moviePosition = await _savedMovieDao.getSavedMovie(movieId!);
+
+    yield state.copyWith(
+      shouldShowGroupSelector: movieGroupCount > 0,
+      moviePosition: moviePosition?.position,
+    );
   }
 
   Stream<DetailsState> _movieFetchRequested(_MovieFetchRequested event) async* {
@@ -76,16 +83,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     }
   }
 
-  Stream<DetailsState> _favoriteToggled(_FavoriteToggled event) async* {
-    final bool toggled = !state.isFavorite;
-
-    yield state.copyWith(isFavorite: toggled);
-    // TODO: 29/06/2021 change group id
-    _favoriteMovieDao.changeMovieFavoriteStatus(movieId!, state.movie!.name, -1, isFavorite: toggled);
-  }
-
-  Stream<DetailsState> _isSavedMovieRequested(_IsSavedMovieRequested event) async* {
-    final SavedMovie? moviePosition = await _savedMovieDao.getSavedMovie(movieId!);
-    yield state.copyWith(moviePosition: moviePosition?.position);
+  Stream<DetailsState> _addToGroupClicked(_AddToGroupClicked event) async* {
+    final int movieGroupCount = await _movieGroupDao.count();
+    if (movieGroupCount == 0) {
+      // TODO: 29/06/2021 add to just favorite movies
+    }
   }
 }

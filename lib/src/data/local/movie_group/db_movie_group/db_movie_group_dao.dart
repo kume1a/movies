@@ -29,6 +29,26 @@ class DBMovieGroupDao {
       ORDER BY ${TableMovieGroups.columnTimestamp} DESC;  
     ''');
 
-    return result.map((e) => DBMovieGroup.fromMap(e)).toList();
+    return result.map((Map<String, Object?> e) => DBMovieGroup.fromMap(e)).toList();
+  }
+
+  Future<DBMovieGroup?> getMovieGroup(int id) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT * FROM ${TableMovieGroups.name}
+        WHERE ${TableMovieGroups.columnId} = ?;
+    ''', <Object?>[
+      id,
+    ]);
+
+    return result.isNotEmpty ? DBMovieGroup.fromMap(result.first) : null;
+  }
+
+  Future<int> count() async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT COUNT(${TableMovieGroups.columnId})
+        FROM ${TableMovieGroups.name};
+    ''');
+
+    return Sqflite.firstIntValue(result) ?? 0;
   }
 }

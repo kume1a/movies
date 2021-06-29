@@ -34,4 +34,14 @@ class MovieGroupDao {
     }
     return movieGroups;
   }
+
+  Future<MovieGroup?> getMovieGroup(int id) async {
+    final DBMovieGroup? movieGroup = await _movieGroupDao.getMovieGroup(id);
+    if (movieGroup == null) return null;
+
+    final List<String> movieNames = await _favoriteMovieDao.getMovieNamesForGroup(movieGroup.id!);
+    return MovieGroup(movieNames: movieNames, name: movieGroup.name);
+  }
+  
+  Future<int> count() async => _movieGroupDao.count();
 }

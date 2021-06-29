@@ -21,6 +21,8 @@ class FavoriteMovieDao {
 
   Future<List<String>> getMovieNamesForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesForGroup(groupId);
 
+  Future<int?> getFavoriteMovieGroupId(int movieId) => _favoriteMovieDao.getFavoriteMovieGroupId(movieId);
+
   Future<void> changeMovieFavoriteStatus(int movieId, String movieName, int groupId, {required bool isFavorite}) async {
     final DBFavoriteMovie favoriteMovie = DBFavoriteMovie(
       movieId: movieId,
