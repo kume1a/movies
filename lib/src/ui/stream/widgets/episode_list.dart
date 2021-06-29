@@ -30,19 +30,19 @@ class EpisodeList extends StatelessWidget {
 
   Widget _buildList(SeasonFiles? seasonFiles, int episode, int episodeSeason) {
     return seasonFiles != null
-        ? const SizedBox.shrink()
-        : Expanded(
+        ? Expanded(
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return _buildItem(
                   context: context,
-                  episode: seasonFiles!.data[index],
+                  episode: seasonFiles.data[index],
                   isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
                 );
               },
-              itemCount: seasonFiles!.data.length,
+              itemCount: seasonFiles.data.length,
             ),
-          );
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _buildItem({
