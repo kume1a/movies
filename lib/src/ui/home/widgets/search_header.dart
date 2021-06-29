@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
@@ -10,7 +12,10 @@ class SearchHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
       child: GestureDetector(
-        onTap: () => ScreensNavigator.pushSearchPage(),
+        onTap: () async {
+          await ScreensNavigator.pushSearchPage();
+          context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+        },
         child: Container(
           color: Colors.transparent,
           child: Column(
