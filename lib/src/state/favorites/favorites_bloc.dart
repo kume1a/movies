@@ -29,7 +29,11 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   }
 
   Stream<FavoritesState> _favoriteMoviesRequested(_FavoriteMoviesRequested event) async* {
-    final List<MovieData> movies = await _favoriteMovieDao.getFavoritedMovies();
-    yield state.copyWith(movies: movies);
+    yield state.copyWith(movies: null);
+    yield* _favoriteMovieDao.getFavoritedMovies().map((MovieData movie) {
+      final List<MovieData> movies = List<MovieData>.of(state.movies ?? <MovieData>[]);
+      movies.add(movie);
+      return state.copyWith(movies: movies);
+    });
   }
 }
