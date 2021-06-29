@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
+import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/text_styles.dart';
@@ -52,7 +53,10 @@ class TopSelectionList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
+      onTap: () async {
+        await ScreensNavigator.pushDetailsPage(movie.movieId);
+        context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
         child: Column(

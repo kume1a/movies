@@ -4,14 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../state/favorites/favorites_bloc.dart';
 import 'widgets/widgets.dart';
 
-class FavoritesPage extends StatefulWidget {
+class FavoritesPage extends StatelessWidget {
   const FavoritesPage({Key? key}) : super(key: key);
 
-  @override
-  _FavoritesPageState createState() => _FavoritesPageState();
-}
-
-class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
@@ -25,11 +20,5 @@ class _FavoritesPageState extends State<FavoritesPage> {
             : const Center(child: CircularProgressIndicator());
       },
     );
-  }
-
-  @override
-  void didUpdateWidget(FavoritesPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
   }
 }
