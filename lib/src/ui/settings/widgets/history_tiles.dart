@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../state/favorites/favorites_bloc.dart';
+import '../../../state/home/home_bloc.dart';
 import '../../../state/settings/settings_bloc.dart';
 import 'dialog_confirmation.dart';
 
@@ -43,6 +45,7 @@ class TileClearSavedMovies extends StatelessWidget {
           'DELETE SAVED MOVIES',
           () {
             context.read<SettingsBloc>().add(const SettingsEvent.clearWatchHistoryRequested());
+            context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
           },
         );
       },
@@ -108,6 +111,7 @@ class TileClearFavorites extends StatelessWidget {
           'DELETE FAVOURITES',
           () {
             context.read<SettingsBloc>().add(const SettingsEvent.clearFavoritesRequested());
+            context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
           },
         );
       },
