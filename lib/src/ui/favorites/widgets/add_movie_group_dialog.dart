@@ -17,10 +17,11 @@ class _AddMovieGroupDialog extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController editingController = useTextEditingController();
+    final ValueNotifier<String> text = useState('');
 
     return TapOutsideToClearFocus(
       child: Dialog(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
           child: Column(
@@ -28,13 +29,13 @@ class _AddMovieGroupDialog extends HookWidget {
             children: <Widget>[
               _buildHeader(),
               const SizedBox(height: 32),
-              _buildNameField(editingController),
+              _buildNameField(text),
               const SizedBox(height: 64),
               Row(
                 children: <Widget>[
                   Expanded(child: _buildCancelButton()),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildSaveButton(editingController)),
+                  Expanded(child: _buildSaveButton(text)),
                 ],
               )
             ],
@@ -51,13 +52,15 @@ class _AddMovieGroupDialog extends HookWidget {
     );
   }
 
-  Widget _buildNameField(TextEditingController editingController) {
+  Widget _buildNameField(ValueNotifier<String> text) {
     return TextField(
-      controller: editingController,
       decoration: const InputDecoration(
         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
         hintText: 'Name',
       ),
+      onChanged: (String value) {
+        text.value = value;
+      },
     );
   }
 
@@ -74,12 +77,18 @@ class _AddMovieGroupDialog extends HookWidget {
     );
   }
 
-  Widget _buildSaveButton(TextEditingController editingController) {
+  Widget _buildSaveButton(ValueNotifier<String> text) {
     return TextButton(
-      onPressed: () => ScreensNavigator.pop(editingController.text),
+      onPressed: text.value.isNotEmpty ? () => ScreensNavigator.pop(text.value) : null,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorAccent),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (Set<MaterialState> states) =>
+              states.contains(MaterialState.disabled) ? colorAccent.withOpacity(.6) : colorAccent,
+        ),
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (Set<MaterialState> states) =>
+              states.contains(MaterialState.disabled) ? Colors.white.withOpacity(.6) : Colors.white,
+        ),
         overlayColor: MaterialStateProperty.all<Color>(Colors.white24),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),
