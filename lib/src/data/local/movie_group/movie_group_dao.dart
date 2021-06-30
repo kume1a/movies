@@ -15,8 +15,8 @@ class MovieGroupDao {
   final DBMovieGroupDao _movieGroupDao;
   final FavoriteMovieDao _favoriteMovieDao;
 
-  Future<void> saveMovieGroup(String groupName) async {
-    await _movieGroupDao.insertMovieGroup(DBMovieGroup(
+  Future<int> saveMovieGroup(String groupName) async {
+    return _movieGroupDao.insertMovieGroup(DBMovieGroup(
       name: groupName,
       timestamp: 0,
     ));

@@ -32,6 +32,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       refreshData: _refreshData,
       switchedToFavorites: _switchedToFavorites,
       switchedToMovieGroups: _switchedToMovieGroups,
+      groupAdded: _groupAdded,
     );
   }
 
@@ -61,5 +62,17 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       movies: null,
       movieGroups: movieGroups,
     );
+  }
+
+  Stream<FavoritesState> _groupAdded(_GroupAdded event) async* {
+    final int groupId = await _movieGroupDao.saveMovieGroup(event.groupName);
+    if (state.movieGroups != null) {
+      final MovieGroup? insertedGroup = await _movieGroupDao.getMovieGroup(groupId);
+      if (insertedGroup != null) {
+        final List<MovieGroup> movieGroups = List<MovieGroup>.of(state.movieGroups!);
+        movieGroups.insert(0, insertedGroup);
+        yield state.copyWith(movieGroups: movieGroups);
+      }
+    }
   }
 }

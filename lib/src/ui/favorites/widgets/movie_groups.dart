@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +32,7 @@ class MovieGroups extends StatelessWidget {
           itemCount: (state.movieGroups?.length ?? 0) + 1,
           itemBuilder: (BuildContext context, int index) {
             final bool overListLength = index > (state.movieGroups?.length ?? 0) - 1;
-            return overListLength ? _buildAddGroupItem(context) : _buildItem();
+            return overListLength ? _buildAddGroupItem(context) : _buildItem(state.movieGroups![index]);
           },
         );
       },
@@ -55,7 +53,7 @@ class MovieGroups extends StatelessWidget {
           onTap: () async {
             final String? groupName = await showAddMovieGroupDialog(context);
             if (groupName != null) {
-              log('MovieGroups._buildAddGroupItem: $groupName');
+              context.read<FavoritesBloc>().add(FavoritesEvent.groupAdded(groupName));
             }
           },
           child: const SizedBox.expand(
@@ -66,14 +64,14 @@ class MovieGroups extends StatelessWidget {
     );
   }
 
-  Widget _buildItem() {
+  Widget _buildItem(MovieGroup movieGroup) {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: colorPrimaryLight,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Text('name'),
+      child: Text(movieGroup.name),
     );
   }
 }

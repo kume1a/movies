@@ -10,8 +10,8 @@ class DBMovieGroupDao {
 
   final Database _db;
 
-  Future<void> insertMovieGroup(DBMovieGroup movieGroup) async {
-    await _db.rawInsert('''
+  Future<int> insertMovieGroup(DBMovieGroup movieGroup) async {
+    return _db.rawInsert('''
       INSERT INTO ${TableMovieGroups.name}
       (
         ${TableMovieGroups.columnName},

@@ -8,4 +8,6 @@ class FavoritesEvent with _$FavoritesEvent {
 
   const factory FavoritesEvent.switchedToMovieGroups() = _SwitchedToMovieGroups;
   const factory FavoritesEvent.switchedToFavorites() = _SwitchedToFavorites;
+
+  const factory FavoritesEvent.groupAdded(String groupName) = _GroupAdded;
 }

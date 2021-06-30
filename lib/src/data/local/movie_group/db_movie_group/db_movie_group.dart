@@ -15,7 +15,7 @@ class DBMovieGroup with _$DBMovieGroup {
   factory DBMovieGroup.fromMap(Map<String, dynamic> map) {
     return DBMovieGroup(
       id: map[TableMovieGroups.columnId] as int? ?? -1,
-      name: map[TableMovieGroups.name] as String? ?? '',
+      name: map[TableMovieGroups.columnName] as String? ?? '',
       timestamp: map[TableMovieGroups.columnTimestamp] as int? ?? -1,
     );
   }
