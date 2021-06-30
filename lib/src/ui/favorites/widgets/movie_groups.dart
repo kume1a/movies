@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/values/colors.dart';
+import 'add_movie_group_dialog.dart';
 
 class MovieGroups extends StatelessWidget {
   const MovieGroups({
@@ -31,18 +34,46 @@ class MovieGroups extends StatelessWidget {
           itemCount: (state.movieGroups?.length ?? 0) + 1,
           itemBuilder: (BuildContext context, int index) {
             final bool overListLength = index > (state.movieGroups?.length ?? 0) - 1;
-
-            return Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: colorPrimaryLight,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: overListLength ? const Icon(Icons.add, size: 52) : const Text('name'),
-            );
+            return overListLength ? _buildAddGroupItem(context) : _buildItem();
           },
         );
       },
+    );
+  }
+
+  Widget _buildAddGroupItem(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: colorPrimaryLight,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () async {
+            final String? groupName = await showAddMovieGroupDialog(context);
+            if (groupName != null) {
+              log('MovieGroups._buildAddGroupItem: $groupName');
+            }
+          },
+          child: const SizedBox.expand(
+            child: Icon(Icons.add, size: 42),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItem() {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: colorPrimaryLight,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Text('name'),
     );
   }
 }

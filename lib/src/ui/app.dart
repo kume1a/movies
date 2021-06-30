@@ -22,6 +22,11 @@ class App extends StatelessWidget {
           primary: colorAccent,
           secondary: colorAccent,
         ),
+        dialogTheme: DialogTheme(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: colorPrimaryLight,
           actionTextColor: colorAccent,
