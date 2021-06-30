@@ -6,10 +6,12 @@ class DetailsState with _$DetailsState {
     MovieData? movie,
     Actors? actors,
     MoviePosition? moviePosition,
-    required bool shouldShowGroupSelector,
+    required bool belongsToMovieGroup,
+    required bool canShowGroupSelector,
   }) = _DetailsState;
 
   factory DetailsState.initial() => const DetailsState(
-        shouldShowGroupSelector: false,
+        belongsToMovieGroup: false,
+        canShowGroupSelector: false,
       );
 }

@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../data/local/favorite_movie/favorite_movie_dao.dart';
 import '../../../data/local/movie_group/movie_group_dao.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 
@@ -16,11 +15,9 @@ part 'movie_group_state.dart';
 class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
   MovieGroupBloc(
     this._movieGroupDao,
-    this._favoriteMovieDao,
   ) : super(MovieGroupState.initial());
 
   final MovieGroupDao _movieGroupDao;
-  final FavoriteMovieDao _favoriteMovieDao;
 
   @override
   Stream<MovieGroupState> mapEventToState(
@@ -32,13 +29,12 @@ class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
   }
 
   Stream<MovieGroupState> _init(_Init event) async* {
-    final int? selectedGroupId = await _favoriteMovieDao.getFavoriteMovieGroupId(event.movieId);
-    if (selectedGroupId != null) {
-      final MovieGroup? movieGroup = await _movieGroupDao.getMovieGroup(selectedGroupId);
-      yield state.copyWith(selectedMovieGroup: movieGroup);
-    }
-
+    final MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(event.movieId);
     final List<MovieGroup> movieGroups = await _movieGroupDao.getMovieGroups();
-    yield state.copyWith(movieGroups: movieGroups);
+
+    yield state.copyWith(
+      movieGroups: movieGroups,
+      selectedMovieGroup: movieGroup,
+    );
   }
 }

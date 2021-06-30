@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -138,8 +136,14 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   Widget _buildAddToGroupButton(BuildContext context) {
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState previous, DetailsState current) =>
-          previous.movie != current.movie || previous.shouldShowGroupSelector != current.shouldShowGroupSelector,
+          previous.movie != current.movie ||
+          previous.canShowGroupSelector != current.canShowGroupSelector ||
+          previous.belongsToMovieGroup != current.belongsToMovieGroup,
       builder: (BuildContext context, DetailsState state) {
+        final Widget icon = state.belongsToMovieGroup
+            ? const Icon(Icons.library_add, color: Colors.white, key: ValueKey<int>(1))
+            : const Icon(Icons.library_add_outlined, color: Colors.white, key: ValueKey<int>(2));
+
         return IconButton(
           padding: EdgeInsets.zero,
           onPressed: () async {
@@ -147,13 +151,20 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
 
             final int? movieId = state.movie?.movieId;
 
-            if (movieId != null && state.shouldShowGroupSelector) {
+            if (movieId != null && state.canShowGroupSelector) {
               final MovieGroup? selectedMovieGroup = await showMovieGroupSelector(context, movieId);
-              log('AddToGroupButton.build: $selectedMovieGroup');
+              if (selectedMovieGroup != null) {
+                context.read<DetailsBloc>().add(DetailsEvent.groupSelected(selectedMovieGroup));
+              }
             }
           },
           splashColor: Colors.transparent,
-          icon: const Icon(Icons.library_add_outlined, color: Colors.white),
+          icon: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (Widget child, Animation<double> animation) =>
+                ScaleTransition(scale: animation, child: child),
+            child: icon,
+          ),
         );
       },
     );

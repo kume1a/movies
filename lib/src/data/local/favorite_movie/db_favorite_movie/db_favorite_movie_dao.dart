@@ -61,12 +61,12 @@ class DBFavoriteMovieDao {
     return (Sqflite.firstIntValue(result) ?? -1) > 0;
   }
 
-  Future<void> deleteFavoriteMovie(DBFavoriteMovie favoriteMovie) async {
+  Future<void> deleteFavoriteMovie(int movieId) async {
     await _db.rawDelete('''
       DELETE FROM ${TableFavoriteMovies.name}
         WHERE ${TableFavoriteMovies.columnMovieId} = ?;
     ''', <Object?>[
-      favoriteMovie.movieId,
+      movieId,
     ]);
   }
 

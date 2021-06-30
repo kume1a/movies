@@ -10,6 +10,7 @@ import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/actors/actors.dart';
+import '../../data/model/models/movie_groups/movie_group.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movie_position.dart';
 import '../../data/model/models/movies/saved_movie.dart';
@@ -50,16 +51,19 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       movieFetchRequested: _movieFetchRequested,
       castPageFetchRequested: _castPageFetchRequested,
       addToGroupClicked: _addToGroupClicked,
+      groupSelected: _groupSelected,
     );
   }
 
   Stream<DetailsState> _init(_Init event) async* {
     final int movieGroupCount = await _movieGroupDao.count();
     final SavedMovie? moviePosition = await _savedMovieDao.getSavedMovie(movieId!);
-
+    final bool belongsToMovieGroup = await _movieGroupDao.belongsToMovieGroup(movieId!);
+   
     yield state.copyWith(
-      shouldShowGroupSelector: movieGroupCount > 0,
+      canShowGroupSelector: movieGroupCount > 0,
       moviePosition: moviePosition?.position,
+      belongsToMovieGroup: belongsToMovieGroup,
     );
   }
 
@@ -87,6 +91,22 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     final int movieGroupCount = await _movieGroupDao.count();
     if (movieGroupCount == 0) {
       // TODO: 29/06/2021 add to just favorite movies
+    }
+  }
+
+  Stream<DetailsState> _groupSelected(_GroupSelected event) async* {
+    final MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(movieId!);
+
+    if (event.movieGroup != movieGroup) {
+      await _favoriteMovieDao.addMovieToGroup(
+        state.movie!.movieId,
+        state.movie!.name,
+        event.movieGroup.groupId,
+      );
+      yield state.copyWith(belongsToMovieGroup: true);
+    } else {
+      await _favoriteMovieDao.removeMovieFromGroup(movieId!);
+      yield state.copyWith(belongsToMovieGroup: false);
     }
   }
 }
