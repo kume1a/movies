@@ -27,6 +27,13 @@ class App extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
           ),
         ),
+        popupMenuTheme: PopupMenuThemeData(
+          elevation: 4,
+          textStyle: const TextStyle(color: colorTextPrimary),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: colorPrimaryLight,
           actionTextColor: colorAccent,

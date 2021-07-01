@@ -18,14 +18,14 @@ class ListToGroupSwitcher extends StatelessWidget {
         return const <PopupMenuEntry<_SwitcherValue>>[
           PopupMenuItem<_SwitcherValue>(
             value: _SwitcherValue.seeAll,
-            padding: EdgeInsets.symmetric(horizontal: 64),
+            padding: EdgeInsets.symmetric(horizontal: 48),
             height: 42,
             child: Center(child: Text('See All')),
           ),
           PopupMenuDivider(),
           PopupMenuItem<_SwitcherValue>(
             value: _SwitcherValue.groups,
-            padding: EdgeInsets.symmetric(horizontal: 64),
+            padding: EdgeInsets.symmetric(horizontal: 48),
             height: 42,
             child: Center(child: Text('Groups')),
           ),
