@@ -101,7 +101,7 @@ class DetailsPageContent extends StatelessWidget {
                       const SizedBox(height: 32),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text('Cast', style: prB22),
+                        child: CastHeader(),
                       ),
                       const SizedBox(height: 16),
                       CastList(),
