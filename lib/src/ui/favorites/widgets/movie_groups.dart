@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
+import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import 'add_movie_group_dialog.dart';
 
@@ -32,7 +33,7 @@ class MovieGroups extends StatelessWidget {
           itemCount: (state.movieGroups?.length ?? 0) + 1,
           itemBuilder: (BuildContext context, int index) {
             final bool overListLength = index > (state.movieGroups?.length ?? 0) - 1;
-            return overListLength ? _buildAddGroupItem(context) : _buildItem(state.movieGroups![index]);
+            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, state.movieGroups![index]);
           },
         );
       },
@@ -40,31 +41,29 @@ class MovieGroups extends StatelessWidget {
   }
 
   Widget _buildAddGroupItem(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: ColoredBox(
         color: colorPrimaryLight,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () async {
-            final String? groupName = await showAddMovieGroupDialog(context);
-            if (groupName != null) {
-              context.read<FavoritesBloc>().add(FavoritesEvent.groupAdded(groupName));
-            }
-          },
-          child: const SizedBox.expand(
-            child: Icon(Icons.add, size: 42),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () async {
+              final String? groupName = await showAddMovieGroupDialog(context);
+              if (groupName != null) {
+                context.read<FavoritesBloc>().add(FavoritesEvent.groupAdded(groupName));
+              }
+            },
+            child: const SizedBox.expand(
+              child: Icon(Icons.add, size: 42),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildItem(MovieGroup movieGroup) {
+  Widget _buildItem(BuildContext context, MovieGroup movieGroup) {
     const int maxMovieNameCount = 6;
     final ListSlice<String> movieNames = movieGroup.movieNames
         .slice(0, movieGroup.movieNames.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNames.length);
@@ -73,17 +72,15 @@ class MovieGroups extends StatelessWidget {
       child: Text(
         movieGroup.name,
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: colorPrimaryLight,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: movieNames.isNotEmpty
-          ? Column(
+    final Widget content = movieNames.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 header,
@@ -111,8 +108,27 @@ class MovieGroups extends StatelessWidget {
                 // if (movieGroup.movieNames.length > 5) SizedBox(height: 8),
                 // if (movieGroup.movieNames.length > 5) Text('${movieGroup.movieNames.length - 5} more'),
               ],
-            )
-          : Center(child: header),
+            ),
+          )
+        : Center(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: header));
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: ColoredBox(
+        color: colorPrimaryLight,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () async {
+              if (movieGroup.groupId != null) {
+                await ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
+                context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+              }
+            },
+            child: SizedBox.expand(child: content),
+          ),
+        ),
+      ),
     );
   }
 }

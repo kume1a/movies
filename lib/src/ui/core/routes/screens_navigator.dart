@@ -43,4 +43,13 @@ class ScreensNavigator {
   static Future<T?> pushSearchPage<T extends Object?>() async {
     return navigatorKey.currentState?.pushNamed(Routes.searchPage);
   }
+
+  static Future<T?> pushMovieGroupPage<T extends Object?>(int groupId) async {
+    final MovieGroupPageArgs args = MovieGroupPageArgs(groupId: groupId);
+
+    return navigatorKey.currentState?.pushNamed(
+      Routes.movieGroupPage,
+      arguments: args,
+    );
+  }
 }

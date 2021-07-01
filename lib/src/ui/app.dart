@@ -16,6 +16,7 @@ class App extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         backgroundColor: colorPrimary,
         accentColor: colorAccent,
+        scaffoldBackgroundColor: colorPrimary,
         splashColor: colorAccent,
         toggleableActiveColor: colorAccent,
         colorScheme: const ColorScheme.light().copyWith(

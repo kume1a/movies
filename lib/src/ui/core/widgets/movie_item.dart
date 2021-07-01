@@ -50,7 +50,7 @@ class MovieItem extends StatelessWidget {
   static const double imageHeight = imageWidth / 9 * 16;
   static const double radius = 6;
 
-  final String imageUrl;
+  final String? imageUrl;
   final String name;
   final int duration;
   final String plot;

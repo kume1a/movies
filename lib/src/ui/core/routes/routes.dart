@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../details/details_page.dart';
 import '../../main/main_page.dart';
+import '../../movie_group/movie_group_page.dart';
 import '../../search/search_page.dart';
 import '../../stream/stream_page.dart';
 import 'route_args.dart';
@@ -15,6 +16,7 @@ class Routes {
   static const String detailsPage = 'detailsPage';
   static const String streamPage = 'streamPage';
   static const String searchPage = 'searchPage';
+  static const String movieGroupPage = 'movie_group';
 }
 
 @injectable
@@ -29,6 +31,8 @@ class RouteGenerator {
         return _createStreamPageRoute(settings);
       case Routes.searchPage:
         return _createSearchPageRoute(settings);
+      case Routes.movieGroupPage:
+        return _createMovieGroupPageRoute(settings);
       default:
         throw Exception('invalid page route: ${settings.name}');
     }
@@ -66,7 +70,19 @@ class RouteGenerator {
 
   MaterialPageRoute<void> _createSearchPageRoute(RouteSettings settings) {
     return FadeInPageRoute<void>(
+      settings: settings,
       builder: (_) => SearchPage(),
+    );
+  }
+
+  MaterialPageRoute<void> _createMovieGroupPageRoute(RouteSettings settings) {
+    if (settings.arguments == null || settings.arguments is! MovieGroupPageArgs) {
+      throw Exception();
+    }
+    final MovieGroupPageArgs args = settings.arguments! as MovieGroupPageArgs;
+    return FadeInPageRoute<void>(
+      settings: settings,
+      builder: (_) => MovieGroupPage(groupId: args.groupId),
     );
   }
 }
