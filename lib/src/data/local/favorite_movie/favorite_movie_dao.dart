@@ -32,7 +32,16 @@ class FavoriteMovieDao {
     ));
   }
 
-  Future<void> removeMovieFromGroup(int movieId) async => _favoriteMovieDao.deleteFavoriteMovie(movieId);
+  Future<void> justFavoriteMovie(int movieId, String movieName) async {
+    _favoriteMovieDao.insertFavoriteMovie(DBFavoriteMovie(
+      movieId: movieId,
+      movieName: movieName,
+      groupId: null,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    ));
+  }
+
+  Future<void> deleteFavoriteMovie(int movieId) async => _favoriteMovieDao.deleteFavoriteMovie(movieId);
 
   Future<void> unfavoriteMovies() async => _favoriteMovieDao.deleteAll();
 

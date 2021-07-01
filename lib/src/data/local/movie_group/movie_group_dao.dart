@@ -42,7 +42,7 @@ class MovieGroupDao {
 
     final List<String> movieNames = await _favoriteMovieDao.getMovieNamesForGroup(movieGroup.id!);
     return MovieGroup(
-      groupId: movieGroup.id!,
+      groupId: movieGroup.id,
       movieNames: movieNames,
       name: movieGroup.name,
     );
@@ -57,7 +57,7 @@ class MovieGroupDao {
 
     final List<String> movieNames = await _favoriteMovieDao.getMovieNamesForGroup(movieGroup.id!);
     return MovieGroup(
-      groupId: movieGroup.id!,
+      groupId: movieGroup.id,
       movieNames: movieNames,
       name: movieGroup.name,
     );

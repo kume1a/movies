@@ -137,21 +137,18 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState previous, DetailsState current) =>
           previous.movie != current.movie ||
-          previous.canShowGroupSelector != current.canShowGroupSelector ||
-          previous.belongsToMovieGroup != current.belongsToMovieGroup,
+          previous.isFavorite != current.isFavorite,
       builder: (BuildContext context, DetailsState state) {
-        final Widget icon = state.belongsToMovieGroup
+        final Widget icon = state.isFavorite
             ? const Icon(Icons.library_add, color: Colors.white, key: ValueKey<int>(1))
             : const Icon(Icons.library_add_outlined, color: Colors.white, key: ValueKey<int>(2));
 
         return IconButton(
           padding: EdgeInsets.zero,
           onPressed: () async {
-            context.read<DetailsBloc>().add(const DetailsEvent.addToGroupClicked());
-
             final int? movieId = state.movie?.movieId;
 
-            if (movieId != null && state.canShowGroupSelector) {
+            if (movieId != null) {
               final MovieGroup? selectedMovieGroup = await showMovieGroupSelector(context, movieId);
               if (selectedMovieGroup != null) {
                 context.read<DetailsBloc>().add(DetailsEvent.groupSelected(selectedMovieGroup));

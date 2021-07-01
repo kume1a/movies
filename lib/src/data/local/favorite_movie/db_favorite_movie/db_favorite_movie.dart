@@ -9,7 +9,7 @@ class DBFavoriteMovie with _$DBFavoriteMovie {
   const factory DBFavoriteMovie({
     int? id,
     required int movieId,
-    required int groupId,
+    required int? groupId,
     required String movieName,
     required int timestamp,
   }) = _DBFavoriteMovie;
@@ -18,7 +18,7 @@ class DBFavoriteMovie with _$DBFavoriteMovie {
     return DBFavoriteMovie(
       id: map[TableFavoriteMovies.columnId] as int? ?? -1,
       movieId: map[TableFavoriteMovies.columnMovieId] as int? ?? -1,
-      groupId: map[TableFavoriteMovies.columnGroupId] as int? ?? -1,
+      groupId: map[TableFavoriteMovies.columnGroupId] as int?,
       movieName: map[TableFavoriteMovies.columnMovieName] as String? ?? '',
       timestamp: map[TableFavoriteMovies.columnTimestamp] as int? ?? -1,
     );

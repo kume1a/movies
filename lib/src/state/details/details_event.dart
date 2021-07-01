@@ -6,6 +6,5 @@ class DetailsEvent with _$DetailsEvent {
 
   const factory DetailsEvent.movieFetchRequested() = _MovieFetchRequested;
   const factory DetailsEvent.castPageFetchRequested() = _CastPageFetchRequested;
-  const factory DetailsEvent.addToGroupClicked() = _AddToGroupClicked;
   const factory DetailsEvent.groupSelected(MovieGroup movieGroup) = _GroupSelected;
 }

@@ -50,20 +50,17 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       init: _init,
       movieFetchRequested: _movieFetchRequested,
       castPageFetchRequested: _castPageFetchRequested,
-      addToGroupClicked: _addToGroupClicked,
       groupSelected: _groupSelected,
     );
   }
 
   Stream<DetailsState> _init(_Init event) async* {
-    final int movieGroupCount = await _movieGroupDao.count();
     final SavedMovie? moviePosition = await _savedMovieDao.getSavedMovie(movieId!);
-    final bool belongsToMovieGroup = await _movieGroupDao.belongsToMovieGroup(movieId!);
-   
+    final bool isFavorite = await _favoriteMovieDao.isMovieFavorited(movieId!);
+
     yield state.copyWith(
-      canShowGroupSelector: movieGroupCount > 0,
       moviePosition: moviePosition?.position,
-      belongsToMovieGroup: belongsToMovieGroup,
+      isFavorite: isFavorite,
     );
   }
 
@@ -87,26 +84,32 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     }
   }
 
-  Stream<DetailsState> _addToGroupClicked(_AddToGroupClicked event) async* {
-    final int movieGroupCount = await _movieGroupDao.count();
-    if (movieGroupCount == 0) {
-      // TODO: 29/06/2021 add to just favorite movies
-    }
-  }
-
   Stream<DetailsState> _groupSelected(_GroupSelected event) async* {
     final MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(movieId!);
 
+    bool isFavorite = state.isFavorite;
     if (event.movieGroup != movieGroup) {
-      await _favoriteMovieDao.addMovieToGroup(
-        state.movie!.movieId,
-        state.movie!.name,
-        event.movieGroup.groupId,
-      );
-      yield state.copyWith(belongsToMovieGroup: true);
+      if (event.movieGroup.groupId != null) {
+        await _favoriteMovieDao.addMovieToGroup(
+          state.movie!.movieId,
+          state.movie!.name,
+          event.movieGroup.groupId!,
+        );
+        isFavorite = true;
+      } else {
+        final bool isFavorited = await _favoriteMovieDao.isMovieFavorited(movieId!);
+        if (isFavorited) {
+          await _favoriteMovieDao.deleteFavoriteMovie(movieId!);
+          isFavorite = false;
+        } else {
+          await _favoriteMovieDao.justFavoriteMovie(state.movie!.movieId, state.movie!.name);
+          isFavorite = true;
+        }
+      }
     } else {
-      await _favoriteMovieDao.removeMovieFromGroup(movieId!);
-      yield state.copyWith(belongsToMovieGroup: false);
+      await _favoriteMovieDao.deleteFavoriteMovie(movieId!);
+      isFavorite = false;
     }
+    yield state.copyWith(isFavorite: isFavorite);
   }
 }
