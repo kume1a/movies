@@ -90,6 +90,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     bool isFavorite = state.isFavorite;
     if (event.movieGroup != movieGroup) {
       if (event.movieGroup.groupId != null) {
+        // switching to other group
         await _favoriteMovieDao.addMovieToGroup(
           state.movie!.movieId,
           state.movie!.name,
@@ -99,14 +100,23 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       } else {
         final bool isFavorited = await _favoriteMovieDao.isMovieFavorited(movieId!);
         if (isFavorited) {
-          await _favoriteMovieDao.deleteFavoriteMovie(movieId!);
-          isFavorite = false;
+          if (movieGroup != null && movieGroup.groupId != null) {
+            // switching from a group to no group
+            await _favoriteMovieDao.justFavoriteMovie(state.movie!.movieId, state.movie!.name);
+            isFavorite = true;
+          } else {
+            // clicking no group when no group is selected
+            await _favoriteMovieDao.deleteFavoriteMovie(movieId!);
+            isFavorite = false;
+          }
         } else {
+          // clicking no group when movie hasn't yet been favorited
           await _favoriteMovieDao.justFavoriteMovie(state.movie!.movieId, state.movie!.name);
           isFavorite = true;
         }
       }
     } else {
+      // clicking a group that is already selected
       await _favoriteMovieDao.deleteFavoriteMovie(movieId!);
       isFavorite = false;
     }

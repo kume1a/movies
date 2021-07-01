@@ -69,46 +69,50 @@ class MovieGroups extends StatelessWidget {
     final ListSlice<String> movieNames = movieGroup.movieNames
         .slice(0, movieGroup.movieNames.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNames.length);
 
+    final Widget header = Align(
+      child: Text(
+        movieGroup.name,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
+    );
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: colorPrimaryLight,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Align(
-            child: Text(
-              movieGroup.name,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-          ),
-          const SizedBox(height: 12),
-          for (String movieName in movieNames)
-            Row(
+      child: movieNames.isNotEmpty
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  width: 5,
-                  height: 5,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                  margin: const EdgeInsets.symmetric(vertical: 9),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    movieName,
-                    style: const TextStyle(fontSize: 13),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                header,
+                const SizedBox(height: 12),
+                for (String movieName in movieNames)
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 5,
+                        height: 5,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        margin: const EdgeInsets.symmetric(vertical: 9),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          movieName,
+                          style: const TextStyle(fontSize: 13),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                // if (movieGroup.movieNames.length > 5) SizedBox(height: 8),
+                // if (movieGroup.movieNames.length > 5) Text('${movieGroup.movieNames.length - 5} more'),
               ],
-            ),
-          // if (movieGroup.movieNames.length > 5) SizedBox(height: 8),
-          // if (movieGroup.movieNames.length > 5) Text('${movieGroup.movieNames.length - 5} more'),
-        ],
-      ),
+            )
+          : Center(child: header),
     );
   }
 }
