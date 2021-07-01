@@ -16,7 +16,7 @@ class ScreensNavigator {
     final DetailsPageArgs args = DetailsPageArgs(movieId: movieId);
 
     return navigatorKey.currentState?.pushNamed(
-      Routes.detailsPage,
+      Routes.details,
       arguments: args,
     );
   }
@@ -35,20 +35,29 @@ class ScreensNavigator {
     );
 
     return navigatorKey.currentState?.pushNamed(
-      Routes.streamPage,
+      Routes.stream,
       arguments: args,
     );
   }
 
   static Future<T?> pushSearchPage<T extends Object?>() async {
-    return navigatorKey.currentState?.pushNamed(Routes.searchPage);
+    return navigatorKey.currentState?.pushNamed(Routes.search);
   }
 
   static Future<T?> pushMovieGroupPage<T extends Object?>(int groupId) async {
     final MovieGroupPageArgs args = MovieGroupPageArgs(groupId: groupId);
 
     return navigatorKey.currentState?.pushNamed(
-      Routes.movieGroupPage,
+      Routes.movieGroup,
+      arguments: args,
+    );
+  }
+
+  static Future<T?> pushAddMoviePage<T extends Object?>(int groupId) async {
+    final AddMoviePageArgs args = AddMoviePageArgs(groupId: groupId);
+
+    return navigatorKey.currentState?.pushNamed(
+      Routes.addMovie,
       arguments: args,
     );
   }

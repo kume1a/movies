@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../state/movie_group/movie_group_bloc.dart';
 import '../../../state/movie_group/movie_group_ui/movie_group_ui_bloc.dart';
 
 class AddMovieButton extends StatelessWidget {
@@ -13,9 +14,7 @@ class AddMovieButton extends StatelessWidget {
           previous.isFabExpanded != current.isFabExpanded,
       builder: (BuildContext context, MovieGroupUiState state) {
         return FloatingActionButton.extended(
-          onPressed: () {
-            // TODO: 01/07/2021 add movies
-          },
+          onPressed: () => context.read<MovieGroupBloc>().add(const MovieGroupEvent.addMovieClicked()),
           label: AnimatedSwitcher(
             switchInCurve: Curves.easeIn,
             switchOutCurve: Curves.easeOut,

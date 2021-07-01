@@ -57,4 +57,6 @@ class FavoriteMovieDao {
     }
     return favoriteMovies;
   }
+
+  Future<List<int>> getFavoriteMovieIds(int groupId) async => _favoriteMovieDao.getFavoriteMovieIds(groupId);
 }

@@ -96,4 +96,16 @@ class DBFavoriteMovieDao {
 
     return result.isNotEmpty ? result.first[TableFavoriteMovies.columnGroupId] as int? : null;
   }
+
+  Future<List<int>> getFavoriteMovieIds(int groupId) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableFavoriteMovies.columnMovieId} 
+        FROM ${TableFavoriteMovies.name}
+      WHERE ${TableFavoriteMovies.columnGroupId} = ?;
+    ''', <Object?>[
+      groupId,
+    ]);
+
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieId] as int? ?? -1).toList();
+  }
 }

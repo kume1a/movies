@@ -25,3 +25,10 @@ class MovieGroupPageArgs with _$MovieGroupPageArgs {
     required int groupId,
   }) = _MovieGroupPageArgs;
 }
+
+@freezed
+class AddMoviePageArgs with _$AddMoviePageArgs {
+  const factory AddMoviePageArgs({
+    required int groupId,
+  }) = _AddMoviePageArgs;
+}

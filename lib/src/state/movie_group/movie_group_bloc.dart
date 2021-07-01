@@ -9,6 +9,7 @@ import '../../data/local/favorite_movie/favorite_movie_dao.dart';
 import '../../data/local/movie_group/movie_group_dao.dart';
 import '../../data/model/models/movie_groups/movie_group.dart';
 import '../../data/model/models/movies/movie_data.dart';
+import '../../ui/core/routes/screens_navigator.dart';
 
 part 'movie_group_bloc.freezed.dart';
 part 'movie_group_event.dart';
@@ -33,6 +34,7 @@ class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
     yield* event.map(
       init: _init,
       refreshData: _refreshData,
+      addMovieClicked: _addMovieClicked,
     );
   }
 
@@ -51,5 +53,10 @@ class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
   Stream<MovieGroupState> _refreshData(_RefreshData event) async* {
     final List<MovieData> movies = await _favoriteMovieDao.getFavoritedMovies(groupId);
     yield state.copyWith(movies: movies);
+  }
+
+  Stream<MovieGroupState> _addMovieClicked(_AddMovieClicked event) async* {
+    await ScreensNavigator.pushAddMoviePage(groupId);
+    add(const MovieGroupEvent.refreshData());
   }
 }
