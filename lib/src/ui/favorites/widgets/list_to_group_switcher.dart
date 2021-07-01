@@ -13,36 +13,42 @@ class ListToGroupSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<_SwitcherValue>(
-      itemBuilder: (_) {
-        return const <PopupMenuEntry<_SwitcherValue>>[
-          PopupMenuItem<_SwitcherValue>(
-            value: _SwitcherValue.seeAll,
-            padding: EdgeInsets.symmetric(horizontal: 48),
-            height: 42,
-            child: Center(child: Text('See All')),
-          ),
-          PopupMenuDivider(),
-          PopupMenuItem<_SwitcherValue>(
-            value: _SwitcherValue.groups,
-            padding: EdgeInsets.symmetric(horizontal: 48),
-            height: 42,
-            child: Center(child: Text('Groups')),
-          ),
-        ];
-      },
-      onSelected: (_SwitcherValue value) {
-        switch (value) {
-          case _SwitcherValue.seeAll:
-            context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToFavorites());
-            break;
-          case _SwitcherValue.groups:
-            context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToMovieGroups());
-            break;
-        }
-      },
-      icon: const Icon(Icons.more_vert),
-      iconSize: 32,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: Material(
+        type: MaterialType.transparency,
+        child: PopupMenuButton<_SwitcherValue>(
+          itemBuilder: (_) {
+            return const <PopupMenuEntry<_SwitcherValue>>[
+              PopupMenuItem<_SwitcherValue>(
+                value: _SwitcherValue.seeAll,
+                padding: EdgeInsets.symmetric(horizontal: 48),
+                height: 42,
+                child: Center(child: Text('See All')),
+              ),
+              PopupMenuDivider(),
+              PopupMenuItem<_SwitcherValue>(
+                value: _SwitcherValue.groups,
+                padding: EdgeInsets.symmetric(horizontal: 48),
+                height: 42,
+                child: Center(child: Text('Groups')),
+              ),
+            ];
+          },
+          onSelected: (_SwitcherValue value) {
+            switch (value) {
+              case _SwitcherValue.seeAll:
+                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToFavorites());
+                break;
+              case _SwitcherValue.groups:
+                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToMovieGroups());
+                break;
+            }
+          },
+          icon: const Icon(Icons.more_vert),
+          iconSize: 32,
+        ),
+      ),
     );
   }
 }

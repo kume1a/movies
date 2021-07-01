@@ -12,14 +12,12 @@ class FavoritesPage extends StatelessWidget {
     return BlocBuilder<FavoritesBloc, FavoritesState>(
       buildWhen: (FavoritesState prev, FavoritesState curr) => prev.movies != curr.movies,
       builder: (BuildContext context, FavoritesState state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        return Stack(
           children: <Widget>[
-            const SizedBox(height: 12),
-            const ListToGroupSwitcher(),
-            Expanded(
-              child:
-                  state.movies != null ? MovieList(movies: state.movies!) : MovieGroups(movieGroups: state.movieGroups),
+            if (state.movies != null) MovieList(movies: state.movies!) else MovieGroups(movieGroups: state.movieGroups),
+            const Positioned(
+              right: 0,
+              child: ListToGroupSwitcher(),
             ),
           ],
         );

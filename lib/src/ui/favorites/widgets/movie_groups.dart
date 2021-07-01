@@ -22,18 +22,21 @@ class MovieGroups extends StatelessWidget {
       buildWhen: (FavoritesState previous, FavoritesState current) =>
           !const DeepCollectionEquality().equals(previous.movieGroups, current.movieGroups),
       builder: (BuildContext context, FavoritesState state) {
+        final List<MovieGroup>? movieGroups =
+            state.movieGroups?.where((MovieGroup element) => element.movieNames.isNotEmpty).toList();
+
         return GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250,
-            childAspectRatio: 7 / 8,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
+            mainAxisExtent: 150,
+            crossAxisSpacing: 18,
+            mainAxisSpacing: 18,
           ),
-          itemCount: (state.movieGroups?.length ?? 0) + 1,
+          itemCount: (movieGroups?.length ?? 0) + 1,
           itemBuilder: (BuildContext context, int index) {
-            final bool overListLength = index > (state.movieGroups?.length ?? 0) - 1;
-            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, state.movieGroups![index]);
+            final bool overListLength = index > (movieGroups?.length ?? 0) - 1;
+            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups![index]);
           },
         );
       },
@@ -64,16 +67,19 @@ class MovieGroups extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, MovieGroup movieGroup) {
-    const int maxMovieNameCount = 6;
+    const int maxMovieNameCount = 4;
     final ListSlice<String> movieNames = movieGroup.movieNames
         .slice(0, movieGroup.movieNames.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNames.length);
 
     final Widget header = Align(
-      child: Text(
-        movieGroup.name,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Text(
+          movieGroup.name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
 
