@@ -76,7 +76,8 @@ class DBFavoriteMovieDao {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
       SELECT ${TableFavoriteMovies.columnMovieName} 
         FROM ${TableFavoriteMovies.name}
-      WHERE ${TableFavoriteMovies.columnGroupId} = ?;
+      WHERE ${TableFavoriteMovies.columnGroupId} = ?
+        ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
     ''', <Object?>[
       groupId,
     ]);
