@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../di/injection.dart';
-import '../../../state/details/movie_group_bloc/movie_group_bloc.dart';
+import '../../../state/details/movie_group_selector/movie_group_selector_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 
 Future<MovieGroup?> showMovieGroupSelector(BuildContext context, int movieId) async {
@@ -24,10 +24,10 @@ class _MovieGroupSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MovieGroupBloc>(
-      create: (_) => getIt<MovieGroupBloc>()..add(MovieGroupEvent.init(movieId)),
-      child: BlocBuilder<MovieGroupBloc, MovieGroupState>(
-        builder: (BuildContext context, MovieGroupState state) {
+    return BlocProvider<MovieGroupSelectorBloc>(
+      create: (_) => getIt<MovieGroupSelectorBloc>()..add(MovieGroupSelectorEvent.init(movieId)),
+      child: BlocBuilder<MovieGroupSelectorBloc, MovieGroupSelectorState>(
+        builder: (BuildContext context, MovieGroupSelectorState state) {
           return ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height * .7,

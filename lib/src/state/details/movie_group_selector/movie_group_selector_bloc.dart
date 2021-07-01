@@ -8,30 +8,30 @@ import '../../../data/local/favorite_movie/favorite_movie_dao.dart';
 import '../../../data/local/movie_group/movie_group_dao.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 
-part 'movie_group_bloc.freezed.dart';
-part 'movie_group_event.dart';
-part 'movie_group_state.dart';
+part 'movie_group_selector_bloc.freezed.dart';
+part 'movie_group_selector_event.dart';
+part 'movie_group_selector_state.dart';
 
 @injectable
-class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
-  MovieGroupBloc(
+class MovieGroupSelectorBloc extends Bloc<MovieGroupSelectorEvent, MovieGroupSelectorState> {
+  MovieGroupSelectorBloc(
     this._movieGroupDao,
       this._favoriteMovieDao,
-  ) : super(MovieGroupState.initial());
+  ) : super(MovieGroupSelectorState.initial());
 
   final MovieGroupDao _movieGroupDao;
   final FavoriteMovieDao _favoriteMovieDao;
 
   @override
-  Stream<MovieGroupState> mapEventToState(
-    MovieGroupEvent event,
+  Stream<MovieGroupSelectorState> mapEventToState(
+    MovieGroupSelectorEvent event,
   ) async* {
     yield* event.map(
       init: _init,
     );
   }
 
-  Stream<MovieGroupState> _init(_Init event) async* {
+  Stream<MovieGroupSelectorState> _init(_Init event) async* {
     const MovieGroup optionNoGroup = MovieGroup(groupId: null, name: 'No group', movieNames: <String>[]);
 
     MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(event.movieId);
