@@ -49,6 +49,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: SafeArea(
         child: MultiBlocProvider(
+          // ignore: always_specify_types
           providers: [
             BlocProvider<FavoritesBloc>(
               create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.init()),

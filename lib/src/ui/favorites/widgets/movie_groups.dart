@@ -120,7 +120,7 @@ class MovieGroups extends StatelessWidget {
           type: MaterialType.transparency,
           child: InkWell(
             onTap: () async {
-              if (movieGroup.groupId != null) {
+              if (movieGroup.groupId != null && movieGroup.movieNames.isNotEmpty) {
                 await ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
                 context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
               }

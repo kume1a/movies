@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
 import '../../state/movie_group/movie_group_bloc.dart';
+import '../../state/movie_group/movie_group_ui/movie_group_ui_bloc.dart';
+import '../core/widgets/scroll_listener.dart';
 import 'widgets/widgets.dart';
 
 class MovieGroupPage extends StatelessWidget {
@@ -15,8 +17,16 @@ class MovieGroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MovieGroupBloc>(
-      create: (_) => getIt<MovieGroupBloc>()..add(MovieGroupEvent.init(groupId)),
+    return MultiBlocProvider(
+      // ignore: always_specify_types
+      providers: [
+        BlocProvider<MovieGroupBloc>(
+          create: (_) => getIt<MovieGroupBloc>()..add(MovieGroupEvent.init(groupId)),
+        ),
+        BlocProvider<MovieGroupUiBloc>(
+          create: (_) => getIt<MovieGroupUiBloc>(),
+        ),
+      ],
       child: const _MovieGroupPageContent(),
     );
   }
@@ -27,12 +37,25 @@ class _MovieGroupPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            MovieGroupAppBar(),
-            Movies(),
+        child: Stack(
+          children: <Widget>[
+            ScrollListener(
+              onScrollUp: () => context.read<MovieGroupUiBloc>().add(const MovieGroupUiEvent.scrolledUp()),
+              onScrollDown: () => context.read<MovieGroupUiBloc>().add(const MovieGroupUiEvent.scrolledDown()),
+              child: const CustomScrollView(
+                slivers: <Widget>[
+                  MovieGroupAppBar(),
+                  Movies(),
+                ],
+              ),
+            ),
+            const Positioned(
+              right: 16,
+              bottom: 16,
+              child: AddMovieButton(),
+            ),
           ],
         ),
       ),
