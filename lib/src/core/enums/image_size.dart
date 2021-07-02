@@ -1,0 +1,4 @@
+enum ImageSize {
+  small,
+  large,
+}

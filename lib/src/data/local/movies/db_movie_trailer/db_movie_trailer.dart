@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/enums/language.dart';
 import '../../../../core/helpers/enum_to_string.dart';
-import '../../../model/schemas/core/enums.dart';
 import '../../tables.dart';
 
 part 'db_movie_trailer.freezed.dart';

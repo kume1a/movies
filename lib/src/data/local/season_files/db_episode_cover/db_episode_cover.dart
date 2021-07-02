@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/enums/resolution.dart';
 import '../../../../core/helpers/enum_to_string.dart';
-import '../../../model/schemas/core/enums.dart';
 import '../../tables.dart';
 
 part 'db_episode_cover.freezed.dart';

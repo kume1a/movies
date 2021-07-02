@@ -1,8 +1,10 @@
 import 'package:injectable/injectable.dart';
 
+import '../../../core/enums/image_size.dart';
+import '../../../core/enums/language.dart';
+import '../../../core/enums/resolution.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/seasons/season.dart';
-import '../../model/schemas/core/enums.dart';
 import 'db_movie/db_movie.dart';
 import 'db_movie/db_movie_dao.dart';
 import 'db_movie_cover/db_movie_cover.dart';

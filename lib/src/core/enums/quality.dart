@@ -1,0 +1,4 @@
+enum Quality {
+  medium,
+  high,
+}

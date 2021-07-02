@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/enums/language.dart';
+import '../../../../core/enums/quality.dart';
 import '../../../../core/helpers/enum_to_string.dart';
-import '../../../model/schemas/core/enums.dart';
 import '../../tables.dart';
 
 part 'db_episode_file.freezed.dart';

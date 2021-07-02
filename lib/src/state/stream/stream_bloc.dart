@@ -10,6 +10,8 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../core/enums/language.dart';
+import '../../core/enums/quality.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
@@ -20,7 +22,6 @@ import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/seasons/episode.dart';
 import '../../data/model/models/seasons/episode_file.dart';
 import '../../data/model/models/seasons/season_files.dart';
-import '../../data/model/schemas/core/enums.dart';
 import '../../data/model/schemas/core/utils.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/values/default_settings.dart';

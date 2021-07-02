@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../schemas/core/enums.dart';
+import '../../../../core/enums/language.dart';
+import '../../../../core/enums/resolution.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/season_files/files_schema.dart';
 import '../../schemas/season_files/season_files_schema.dart';

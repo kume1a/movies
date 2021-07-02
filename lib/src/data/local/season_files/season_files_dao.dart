@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../core/enums/language.dart';
+import '../../../core/enums/resolution.dart';
 import '../../model/models/seasons/episode.dart';
 import '../../model/models/seasons/episode_file.dart';
 import '../../model/models/seasons/season_files.dart';
-import '../../model/schemas/core/enums.dart';
 import 'db_episode/db_episode.dart';
 import 'db_episode/db_episode_dao.dart';
 import 'db_episode_cover/db_episode_cover.dart';

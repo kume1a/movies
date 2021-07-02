@@ -1,0 +1,4 @@
+enum SearchType {
+  movie,
+  person,
+}

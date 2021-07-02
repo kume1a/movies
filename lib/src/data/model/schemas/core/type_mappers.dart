@@ -1,5 +1,6 @@
-
-import 'enums.dart';
+import '../../../../core/enums/language.dart';
+import '../../../../core/enums/quality.dart';
+import '../../../../core/enums/search_type.dart';
 
 const String medium = 'MEDIUM';
 const String high = 'HIGH';
@@ -9,6 +10,7 @@ const String geo = 'GEO';
 const String rus = 'RUS';
 const String jpn = 'JPN';
 const String fre = 'FRE';
+const String ger = 'GER';
 
 const String movie = 'movie';
 const String person = 'person';
@@ -35,6 +37,8 @@ Language getLanguage(String? language) {
       return Language.jpn;
     case fre:
       return Language.fre;
+    case ger:
+      return Language.ger;
   }
   return Language.eng;
 }

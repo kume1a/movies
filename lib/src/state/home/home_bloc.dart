@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/enums/genre.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/movies/saved_movie.dart';
-import '../../data/model/schemas/core/enums.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'home_bloc.freezed.dart';

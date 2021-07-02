@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/enums/image_size.dart';
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../data/model/schemas/core/enums.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/routes/screens_navigator.dart';

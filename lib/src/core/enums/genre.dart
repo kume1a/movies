@@ -1,32 +1,3 @@
-enum Resolution {
-  fhd,
-  hd,
-  vga,
-}
-
-enum ImageSize {
-  small,
-  large,
-}
-
-enum Language {
-  geo,
-  eng,
-  rus,
-  jpn,
-  fre,
-}
-enum Quality {
-  medium,
-  high
-}
-
-enum MovieType { movie, series }
-enum Period { day, week, month }
-enum SearchType {
-  movie,
-  person
-}
 enum Genre {
   all,
   animated,

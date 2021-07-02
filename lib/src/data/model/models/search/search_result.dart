@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/enums/search_type.dart';
 import '../../../../core/helpers/enum_to_string.dart';
 import '../../../local/tables.dart';
-import '../../schemas/core/enums.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/search/search_results_schema.dart';
 

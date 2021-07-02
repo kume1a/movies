@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 
+import '../../../core/enums/genre.dart';
 import '../../local/movies/movie_dao.dart';
 import '../../local/season_files/season_files_dao.dart';
 import '../../model/core/either.dart';
@@ -9,7 +10,6 @@ import '../../model/models/movies/movie_data.dart';
 import '../../model/models/movies/movies.dart';
 import '../../model/models/seasons/season_files.dart';
 import '../../model/schemas/actors/actors_schema.dart';
-import '../../model/schemas/core/enums.dart';
 import '../../model/schemas/movie/movie_data_schema.dart';
 import '../../model/schemas/movie/movies_schema.dart';
 import '../../model/schemas/season_files/season_files_schema.dart';

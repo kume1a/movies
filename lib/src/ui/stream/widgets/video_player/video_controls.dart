@@ -6,7 +6,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../data/model/schemas/core/enums.dart';
+import '../../../../core/enums/language.dart';
+import '../../../../core/enums/quality.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/formatters.dart';
 import '../../../core/routes/screens_navigator.dart';
@@ -458,6 +459,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                       return 'jpn';
                     case Language.fre:
                       return 'fre';
+                    case Language.ger:
+                      return 'ger';
                   }
                 },
               ),
