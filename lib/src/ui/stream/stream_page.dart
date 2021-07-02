@@ -131,7 +131,7 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
               children: <Widget>[
                 RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
                 IconButton(
-                  onPressed: () => ScreensNavigator.pushDetailsPage(state.movie!.movieId),
+                  onPressed: () => ScreensNavigator.pushDetailsPageAndRemoveUntilRoot(state.movie!.movieId),
                   icon: const Icon(Icons.info_outline),
                   splashRadius: 24,
                   padding: EdgeInsets.zero,

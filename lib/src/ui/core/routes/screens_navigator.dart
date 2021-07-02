@@ -15,6 +15,15 @@ class ScreensNavigator {
   static Future<T?> pushDetailsPage<T extends Object?>(int movieId) async {
     final DetailsPageArgs args = DetailsPageArgs(movieId: movieId);
 
+    return navigatorKey.currentState?.pushNamed(
+      Routes.details,
+      arguments: args,
+    );
+  }
+
+  static Future<T?> pushDetailsPageAndRemoveUntilRoot<T extends Object?>(int movieId) async {
+    final DetailsPageArgs args = DetailsPageArgs(movieId: movieId);
+
     return navigatorKey.currentState?.pushNamedAndRemoveUntil(
       Routes.details,
       (Route<dynamic> route) => route.settings.name == Routes.root,
