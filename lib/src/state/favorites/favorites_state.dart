@@ -5,10 +5,8 @@ class FavoritesState with _$FavoritesState {
   const factory FavoritesState({
     List<MovieData>? movies,
     List<MovieGroup>? movieGroups,
-    required FavoritesPageState pageState,
+    FavoritesPageState? pageState,
   }) = _FavoritesState;
 
-  factory FavoritesState.initial() => const FavoritesState(
-    pageState: FavoritesPageState.groups,
-  );
+  factory FavoritesState.initial() => const FavoritesState();
 }

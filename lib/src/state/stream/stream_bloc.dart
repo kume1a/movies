@@ -88,7 +88,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
   Stream<StreamState> _onSeasonChanged(_SeasonChanged e) async* {
     final Either<FetchFailure, SeasonFiles> seasonFiles =
-        await _movieService.getSeasonFiles(getMovieOrCrash.id, e.season);
+        await _movieService.getSeasonFiles(getMovieOrCrash.id, e.season, getMovieOrCrash.seasons.length);
 
     yield state.copyWith(seasonFiles: seasonFiles.get, season: e.season);
   }

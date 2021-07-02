@@ -21,6 +21,9 @@ class FavoritesPage extends StatelessWidget {
           case FavoritesPageState.groups:
             content = const MovieGroups();
             break;
+          default:
+            content = const SizedBox.shrink();
+            break;
         }
 
         return Stack(
