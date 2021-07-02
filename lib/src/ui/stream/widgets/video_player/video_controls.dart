@@ -9,6 +9,7 @@ import 'package:video_player/video_player.dart';
 import '../../../../data/model/schemas/core/enums.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/formatters.dart';
+import '../../../core/routes/screens_navigator.dart';
 import '../../../core/values/text_styles.dart';
 import 'player.dart';
 import 'progress_bar.dart';
@@ -732,10 +733,8 @@ class _SettingsDialog extends StatelessWidget {
         return ListTile(
           dense: true,
           title: Text(name),
-          leading: Icon(icon),
-          onTap: () {
-            Navigator.of(context).pop(setting);
-          },
+          leading: Icon(icon, color: Colors.white),
+          onTap: () => ScreensNavigator.pop(setting),
         );
       },
     );
@@ -777,9 +776,7 @@ class _BottomSheetDialog<T> extends StatelessWidget {
             ],
           ),
           selected: item == selected,
-          onTap: () {
-            Navigator.of(context).pop(item);
-          },
+          onTap: () => ScreensNavigator.pop(item),
         );
       },
       itemCount: items.length,
