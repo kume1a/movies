@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
 import '../../state/add_movie/add_movie_bloc.dart';
+import '../core/values/colors.dart';
+import '../core/widgets/search_bar.dart';
+import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
 class AddMoviePage extends StatelessWidget {
@@ -27,6 +30,32 @@ class _AddMoviePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: SafeArea(
+        child: TapOutsideToClearFocus(
+          child: Container(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 4),
+                SearchBar(
+                  onBackPressed: () => Navigator.pop(context),
+                  onChanged: (String value) => context.read<AddMovieBloc>().add(AddMovieEvent.queryChanged(value)),
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    counterText: '',
+                    fillColor: Colors.white,
+                    hintStyle: TextStyle(color: colorTextSecondary),
+                    border: InputBorder.none,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Expanded(child: const Movies()),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

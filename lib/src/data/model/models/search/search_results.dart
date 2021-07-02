@@ -27,7 +27,7 @@ class SearchResults with _$SearchResults {
 
   factory SearchResults.empty() {
     return SearchResults(
-      results: List<SearchResult>.empty(),
+      results: List<SearchResult>.empty(growable: true),
       totalCount: 0,
       totalPages: 0,
     );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../di/injection.dart';
 import '../../state/search/search_bloc.dart';
 import '../core/values/colors.dart';
+import '../core/widgets/search_bar.dart';
 import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 

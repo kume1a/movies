@@ -52,18 +52,22 @@ class AddMovieBloc extends Bloc<AddMovieEvent, AddMovieState> {
   }
 
   Stream<AddMovieState> _queryChanged(_QueryChanged event) async* {
-    if (!_loading && _query != event.query) {
-      _loading = true;
-      _page = 1;
+    if (event.query.trim().isEmpty) {
+      yield state.copyWith(searchResults: SearchResults.empty());
+    } else {
+      if (!_loading && _query != event.query) {
+        _loading = true;
+        _page = 1;
 
-      final Either<FetchFailure, SearchResults> searchResults = await _searchService.search(event.query, _page);
+        final Either<FetchFailure, SearchResults> searchResults = await _searchService.search(event.query, _page);
 
-      _page++;
-      _loading = false;
-      _query = event.query;
+        _page++;
+        _loading = false;
 
-      yield state.copyWith(searchResults: searchResults.get);
+        yield state.copyWith(searchResults: searchResults.get);
+      }
     }
+    _query = event.query;
   }
 
   Stream<AddMovieState> _nextPageRequested(_NextPageRequested event) async* {
