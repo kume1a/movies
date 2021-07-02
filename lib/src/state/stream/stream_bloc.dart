@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../core/enums/language.dart';
 import '../../core/enums/quality.dart';
+import '../../data/local/preferences/preferences_helper.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
@@ -22,7 +23,6 @@ import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/seasons/episode.dart';
 import '../../data/model/models/seasons/episode_file.dart';
 import '../../data/model/models/seasons/season_files.dart';
-import '../../data/model/schemas/core/utils.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/values/default_settings.dart';
 
@@ -36,11 +36,13 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     this._movieService,
     this._savedMovieDao,
     this._settingsHelper,
+    this._preferencesHelper,
   ) : super(StreamState.initial());
 
   final MovieService _movieService;
   final SavedMovieDao _savedMovieDao;
   final SettingsHelper _settingsHelper;
+  final PreferencesHelper _preferencesHelper;
 
   bool firstEpisodePassed = false;
 
@@ -91,7 +93,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     yield state.copyWith(seasonFiles: seasonFiles.get, season: e.season);
   }
 
-  Stream<StreamState> _onEpisodeChanged(_EpisodeChanged e) async* {
+  Stream<StreamState> _onEpisodeChanged(_EpisodeChanged event) async* {
     String? videoSrc;
 
     Language selectedLanguage = state.language;
@@ -103,7 +105,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     if (state.seasonFiles != null) {
       final Episode? episode = state.seasonFiles!.data.isNotEmpty
           ? state.seasonFiles!.data.firstWhere(
-              (Episode element) => element.episode == e.episode,
+              (Episode element) => element.episode == event.episode,
               orElse: () => state.seasonFiles!.data.first,
             )
           : null;
@@ -111,14 +113,17 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
       if (!listEquals(languages, episodeLanguages)) {
         languages = episodeLanguages;
-        selectedLanguage = getPreferredOrElse<Language>(languages, Language.eng) ?? Language.eng;
+        final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
+        selectedLanguage =
+            languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => preferredLanguage);
 
         final List<Quality> episodeQualities =
             episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
 
         if (!listEquals(qualities, episodeQualities)) {
           qualities = episodeQualities;
-          selectedQuality = getPreferredOrElse<Quality>(qualities, Quality.high) ?? Quality.high;
+          final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
+          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => preferredQuality);
         }
       }
 
@@ -128,7 +133,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     yield state.copyWith(
       videoSrc: videoSrc,
       startPosition: firstEpisodePassed ? const Duration() : state.startPosition,
-      episode: e.episode,
+      episode: event.episode,
       quality: selectedQuality,
       episodeSeason: state.season,
       language: selectedLanguage,
@@ -158,6 +163,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       startPosition: state.currentPosition,
       language: e.language,
     );
+    await _preferencesHelper.writePreferredLanguage(e.language);
   }
 
   Stream<StreamState> _onQualityChanged(_QualityChanged e) async* {
@@ -180,6 +186,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       startPosition: state.currentPosition,
       quality: e.quality,
     );
+    await _preferencesHelper.writePreferredQuality(e.quality);
   }
 
   Stream<StreamState> _onFetchRelatedRequested(_FetchRelatedRequested e) async* {

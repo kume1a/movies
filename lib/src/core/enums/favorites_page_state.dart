@@ -1,0 +1,4 @@
+enum FavoritesPageState {
+  seeAll,
+  groups,
+}
