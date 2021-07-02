@@ -7,6 +7,7 @@ import '../../data/model/models/seasons/season.dart';
 import '../../di/injection.dart';
 import '../../state/stream/stream_bloc.dart';
 import '../core/base_state.dart';
+import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
 import '../core/widgets/rating_duration.dart';
@@ -105,6 +106,7 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
 
         context.read<StreamBloc>().add(const StreamEvent.removeMessages());
       },
+      buildWhen: (StreamState previous, StreamState current) => previous.movie != current.movie,
       builder: (BuildContext context, StreamState state) {
         if (state.movie == null) {
           return const Center(child: CircularProgressIndicator());
@@ -123,12 +125,22 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
 
         if (isPortrait) {
           content.add(Padding(
-            padding: const EdgeInsets.only(left: 12, top: 16),
-            child: RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+            padding: const EdgeInsets.only(left: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+                IconButton(
+                  onPressed: () => ScreensNavigator.pushDetailsPage(state.movie!.movieId),
+                  icon: const Icon(Icons.info_outline),
+                  splashRadius: 24,
+                  padding: EdgeInsets.zero,
+                ),
+              ],
+            ),
           ));
           if (state.movie!.isTvShow) {
             content.addAll(<Widget>[
-              const SizedBox(height: 10),
               SeasonList(
                 seasonNumbers: state.movie!.seasons.map((Season e) => e.number).toList(),
               ),
@@ -136,11 +148,13 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
               EpisodeList(),
             ]);
           } else {
-            content.add(const Padding(
-              padding: EdgeInsets.only(left: 16, top: 16),
-              child: Text('Recommended', style: prB22),
-            ));
-            content.add(RelatedMovies());
+            content.addAll(<Widget>[
+              const Padding(
+                padding: EdgeInsets.only(left: 16, bottom: 4),
+                child: Text('Recommended', style: prB22),
+              ),
+              RelatedMovies(),
+            ]);
           }
         }
 

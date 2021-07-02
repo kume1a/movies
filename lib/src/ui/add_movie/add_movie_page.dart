@@ -50,7 +50,7 @@ class _AddMoviePageContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Expanded(child: const Movies()),
+                const Expanded(child: Movies()),
               ],
             ),
           ),

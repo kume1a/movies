@@ -13,7 +13,7 @@ class RelatedMovies extends StatelessWidget {
       builder: (BuildContext context, StreamState state) {
         return Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 6),
             itemCount: state.related != null ? state.related!.data.length : 0,
             itemBuilder: (BuildContext context, int index) {
               return state.related != null
