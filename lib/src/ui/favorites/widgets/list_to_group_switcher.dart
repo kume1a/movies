@@ -38,7 +38,7 @@ class ListToGroupSwitcher extends StatelessWidget {
           onSelected: (_SwitcherValue value) {
             switch (value) {
               case _SwitcherValue.seeAll:
-                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToFavorites());
+                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToSeeAll());
                 break;
               case _SwitcherValue.groups:
                 context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToMovieGroups());

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,19 +9,22 @@ import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 
 class MovieList extends StatelessWidget {
-  const MovieList({
-    Key? key,
-    required this.movies,
-  }) : super(key: key);
-
-  final List<MovieData> movies;
+  const MovieList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: movies.length,
-      itemBuilder: (BuildContext context, int index) => _itemBuilder(context, movies[index]),
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      buildWhen: (FavoritesState previous, FavoritesState current) =>
+          !const DeepCollectionEquality().equals(previous.movies, current.movies),
+      builder: (BuildContext context, FavoritesState state) {
+        return state.movies != null
+            ? ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: state.movies!.length,
+                itemBuilder: (BuildContext context, int index) => _itemBuilder(context, state.movies![index]),
+              )
+            : const Center(child: CircularProgressIndicator());
+      },
     );
   }
 

@@ -9,12 +9,7 @@ import '../../core/values/colors.dart';
 import 'add_movie_group_dialog.dart';
 
 class MovieGroups extends StatelessWidget {
-  const MovieGroups({
-    Key? key,
-    required this.movieGroups,
-  }) : super(key: key);
-
-  final List<MovieGroup>? movieGroups;
+  const MovieGroups({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +20,7 @@ class MovieGroups extends StatelessWidget {
         final List<MovieGroup>? movieGroups =
             state.movieGroups?.where((MovieGroup element) => element.movieNames.isNotEmpty).toList();
 
-        return GridView.builder(
+        return movieGroups!= null ? GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 250,
@@ -33,12 +28,12 @@ class MovieGroups extends StatelessWidget {
             crossAxisSpacing: 18,
             mainAxisSpacing: 18,
           ),
-          itemCount: (movieGroups?.length ?? 0) + 1,
+          itemCount: movieGroups.length + 1,
           itemBuilder: (BuildContext context, int index) {
-            final bool overListLength = index > (movieGroups?.length ?? 0) - 1;
-            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups![index]);
+            final bool overListLength = index > movieGroups.length - 1;
+            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups[index]);
           },
-        );
+        ) : const Center(child: CircularProgressIndicator());
       },
     );
   }
