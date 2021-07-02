@@ -8,7 +8,10 @@ import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 
 class MovieList extends StatelessWidget {
-  const MovieList(this.movies);
+  const MovieList({
+    Key? key,
+    required this.movies,
+  }) : super(key: key);
 
   final List<MovieData> movies;
 
@@ -25,7 +28,7 @@ class MovieList extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         await ScreensNavigator.pushDetailsPage(movie.movieId);
-        context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+        context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
         context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
       },
       child: MovieItem(

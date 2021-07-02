@@ -19,7 +19,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with TickerProviderStateMixin<MainPage> {
+class _MainPageState extends State<MainPage> {
   int _index = 0;
 
   @override
@@ -49,9 +49,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin<MainP
       ),
       body: SafeArea(
         child: MultiBlocProvider(
+          // ignore: always_specify_types
           providers: [
             BlocProvider<FavoritesBloc>(
-              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.favoriteMoviesRequested()),
+              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.init()),
             ),
             BlocProvider<HomeBloc>(
               create: (_) => getIt<HomeBloc>()

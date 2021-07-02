@@ -16,20 +16,35 @@ class DBFavoriteMovieDao {
       (
         ${TableFavoriteMovies.columnId},
         ${TableFavoriteMovies.columnMovieId},
+        ${TableFavoriteMovies.columnGroupId},
+        ${TableFavoriteMovies.columnMovieName},
         ${TableFavoriteMovies.columnTimestamp}
-      ) VALUES (?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?);
     ''', <Object?>[
       favoriteMovie.id,
       favoriteMovie.movieId,
+      favoriteMovie.groupId,
+      favoriteMovie.movieName,
       favoriteMovie.timestamp,
     ]);
   }
 
-  Future<List<DBFavoriteMovie>> getFavoriteMovies() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT * FROM ${TableFavoriteMovies.name}
+  Future<List<DBFavoriteMovie>> getFavoriteMovies(int? groupId) async {
+    late List<Map<String, Object?>> result;
+    if (groupId != null) {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableFavoriteMovies.name}
+          WHERE ${TableFavoriteMovies.columnGroupId} = ?
         ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
-    ''');
+      ''', <Object?>[
+        groupId,
+      ]);
+    } else {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableFavoriteMovies.name}
+        ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
+      ''');
+    }
 
     return result.map((Map<String, Object?> e) => DBFavoriteMovie.fromMap(e)).toList();
   }
@@ -46,14 +61,51 @@ class DBFavoriteMovieDao {
     return (Sqflite.firstIntValue(result) ?? -1) > 0;
   }
 
-  Future<void> deleteFavoriteMovie(DBFavoriteMovie favoriteMovie) async {
+  Future<void> deleteFavoriteMovie(int movieId) async {
     await _db.rawDelete('''
       DELETE FROM ${TableFavoriteMovies.name}
         WHERE ${TableFavoriteMovies.columnMovieId} = ?;
     ''', <Object?>[
-      favoriteMovie.movieId,
+      movieId,
     ]);
   }
 
   Future<void> deleteAll() async => _db.delete(TableFavoriteMovies.name);
+
+  Future<List<String>> getFavoriteMovieNamesForGroup(int groupId) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableFavoriteMovies.columnMovieName} 
+        FROM ${TableFavoriteMovies.name}
+      WHERE ${TableFavoriteMovies.columnGroupId} = ?
+        ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
+    ''', <Object?>[
+      groupId,
+    ]);
+
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieName] as String? ?? '').toList();
+  }
+
+  Future<int?> getFavoriteMovieGroupId(int movieId) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableFavoriteMovies.columnGroupId}
+        FROM ${TableFavoriteMovies.name}
+      WHERE ${TableFavoriteMovies.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+
+    return result.isNotEmpty ? result.first[TableFavoriteMovies.columnGroupId] as int? : null;
+  }
+
+  Future<List<int>> getFavoriteMovieIds(int groupId) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT ${TableFavoriteMovies.columnMovieId} 
+        FROM ${TableFavoriteMovies.name}
+      WHERE ${TableFavoriteMovies.columnGroupId} = ?;
+    ''', <Object?>[
+      groupId,
+    ]);
+
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieId] as int? ?? -1).toList();
+  }
 }

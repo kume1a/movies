@@ -16,9 +16,25 @@ class App extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         backgroundColor: colorPrimary,
         accentColor: colorAccent,
+        scaffoldBackgroundColor: colorPrimary,
         splashColor: colorAccent,
         toggleableActiveColor: colorAccent,
-        colorScheme: const ColorScheme.light().copyWith(primary: colorAccent),
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: colorAccent,
+          secondary: colorAccent,
+        ),
+        dialogTheme: DialogTheme(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          elevation: 4,
+          textStyle: const TextStyle(color: colorTextPrimary),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
         snackBarTheme: const SnackBarThemeData(
           backgroundColor: colorPrimaryLight,
           actionTextColor: colorAccent,

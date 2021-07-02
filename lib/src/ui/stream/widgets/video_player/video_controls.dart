@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,7 +113,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
             final double x = details.localPosition.dx;
             if (x <= leftThreshold) {
               setState(() {
-                log('_VideoControlsState.build: rewinding');
                 _rewindController.isActive = true;
                 _showRewind = true;
                 _rewindTimer = Timer(const Duration(milliseconds: 250), () {
@@ -126,7 +124,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               }
             } else if (x >= rightThreshold) {
               setState(() {
-                log('_VideoControlsState.build: forwarding');
                 _forwardController.isActive = true;
                 _showForward = true;
                 _forwardTimer = Timer(const Duration(milliseconds: 250), () {

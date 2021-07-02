@@ -111,7 +111,7 @@ class TileClearFavorites extends StatelessWidget {
           'DELETE FAVOURITES',
           () {
             context.read<SettingsBloc>().add(const SettingsEvent.clearFavoritesRequested());
-            context.read<FavoritesBloc>().add(const FavoritesEvent.favoriteMoviesRequested());
+            context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
           },
         );
       },

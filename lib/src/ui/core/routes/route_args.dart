@@ -1,19 +1,34 @@
-class DetailsPageArgs {
-  DetailsPageArgs({required this.movieId});
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final int movieId;
+part 'route_args.freezed.dart';
+
+@freezed
+class DetailsPageArgs with _$DetailsPageArgs {
+  const factory DetailsPageArgs({
+    required int movieId,
+  }) = _DetailsPageArgs;
 }
 
-class StreamPageArgs {
-  const StreamPageArgs({
-    required this.movieId,
-    required this.season,
-    required this.episode,
-    required this.startAt,
-  });
+@freezed
+class StreamPageArgs with _$StreamPageArgs {
+  const factory StreamPageArgs({
+    required int movieId,
+    required int season,
+    required int episode,
+    required Duration startAt,
+  }) = _StreamPageArgs;
+}
 
-  final int movieId;
-  final int season;
-  final int episode;
-  final Duration startAt;
+@freezed
+class MovieGroupPageArgs with _$MovieGroupPageArgs {
+  const factory MovieGroupPageArgs({
+    required int groupId,
+  }) = _MovieGroupPageArgs;
+}
+
+@freezed
+class AddMoviePageArgs with _$AddMoviePageArgs {
+  const factory AddMoviePageArgs({
+    required int groupId,
+  }) = _AddMoviePageArgs;
 }

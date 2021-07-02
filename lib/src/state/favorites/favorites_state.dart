@@ -4,6 +4,7 @@ part of 'favorites_bloc.dart';
 class FavoritesState with _$FavoritesState {
   const factory FavoritesState({
     List<MovieData>? movies,
+    List<MovieGroup>? movieGroups,
   }) = _FavoritesState;
 
   factory FavoritesState.initial() => const FavoritesState();

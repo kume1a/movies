@@ -134,7 +134,7 @@ class TableEpisodeFiles {
 class TableSearchResults {
   TableSearchResults._();
 
-  static const String name= 'search_results';
+  static const String name = 'search_results';
 
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
@@ -153,7 +153,7 @@ class TableMoviePositions {
   static const String name = 'movie_positions';
 
   static const String columnId = 'id';
-  static const String columnMovieId =  'movie_id';
+  static const String columnMovieId = 'movie_id';
   static const String columnDurationInMillis = 'duration_in_millis';
   static const String columnLeftAt = 'left_at';
   static const String columnIsTvShow = 'is_tv_show';
@@ -169,5 +169,17 @@ class TableFavoriteMovies {
 
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
+  static const String columnGroupId = 'group_id';
+  static const String columnMovieName = 'movie_name';
+  static const String columnTimestamp = 'timestamp';
+}
+
+class TableMovieGroups {
+  TableMovieGroups._();
+
+  static const String name = 'movie_groups';
+
+  static const String columnId = 'id';
+  static const String columnName = 'name';
   static const String columnTimestamp = 'timestamp';
 }

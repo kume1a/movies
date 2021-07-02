@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/values/text_styles.dart';
+import '../values/text_styles.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({

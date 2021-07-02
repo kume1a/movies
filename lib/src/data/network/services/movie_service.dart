@@ -158,7 +158,7 @@ class MovieService extends BaseService {
       return right(savedMovieData);
     }
 
-    await Future<void>.delayed(const Duration(milliseconds: 100));
+    await Future<void>.delayed(const Duration(milliseconds: 150));
     final Either<FetchFailure, MovieSchema> result = await safeFetch(() {
       return _apiService.getMovie(
         movieId: movieId,

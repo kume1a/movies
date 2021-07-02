@@ -23,8 +23,7 @@ class DetailsPage extends StatelessWidget {
         return getIt<DetailsBloc>(param1: movieId)
           ..add(const DetailsEvent.init())
           ..add(const DetailsEvent.movieFetchRequested())
-          ..add(const DetailsEvent.castPageFetchRequested())
-          ..add(const DetailsEvent.isSavedMovieRequested());
+          ..add(const DetailsEvent.castPageFetchRequested());
       },
       child: DetailsPageContent(),
     );
@@ -73,7 +72,6 @@ class DetailsPageContent extends StatelessWidget {
                     minExtent: 54,
                     maxExtent: w,
                     src: state.movie!.availableImage ?? '',
-                    onBackPressed: () => Navigator.pop(context),
                     onPlayPressed: state.movie!.canBePlayed
                         ? () => ScreensNavigator.pushStreamPage(movieId: state.movie!.movieId)
                         : null,
