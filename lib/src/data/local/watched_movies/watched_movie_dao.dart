@@ -10,6 +10,8 @@ class WatchedMovieDao {
 
   final DBWatchedMovieDao _watchedMovieDao;
 
+  static const double _watchedMovieDurationThreshold = .85;
+
   Future<void> insertOrUpdateWatchedMovie(WatchedMovie watchedMovie) async {
     final bool exists = await _watchedMovieDao.watchedMovieExists(
       movieId: watchedMovie.movieId,
@@ -35,29 +37,26 @@ class WatchedMovieDao {
 
   Future<List<WatchedMovie>> getWatchedMovies() async {
     final List<DBWatchedMovie> result = await _watchedMovieDao.getWatchedMovies();
-    return result
-        .map((DBWatchedMovie e) => WatchedMovie(
-              movieId: e.movieId,
-              watchedDurationInMillis: e.watchedDurationInMillis,
-              durationInMillis: e.durationInMillis,
-              isTvShow: e.isTvShow,
-              season: e.season,
-              episode: e.episode,
-            ))
-        .toList();
+    return _filterMapToWatchedMovies(result);
   }
 
   Future<List<WatchedMovie>> getWatchedEpisodes() async {
     final List<DBWatchedMovie> result = await _watchedMovieDao.getWatchedEpisodes();
-    return result
-        .map((DBWatchedMovie e) => WatchedMovie(
-              movieId: e.movieId,
-              watchedDurationInMillis: e.watchedDurationInMillis,
-              durationInMillis: e.durationInMillis,
-              isTvShow: e.isTvShow,
-              season: e.season,
-              episode: e.episode,
-            ))
-        .toList();
+    return _filterMapToWatchedMovies(result);
+  }
+
+  List<WatchedMovie> _filterMapToWatchedMovies(List<DBWatchedMovie> watchedMovies) {
+    return watchedMovies.where((DBWatchedMovie e) {
+      return e.watchedDurationInMillis / e.durationInMillis >= _watchedMovieDurationThreshold;
+    }).map((DBWatchedMovie e) {
+      return WatchedMovie(
+        movieId: e.movieId,
+        watchedDurationInMillis: e.watchedDurationInMillis,
+        durationInMillis: e.durationInMillis,
+        isTvShow: e.isTvShow,
+        season: e.season,
+        episode: e.episode,
+      );
+    }).toList();
   }
 }

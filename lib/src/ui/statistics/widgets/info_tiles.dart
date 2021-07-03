@@ -46,13 +46,32 @@ class TileMoviesWatched extends StatelessWidget {
   }
 }
 
+class TileTvSeriesWatched extends StatelessWidget {
+  const TileTvSeriesWatched({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<StatisticsBloc, StatisticsState>(
+      buildWhen: (StatisticsState previous, StatisticsState current) =>
+          previous.tvSeriesWatched != current.tvSeriesWatched,
+      builder: (BuildContext context, StatisticsState state) {
+        return _InfoTile(
+          title: 'TV series watched',
+          value: state.tvSeriesWatched.toString(),
+        );
+      },
+    );
+  }
+}
+
 class TileEpisodesWatched extends StatelessWidget {
   const TileEpisodesWatched({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) => previous.episodesWatched != current.episodesWatched,
+      buildWhen: (StatisticsState previous, StatisticsState current) =>
+          previous.episodesWatched != current.episodesWatched,
       builder: (BuildContext context, StatisticsState state) {
         return _InfoTile(
           title: 'Episodes watched',

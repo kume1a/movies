@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
                 ..add(const HomeEvent.moviesPageFetchRequested()),
             ),
             BlocProvider<StatisticsBloc>(
-              create: (_) => getIt<StatisticsBloc>(),
+              create: (_) => getIt<StatisticsBloc>()..add(const StatisticsEvent.init()),
             ),
           ],
           child: IndexedStack(

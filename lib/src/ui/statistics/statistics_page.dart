@@ -27,6 +27,8 @@ class _StatisticsPageContent extends StatelessWidget {
         SizedBox(height: 32),
         Padding(padding: padding, child: TileMoviesWatched()),
         SizedBox(height: 16),
+        Padding(padding: padding, child: TileTvSeriesWatched()),
+        SizedBox(height: 16),
         Padding(padding: padding, child: TileEpisodesWatched()),
         SizedBox(height: 32),
         Padding(padding: padding, child: TimePeriodChooser()),

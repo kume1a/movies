@@ -4,6 +4,7 @@ part of 'statistics_bloc.dart';
 class StatisticsState with _$StatisticsState {
   const factory StatisticsState({
     required int moviesWatched,
+    required int tvSeriesWatched,
     required int episodesWatched,
     required TimePeriod timePeriod,
     // TODO: 03/07/2021 add watch time line chart data
@@ -13,6 +14,7 @@ class StatisticsState with _$StatisticsState {
 
   factory StatisticsState.initial() => const StatisticsState(
     moviesWatched: 0,
+    tvSeriesWatched: 0,
     episodesWatched: 0,
     timePeriod: TimePeriod.week,
     averageTime: Duration.zero,
