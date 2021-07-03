@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../di/injection.dart';
 import '../../state/favorites/favorites_bloc.dart';
 import '../../state/home/home_bloc.dart';
-import '../../state/settings/settings_bloc.dart';
+import '../../state/statistics/statistics_bloc.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
 import '../favorites/favorites_page.dart';
 import '../home/home_page.dart';
-import '../settings/settings_page.dart';
+import '../statistics/statistics_page.dart';
 import 'widgets/widgets.dart';
 
 const int pageCount = 3;
@@ -32,16 +33,18 @@ class _MainPageState extends State<MainPage> {
         },
         selectedIndex: _index,
         items: <BottomNavItem>[
-          BottomNavItem(title: 'Home', iconData: Icons.home_outlined),
-          BottomNavItem(title: 'Favorites', iconData: Icons.favorite_border_sharp),
-          BottomNavItem(title: 'Settings', iconData: Icons.settings_outlined),
+          BottomNavItem(title: 'Home', icon: const Icon(Icons.home_outlined, size: 30)),
+          BottomNavItem(title: 'Favorites', icon: const Icon(Icons.favorite_border_sharp, size: 30)),
+          BottomNavItem(
+            title: 'Statistics',
+            icon: SvgPicture.asset('assets/stats.svg', width: 30, height: 30, color: Colors.white),
+          ),
         ],
         activeIconColor: Colors.white,
         backgroundColor: colorAccent,
         itemHoverColor: Colors.white,
         barHeight: 70,
         itemHoverColorOpacity: 0.2,
-        inactiveIconColor: Colors.white,
         textStyle: pr13,
         barRadius: 24,
         itemHoverHeight: 50,
@@ -61,8 +64,8 @@ class _MainPageState extends State<MainPage> {
                 ..add(const HomeEvent.topMoviesPageFetchRequested())
                 ..add(const HomeEvent.moviesPageFetchRequested()),
             ),
-            BlocProvider<SettingsBloc>(
-              create: (_) => getIt<SettingsBloc>()..add(const SettingsEvent.init()),
+            BlocProvider<StatisticsBloc>(
+              create: (_) => getIt<StatisticsBloc>(),
             ),
           ],
           child: IndexedStack(
@@ -70,7 +73,7 @@ class _MainPageState extends State<MainPage> {
             children: const <Widget>[
               HomePage(),
               FavoritesPage(),
-              SettingsPage(),
+              StatisticsPage(),
             ],
           ),
         ),

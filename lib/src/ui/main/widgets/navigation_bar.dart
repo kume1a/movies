@@ -13,7 +13,6 @@ class BottomAnimation extends StatefulWidget {
     required this.selectedIndex,
     required this.items,
     required this.activeIconColor,
-    required this.inactiveIconColor,
     required this.backgroundColor,
     required this.onItemSelect,
     required this.itemHoverColor,
@@ -32,7 +31,6 @@ class BottomAnimation extends StatefulWidget {
   final List<BottomNavItem> items;
   final Color backgroundColor;
   final Color activeIconColor;
-  final Color inactiveIconColor;
   final double iconSize;
   final TextStyle? textStyle;
   final ValueChanged<int> onItemSelect;
@@ -133,8 +131,7 @@ class _BottomAnimationState extends State<BottomAnimation> {
                   child: BarItem(
                     selected: widget.selectedIndex == index,
                     activeColor: widget.activeIconColor,
-                    inactiveColor: widget.inactiveIconColor,
-                    icon: item.iconData,
+                    icon: item.icon,
                     title: item.title,
                     iconSize: widget.iconSize,
                     textStyle: _textStyle,
@@ -157,16 +154,14 @@ class BarItem extends StatefulWidget {
     required this.title,
     required this.selected,
     required this.activeColor,
-    required this.inactiveColor,
     required this.iconSize,
     required this.textStyle,
   }) : super(key: key);
 
-  final IconData icon;
+  final Widget icon;
   final String title;
   final bool selected;
   final Color activeColor;
-  final Color inactiveColor;
   final double iconSize;
   final TextStyle? textStyle;
 
@@ -196,11 +191,7 @@ class _BarItemState extends State<BarItem> with TickerProviderStateMixin {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              widget.icon,
-              color: widget.selected ? widget.activeColor : widget.inactiveColor,
-              size: widget.iconSize,
-            ),
+            widget.icon,
             const SizedBox(width: 10),
             if (widget.selected) Text(widget.title, style: widget.textStyle) else Container()
           ],

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 
 import '../../../core/enums/genre.dart';
@@ -186,7 +184,6 @@ class MovieService extends BaseService {
 
   Future<Either<FetchFailure, SeasonFiles>> getSeasonFiles(int id, int season, int seasonCount) async {
     final bool shouldCache = season != seasonCount;
-    log('MovieService.getSeasonFiles: shouldCache $shouldCache');
     if (shouldCache) {
       final SeasonFiles? savedSeasonFiles = await _seasonFileDao.getSeasonFiles(id, season);
       if (savedSeasonFiles != null) {

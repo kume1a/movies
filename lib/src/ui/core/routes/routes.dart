@@ -6,6 +6,7 @@ import '../../details/details_page.dart';
 import '../../main/main_page.dart';
 import '../../movie_group/movie_group_page.dart';
 import '../../search/search_page.dart';
+import '../../settings/settings_page.dart';
 import '../../stream/stream_page.dart';
 import 'route_args.dart';
 import 'transition_routes.dart';
@@ -14,11 +15,12 @@ class Routes {
   Routes._();
 
   static const String root = '/';
-  static const String details = 'detailsPage';
-  static const String stream = 'streamPage';
-  static const String search = 'searchPage';
+  static const String details = 'details';
+  static const String stream = 'stream';
+  static const String search = 'search';
   static const String movieGroup = 'movie_group';
   static const String addMovie = 'add_movie';
+  static const String settings = 'settings';
 }
 
 @injectable
@@ -37,6 +39,8 @@ class RouteGenerator {
         return _createMovieGroupPageRoute(settings);
       case Routes.addMovie:
         return _createAddMoviePageRoute(settings);
+      case Routes.settings:
+        return _createSettingsPageroute(settings);
       default:
         throw Exception('invalid page route: ${settings.name}');
     }
@@ -98,6 +102,13 @@ class RouteGenerator {
     return FadeInPageRoute<void>(
       settings: settings,
       builder: (_) => AddMoviePage(groupId: args.groupId),
+    );
+  }
+
+  MaterialPageRoute<void> _createSettingsPageroute(RouteSettings settings) {
+    return FadeInPageRoute<void>(
+      settings: settings,
+      builder: (_) => const SettingsPage(),
     );
   }
 }

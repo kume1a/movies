@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class BottomNavItem {
   BottomNavItem({
     required this.title,
-    required this.iconData,
+    required this.icon,
   });
 
   final String title;
-  final IconData iconData;
+  final Widget icon;
 }

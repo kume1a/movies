@@ -8,9 +8,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class ScreensNavigator {
   ScreensNavigator._();
 
-  static void pop<T extends Object?>([T? result]) {
-    navigatorKey.currentState?.pop<T>(result);
-  }
+  static void pop<T extends Object?>([T? result]) => navigatorKey.currentState?.pop<T>(result);
 
   static Future<T?> pushDetailsPage<T extends Object?>(int movieId) async {
     final DetailsPageArgs args = DetailsPageArgs(movieId: movieId);
@@ -50,9 +48,7 @@ class ScreensNavigator {
     );
   }
 
-  static Future<T?> pushSearchPage<T extends Object?>() async {
-    return navigatorKey.currentState?.pushNamed(Routes.search);
-  }
+  static Future<T?> pushSearchPage<T extends Object?>() async => navigatorKey.currentState?.pushNamed(Routes.search);
 
   static Future<T?> pushMovieGroupPage<T extends Object?>(int groupId) async {
     final MovieGroupPageArgs args = MovieGroupPageArgs(groupId: groupId);
@@ -71,4 +67,7 @@ class ScreensNavigator {
       arguments: args,
     );
   }
+
+  static Future<T?> pushSettingsPage<T extends Object?>() async =>
+      navigatorKey.currentState?.pushNamed(Routes.settings);
 }

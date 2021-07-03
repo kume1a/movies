@@ -39,6 +39,7 @@ dependencies:
 
   # ui
   rive: ^0.7.21
+  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:
