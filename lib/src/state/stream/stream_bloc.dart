@@ -15,6 +15,7 @@ import '../../core/enums/quality.dart';
 import '../../data/local/preferences/preferences_helper.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/settings/settings_helper.dart';
+import '../../data/local/watched_movies/watched_movie_dao.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/movies/movie_data.dart';
@@ -23,6 +24,7 @@ import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/seasons/episode.dart';
 import '../../data/model/models/seasons/episode_file.dart';
 import '../../data/model/models/seasons/season_files.dart';
+import '../../data/model/models/watched_movies/watched_movie.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/values/default_settings.dart';
 
@@ -35,12 +37,14 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   StreamBloc(
     this._movieService,
     this._savedMovieDao,
+    this._watchedMovieDao,
     this._settingsHelper,
     this._preferencesHelper,
   ) : super(StreamState.initial());
 
   final MovieService _movieService;
   final SavedMovieDao _savedMovieDao;
+  final WatchedMovieDao _watchedMovieDao;
   final SettingsHelper _settingsHelper;
   final PreferencesHelper _preferencesHelper;
 
@@ -209,31 +213,41 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
   Stream<StreamState> _onPositionTick(_OnPositionTick e) async* {
     if (state.settings.recordWatchHistoryEnabled && state.seasonFiles != null) {
       final MovieData movie = getMovieOrCrash;
+      final int durationInMillis = state.seasonFiles!.data
+              .firstWhere(
+                (Episode element) => element.episode == state.episode,
+                orElse: () => state.seasonFiles!.data.first,
+              )
+              .episodes
+              .values
+              .first
+              .first
+              .duration *
+          1000;
+
+      // TODO: 03/07/2021 refactor insert or update logic to SavedMovieDao method
       if (await _savedMovieDao.positionForMovieExists(movie.movieId, state.episodeSeason, state.episode)) {
         await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
       } else {
-        final int durationInSeconds = state.seasonFiles!.data
-            .firstWhere(
-              (Episode element) => element.episode == state.episode,
-              orElse: () => state.seasonFiles!.data.first,
-            )
-            .episodes
-            .values
-            .first
-            .first
-            .duration;
-
-        final MoviePosition position = MoviePosition(
+        _savedMovieDao.insertMoviePosition(MoviePosition(
           movieId: movie.movieId,
-          durationInMillis: durationInSeconds * 1000,
+          durationInMillis: durationInMillis,
           leftAt: e.position.inMilliseconds,
           isTvShow: movie.isTvShow,
           season: state.season,
           episode: state.episode,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-        );
-        _savedMovieDao.insertMoviePosition(position);
+        ));
       }
+
+      await _watchedMovieDao.insertOrUpdateWatchedMovie(WatchedMovie(
+        movieId: movie.movieId,
+        watchedDurationInMillis: e.position.inMilliseconds,
+        durationInMillis: durationInMillis,
+        isTvShow: movie.isTvShow,
+        season: state.episodeSeason,
+        episode: state.episode,
+      ));
     }
     yield state.copyWith(currentPosition: e.position);
   }

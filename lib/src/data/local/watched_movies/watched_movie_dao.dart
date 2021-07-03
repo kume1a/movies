@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 
 import '../../model/models/watched_movies/watched_movie.dart';
@@ -27,7 +25,6 @@ class WatchedMovieDao {
       episode: watchedMovie.episode,
       season: watchedMovie.season,
     );
-    log('WatchedMovieDao.insertOrUpdateWatchedMovie: exists = $exists');
 
     if (!exists) {
       await _watchedMovieDao.insertWatchedMovie(dbWatchedMovie);
