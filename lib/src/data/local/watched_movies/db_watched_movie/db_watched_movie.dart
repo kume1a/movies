@@ -14,6 +14,7 @@ class DBWatchedMovie with _$DBWatchedMovie {
     required bool isTvShow,
     required int season,
     required int episode,
+    int? timestamp,
   }) = _DBWatchedMovie;
 
   factory DBWatchedMovie.fromMap(Map<String, dynamic> map) {
@@ -25,6 +26,7 @@ class DBWatchedMovie with _$DBWatchedMovie {
       isTvShow: map[TableWatchedMovies.columnIsTvShow] == 1,
       season: map[TableWatchedMovies.columnSeason] as int? ?? -1,
       episode: map[TableWatchedMovies.columnEpisode] as int? ?? -1,
+      timestamp: map[TableWatchedMovies.columnTimestamp] as int? ?? -1,
     );
   }
 }

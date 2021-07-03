@@ -20,7 +20,7 @@ class DBWatchedMovieDao {
         ${TableWatchedMovies.columnIsTvShow},
         ${TableWatchedMovies.columnSeason},
         ${TableWatchedMovies.columnEpisode}
-      ) VALUES (?, ?, ?, ?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       watchedMovie.movieId,
       watchedMovie.watchedDurationInMillis,
@@ -28,6 +28,7 @@ class DBWatchedMovieDao {
       if (watchedMovie.isTvShow) 1 else 0,
       watchedMovie.season,
       watchedMovie.episode,
+      DateTime.now().millisecondsSinceEpoch,
     ]);
   }
 
@@ -54,12 +55,14 @@ class DBWatchedMovieDao {
   Future<void> updateWatchedMovieWatchedDuration(DBWatchedMovie watchedMovie) async {
     await _db.rawUpdate('''
       UPDATE ${TableWatchedMovies.name}
-        SET ${TableWatchedMovies.columnWatchedDurationInMillis} = ?
+        SET ${TableWatchedMovies.columnWatchedDurationInMillis} = ?,
+            ${TableWatchedMovies.columnTimestamp} = ?
       WHERE ${TableWatchedMovies.columnMovieId} = ? 
         AND ${TableWatchedMovies.columnSeason} = ?
         AND ${TableWatchedMovies.columnEpisode} = ?;
     ''', <Object?>[
       watchedMovie.watchedDurationInMillis,
+      DateTime.now().millisecondsSinceEpoch,
       watchedMovie.movieId,
       watchedMovie.season,
       watchedMovie.episode,

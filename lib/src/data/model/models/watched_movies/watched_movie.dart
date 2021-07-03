@@ -11,5 +11,6 @@ class WatchedMovie with _$WatchedMovie {
     required bool isTvShow,
     required int season,
     required int episode,
+    DateTime? date,
   }) = _WatchedMovie;
 }

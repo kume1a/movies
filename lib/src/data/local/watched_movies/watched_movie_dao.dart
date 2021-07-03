@@ -56,6 +56,7 @@ class WatchedMovieDao {
         isTvShow: e.isTvShow,
         season: e.season,
         episode: e.episode,
+        date: DateTime.fromMillisecondsSinceEpoch(e.timestamp!),
       );
     }).toList();
   }

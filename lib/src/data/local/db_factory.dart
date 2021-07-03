@@ -213,7 +213,8 @@ class DbFactory {
         ${TableWatchedMovies.columnDurationInMillis} INTEGER NOT NULL,
         ${TableWatchedMovies.columnIsTvShow} INTEGER NOT NULL CHECK (${TableWatchedMovies.columnIsTvShow} IN (0, 1)),
         ${TableWatchedMovies.columnSeason} INTEGER NOT NULL,
-        ${TableWatchedMovies.columnEpisode} INTEGER NOT NULL
+        ${TableWatchedMovies.columnEpisode} INTEGER NOT NULL,
+        ${TableWatchedMovies.columnTimestamp} INTEGER NOT NULL
       );
     ''');
   }

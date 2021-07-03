@@ -196,4 +196,5 @@ class TableWatchedMovies {
   static const String columnIsTvShow = 'is_tv_show';
   static const String columnSeason = 'season';
   static const String columnEpisode = 'episode';
+  static const String columnTimestamp = 'timestamp';
 }
