@@ -8,6 +8,7 @@ import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/details/details_bloc.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
+import '../../core/widgets/default_back_button.dart';
 import '../../core/widgets/safe_image.dart';
 import 'movie_group_selector.dart';
 
@@ -64,7 +65,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
           child: ClipOval(
             child: Material(
               type: MaterialType.transparency,
-              child: BackButton(color: Colors.white),
+              child: DefaultBackButton(),
             ),
           ),
         ),

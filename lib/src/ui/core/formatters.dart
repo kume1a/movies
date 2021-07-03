@@ -1,12 +1,12 @@
-String formatDuration(int duration) {
-  if (duration == 0) return '';
+String formatDuration(int durationInMinutes, {bool emptyOnZero = true}) {
+  if (durationInMinutes == 0 && emptyOnZero) return '';
 
-  final int hours = (duration / 60).floor();
-  final int mins = duration - hours * 60;
+  final int hours = (durationInMinutes / 60).floor();
+  final int minutes = durationInMinutes - hours * 60;
 
-  if (hours == 0) return '${mins}min';
-  if (mins == 0) return '${hours}h';
-  return '${hours}h ${mins}min';
+  if (hours == 0) return '${minutes}m';
+  if (minutes == 0) return '${hours}h';
+  return '${hours}h ${minutes}m';
 }
 
 String formatDurationFromSeconds(int seconds) {
