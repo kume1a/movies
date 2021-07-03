@@ -18,8 +18,8 @@ class TileClearSearchHistory extends StatelessWidget {
         final bool didConfirm = await showConfirmationDialog(
           context,
           title: 'Clear search history?',
-          content: "Deleted history can't be restored\nconfirm to delete",
-          confirmationText: 'DELETE SEARCH HISTORY',
+          content: "Deleted history can't be restored.\nConfirm to delete",
+          confirmationText: 'Delete',
         );
 
         if (didConfirm) {
@@ -42,8 +42,8 @@ class TileClearSavedMovies extends StatelessWidget {
         final bool didConfirm = await showConfirmationDialog(
           context,
           title: 'Clear saved movies?',
-          content: "Deleted movies can't be restored\nconfirm to delete",
-          confirmationText: 'DELETE SAVED MOVIES',
+          content: "Deleted movies can't be restored.\nConfirm to delete",
+          confirmationText: 'Delete',
         );
 
         if (didConfirm) {
@@ -109,8 +109,8 @@ class TileClearFavorites extends StatelessWidget {
         final bool didConfirm = await showConfirmationDialog(
           context,
           title: 'Delete favorite movies?',
-          content: 'This will clear the list on favorites page\nconfirm to delete',
-          confirmationText: 'DELETE FAVOURITES',
+          content: 'This will clear the list on favorites page.\nConfirm to delete',
+          confirmationText: 'Delete',
         );
 
         if (didConfirm) {

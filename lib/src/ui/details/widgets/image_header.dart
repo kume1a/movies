@@ -52,11 +52,21 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
         if (onPlayPressed != null)
           Positioned(
             right: 0,
-            child: _buildAddToGroupButton(context),
+            child: ClipOval(
+              child: Material(
+                type: MaterialType.transparency,
+                child: _buildAddToGroupButton(context),
+              ),
+            ),
           ),
         const Positioned(
           left: 0,
-          child: BackButton(color: Colors.white),
+          child: ClipOval(
+            child: Material(
+              type: MaterialType.transparency,
+              child: BackButton(color: Colors.white),
+            ),
+          ),
         ),
       ],
     );
@@ -136,8 +146,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   Widget _buildAddToGroupButton(BuildContext context) {
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState previous, DetailsState current) =>
-          previous.movie != current.movie ||
-          previous.isFavorite != current.isFavorite,
+          previous.movie != current.movie || previous.isFavorite != current.isFavorite,
       builder: (BuildContext context, DetailsState state) {
         final Widget icon = state.isFavorite
             ? const Icon(Icons.library_add, color: Colors.white, key: ValueKey<int>(1))

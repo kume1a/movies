@@ -23,6 +23,15 @@ class App extends StatelessWidget {
           primary: colorAccent,
           secondary: colorAccent,
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) =>
+                  states.contains(MaterialState.disabled) ? colorTextSecondary : colorTextPrimary,
+            ),
+            overlayColor: MaterialStateProperty.all<Color>(colorAccent.withOpacity(.5))
+          ),
+        ),
         dialogTheme: DialogTheme(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),

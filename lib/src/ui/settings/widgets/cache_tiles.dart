@@ -17,7 +17,7 @@ class TileClearCache extends StatelessWidget {
           context,
           title: 'Clear cache?',
           content: 'The action will delete all the cached movies and seasons',
-          confirmationText: 'DELETE CACHE',
+          confirmationText: 'Clear',
         );
 
         if (didConfirm) {
