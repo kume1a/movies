@@ -69,4 +69,6 @@ class MovieGroupDao {
     final int? groupId = await _favoriteMovieDao.getFavoriteMovieGroupId(movieId);
     return groupId != null;
   }
+
+  Future<void> deleteMovieGroup(MovieGroup movieGroup) async => _movieGroupDao.deleteMovieGroup(movieGroup.groupId!);
 }

@@ -51,4 +51,13 @@ class DBMovieGroupDao {
 
     return Sqflite.firstIntValue(result) ?? 0;
   }
+
+  Future<void> deleteMovieGroup(int id) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableMovieGroups.name}
+      WHERE ${TableMovieGroups.columnId} = ?; 
+    ''', <Object?>[
+      id,
+    ]);
+  }
 }

@@ -37,6 +37,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       switchedToSeeAll: _switchedToSeeAll,
       switchedToMovieGroups: _switchedToMovieGroups,
       groupAdded: _groupAdded,
+      groupDeleted: _groupDeleted,
     );
   }
 
@@ -97,6 +98,15 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
         movieGroups.insert(0, insertedGroup);
         yield state.copyWith(movieGroups: movieGroups);
       }
+    }
+  }
+
+  Stream<FavoritesState> _groupDeleted(_GroupDeleted event) async*{
+    await _movieGroupDao.deleteMovieGroup(event.movieGroup);
+    if (state.movieGroups != null) {
+      final List<MovieGroup> movieGroups = List<MovieGroup>.of(state.movieGroups!);
+      movieGroups.remove(event.movieGroup);
+      yield state.copyWith(movieGroups: movieGroups);
     }
   }
 }

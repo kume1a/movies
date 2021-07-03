@@ -10,4 +10,5 @@ class FavoritesEvent with _$FavoritesEvent {
   const factory FavoritesEvent.switchedToSeeAll() = _SwitchedToFavorites;
 
   const factory FavoritesEvent.groupAdded(String groupName) = _GroupAdded;
+  const factory FavoritesEvent.groupDeleted(MovieGroup movieGroup) = _GroupDeleted;
 }

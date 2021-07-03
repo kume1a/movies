@@ -6,6 +6,7 @@ import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
+import '../../core/widgets/confirmation_dialog.dart';
 import 'add_movie_group_dialog.dart';
 
 class MovieGroups extends StatelessWidget {
@@ -17,23 +18,22 @@ class MovieGroups extends StatelessWidget {
       buildWhen: (FavoritesState previous, FavoritesState current) =>
           !const DeepCollectionEquality().equals(previous.movieGroups, current.movieGroups),
       builder: (BuildContext context, FavoritesState state) {
-        final List<MovieGroup>? movieGroups =
-            state.movieGroups?.where((MovieGroup element) => element.movieNames.isNotEmpty).toList();
-
-        return movieGroups!= null ? GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 250,
-            mainAxisExtent: 150,
-            crossAxisSpacing: 18,
-            mainAxisSpacing: 18,
-          ),
-          itemCount: movieGroups.length + 1,
-          itemBuilder: (BuildContext context, int index) {
-            final bool overListLength = index > movieGroups.length - 1;
-            return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups[index]);
-          },
-        ) : const Center(child: CircularProgressIndicator());
+        return state.movieGroups != null
+            ? GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 250,
+                  mainAxisExtent: 150,
+                  crossAxisSpacing: 18,
+                  mainAxisSpacing: 18,
+                ),
+                itemCount: state.movieGroups!.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  final bool overListLength = index > state.movieGroups!.length - 1;
+                  return overListLength ? _buildAddGroupItem(context) : _buildItem(context, state.movieGroups![index]);
+                },
+              )
+            : const Center(child: CircularProgressIndicator());
       },
     );
   }
@@ -106,8 +106,6 @@ class MovieGroups extends StatelessWidget {
                       ),
                     ],
                   ),
-                // if (movieGroup.movieNames.length > 5) SizedBox(height: 8),
-                // if (movieGroup.movieNames.length > 5) Text('${movieGroup.movieNames.length - 5} more'),
               ],
             ),
           )
@@ -120,6 +118,17 @@ class MovieGroups extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
+            onLongPress: () async {
+              final bool didConfirm = await showConfirmationDialog(
+                context,
+                title: 'Delete group ${movieGroup.name}?',
+                content: 'Deleting ${movieGroup.name} will only remove the group and keep favorites',
+              );
+
+              if (didConfirm) {
+                context.read<FavoritesBloc>().add(FavoritesEvent.groupDeleted(movieGroup));
+              }
+            },
             onTap: () async {
               if (movieGroup.groupId != null && movieGroup.movieNames.isNotEmpty) {
                 await ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);

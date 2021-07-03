@@ -190,7 +190,8 @@ class DbFactory {
         ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE,
         ${TableFavoriteMovies.columnGroupId} INTEGER,
         ${TableFavoriteMovies.columnMovieName} STRING NOT NULL,
-        ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL
+        ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL,
+        FOREIGN KEY (${TableFavoriteMovies.columnGroupId}) REFERENCES ${TableMovieGroups.name}(${TableMovieGroups.columnId}) ON DELETE SET NULL
       );
     ''');
 
