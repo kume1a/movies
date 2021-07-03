@@ -203,5 +203,18 @@ class DbFactory {
         ${TableMovieGroups.columnTimestamp} INTEGER NOT NULL
       );
     ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableWatchedMovies.name}
+      (
+        ${TableWatchedMovies.columnId} INTEGER PRIMARY KEY,
+        ${TableWatchedMovies.columnMovieId} INTEGER NOT NULL,
+        ${TableWatchedMovies.columnWatchedDurationInMillis} INTEGER NOT NULL,
+        ${TableWatchedMovies.columnDurationInMillis} INTEGER NOT NULL,
+        ${TableWatchedMovies.columnIsTvShow} INTEGER NOT NULL CHECK (${TableWatchedMovies.columnIsTvShow} IN (0, 1)),
+        ${TableWatchedMovies.columnSeason} INTEGER NOT NULL,
+        ${TableWatchedMovies.columnEpisode} INTEGER NOT NULL
+      );
+    ''');
   }
 }

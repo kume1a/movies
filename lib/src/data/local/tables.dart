@@ -183,3 +183,17 @@ class TableMovieGroups {
   static const String columnName = 'name';
   static const String columnTimestamp = 'timestamp';
 }
+
+class TableWatchedMovies {
+  TableWatchedMovies._();
+
+  static const String name = 'watched_movies';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
+  static const String columnWatchedDurationInMillis = 'watched_duration_in_millis';
+  static const String columnDurationInMillis = 'duration_in_millis';
+  static const String columnIsTvShow = 'is_tv_show';
+  static const String columnSeason = 'season';
+  static const String columnEpisode = 'episode';
+}
