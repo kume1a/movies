@@ -118,8 +118,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       if (!listEquals(languages, episodeLanguages)) {
         languages = episodeLanguages;
         final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
-        selectedLanguage =
-            languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => preferredLanguage);
+        selectedLanguage = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
 
         final List<Quality> episodeQualities =
             episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
@@ -127,7 +126,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
         if (!listEquals(qualities, episodeQualities)) {
           qualities = episodeQualities;
           final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
-          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => preferredQuality);
+          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
         }
       }
 
@@ -238,6 +237,10 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
           episode: state.episode,
           timestamp: DateTime.now().millisecondsSinceEpoch,
         ));
+
+        if (movie.genres.isNotEmpty) {
+          await _savedMovieDao.saveMovieGenres(movie.movieId, movie.genres);
+        }
       }
 
       await _watchedMovieDao.insertOrUpdateWatchedMovie(WatchedMovie(

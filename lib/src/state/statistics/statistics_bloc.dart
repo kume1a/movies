@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../core/enums/time_period.dart';
+import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/watched_movies/watched_movie_dao.dart';
 import '../../data/model/models/watched_movies/watched_duration.dart';
 import '../../data/model/models/watched_movies/watched_movie.dart';
@@ -18,9 +20,11 @@ part 'statistics_state.dart';
 class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   StatisticsBloc(
     this._watchedMovieDao,
+    this._savedMovieDao,
   ) : super(StatisticsState.initial());
 
   final WatchedMovieDao _watchedMovieDao;
+  final SavedMovieDao _savedMovieDao;
 
   @override
   Stream<StatisticsState> mapEventToState(
@@ -41,14 +45,11 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     yield state.copyWith(timePeriod: event.timePeriod);
 
     final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
-    final double average = watchedDurations.map((WatchedDuration e) {
-          return e.durationInMillis;
-        }).reduce((BigInt a, BigInt b) => a + b) /
-        BigInt.from(watchedDurations.length);
+    final Duration averageTime = await _calculateAverageTime(watchedDurations);
 
     yield state.copyWith(
       watchedDurations: watchedDurations,
-      averageTime: Duration(milliseconds: average.round()),
+      averageTime: averageTime,
     );
   }
 
@@ -64,15 +65,15 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     );
 
     final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
-    final double average = watchedDurations.map((WatchedDuration e) {
-          return e.durationInMillis;
-        }).reduce((BigInt a, BigInt b) => a + b) /
-        BigInt.from(watchedDurations.length);
+    final Duration averageTime = await _calculateAverageTime(watchedDurations);
 
     yield state.copyWith(
       watchedDurations: watchedDurations,
-      averageTime: Duration(milliseconds: average.round()),
+      averageTime: averageTime,
     );
+
+    final List<String> savedMovieGenres = await _savedMovieDao.getMovieGenres();
+    log('StatisticsBloc._refreshData: $savedMovieGenres');
   }
 
   Future<List<WatchedDuration>> _calculateWatchedDurations() async {
@@ -144,5 +145,16 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       }
     }
     return watchedDurations;
+  }
+
+  Future<Duration> _calculateAverageTime(List<WatchedDuration> watchedDurations) async {
+    if (watchedDurations.isEmpty) return Duration.zero;
+
+    final double average = watchedDurations.map((WatchedDuration e) {
+          return e.durationInMillis;
+        }).reduce((BigInt a, BigInt b) => a + b) /
+        BigInt.from(watchedDurations.length);
+
+    return Duration(milliseconds: average.round());
   }
 }

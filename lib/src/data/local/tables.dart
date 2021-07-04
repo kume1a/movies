@@ -198,3 +198,13 @@ class TableWatchedMovies {
   static const String columnEpisode = 'episode';
   static const String columnTimestamp = 'timestamp';
 }
+
+class TableSavedMovieGenres {
+  TableSavedMovieGenres._();
+
+  static const String name = 'saved_movie_genres';
+
+  static const String columnId = 'id';
+  static const String columnMovieId = 'movie_id';
+  static const String columnGenre = 'genre';
+}

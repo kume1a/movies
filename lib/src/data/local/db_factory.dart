@@ -217,5 +217,14 @@ class DbFactory {
         ${TableWatchedMovies.columnTimestamp} INTEGER NOT NULL
       );
     ''');
+
+    db.execute('''
+      CREATE TABLE IF NOT EXISTS ${TableSavedMovieGenres.name}
+      (
+        ${TableSavedMovieGenres.columnId} INTEGER PRIMARY KEY,
+        ${TableSavedMovieGenres.columnMovieId} INTEGER NOT NULL, 
+        ${TableSavedMovieGenres.columnGenre} STRING NOT NULL 
+      );
+    ''');
   }
 }

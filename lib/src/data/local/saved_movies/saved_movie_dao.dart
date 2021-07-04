@@ -8,27 +8,38 @@ import '../../model/models/movies/saved_movie.dart';
 import '../../network/services/movie_service.dart';
 import 'db_movie_position/db_movie_position.dart';
 import 'db_movie_position/db_movie_position_dao.dart';
+import 'db_saved_movie_genres/db_saved_movie_genre.dart';
+import 'db_saved_movie_genres/db_saved_movie_genre_dao.dart';
 
 @lazySingleton
 class SavedMovieDao {
   SavedMovieDao(
     this._movieService,
     this._moviePositionDao,
+    this._savedMovieGenreDao,
   );
 
   final MovieService _movieService;
   final DBMoviePositionDao _moviePositionDao;
+  final DBSavedMovieGenreDao _savedMovieGenreDao;
 
-  Future<void> insertMoviePosition(MoviePosition moviePosition) =>
-      _moviePositionDao.insertMoviePosition(DBMoviePosition(
-        movieId: moviePosition.movieId,
-        durationInMillis: moviePosition.durationInMillis,
-        leftAt: moviePosition.leftAt,
-        isTvShow: moviePosition.isTvShow,
-        season: moviePosition.season,
-        episode: moviePosition.episode,
-        saveTimestamp: moviePosition.timestamp,
-      ));
+  Future<void> insertMoviePosition(MoviePosition moviePosition) async {
+    await _moviePositionDao.insertMoviePosition(DBMoviePosition(
+      movieId: moviePosition.movieId,
+      durationInMillis: moviePosition.durationInMillis,
+      leftAt: moviePosition.leftAt,
+      isTvShow: moviePosition.isTvShow,
+      season: moviePosition.season,
+      episode: moviePosition.episode,
+      saveTimestamp: moviePosition.timestamp,
+    ));
+  }
+
+  Future<void> saveMovieGenres(int movieId, List<String> genres) async {
+    for (final String genre in genres) {
+      await _savedMovieGenreDao.insertSavedMovieGenre(DBSavedMovieGenre(movieId: movieId, genre: genre));
+    }
+  }
 
   Future<bool> positionForMovieExists(int movieId, int season, int episode) async =>
       _moviePositionDao.positionExists(movieId, season, episode);
@@ -80,5 +91,14 @@ class SavedMovieDao {
     return savedMovies;
   }
 
-  Future<void> deleteMoviePositions() async => _moviePositionDao.deleteMoviePositions();
+  Future<List<String>> getMovieGenres() async {
+    final List<DBSavedMovieGenre> genres = await _savedMovieGenreDao.getAll();
+
+    return genres.map((DBSavedMovieGenre e) => e.genre).toList();
+  }
+
+  Future<void> deleteMoviePositions() async {
+    await _moviePositionDao.deleteMoviePositions();
+    await _savedMovieGenreDao.deleteAll();
+  }
 }
