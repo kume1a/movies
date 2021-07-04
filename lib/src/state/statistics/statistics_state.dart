@@ -9,7 +9,7 @@ class StatisticsState with _$StatisticsState {
     required TimePeriod timePeriod,
     required List<WatchedDuration> watchedDurations,
     required Duration averageTime,
-    // TODO: 03/07/2021 add pie chart data
+    required Map<String, double> genreToPercentage,
   }) = _StatisticsState;
 
   factory StatisticsState.initial() => StatisticsState(
@@ -19,5 +19,6 @@ class StatisticsState with _$StatisticsState {
     timePeriod: TimePeriod.week,
     watchedDurations: List<WatchedDuration>.empty(),
     averageTime: Duration.zero,
+    genreToPercentage: <String, double>{},
   );
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -73,7 +72,35 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     );
 
     final List<String> savedMovieGenres = await _savedMovieDao.getMovieGenres();
-    log('StatisticsBloc._refreshData: $savedMovieGenres');
+    final Map<String, int> genreToCount = <String, int>{};
+    for (final String genre in savedMovieGenres) {
+      if (genreToCount.containsKey(genre)) {
+        genreToCount[genre] = genreToCount[genre]! + 1;
+      } else {
+        genreToCount[genre] = 1;
+      }
+    }
+    const int maxLength = 6;
+    List<MapEntry<String, int>> modified = genreToCount.entries
+        .sorted((MapEntry<String, int> a, MapEntry<String, int> b) => b.value.compareTo(a.value))
+        .toList();
+    modified = modified.length <= maxLength - 1 ? modified : modified.take(maxLength - 1).toList();
+    if (genreToCount.length > maxLength - 1) {
+      int otherCount = 0;
+      for (final MapEntry<String, int> e in genreToCount.entries) {
+        if (!modified.any((MapEntry<String, int> entry) => entry.key == e.key)) {
+          otherCount += e.value;
+        }
+      }
+      if (otherCount > 0) {
+        modified.add(MapEntry<String, int>('Other', otherCount));
+      }
+    }
+
+    final Map<String, double> genreToPercentage = <String, double>{
+      for (MapEntry<String, int> entry in modified) entry.key: entry.value.toDouble() / savedMovieGenres.length
+    };
+    yield state.copyWith(genreToPercentage: genreToPercentage);
   }
 
   Future<List<WatchedDuration>> _calculateWatchedDurations() async {
