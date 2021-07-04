@@ -18,12 +18,7 @@ class ChartDurations extends StatelessWidget {
       buildWhen: (StatisticsState previous, StatisticsState current) =>
           !const DeepCollectionEquality().equals(previous.watchedDurations, current.watchedDurations),
       builder: (BuildContext context, StatisticsState state) {
-        if (state.watchedDurations.isEmpty) {
-          return AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Container(color: colorPrimary),
-          );
-        }
+        if (state.watchedDurations.isEmpty) return const SizedBox.shrink();
 
         double minY = double.maxFinite;
         double maxY = double.minPositive;

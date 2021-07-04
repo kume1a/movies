@@ -41,7 +41,15 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     yield state.copyWith(timePeriod: event.timePeriod);
 
     final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
-    yield state.copyWith(watchedDurations: watchedDurations);
+    final double average = watchedDurations.map((WatchedDuration e) {
+          return e.durationInMillis;
+        }).reduce((BigInt a, BigInt b) => a + b) /
+        BigInt.from(watchedDurations.length);
+
+    yield state.copyWith(
+      watchedDurations: watchedDurations,
+      averageTime: Duration(milliseconds: average.round()),
+    );
   }
 
   Stream<StatisticsState> _refreshData(_RefreshData event) async* {
@@ -56,7 +64,15 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     );
 
     final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
-    yield state.copyWith(watchedDurations: watchedDurations);
+    final double average = watchedDurations.map((WatchedDuration e) {
+          return e.durationInMillis;
+        }).reduce((BigInt a, BigInt b) => a + b) /
+        BigInt.from(watchedDurations.length);
+
+    yield state.copyWith(
+      watchedDurations: watchedDurations,
+      averageTime: Duration(milliseconds: average.round()),
+    );
   }
 
   Future<List<WatchedDuration>> _calculateWatchedDurations() async {
@@ -96,6 +112,10 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           if (diff.inDays < 365) {
             final WatchedDuration lastYear =
                 WatchedDuration(durationInMillis: BigInt.zero, date: DateTime(now.year - 1, now.month, now.day));
+            final WatchedDuration last0 =
+                WatchedDuration(durationInMillis: BigInt.zero, date: watchedDurations.first.date);
+
+            watchedDurations.insert(0, last0);
             watchedDurations.insert(0, lastYear);
           }
           break;
@@ -103,6 +123,10 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           if (diff.inDays < 30) {
             final WatchedDuration lastMonth =
                 WatchedDuration(durationInMillis: BigInt.zero, date: DateTime(now.year, now.month - 1, now.day));
+            final WatchedDuration last0 =
+                WatchedDuration(durationInMillis: BigInt.zero, date: watchedDurations.first.date);
+
+            watchedDurations.insert(0, last0);
             watchedDurations.insert(0, lastMonth);
           }
           break;
@@ -110,6 +134,10 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
           if (diff.inDays < 7) {
             final WatchedDuration lastWeek =
                 WatchedDuration(durationInMillis: BigInt.zero, date: DateTime(now.year, now.month, now.day - 7));
+            final WatchedDuration last0 =
+                WatchedDuration(durationInMillis: BigInt.zero, date: watchedDurations.first.date);
+
+            watchedDurations.insert(0, last0);
             watchedDurations.insert(0, lastWeek);
           }
           break;

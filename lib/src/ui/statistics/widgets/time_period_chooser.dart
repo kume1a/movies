@@ -22,8 +22,12 @@ class TimePeriodChooser extends StatelessWidget {
     );
 
     return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) => previous.timePeriod != current.timePeriod,
+      buildWhen: (StatisticsState previous, StatisticsState current) =>
+          previous.timePeriod != current.timePeriod ||
+          previous.watchedDurations.length != current.watchedDurations.length,
       builder: (BuildContext context, StatisticsState state) {
+        if (state.watchedDurations.isEmpty) return const SizedBox.shrink();
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
