@@ -35,6 +35,13 @@ class WatchedMovieDao {
     }
   }
 
+  Future<List<WatchedMovie>> getAll(int? timestampFrom) async {
+    final List<DBWatchedMovie> result = await _watchedMovieDao.getAll(timestampFrom);
+    return result.map((DBWatchedMovie e) {
+      return _convertToWachedMovie(e);
+    }).toList();
+  }
+
   Future<List<WatchedMovie>> getWatchedMovies() async {
     final List<DBWatchedMovie> result = await _watchedMovieDao.getWatchedMovies();
     return _filterMapToWatchedMovies(result);
@@ -49,15 +56,19 @@ class WatchedMovieDao {
     return watchedMovies.where((DBWatchedMovie e) {
       return e.watchedDurationInMillis / e.durationInMillis >= _watchedMovieDurationThreshold;
     }).map((DBWatchedMovie e) {
-      return WatchedMovie(
-        movieId: e.movieId,
-        watchedDurationInMillis: e.watchedDurationInMillis,
-        durationInMillis: e.durationInMillis,
-        isTvShow: e.isTvShow,
-        season: e.season,
-        episode: e.episode,
-        date: DateTime.fromMillisecondsSinceEpoch(e.timestamp!),
-      );
+      return _convertToWachedMovie(e);
     }).toList();
+  }
+
+  WatchedMovie _convertToWachedMovie(DBWatchedMovie dbWatchedMovie) {
+    return WatchedMovie(
+      movieId: dbWatchedMovie.movieId,
+      watchedDurationInMillis: dbWatchedMovie.watchedDurationInMillis,
+      durationInMillis: dbWatchedMovie.durationInMillis,
+      isTvShow: dbWatchedMovie.isTvShow,
+      season: dbWatchedMovie.season,
+      episode: dbWatchedMovie.episode,
+      date: DateTime.fromMillisecondsSinceEpoch(dbWatchedMovie.timestamp!),
+    );
   }
 }

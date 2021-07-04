@@ -30,9 +30,9 @@ class TimePeriodChooser extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () =>
-                    context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.allTime)),
-                style: state.timePeriod == TimePeriod.allTime ? activeButtonStyle : inactiveButtonStyle,
-                child: const Text('All Time'),
+                    context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.year)),
+                style: state.timePeriod == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
+                child: const Text('This Year'),
               ),
             ),
             const SizedBox(width: 20),

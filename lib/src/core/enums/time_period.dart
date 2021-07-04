@@ -1,5 +1,5 @@
 enum TimePeriod {
-  allTime,
+  year,
   month,
   week,
 }

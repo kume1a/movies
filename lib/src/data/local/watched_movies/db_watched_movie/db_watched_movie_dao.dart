@@ -19,7 +19,8 @@ class DBWatchedMovieDao {
         ${TableWatchedMovies.columnDurationInMillis},
         ${TableWatchedMovies.columnIsTvShow},
         ${TableWatchedMovies.columnSeason},
-        ${TableWatchedMovies.columnEpisode}
+        ${TableWatchedMovies.columnEpisode},
+        ${TableWatchedMovies.columnTimestamp}
       ) VALUES (?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       watchedMovie.movieId,
@@ -67,6 +68,26 @@ class DBWatchedMovieDao {
       watchedMovie.season,
       watchedMovie.episode,
     ]);
+  }
+
+  Future<List<DBWatchedMovie>> getAll(int? timestampFrom) async {
+    late final List<Map<String, Object?>> result;
+    if (timestampFrom != null) {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableWatchedMovies.name}
+          WHERE ${TableWatchedMovies.columnTimestamp} > ?
+        ORDER BY ${TableWatchedMovies.columnTimestamp};
+      ''', <Object?>[
+        timestampFrom,
+      ]);
+    } else {
+      result = await _db.rawQuery('''
+        SELECT * FROM ${TableWatchedMovies.name}
+        ORDER BY ${TableWatchedMovies.columnTimestamp};
+      ''');
+    }
+
+    return result.map((Map<String, Object?> e) => DBWatchedMovie.fromMap(e)).toList();
   }
 
   Future<List<DBWatchedMovie>> getWatchedMovies() async {
