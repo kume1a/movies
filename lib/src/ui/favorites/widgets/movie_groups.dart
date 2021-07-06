@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
+import '../../../state/home/home_bloc.dart';
+import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/widgets/confirmation_dialog.dart';
@@ -133,6 +135,8 @@ class MovieGroups extends StatelessWidget {
               if (movieGroup.groupId != null && movieGroup.movieNames.isNotEmpty) {
                 await ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
                 context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+                context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
+                context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
               }
             },
             child: SizedBox.expand(child: content),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
+import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 
 class SettingsButton extends StatelessWidget {
@@ -15,6 +16,7 @@ class SettingsButton extends StatelessWidget {
         await ScreensNavigator.pushSettingsPage();
         context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
         context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+        context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
       },
       icon: const Icon(Icons.settings_outlined),
       splashRadius: 24,

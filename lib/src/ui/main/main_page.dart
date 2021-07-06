@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavItem(title: 'Favorites', icon: const Icon(Icons.favorite_border_sharp, size: 30)),
           BottomNavItem(
             title: 'Statistics',
-            icon: SvgPicture.asset('assets/stats.svg', width: 30, height: 30, color: Colors.white),
+            icon: SvgPicture.asset('assets/statistics.svg', width: 30, height: 30, color: Colors.white),
           ),
         ],
         activeIconColor: Colors.white,

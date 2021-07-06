@@ -5,6 +5,7 @@ import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
+import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/paged_list.dart';
@@ -45,6 +46,7 @@ class MoviesList extends StatelessWidget {
         await ScreensNavigator.pushDetailsPage(movie.movieId);
         context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
         context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
+        context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
       },
       child: MovieItem(
         imageUrl: movie.poster,

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movies/saved_movie.dart';
+import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
+import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/formatters.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
@@ -58,6 +60,8 @@ class ContinueWatchingList extends StatelessWidget {
                 leftAt: savedMovie.position.leftAt,
               );
               context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
+              context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+              context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
