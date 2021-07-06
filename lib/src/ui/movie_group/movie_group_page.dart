@@ -38,18 +38,20 @@ class _MovieGroupPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: BlocBuilder<MovieGroupBloc, MovieGroupState>(
+          builder: (BuildContext context, MovieGroupState state) {
+            return Text(state.movieGroup?.name ?? '');
+          },
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
             ScrollListener(
               onScrollUp: () => context.read<MovieGroupUiBloc>().add(const MovieGroupUiEvent.scrolledUp()),
               onScrollDown: () => context.read<MovieGroupUiBloc>().add(const MovieGroupUiEvent.scrolledDown()),
-              child: const CustomScrollView(
-                slivers: <Widget>[
-                  MovieGroupAppBar(),
-                  Movies(),
-                ],
-              ),
+              child: const Movies(),
             ),
             const Positioned(
               right: 16,

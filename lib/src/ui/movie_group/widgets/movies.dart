@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/movie_group/movie_group_bloc.dart';
@@ -17,16 +18,20 @@ class Movies extends StatelessWidget {
           return const SliverToBoxAdapter();
         }
 
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+        return VisibilityDetector(
+          key: UniqueKey(),
+          onVisibilityChanged: (VisibilityInfo info) {
+            if (info.visibleFraction == 1) {
+              context.read<MovieGroupBloc>().add(const MovieGroupEvent.refreshData());
+            }
+          },
+          child: ListView.builder(
+            itemCount: state.movies!.length,
+            itemBuilder: (BuildContext context, int index) {
               final MovieData movie = state.movies![index];
 
               return GestureDetector(
-                onTap: () async {
-                  await ScreensNavigator.pushDetailsPage(movie.movieId);
-                  context.read<MovieGroupBloc>().add(const MovieGroupEvent.refreshData());
-                },
+                onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
                 child: MovieItem(
                   imageUrl: movie.availableImage,
                   name: movie.name,
@@ -38,7 +43,6 @@ class Movies extends StatelessWidget {
                 ),
               );
             },
-            childCount: state.movies!.length,
           ),
         );
       },
