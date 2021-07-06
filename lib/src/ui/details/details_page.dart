@@ -37,12 +37,8 @@ class DetailsPageContent extends StatelessWidget {
       buildWhen: (DetailsState prev, DetailsState curr) =>
           prev.movie != curr.movie || prev.moviePosition != curr.moviePosition,
       builder: (BuildContext context, DetailsState state) {
-        if (state.movie == null) {
-          return const SizedBox.shrink();
-        }
-
         final double w = MediaQuery.of(context).size.width;
-        final Widget fab = state.moviePosition != null
+        final Widget fab = state.movie != null && state.moviePosition != null
             ? FloatingActionButton.extended(
                 onPressed: () => ScreensNavigator.pushStreamPage(
                   movieId: state.moviePosition!.movieId,
@@ -52,7 +48,7 @@ class DetailsPageContent extends StatelessWidget {
                 ),
                 backgroundColor: colorAccent,
                 icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
-                label: const Text('continue', style: prB15),
+                label: const Text('Continue', style: prB15),
               )
             : const SizedBox.shrink();
 
@@ -71,10 +67,13 @@ class DetailsPageContent extends StatelessWidget {
                   delegate: ImageHeader(
                     minExtent: 54,
                     maxExtent: w,
-                    src: state.movie!.availableImage ?? '',
-                    onPlayPressed: state.movie!.canBePlayed
-                        ? () => ScreensNavigator.pushStreamPage(movieId: state.movie!.movieId)
-                        : null,
+                    src: state.movie?.availableImage ?? '',
+                    canBePlayed: state.movie?.canBePlayed ?? true,
+                    onPlayPressed: () {
+                      if (state.movie != null) {
+                        ScreensNavigator.pushStreamPage(movieId: state.movie!.movieId);
+                      }
+                    },
                   ),
                 ),
                 SliverList(
@@ -82,19 +81,23 @@ class DetailsPageContent extends StatelessWidget {
                     <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(state.movie!.name, style: prB32),
+                        child: Text(state.movie?.name ?? '', style: prB32),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
-                        child: RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+                        child: RatingDurationYear(
+                          rating: state.movie?.imdbRating,
+                          duration: state.movie?.duration,
+                          releaseYear: state.movie?.year,
+                        ),
                       ),
                       const SizedBox(height: 18),
-                      GenreList(genres: state.movie!.genres),
+                      GenreList(genres: state.movie?.genres ?? List<String>.empty()),
                       const SizedBox(height: 32),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(state.movie!.plot, style: pr15),
+                        child: Text(state.movie?.plot ?? '', style: pr15),
                       ),
                       const SizedBox(height: 32),
                       const Padding(

@@ -129,7 +129,11 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RatingDurationYear(state.movie!.imdbRating, state.movie!.duration, state.movie!.year),
+                RatingDurationYear(
+                  rating: state.movie!.imdbRating,
+                  duration: state.movie!.duration,
+                  releaseYear: state.movie!.year,
+                ),
                 IconButton(
                   onPressed: () => ScreensNavigator.pushDetailsPageAndRemoveUntilRoot(state.movie!.movieId),
                   icon: const Icon(Icons.info_outline),

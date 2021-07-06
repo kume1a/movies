@@ -17,7 +17,8 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
     required this.minExtent,
     required this.maxExtent,
     required this.src,
-    this.onPlayPressed,
+    required this.canBePlayed,
+    required this.onPlayPressed,
   });
 
   @override
@@ -27,7 +28,8 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   final double maxExtent;
 
   final String src;
-  final VoidCallback? onPlayPressed;
+  final bool canBePlayed;
+  final VoidCallback onPlayPressed;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -36,13 +38,13 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: <Widget>[
         _buildImage(),
-        if (onPlayPressed == null)
+        if (!canBePlayed)
           Container(
             color: Colors.black.withOpacity((1 - offset) * .4),
           ),
         _buildBottomContainer(offset),
-        if (onPlayPressed == null) const Center(child: Text('Coming Soon', style: prB22)),
-        if (onPlayPressed != null)
+        if (!canBePlayed) const Center(child: Text('Coming Soon', style: prB22)),
+        if (canBePlayed)
           Positioned.fill(
             bottom: minExtent / 2,
             child: Align(
@@ -50,7 +52,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
               child: _buildPlayButton(offset),
             ),
           ),
-        if (onPlayPressed != null)
+        if (canBePlayed)
           Positioned(
             right: 0,
             child: ClipOval(
