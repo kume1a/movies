@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/settings/settings_bloc.dart';
-import '../../core/widgets/confirmation_dialog.dart';
+import '../../core/dialogs/confirmation_dialog.dart';
 
 class TileClearSearchHistory extends StatelessWidget {
   const TileClearSearchHistory({Key? key}) : super(key: key);

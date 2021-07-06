@@ -5,10 +5,10 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
+import '../../core/dialogs/add_movie_group_dialog.dart';
+import '../../core/dialogs/confirmation_dialog.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
-import '../../core/widgets/confirmation_dialog.dart';
-import 'add_movie_group_dialog.dart';
 
 class MovieGroups extends StatelessWidget {
   const MovieGroups({Key? key}) : super(key: key);

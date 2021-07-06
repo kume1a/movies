@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/settings/settings_bloc.dart';
+import '../../core/dialogs/dtap_to_seek_value_chooser_dialog.dart';
 
 class TileAutoPlay extends StatelessWidget {
   const TileAutoPlay({Key? key}) : super(key: key);
@@ -35,40 +36,16 @@ class TileDoubleTapToSeek extends StatelessWidget {
         return ListTile(
           title: const Text('Double-tap to seek'),
           subtitle: Text('${state.doubleTapToSeekValue} seconds'),
-          onTap: () => _showSeekValueChooser(context, state.doubleTapToSeekValue),
-        );
-      },
-    );
-  }
+          onTap: () async {
+            final int? newValue = await showDoubleTapToSeekValueChooserDialog(
+              context,
+              currentValue: state.doubleTapToSeekValue,
+            );
 
-  void _showSeekValueChooser(BuildContext context, int currentValue) {
-    final List<Widget> radioList = <int>[5, 10, 15, 30, 60, 120].map((int e) {
-      return RadioListTile<int>(
-        title: Text('$e sec'),
-        value: e,
-        onChanged: (int? value) {
-          if (value != null && value != currentValue) {
-            context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(value));
-          }
-          Navigator.pop(context);
-        },
-        groupValue: currentValue,
-        selected: currentValue == e,
-      );
-    }).toList();
-
-    showDialog<double>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.only(top: 12),
-          title: const Text('Double-tap to seek'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: radioList,
-            ),
-          ),
+            if (newValue != null) {
+              context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(newValue));
+            }
+          },
         );
       },
     );

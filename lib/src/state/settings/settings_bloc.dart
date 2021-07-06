@@ -54,8 +54,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Stream<SettingsState> _doubleTapToSeekValueChanged(_DoubleTapToSeekValueChanged event) async* {
-    yield state.copyWith(doubleTapToSeekValue: event.value);
-    await _settingsHelper.setDoubleTapToSeek(event.value);
+    if (event.value != state.doubleTapToSeekValue) {
+      yield state.copyWith(doubleTapToSeekValue: event.value);
+      await _settingsHelper.setDoubleTapToSeek(event.value);
+    }
   }
 
   Stream<SettingsState> _clearSearchHistoryRequested(_ClearSearchHistoryRequested event) async* {

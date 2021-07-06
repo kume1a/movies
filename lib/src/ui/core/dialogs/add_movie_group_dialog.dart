@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../core/routes/screens_navigator.dart';
-import '../../core/values/colors.dart';
 import '../../core/widgets/tap_outside_to_clear_focus.dart';
+import '../values/colors.dart';
 
 Future<String?> showAddMovieGroupDialog(BuildContext context) async {
   return showDialog(
@@ -21,7 +21,6 @@ class _AddMovieGroupDialog extends HookWidget {
 
     return TapOutsideToClearFocus(
       child: Dialog(
-        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
           child: Column(
