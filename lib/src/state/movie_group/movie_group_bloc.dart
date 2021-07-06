@@ -56,7 +56,6 @@ class MovieGroupBloc extends Bloc<MovieGroupEvent, MovieGroupState> {
   }
 
   Stream<MovieGroupState> _addMovieClicked(_AddMovieClicked event) async* {
-    await ScreensNavigator.pushAddMoviePage(groupId);
-    add(const MovieGroupEvent.refreshData());
+    ScreensNavigator.pushAddMoviePage(groupId);
   }
 }

@@ -37,13 +37,7 @@ class _StatisticsPageContent extends StatelessWidget {
         SizedBox(height: 32),
         Padding(padding: padding, child: TileAverageTime()),
         SizedBox(height: 32),
-        Padding(
-          padding: padding,
-          child: Text(
-            'Watched Movie Categories',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-        ),
+        Padding(padding: padding, child: WatchedMovieGenresHeader()),
         SizedBox(height: 18),
         Padding(padding: padding, child: ChartCategories()),
         SizedBox(height: 12),

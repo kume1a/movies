@@ -52,6 +52,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       clear: _clear,
       genreChanged: _genreChanged,
       savedMoviesRequested: _savedMoviesRequested,
+      refreshSavedMoviesRequested: _refreshSavedMoviesRequested,
     );
   }
 
@@ -108,5 +109,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> _savedMoviesRequested(_SavedMoviesRequested event) async* {
     final List<SavedMovie> savedMovies = await _savedMovieDao.getSavedMovies();
     yield state.copyWith(savedMovies: savedMovies);
+  }
+
+  Stream<HomeState> _refreshSavedMoviesRequested(_RefreshSavedMoviesRequested event) async* {
+    add(const HomeEvent.savedMoviesRequested());
   }
 }

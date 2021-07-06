@@ -32,6 +32,7 @@ dependencies:
   flutter_downloader: ^1.6.1
   collection: ^1.15.0
   flutter_hooks: ^0.17.0
+  visibility_detector: ^0.2.0
 
   # di
   get_it: ^7.1.3

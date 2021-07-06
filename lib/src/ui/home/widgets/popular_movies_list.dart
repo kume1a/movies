@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/enums/image_size.dart';
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../state/favorites/favorites_bloc.dart';
 import '../../../state/home/home_bloc.dart';
-import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
@@ -40,12 +38,7 @@ class PopularMoviesList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () async {
-        await ScreensNavigator.pushDetailsPage(movie.movieId);
-        context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
-        context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-        context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
-      },
+      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
       child: Stack(
         children: <Widget>[
           Container(

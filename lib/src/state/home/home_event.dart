@@ -8,4 +8,6 @@ class HomeEvent with _$HomeEvent {
   const factory HomeEvent.savedMoviesRequested() = _SavedMoviesRequested;
   const factory HomeEvent.genreChanged(Genre genre) = _GenreChanged;
   const factory HomeEvent.clear() = _Clear;
+
+  const factory HomeEvent.refreshSavedMoviesRequested() = _RefreshSavedMoviesRequested;
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../state/favorites/favorites_bloc.dart';
-import '../../../state/home/home_bloc.dart';
 import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 
@@ -11,16 +10,20 @@ class SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () async {
-        await ScreensNavigator.pushSettingsPage();
-        context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-        context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
-        context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
+    return VisibilityDetector(
+      key: UniqueKey(),
+      onVisibilityChanged: (VisibilityInfo info) {
+        if (info.visibleFraction == 1) {
+          // button gets visible means that statistics page is visible and refresh is needed
+          context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
+        }
       },
-      icon: const Icon(Icons.settings_outlined),
-      splashRadius: 24,
-      iconSize: 30,
+      child: IconButton(
+        onPressed: () => ScreensNavigator.pushSettingsPage(),
+        icon: const Icon(Icons.settings_outlined),
+        splashRadius: 24,
+        iconSize: 30,
+      ),
     );
   }
 }

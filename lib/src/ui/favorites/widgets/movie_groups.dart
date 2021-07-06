@@ -1,11 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
-import '../../../state/home/home_bloc.dart';
-import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/widgets/confirmation_dialog.dart';
@@ -21,19 +20,29 @@ class MovieGroups extends StatelessWidget {
           !const DeepCollectionEquality().equals(previous.movieGroups, current.movieGroups),
       builder: (BuildContext context, FavoritesState state) {
         return state.movieGroups != null
-            ? GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 250,
-                  mainAxisExtent: 150,
-                  crossAxisSpacing: 18,
-                  mainAxisSpacing: 18,
-                ),
-                itemCount: state.movieGroups!.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  final bool overListLength = index > state.movieGroups!.length - 1;
-                  return overListLength ? _buildAddGroupItem(context) : _buildItem(context, state.movieGroups![index]);
+            ? VisibilityDetector(
+                key: UniqueKey(),
+                onVisibilityChanged: (VisibilityInfo info) {
+                  if (info.visibleFraction == 1) {
+                    context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+                  }
                 },
+                child: GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 250,
+                    mainAxisExtent: 150,
+                    crossAxisSpacing: 18,
+                    mainAxisSpacing: 18,
+                  ),
+                  itemCount: state.movieGroups!.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    final bool overListLength = index > state.movieGroups!.length - 1;
+                    return overListLength
+                        ? _buildAddGroupItem(context)
+                        : _buildItem(context, state.movieGroups![index]);
+                  },
+                ),
               )
             : const Center(child: CircularProgressIndicator());
       },
@@ -133,10 +142,7 @@ class MovieGroups extends StatelessWidget {
             },
             onTap: () async {
               if (movieGroup.groupId != null && movieGroup.movieNames.isNotEmpty) {
-                await ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
-                context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
-                context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-                context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
+                ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
               }
             },
             child: SizedBox.expand(child: content),

@@ -1,11 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/favorites/favorites_bloc.dart';
-import '../../../state/home/home_bloc.dart';
-import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 
@@ -19,10 +18,18 @@ class MovieList extends StatelessWidget {
           !const DeepCollectionEquality().equals(previous.movies, current.movies),
       builder: (BuildContext context, FavoritesState state) {
         return state.movies != null
-            ? ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: state.movies!.length,
-                itemBuilder: (BuildContext context, int index) => _itemBuilder(context, state.movies![index]),
+            ? VisibilityDetector(
+                key: UniqueKey(),
+                onVisibilityChanged: (VisibilityInfo info) {
+                  if (info.visibleFraction == 1) {
+                    context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
+                  }
+                },
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  itemCount: state.movies!.length,
+                  itemBuilder: (BuildContext context, int index) => _itemBuilder(context, state.movies![index]),
+                ),
               )
             : const Center(child: CircularProgressIndicator());
       },
@@ -31,12 +38,7 @@ class MovieList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () async {
-        await ScreensNavigator.pushDetailsPage(movie.movieId);
-        context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
-        context.read<HomeBloc>().add(const HomeEvent.savedMoviesRequested());
-        context.read<StatisticsBloc>().add(const StatisticsEvent.refreshData());
-      },
+      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
       child: MovieItem(
         imageUrl: movie.poster,
         name: movie.name,
