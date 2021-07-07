@@ -15,7 +15,7 @@ class Movies extends StatelessWidget {
     return BlocBuilder<MovieGroupBloc, MovieGroupState>(
       builder: (_, MovieGroupState state) {
         if (state.movies == null) {
-          return const SliverToBoxAdapter();
+          return const SizedBox.shrink();
         }
 
         return VisibilityDetector(

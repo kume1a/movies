@@ -1,0 +1,95 @@
+{
+  "@@locale": "en",
+  "search": "Search",
+  "duration": "{hours}h {minutes}m",
+  "@duration": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutes": "{minutes}m",
+  "@minutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "reviews": "{count} reviews",
+  "@reviews": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "bottomNavHome": "Home",
+  "bottomNavFavorites": "Favorites",
+  "bottomNavStatistics": "Statistics",
+  "homeHeaderSearch": "Movies, Actors, Directors",
+  "homeHeaderWatchLater": "Continue Watching",
+  "homeWatchLaterLeftAt": "Left at",
+  "homeHeaderTopSelection": "Top Selection",
+  "homeHeaderMovies": "Movies",
+  "favoritesOptionSeeAll": "See All",
+  "favoritesOptionGroups": "Groups",
+  "favoritesHeaderDeleteGroup": "Delete group {groupName}?",
+  "@favoritesHeaderDeleteGroup": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesContentDeleteGroup": "Deleting a group will only remove it and keep saved favorites",
+  "statisticsMovieWatched": "Movies Watched",
+  "statisticsTVSeriesWatched": "TV Series Watched",
+  "statisticsEpisodesWatched": "Episodes Watched",
+  "statisticsOptionYear": "This Year",
+  "statisticsOptionMonth": "This Month",
+  "statisticsOptionWeek": "This Week",
+  "statisticsAverageTime": "Average Time",
+  "statisticsHeaderMovieGenres": "Watched Movie Genres",
+  "searchFieldHint": "Search movies...",
+  "movieGroupButtonAddMovie": "Add Movie",
+  "addMovieHintSearchField": "Search...",
+  "addMovieButtonAdd": "Add",
+  "addMovieButtonRemove": "Remove",
+  "settingsHeaderVideoPlayer": "Video Player",
+  "settingsAutoplay": "Autoplay",
+  "settingsCommentAutoplay": "Start video automatically when loaded",
+  "settingsDoubleTapToSeek": "Double tap to seek",
+  "settingsCommentDoubleTapToSeek": "{value} seconds",
+  "@settingsCommentDoubleTapToSeek": {
+    "placeholders": {
+      "value": {
+        "type": "double"
+      }
+    }
+  },
+  "settingsHeaderHistory": "History",
+  "settingsClearSearchHistory": "Clear search history",
+  "settingsCommentClearSearchHistory": "Clear saved movies present in search page",
+  "settingsClearSavedMovies": "Clear saved movies",
+  "settingsCommentClearSavedMovies": "Delete saved movies from 'Continue Watching'",
+  "settingsRecordSearchHistory": "Record search history",
+  "settingsRecordWatchHistory": "Record watch history",
+  "settingsClearFavorites": "Clear favorites",
+  "settingsCommentClearFavorites": "Clear movies from 'Favorites' page (doesn't affect groups)",
+  "settingsHeaderCache": "Cache",
+  "settingsClearCache": "Clear cache",
+  "settingsCommentClearCache": "Clear cached movies and seasons",
+  "detailsHeaderCast": "Cast",
+  "detailsButtonContinue": "Continue",
+  "detailsOptionNoGroup": "No Group",
+  "streamHeaderRecommended": "Recommended",
+  "streamOptionLanguage": "Language",
+  "streamOptionSpeed": "Speed",
+  "streamOptionQuality": "Quality"
+}
