@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/settings/settings_bloc.dart';
 import '../../core/dialogs/dtap_to_seek_value_chooser_dialog.dart';
@@ -9,13 +10,15 @@ class TileAutoPlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (SettingsState prev, SettingsState curr) => prev.autoPlayEnabled != curr.autoPlayEnabled,
       builder: (BuildContext context, SettingsState state) {
         return SwitchListTile(
           value: state.autoPlayEnabled,
-          title: const Text('AutoPlay'),
-          subtitle: const Text('start video automatically when loaded'),
+          title: Text(appLocalizations?.settingsAutoplay ?? ''),
+          subtitle: Text(appLocalizations?.settingsCommentAutoplay ?? ''),
           onChanged: (bool value) {
             context.read<SettingsBloc>().add(SettingsEvent.autoPlaySwitched(enabled: value));
           },
@@ -30,12 +33,14 @@ class TileDoubleTapToSeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (SettingsState prev, SettingsState curr) => prev.doubleTapToSeekValue != curr.doubleTapToSeekValue,
       builder: (BuildContext context, SettingsState state) {
         return ListTile(
-          title: const Text('Double-tap to seek'),
-          subtitle: Text('${state.doubleTapToSeekValue} seconds'),
+          title: Text(appLocalizations?.settingsDoubleTapToSeek ?? ''),
+          subtitle: Text(appLocalizations?.settingsCommentDoubleTapToSeek(state.doubleTapToSeekValue) ?? ''),
           onTap: () async {
             final int? newValue = await showDoubleTapToSeekValueChooserDialog(
               context,

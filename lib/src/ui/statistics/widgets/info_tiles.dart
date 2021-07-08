@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/formatters.dart';
@@ -34,11 +35,13 @@ class TileMoviesWatched extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) => previous.moviesWatched != current.moviesWatched,
       builder: (BuildContext context, StatisticsState state) {
         return _InfoTile(
-          title: 'Movies watched',
+          title: appLocalizations?.statisticsMovieWatched ?? '',
           value: state.moviesWatched.toString(),
         );
       },
@@ -51,12 +54,14 @@ class TileTvSeriesWatched extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) =>
           previous.tvSeriesWatched != current.tvSeriesWatched,
       builder: (BuildContext context, StatisticsState state) {
         return _InfoTile(
-          title: 'TV series watched',
+          title: appLocalizations?.statisticsTVSeriesWatched ?? '',
           value: state.tvSeriesWatched.toString(),
         );
       },
@@ -69,12 +74,14 @@ class TileEpisodesWatched extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) =>
           previous.episodesWatched != current.episodesWatched,
       builder: (BuildContext context, StatisticsState state) {
         return _InfoTile(
-          title: 'Episodes watched',
+          title: appLocalizations?.statisticsEpisodesWatched ?? '',
           value: state.episodesWatched.toString(),
         );
       },
@@ -87,12 +94,14 @@ class TileAverageTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) => previous.averageTime != current.averageTime,
       builder: (BuildContext context, StatisticsState state) {
         return _InfoTile(
-          title: 'Average time',
-          value: formatDuration(state.averageTime.inMinutes, emptyOnZero: false),
+          title: appLocalizations?.statisticsAverageTime ?? '',
+          value: formatDuration(context, state.averageTime.inMinutes, emptyOnZero: false),
         );
       },
     );

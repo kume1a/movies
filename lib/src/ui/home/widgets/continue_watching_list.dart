@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -29,6 +30,8 @@ class ContinueWatchingList extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context, List<SavedMovie>? savedMovies) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return VisibilityDetector(
       key: UniqueKey(),
       onVisibilityChanged: (VisibilityInfo info) {
@@ -102,7 +105,7 @@ class ContinueWatchingList extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 2),
-                          Text('left at $bottomDetailText', style: sc11),
+                          Text('${appLocalizations?.homeWatchLaterLeftAt ?? ''} $bottomDetailText', style: sc11),
                         ],
                       ),
                     ),

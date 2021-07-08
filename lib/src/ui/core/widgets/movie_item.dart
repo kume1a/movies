@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../formatters.dart';
 import '../values/colors.dart';
@@ -14,37 +15,6 @@ class MovieItem extends StatelessWidget {
     this.voterCount = -1,
     this.releaseYear = -1,
   });
-
-  static const TextStyle durationTextStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w300,
-    color: colorTextSecondary,
-  );
-  static const TextStyle movieTitleTextStyle = TextStyle(
-    fontSize: 19,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-  );
-  static const TextStyle descriptionTextStyle = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w300,
-    color: Colors.white,
-  );
-  static const TextStyle reviewsTextStyle = TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w600,
-    color: colorTextSecondary,
-  );
-  static const TextStyle ratingTextStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,
-  );
-  static const TextStyle releaseYearTextStyle = TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w600,
-    color: colorTextSecondary,
-  );
 
   static const double imageWidth = 120;
   static const double imageHeight = imageWidth / 9 * 16;
@@ -71,31 +41,37 @@ class MovieItem extends StatelessWidget {
             radius: radius,
           ),
           const SizedBox(width: 12),
-          _buildDetails(),
+          _buildDetails(context),
         ],
       ),
     );
   }
 
-  Widget _buildDetails() {
+  Widget _buildDetails(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             name,
-            style: movieTitleTextStyle,
+            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
-          if (duration != -1) Text(formatDuration(duration), style: durationTextStyle),
+          if (duration != -1)
+            Text(
+              formatDuration(context, duration),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: colorTextSecondary),
+            ),
           const SizedBox(height: 16),
           Text(
             plot,
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
-            style: descriptionTextStyle,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.white),
           ),
           const SizedBox(height: 18),
           if (rating != -1)
@@ -108,7 +84,7 @@ class MovieItem extends StatelessWidget {
                     children: <InlineSpan>[
                       TextSpan(
                         text: rating.toString(),
-                        style: ratingTextStyle,
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                       const TextSpan(
                         text: ' /10',
@@ -127,9 +103,15 @@ class MovieItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               if (voterCount != -1)
-                Text('${formatBigNumber(voterCount)} reviews', style: reviewsTextStyle),
+                Text(
+                  appLocalizations?.reviews(formatBigNumber(voterCount)) ?? '',
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colorTextSecondary),
+                ),
               if (releaseYear > 0)
-                Text(releaseYear.toString(), style: releaseYearTextStyle),
+                Text(
+                  releaseYear.toString(),
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colorTextSecondary),
+                ),
             ],
           )
         ],

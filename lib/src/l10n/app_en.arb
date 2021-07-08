@@ -1,32 +1,33 @@
 {
   "@@locale": "en",
+  "cancel": "Cancel",
+  "save": "Save",
+  "ok": "Ok",
+  "clear": "Clear",
   "search": "Search",
   "duration": "{hours}h {minutes}m",
   "@duration": {
     "placeholders": {
-      "hours": {
-        "type": "int"
-      },
-      "minutes": {
-        "type": "int"
-      }
+      "hours": {},
+      "minutes": {}
+    }
+  },
+  "hours": "{hours}m",
+  "@hours": {
+    "placeholders": {
+      "hours": {}
     }
   },
   "minutes": "{minutes}m",
   "@minutes": {
     "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
+      "minutes": {}
     }
   },
   "reviews": "{count} reviews",
   "@reviews": {
     "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "compact"
-      }
+      "count": {}
     }
   },
   "bottomNavHome": "Home",
@@ -42,12 +43,12 @@
   "favoritesHeaderDeleteGroup": "Delete group {groupName}?",
   "@favoritesHeaderDeleteGroup": {
     "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
+      "groupName": {}
     }
   },
   "favoritesContentDeleteGroup": "Deleting a group will only remove it and keep saved favorites",
+  "favoritesHeaderAddGroup": "Add Group",
+  "favoritesAddGroupHintNameField": "Name",
   "statisticsMovieWatched": "Movies Watched",
   "statisticsTVSeriesWatched": "TV Series Watched",
   "statisticsEpisodesWatched": "Episodes Watched",
@@ -68,23 +69,36 @@
   "settingsCommentDoubleTapToSeek": "{value} seconds",
   "@settingsCommentDoubleTapToSeek": {
     "placeholders": {
-      "value": {
-        "type": "double"
-      }
+      "value": {}
+    }
+  },
+  "settingsDoubleTapToSeekDialogHeader": "Double tap to seek",
+  "settingsDoubleTapToSeekDialogItem": "{seconds} sec",
+  "@settingsDoubleTapToSeekDialogItem": {
+    "placeholders": {
+      "seconds": {}
     }
   },
   "settingsHeaderHistory": "History",
   "settingsClearSearchHistory": "Clear search history",
   "settingsCommentClearSearchHistory": "Clear saved movies present in search page",
+  "settingsClearSearchHistoryDialogHeader": "Clear search history?",
+  "settingsClearSearchHistoryDialogContent": "Deleted history can't be restored\nConfirm to delete.",
   "settingsClearSavedMovies": "Clear saved movies",
-  "settingsCommentClearSavedMovies": "Delete saved movies from 'Continue Watching'",
+  "settingsCommentClearSavedMovies": "Delete saved movies from \"Continue Watching\"",
+  "settingsClearSavedMoviesDialogHeader": "Clear saved movies?",
+  "settingsClearSavedMoviesDialogContent": "Deleted movies can't be restored.\nConfirm to delete.",
   "settingsRecordSearchHistory": "Record search history",
   "settingsRecordWatchHistory": "Record watch history",
   "settingsClearFavorites": "Clear favorites",
-  "settingsCommentClearFavorites": "Clear movies from 'Favorites' page (doesn't affect groups)",
+  "settingsCommentClearFavorites": "Clear movies from \"Favorites\" page",
+  "settingsClearFavoritesDialogHeader": "Clear favorite movies?",
+  "settingsClearFavoritesDialogContent": "Delete all favorite movies, but retain movie groups",
   "settingsHeaderCache": "Cache",
   "settingsClearCache": "Clear cache",
   "settingsCommentClearCache": "Clear cached movies and seasons",
+  "settingsClearCacheDialogHeader": "Clear cache?",
+  "settingsClearCacheDialogContent": "The action will delete all the cached movies and seasons",
   "detailsHeaderCast": "Cast",
   "detailsButtonContinue": "Continue",
   "detailsOptionNoGroup": "No Group",

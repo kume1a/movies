@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../routes/screens_navigator.dart';
 
@@ -36,17 +37,19 @@ class _ConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return AlertDialog(
       title: Text(title),
       content: Text(content),
       actions: <Widget>[
         TextButton(
           onPressed: () => ScreensNavigator.pop(false),
-          child: const Text('Cancel'),
+          child: Text(appLocalizations?.cancel ?? ''),
         ),
         TextButton(
           onPressed: () => ScreensNavigator.pop(true),
-          child: Text(confirmationText ?? 'OK'),
+          child: Text(confirmationText ?? appLocalizations?.ok ?? ''),
         ),
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

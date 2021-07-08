@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -130,10 +131,11 @@ class MovieGroups extends StatelessWidget {
           type: MaterialType.transparency,
           child: InkWell(
             onLongPress: () async {
+              final AppLocalizations? appLocalizations = AppLocalizations.of(context);
               final bool didConfirm = await showConfirmationDialog(
                 context,
-                title: 'Delete group ${movieGroup.name}?',
-                content: 'Deleting ${movieGroup.name} will only remove the group and keep favorites',
+                title: appLocalizations?.favoritesHeaderDeleteGroup(movieGroup.name) ?? '',
+                content: appLocalizations?.favoritesContentDeleteGroup ?? '',
               );
 
               if (didConfirm) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/settings/settings_bloc.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
@@ -9,15 +10,17 @@ class TileClearSearchHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return ListTile(
-      title: const Text('Clear search history'),
-      subtitle: const Text('clear searches made from this device'),
+      title: Text(appLocalizations?.settingsClearSearchHistory ?? ''),
+      subtitle: Text(appLocalizations?.settingsCommentClearSearchHistory ?? ''),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: 'Clear search history?',
-          content: "Deleted history can't be restored.\nConfirm to delete",
-          confirmationText: 'Delete',
+          title: appLocalizations?.settingsClearSearchHistoryDialogHeader ?? '',
+          content: appLocalizations?.settingsClearSearchHistoryDialogContent ?? '',
+          confirmationText: appLocalizations?.clear ?? '',
         );
 
         if (didConfirm) {
@@ -33,15 +36,17 @@ class TileClearSavedMovies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return ListTile(
-      title: const Text('Clear saved movies'),
-      subtitle: const Text('delete saved movies from "Continue Watching"'),
+      title: Text(appLocalizations?.settingsClearSavedMovies ?? ''),
+      subtitle: Text(appLocalizations?.settingsCommentClearSavedMovies ?? ''),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: 'Clear saved movies?',
-          content: "Deleted movies can't be restored.\nConfirm to delete",
-          confirmationText: 'Delete',
+          title: appLocalizations?.settingsClearSavedMoviesDialogHeader ?? '',
+          content: appLocalizations?.settingsClearSavedMoviesDialogContent ?? '',
+          confirmationText: appLocalizations?.clear ?? '',
         );
 
         if (didConfirm) {
@@ -57,16 +62,17 @@ class TileRecordSearchHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (SettingsState prev, SettingsState curr) =>
           prev.recordSearchHistoryEnabled != curr.recordSearchHistoryEnabled,
       builder: (BuildContext context, SettingsState state) {
         return SwitchListTile(
           value: state.recordSearchHistoryEnabled,
-          title: const Text('Record search history'),
-          onChanged: (bool value) {
-            context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(enabled: value));
-          },
+          title: Text(appLocalizations?.settingsRecordSearchHistory ?? ''),
+          onChanged: (bool value) =>
+              context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(enabled: value)),
         );
       },
     );
@@ -78,16 +84,17 @@ class TileRecordWatchHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (SettingsState prev, SettingsState curr) =>
           prev.recordWatchHistoryEnabled != curr.recordWatchHistoryEnabled,
       builder: (BuildContext context, SettingsState state) {
         return SwitchListTile(
           value: state.recordWatchHistoryEnabled,
-          title: const Text('Record watch history'),
-          onChanged: (bool value) {
-            context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(enabled: value));
-          },
+          title: Text(appLocalizations?.settingsRecordWatchHistory ?? ''),
+          onChanged: (bool value) =>
+              context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(enabled: value)),
         );
       },
     );
@@ -99,15 +106,17 @@ class TileClearFavorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return ListTile(
-      title: const Text('Clear favorites'),
-      subtitle: const Text("make all of the movies unfavored and clear favorites' page"),
+      title: Text(appLocalizations?.settingsClearFavorites ?? ''),
+      subtitle: Text(appLocalizations?.settingsCommentClearFavorites ?? ''),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: 'Delete favorite movies?',
-          content: 'This will clear the list on favorites page.\nConfirm to delete',
-          confirmationText: 'Delete',
+          title: appLocalizations?.settingsClearFavoritesDialogHeader ?? '',
+          content: appLocalizations?.settingsClearFavoritesDialogContent ?? '',
+          confirmationText: appLocalizations?.clear ?? '',
         );
 
         if (didConfirm) {

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,8 @@ class DetailsPage extends StatelessWidget {
 class DetailsPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (DetailsState prev, DetailsState curr) =>
           prev.movie != curr.movie || prev.moviePosition != curr.moviePosition,
@@ -48,7 +51,7 @@ class DetailsPageContent extends StatelessWidget {
                 ),
                 backgroundColor: colorAccent,
                 icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
-                label: const Text('Continue', style: prB15),
+                label: Text(appLocalizations?.detailsButtonContinue ?? '', style: prB15),
               )
             : const SizedBox.shrink();
 

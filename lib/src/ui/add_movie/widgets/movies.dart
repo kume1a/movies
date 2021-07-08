@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,6 +15,8 @@ class Movies extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     final ScrollController scrollController = useScrollController();
 
     return BlocBuilder<AddMovieBloc, AddMovieState>(
@@ -28,6 +31,7 @@ class Movies extends HookWidget {
                 blankBuilder: _blankBuilder,
                 itemBuilder: (BuildContext context, SearchResult searchResult) => _itemBuilder(
                   context,
+                  appLocalizations,
                   searchResult,
                   state.groupMovieIds.contains(searchResult.movieId),
                 ),
@@ -42,7 +46,12 @@ class Movies extends HookWidget {
     );
   }
 
-  Widget _itemBuilder(BuildContext context, SearchResult searchResult, bool isAdded) {
+  Widget _itemBuilder(
+    BuildContext context,
+    AppLocalizations? appLocalizations,
+    SearchResult searchResult,
+    bool isAdded,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
@@ -67,13 +76,15 @@ class Movies extends HookWidget {
                 ? AddMovieEvent.removeClicked(searchResult.movieId)
                 : AddMovieEvent.addClicked(searchResult.movieId, searchResult.name)),
             style: ButtonStyle(
-              shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-              backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
-              foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
-              overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
-              padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18))
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+                backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
+                foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
+                overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
+                padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18))),
+            child: Text(
+              isAdded ? appLocalizations?.addMovieButtonRemove ?? '' : appLocalizations?.addMovieButtonAdd ?? '',
             ),
-            child: Text(isAdded ? 'Remove' : 'Add'),
           ),
         ],
       ),

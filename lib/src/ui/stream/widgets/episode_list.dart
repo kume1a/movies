@@ -68,7 +68,7 @@ class EpisodeList extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
-                child: _buildDetails(episode.episode, episode.title, duration),
+                child: _buildDetails(context, episode.episode, episode.title, duration),
               ),
             )
           ],
@@ -77,7 +77,7 @@ class EpisodeList extends StatelessWidget {
     );
   }
 
-  Widget _buildDetails(int episode, String title, int duration) {
+  Widget _buildDetails(BuildContext context, int episode, String title, int duration) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +88,7 @@ class EpisodeList extends StatelessWidget {
         const SizedBox(height: 32),
         Align(
           alignment: Alignment.bottomRight,
-          child: Text(formatDurationFromSeconds(duration), style: sc10),
+          child: Text(formatDurationFromSeconds(context, duration), style: sc10),
         )
       ],
     );

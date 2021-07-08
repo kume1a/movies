@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/model/models/movie_groups/movie_group.dart';
@@ -24,6 +25,8 @@ class _MovieGroupSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocProvider<MovieGroupSelectorBloc>(
       create: (_) => getIt<MovieGroupSelectorBloc>()..add(MovieGroupSelectorEvent.init(movieId)),
       child: BlocBuilder<MovieGroupSelectorBloc, MovieGroupSelectorState>(
@@ -41,7 +44,9 @@ class _MovieGroupSelector extends StatelessWidget {
 
                 return ListTile(
                   onTap: () => ScreensNavigator.pop(movieGroup),
-                  title: Text(movieGroup.name),
+                  title: Text(
+                    movieGroup.groupId != null ? movieGroup.name : appLocalizations?.detailsOptionNoGroup ?? '',
+                  ),
                   tileColor: isSelected ? Colors.white12 : null,
                 );
               },

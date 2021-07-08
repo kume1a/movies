@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/enums/time_period.dart';
@@ -10,6 +11,8 @@ class TimePeriodChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     final ButtonStyle activeButtonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all(colorAccent),
       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
@@ -36,7 +39,7 @@ class TimePeriodChooser extends StatelessWidget {
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.year)),
                 style: state.timePeriod == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
-                child: const Text('This Year'),
+                child: Text(appLocalizations?.statisticsOptionYear ?? ''),
               ),
             ),
             const SizedBox(width: 20),
@@ -45,7 +48,7 @@ class TimePeriodChooser extends StatelessWidget {
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.month)),
                 style: state.timePeriod == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
-                child: const Text('This Month'),
+                child: Text(appLocalizations?.statisticsOptionMonth ?? ''),
               ),
             ),
             const SizedBox(width: 20),
@@ -54,7 +57,7 @@ class TimePeriodChooser extends StatelessWidget {
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.week)),
                 style: state.timePeriod == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
-                child: const Text('This Week'),
+                child: Text(appLocalizations?.statisticsOptionWeek ?? ''),
               ),
             ),
           ],

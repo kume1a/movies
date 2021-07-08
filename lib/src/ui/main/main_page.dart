@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../di/injection.dart';
@@ -25,6 +26,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: colorPrimary,
       bottomNavigationBar: BottomAnimation(
@@ -33,10 +36,16 @@ class _MainPageState extends State<MainPage> {
         },
         selectedIndex: _index,
         items: <BottomNavItem>[
-          BottomNavItem(title: 'Home', icon: const Icon(Icons.home_outlined, size: 30)),
-          BottomNavItem(title: 'Favorites', icon: const Icon(Icons.favorite_border_sharp, size: 30)),
           BottomNavItem(
-            title: 'Statistics',
+            title: appLocalizations?.bottomNavHome ?? '',
+            icon: const Icon(Icons.home_outlined, size: 30),
+          ),
+          BottomNavItem(
+            title: appLocalizations?.bottomNavFavorites ?? '',
+            icon: const Icon(Icons.favorite_border_sharp, size: 30),
+          ),
+          BottomNavItem(
+            title: appLocalizations?.bottomNavStatistics ?? '',
             icon: SvgPicture.asset('assets/statistics.svg', width: 30, height: 30, color: Colors.white),
           ),
         ],

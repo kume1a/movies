@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
@@ -30,6 +31,8 @@ class _AddMoviePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: TapOutsideToClearFocus(
@@ -41,11 +44,11 @@ class _AddMoviePageContent extends StatelessWidget {
                 SearchBar(
                   onBackPressed: () => Navigator.pop(context),
                   onChanged: (String value) => context.read<AddMovieBloc>().add(AddMovieEvent.queryChanged(value)),
-                  decoration: const InputDecoration(
-                    hintText: 'Search...',
+                  decoration: InputDecoration(
+                    hintText: appLocalizations?.addMovieHintSearchField ?? '',
                     counterText: '',
                     fillColor: Colors.white,
-                    hintStyle: TextStyle(color: colorTextSecondary),
+                    hintStyle: const TextStyle(color: colorTextSecondary),
                     border: InputBorder.none,
                   ),
                 ),

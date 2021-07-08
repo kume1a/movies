@@ -16,11 +16,7 @@ class RatingDurationYear extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle textStyle = TextStyle(
-      fontSize: 13,
-      color: Colors.white,
-      fontWeight: FontWeight.w500,
-    );
+    const TextStyle textStyle = TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w500);
 
     final List<Widget> children = <Widget>[];
 
@@ -37,7 +33,7 @@ class RatingDurationYear extends StatelessWidget {
         const SizedBox(width: 10),
         const Icon(Icons.access_time_rounded, color: colorDisabled),
         const SizedBox(width: 10),
-        Text(formatDuration(duration!), style: textStyle),
+        Text(formatDuration(context, duration!), style: textStyle),
       ]);
     }
 

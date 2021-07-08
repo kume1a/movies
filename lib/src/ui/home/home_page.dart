@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,6 +13,8 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     final ScrollController scrollController = useScrollController();
 
     return ScrollUpRefreshIndicators(
@@ -40,14 +43,14 @@ class HomePage extends HookWidget {
                       !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
                   builder: (BuildContext context, HomeState state) {
                     return state.savedMovies?.isNotEmpty == true
-                        ? _buildHeader('Continue Watching')
+                        ? _buildHeader(appLocalizations?.homeHeaderWatchLater ?? '')
                         : const SizedBox.shrink();
                   },
                 ),
                 const ContinueWatchingList(),
-                _buildHeader('Top Selection'),
+                _buildHeader(appLocalizations?.homeHeaderTopSelection ?? ''),
                 const TopSelectionList(),
-                _buildHeader('Movies'),
+                _buildHeader(appLocalizations?.homeHeaderMovies ?? ''),
                 const GenreChooser(),
                 const SizedBox(height: 16),
               ],

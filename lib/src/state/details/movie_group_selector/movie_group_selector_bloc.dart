@@ -32,7 +32,7 @@ class MovieGroupSelectorBloc extends Bloc<MovieGroupSelectorEvent, MovieGroupSel
   }
 
   Stream<MovieGroupSelectorState> _init(_Init event) async* {
-    const MovieGroup optionNoGroup = MovieGroup(groupId: null, name: 'No group', movieNames: <String>[]);
+    const MovieGroup optionNoGroup = MovieGroup(groupId: null, name: '', movieNames: <String>[]);
 
     MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(event.movieId);
     final List<MovieGroup> movieGroups = await _movieGroupDao.getMovieGroups();

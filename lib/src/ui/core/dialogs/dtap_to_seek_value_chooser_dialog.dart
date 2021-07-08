@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../routes/screens_navigator.dart';
 
@@ -26,15 +27,17 @@ class _DtapToSeekValueChooserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return AlertDialog(
       contentPadding: const EdgeInsets.only(top: 12),
-      title: const Text('Double-tap to seek'),
+      title: Text(appLocalizations?.settingsDoubleTapToSeekDialogHeader ?? ''),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: _values.map((int e) {
             return RadioListTile<int>(
-              title: Text('$e sec'),
+              title: Text(appLocalizations?.settingsDoubleTapToSeekDialogItem(e) ?? ''),
               value: e,
               onChanged: (int? value) => ScreensNavigator.pop(value),
               groupValue: currentValue,

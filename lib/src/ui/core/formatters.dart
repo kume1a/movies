@@ -1,17 +1,22 @@
-String formatDuration(int durationInMinutes, {bool emptyOnZero = true}) {
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+String formatDuration(BuildContext context, int durationInMinutes, {bool emptyOnZero = true}) {
   if (durationInMinutes == 0 && emptyOnZero) return '';
+
+  final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
   final int hours = (durationInMinutes / 60).floor();
   final int minutes = durationInMinutes - hours * 60;
 
-  if (hours == 0) return '${minutes}m';
-  if (minutes == 0) return '${hours}h';
-  return '${hours}h ${minutes}m';
+  if (hours == 0) return appLocalizations?.minutes(minutes) ?? '';
+  if (minutes == 0) return appLocalizations?.hours(hours) ?? '';
+  return appLocalizations?.duration(hours, minutes) ?? '';
 }
 
-String formatDurationFromSeconds(int seconds) {
+String formatDurationFromSeconds(BuildContext context, int seconds) {
   final int minutes = (seconds / 60).floor();
-  return formatDuration(minutes);
+  return formatDuration(context, minutes);
 }
 
 String formatBigNumber(int num) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/settings/settings_bloc.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
@@ -9,15 +10,17 @@ class TileClearCache extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return ListTile(
-      title: const Text('Clear cache'),
-      subtitle: const Text('clear cached movies and season files'),
+      title: Text(appLocalizations?.settingsClearCache ?? ''),
+      subtitle: Text(appLocalizations?.settingsCommentClearCache ?? ''),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: 'Clear cache?',
-          content: 'The action will delete all the cached movies and seasons',
-          confirmationText: 'Clear',
+          title: appLocalizations?.settingsClearCacheDialogHeader ?? '',
+          content: appLocalizations?.settingsClearCacheDialogContent ?? '',
+          confirmationText: appLocalizations?.clear ?? '',
         );
 
         if (didConfirm) {
