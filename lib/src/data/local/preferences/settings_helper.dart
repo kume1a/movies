@@ -1,6 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/enums/supported_locale.dart';
+import '../../../core/helpers/enum_to_string.dart';
 import '../cache_dumper.dart';
 import '../favorite_movie/favorite_movie_dao.dart';
 import '../saved_movies/saved_movie_dao.dart';
@@ -26,6 +28,7 @@ class SettingsHelper {
   static const String _keyDoubleTapToSeek = 'key_double_tap_to_seek';
   static const String _keyRecordSearchHistory = 'key_record_search_history';
   static const String _keyRecordWatchHistory = 'key_record_watch_history';
+  static const String _keyLocale = 'key_locale';
 
   Future<void> setAutoPlayEnabled({required bool enabled}) async => _sharedPreferences.setBool(_keyAutoPlay, enabled);
 
@@ -55,4 +58,12 @@ class SettingsHelper {
   Future<bool> isRecordWatchHistoryEnabled() async => _sharedPreferences.getBool(_keyRecordWatchHistory) ?? true;
 
   Future<void> clearCache() async => _cacheDumper.dumpCache();
+
+  Future<void> saveLocale(SupportedLocale locale) async =>
+      _sharedPreferences.setString(_keyLocale, EnumToString.convertToString(locale));
+
+  Future<SupportedLocale> readLocale() async {
+    final String? locale = _sharedPreferences.getString(_keyLocale);
+    return locale != null ? EnumToString.fromString(SupportedLocale.values, locale)! : SupportedLocale.en;
+  }
 }

@@ -1,0 +1,4 @@
+enum SupportedLocale {
+  en,
+  ka,
+}

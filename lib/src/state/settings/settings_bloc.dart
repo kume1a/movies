@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../data/local/settings/settings_helper.dart';
+import '../../data/local/preferences/settings_helper.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_event.dart';

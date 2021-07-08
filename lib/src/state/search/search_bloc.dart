@@ -5,8 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
+import '../../data/local/preferences/settings_helper.dart';
 import '../../data/local/search_result/search_result_dao.dart';
-import '../../data/local/settings/settings_helper.dart';
 import '../../data/model/core/either.dart';
 import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/search/search_result.dart';

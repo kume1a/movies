@@ -34,6 +34,12 @@ class _SettingsPageContent extends StatelessWidget {
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
+              child: Text(appLocalizations?.settingsHeaderLanguage ?? '', style: prB24),
+            ),
+            const TileLanguage(),
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 4),
               child: Text(appLocalizations?.settingsHeaderVideoPlayer ?? '', style: prB24),
             ),
             const TileAutoPlay(),
