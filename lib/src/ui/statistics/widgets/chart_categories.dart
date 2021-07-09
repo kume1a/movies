@@ -2,9 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/enums/movie_genre.dart';
-import '../../../core/helpers/enum_to_string.dart';
+import '../../../core/helpers/movie_genre_helper.dart';
 import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/values/colors.dart';
 
@@ -13,6 +14,8 @@ class ChartCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) =>
           !const DeepCollectionEquality().equals(previous.genreToPercentage, current.genreToPercentage),
@@ -59,7 +62,9 @@ class ChartCategories extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        Text(e.key != null ? EnumToString.convertToString(e.key) : 'Other'),
+                        Text(e.key != null
+                            ? MovieGenreHelper.convertToString(appLocalizations, e.key!)
+                            : appLocalizations?.other ?? ''),
                       ],
                     );
                   }).toList(),

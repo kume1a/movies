@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/enums/movie_genre.dart';
-import '../../../core/helpers/enum_to_string.dart';
+import '../../../core/helpers/movie_genre_helper.dart';
 import '../../core/values/colors.dart';
 
 class GenreList extends StatelessWidget {
   const GenreList({
     Key? key,
     required this.genres,
-  }): super(key: key);
+  }) : super(key: key);
 
   final List<MovieGenre> genres;
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return SizedBox(
       height: 34,
       child: ListView.builder(
@@ -30,7 +33,7 @@ class GenreList extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                EnumToString.convertToString(genres[index]),
+                MovieGenreHelper.convertToString(appLocalizations, genres[index]),
                 style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             ),

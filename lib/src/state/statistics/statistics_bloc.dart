@@ -73,8 +73,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     );
 
     final List<MovieGenre> savedMovieGenres = await _savedMovieDao.getMovieGenres();
-    final Map<MovieGenre, int> genreToCount = <MovieGenre, int>{};
-    for (final MovieGenre genre in savedMovieGenres) {
+    final Map<MovieGenre?, int> genreToCount = <MovieGenre?, int>{};
+    for (final MovieGenre? genre in savedMovieGenres) {
       if (genreToCount.containsKey(genre)) {
         genreToCount[genre] = genreToCount[genre]! + 1;
       } else {
@@ -83,12 +83,12 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     }
     const int maxLength = 6;
     List<MapEntry<MovieGenre?, int>> modified = genreToCount.entries
-        .sorted((MapEntry<MovieGenre, int> a, MapEntry<MovieGenre, int> b) => b.value.compareTo(a.value))
+        .sorted((MapEntry<MovieGenre?, int> a, MapEntry<MovieGenre?, int> b) => b.value.compareTo(a.value))
         .toList();
     modified = modified.length <= maxLength - 1 ? modified : modified.take(maxLength - 1).toList();
     if (genreToCount.length > maxLength - 1) {
       int otherCount = 0;
-      for (final MapEntry<MovieGenre, int> e in genreToCount.entries) {
+      for (final MapEntry<MovieGenre?, int> e in genreToCount.entries) {
         if (!modified.any((MapEntry<MovieGenre?, int> entry) => entry.key == e.key)) {
           otherCount += e.value;
         }
