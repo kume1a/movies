@@ -47,7 +47,9 @@ class ChartDurations extends StatelessWidget {
         final double leftTitlesInterval = maxY - minY != 0 ? ((_maxY - _minY) / 5).floorToDouble() : 100;
         final double bottomTitlesInterval = (_maxX - _minX) / bottomTitlesCount + .01;
 
-        final DateFormat dateFormat = state.timePeriod == TimePeriod.year ? DateFormat('MMM d yy') : DateFormat.MMMd();
+        final DateFormat dateFormat = state.timePeriod == TimePeriod.year
+            ? DateFormat('MMM d yy', Localizations.localeOf(context).languageCode)
+            : DateFormat.MMMd(Localizations.localeOf(context).languageCode);
 
         return AspectRatio(
           aspectRatio: 16 / 9,

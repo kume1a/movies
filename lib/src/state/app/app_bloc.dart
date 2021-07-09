@@ -26,12 +26,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppEvent event,
   ) async* {
     yield* event.map(
-     init: _init,
+      init: _init,
       localeChanged: _localeChanged,
     );
   }
 
-  Stream<AppState> _init(_Init event)async* {
+  Stream<AppState> _init(_Init event) async* {
     final SupportedLocale locale = await _settingsHelper.readLocale();
     yield state.copyWith(
       selectedLocale: locale,
@@ -44,5 +44,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       selectedLocale: event.locale,
       locale: SupportedLocaleHelper.getLocale(event.locale),
     );
+    await _settingsHelper.saveLocale(event.locale);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/movie_group/movie_group_bloc.dart';
@@ -9,6 +10,8 @@ class AddMovieButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<MovieGroupUiBloc, MovieGroupUiState>(
       buildWhen: (MovieGroupUiState previous, MovieGroupUiState current) =>
           previous.isFabExpanded != current.isFabExpanded,
@@ -32,14 +35,14 @@ class AddMovieButton extends StatelessWidget {
             child: state.isFabExpanded
                 ? const Icon(Icons.add, color: Colors.white)
                 : Row(
-                    children: const <Widget>[
-                      Padding(
+                    children: <Widget>[
+                      const Padding(
                         padding: EdgeInsets.only(right: 4.0),
                         child: Icon(Icons.add, color: Colors.white),
                       ),
                       Text(
-                        'Add Movie',
-                        style: TextStyle(color: Colors.white),
+                        appLocalizations?.movieGroupButtonAddMovie ?? '',
+                        style: const TextStyle(color: Colors.white),
                       )
                     ],
                   ),

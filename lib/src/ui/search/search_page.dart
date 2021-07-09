@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../di/injection.dart';
@@ -21,6 +22,8 @@ class SearchPage extends StatelessWidget {
 class SearchPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: colorPrimary,
       body: SafeArea(
@@ -33,11 +36,11 @@ class SearchPageContent extends StatelessWidget {
                 SearchBar(
                   onBackPressed: () => Navigator.pop(context),
                   onChanged: (String value) => context.read<SearchBloc>().add(SearchEvent.queryChanged(value)),
-                  decoration: const InputDecoration(
-                    hintText: 'Search movies...',
+                  decoration: InputDecoration(
+                    hintText: appLocalizations?.searchFieldHint ?? '',
                     counterText: '',
                     fillColor: Colors.white,
-                    hintStyle: TextStyle(color: colorTextSecondary),
+                    hintStyle: const TextStyle(color: colorTextSecondary),
                     border: InputBorder.none,
                   ),
                 ),
