@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import '../../../core/extensions/search_result_l10n_extensions.dart';
 import '../../../data/model/models/search/search_result.dart';
 import '../../../data/model/models/search/search_results.dart';
 import '../../../state/search/search_bloc.dart';
@@ -51,8 +52,8 @@ class MovieList extends HookWidget {
       },
       child: MovieItem(
         imageUrl: searchResult.image,
-        name: searchResult.name,
-        plot: searchResult.description,
+        name: searchResult.getName(context),
+        plot: searchResult.getDescription(context),
       ),
     );
   }

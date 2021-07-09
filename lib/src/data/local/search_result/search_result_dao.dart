@@ -18,19 +18,23 @@ class SearchResultDao {
         ${TableSearchResults.columnId},
         ${TableSearchResults.columnMovieId},
         ${TableSearchResults.columnSearchType},
-        ${TableSearchResults.columnName},
-        ${TableSearchResults.columnDescription},
+        ${TableSearchResults.columnNameKa},
+        ${TableSearchResults.columnNameEn},
+        ${TableSearchResults.columnDescriptionKa},
+        ${TableSearchResults.columnDescriptionEn},
         ${TableSearchResults.columnPoster},
         ${TableSearchResults.columnSecondaryPoster},
         ${TableSearchResults.columnIsTvShow},
         ${TableSearchResults.columnTimestamp}
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       searchResult.id,
       searchResult.movieId,
       EnumToString.convertToString(searchResult.type),
-      searchResult.name,
-      searchResult.description,
+      searchResult.nameKa,
+      searchResult.nameEn,
+      searchResult.descriptionKa,
+      searchResult.descriptionEn,
       searchResult.poster,
       searchResult.secondaryPoster,
       if (searchResult.isTvShow) 1 else 0,

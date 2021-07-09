@@ -141,8 +141,10 @@ class TableSearchResults {
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
   static const String columnSearchType = 'search_type';
-  static const String columnName = 'name';
-  static const String columnDescription = 'description';
+  static const String columnNameKa = 'name_ka';
+  static const String columnNameEn = 'name_en';
+  static const String columnDescriptionKa = 'description_ka';
+  static const String columnDescriptionEn = 'description_en';
   static const String columnPoster = 'poster';
   static const String columnSecondaryPoster = 'secondary_poster';
   static const String columnIsTvShow = 'is_tv_show';
