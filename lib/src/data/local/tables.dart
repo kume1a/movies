@@ -70,7 +70,8 @@ class TableMovies {
 
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
-  static const String columnName = 'name';
+  static const String columnNameKa = 'name_ka';
+  static const String columnNameEn = 'name_en';
   static const String columnYear = 'year';
   static const String columnImdbUrl = 'imdb_url';
   static const String columnIsTvShow = 'is_tv_show';
@@ -170,7 +171,8 @@ class TableFavoriteMovies {
   static const String columnId = 'id';
   static const String columnMovieId = 'movie_id';
   static const String columnGroupId = 'group_id';
-  static const String columnMovieName = 'movie_name';
+  static const String columnMovieNameKa = 'movie_name_ka';
+  static const String columnMovieNameEn = 'movie_name_en';
   static const String columnTimestamp = 'timestamp';
 }
 

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/enums/movie_genre.dart';
+import '../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../di/injection.dart';
 import '../../state/details/details_bloc.dart';
 import '../core/routes/screens_navigator.dart';
@@ -85,7 +86,7 @@ class DetailsPageContent extends StatelessWidget {
                     <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(state.movie?.name ?? '', style: prB32),
+                        child: Text(state.movie?.getName(context) ?? '', style: prB32),
                       ),
                       const SizedBox(height: 4),
                       Padding(

@@ -259,7 +259,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
     if (state.videoSrc != null && state.movie != null) {
       final String videoSrcUrl = state.videoSrc!;
       final MovieData movieData = state.movie!;
-      final String fileName = '${movieData.name}__${DateTime.now().millisecondsSinceEpoch}.mp4';
+      final String fileName = '${movieData.nameEn}__${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       final Directory? externalDir = await getExternalStorageDirectory();
 

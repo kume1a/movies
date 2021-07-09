@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season.dart';
@@ -479,7 +480,7 @@ class DrawerRecommendedList extends StatelessWidget {
             SizedBox(
               width: imageWidth,
               child: Text(
-                movie.name,
+                movie.getName(context),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: prSB18,

@@ -12,7 +12,9 @@ import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
 
 part 'add_movie_bloc.freezed.dart';
+
 part 'add_movie_event.dart';
+
 part 'add_movie_state.dart';
 
 @injectable
@@ -86,7 +88,12 @@ class AddMovieBloc extends Bloc<AddMovieEvent, AddMovieState> {
   }
 
   Stream<AddMovieState> _addClicked(_AddClicked event) async* {
-    await _favoriteMovieDao.addMovieToGroup(event.movieId, event.movieName, _groupId);
+    await _favoriteMovieDao.addMovieToGroup(
+      movieId: event.movieId,
+      movieNameKa: event.movieNameKa,
+      movieNameEn: event.movieNameEn,
+      groupId: _groupId,
+    );
 
     final List<int> groupMovieIds = List<int>.of(state.groupMovieIds);
     groupMovieIds.add(event.movieId);

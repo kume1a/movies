@@ -17,7 +17,9 @@ import '../../data/model/models/movies/saved_movie.dart';
 import '../../data/network/services/movie_service.dart';
 
 part 'details_bloc.freezed.dart';
+
 part 'details_event.dart';
+
 part 'details_state.dart';
 
 @injectable
@@ -92,9 +94,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       if (event.movieGroup.groupId != null) {
         // switching to other group
         await _favoriteMovieDao.addMovieToGroup(
-          state.movie!.movieId,
-          state.movie!.name,
-          event.movieGroup.groupId!,
+          movieId: state.movie!.movieId,
+          movieNameKa: state.movie!.nameKa,
+          movieNameEn: state.movie!.nameEn,
+          groupId: event.movieGroup.groupId!,
         );
         isFavorite = true;
       } else {
@@ -102,7 +105,11 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         if (isFavorited) {
           if (movieGroup != null && movieGroup.groupId != null) {
             // switching from a group to no group
-            await _favoriteMovieDao.justFavoriteMovie(state.movie!.movieId, state.movie!.name);
+            await _favoriteMovieDao.justFavoriteMovie(
+              movieId: state.movie!.movieId,
+              movieNameKa: state.movie!.nameKa,
+              movieNameEn: state.movie!.nameEn,
+            );
             isFavorite = true;
           } else {
             // clicking no group when no group is selected
@@ -111,7 +118,11 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
           }
         } else {
           // clicking no group when movie hasn't yet been favorited
-          await _favoriteMovieDao.justFavoriteMovie(state.movie!.movieId, state.movie!.name);
+          await _favoriteMovieDao.justFavoriteMovie(
+            movieId: state.movie!.movieId,
+            movieNameKa: state.movie!.nameKa,
+            movieNameEn: state.movie!.nameEn,
+          );
           isFavorite = true;
         }
       }

@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/saved_movie.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/formatters.dart';
@@ -98,7 +99,7 @@ class ContinueWatchingList extends StatelessWidget {
                           SizedBox(
                             width: itemWidth,
                             child: Text(
-                              savedMovie.data.name,
+                              savedMovie.data.getName(context),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: prSB18,

@@ -21,7 +21,8 @@ class MovieData with _$MovieData {
   const factory MovieData({
     required int id,
     required int movieId,
-    required String name,
+    required String nameKa,
+    required String nameEn,
     required int year,
     required String imdbUrl,
     required bool isTvShow,
@@ -44,7 +45,8 @@ class MovieData with _$MovieData {
   factory MovieData.fromSchema(MovieDataSchema schema) {
     final int id = schema.id ?? 0;
     final int movieId = schema.adjaraId ?? 0;
-    final String name = schema.secondaryName ?? schema.originalName ?? '';
+    final String nameKa = schema.primaryName ?? '';
+    final String nameEn = schema.secondaryName ?? '';
     final int year = schema.year ?? 0;
     final String imdbUrl = schema.imdbUrl ?? '';
     final bool isTvShow = schema.isTvShow ?? false;
@@ -97,7 +99,8 @@ class MovieData with _$MovieData {
     return MovieData(
       id: id,
       movieId: movieId,
-      name: name,
+      nameKa: nameKa,
+      nameEn: nameEn,
       year: year,
       imdbUrl: imdbUrl,
       isTvShow: isTvShow,
@@ -124,6 +127,6 @@ class MovieData with _$MovieData {
         secondaryCovers[Resolution.vga],
       ].firstWhere(
         (String? element) => element != null && element.isNotEmpty,
-    orElse: () => '',
-  );
+        orElse: () => '',
+      );
 }

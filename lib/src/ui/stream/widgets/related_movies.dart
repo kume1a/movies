@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/stream/stream_bloc.dart';
 import '../../core/widgets/movie_item.dart';
@@ -16,9 +17,7 @@ class RelatedMovies extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 6),
             itemCount: state.related != null ? state.related!.data.length : 0,
             itemBuilder: (BuildContext context, int index) {
-              return state.related != null
-                  ? _buildItem(context, state.related!.data[index])
-                  : const MovieItem();
+              return state.related != null ? _buildItem(context, state.related!.data[index]) : const MovieItem();
             },
           ),
         );
@@ -37,7 +36,7 @@ class RelatedMovies extends StatelessWidget {
       },
       child: MovieItem(
         imageUrl: movie.poster,
-        name: movie.name,
+        name: movie.getName(context),
         duration: movie.duration,
         plot: movie.plot,
         rating: movie.imdbRating,

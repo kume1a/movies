@@ -92,7 +92,8 @@ class DbFactory {
       (
         ${TableMovies.columnId} INTEGER PRIMARY KEY,
         ${TableMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT IGNORE,
-        ${TableMovies.columnName} TEXT NOT NULL,
+        ${TableMovies.columnNameKa} TEXT NOT NULL,
+        ${TableMovies.columnNameEn} TEXT NOT NULL,
         ${TableMovies.columnYear} INTEGER NOT NULL,
         ${TableMovies.columnImdbUrl} TEXT NOT NULL,
         ${TableMovies.columnIsTvShow} INTEGER NOT NULL CHECK (${TableMovies.columnIsTvShow} IN (0, 1)),
@@ -189,7 +190,8 @@ class DbFactory {
         ${TableFavoriteMovies.columnId} INTEGER PRIMARY KEY NOT NULL,
         ${TableFavoriteMovies.columnMovieId} INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE,
         ${TableFavoriteMovies.columnGroupId} INTEGER,
-        ${TableFavoriteMovies.columnMovieName} STRING NOT NULL,
+        ${TableFavoriteMovies.columnMovieNameKa} STRING NOT NULL,
+        ${TableFavoriteMovies.columnMovieNameEn} STRING NOT NULL,
         ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL,
         FOREIGN KEY (${TableFavoriteMovies.columnGroupId}) REFERENCES ${TableMovieGroups.name}(${TableMovieGroups.columnId}) ON DELETE SET NULL
       );

@@ -9,7 +9,8 @@ class DBMovie with _$DBMovie {
   const factory DBMovie({
     int? id,
     required int movieId,
-    required String name,
+    required String nameKa,
+    required String nameEn,
     required int year,
     required String imdbUrl,
     required bool isTvShow,
@@ -25,7 +26,8 @@ class DBMovie with _$DBMovie {
     return DBMovie(
       id: map[TableMovies.columnId] as int?,
       movieId: map[TableMovies.columnMovieId] as int? ?? -1,
-      name: map[TableMovies.columnName] as String? ?? '',
+      nameKa: map[TableMovies.columnNameKa] as String? ?? '',
+      nameEn: map[TableMovies.columnNameEn] as String? ?? '',
       year: map[TableMovies.columnYear] as int? ?? -1,
       imdbUrl: map[TableMovies.columnImdbUrl] as String? ?? '',
       isTvShow: map[TableMovies.columnIsTvShow] == 1,

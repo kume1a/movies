@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../../state/home/home_bloc.dart';
@@ -70,7 +71,7 @@ class TopSelectionList extends StatelessWidget {
             SizedBox(
               width: itemWidth,
               child: Text(
-                movie.name,
+                movie.getName(context),
                 style: prSB13,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

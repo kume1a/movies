@@ -74,7 +74,7 @@ class Movies extends HookWidget {
           TextButton(
             onPressed: () => context.read<AddMovieBloc>().add(isAdded
                 ? AddMovieEvent.removeClicked(searchResult.movieId)
-                : AddMovieEvent.addClicked(searchResult.movieId, searchResult.name)),
+                : AddMovieEvent.addClicked(searchResult.movieId, searchResult.name, '')), // FIXME: 09/07/2021 add nameKa
             style: ButtonStyle(
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),

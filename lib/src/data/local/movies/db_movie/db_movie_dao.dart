@@ -16,7 +16,8 @@ class DBMovieDao {
       (
         ${TableMovies.columnId},
         ${TableMovies.columnMovieId},
-        ${TableMovies.columnName},
+        ${TableMovies.columnNameKa},
+        ${TableMovies.columnNameEn},
         ${TableMovies.columnYear},
         ${TableMovies.columnImdbUrl},
         ${TableMovies.columnIsTvShow},
@@ -26,11 +27,12 @@ class DBMovieDao {
         ${TableMovies.columnImdbRating},
         ${TableMovies.columnVoterCount},
         ${TableMovies.columnPlot}
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     ''', <Object?>[
       dbMovie.id,
       dbMovie.movieId,
-      dbMovie.name,
+      dbMovie.nameKa,
+      dbMovie.nameEn,
       dbMovie.year,
       dbMovie.imdbUrl,
       if (dbMovie.isTvShow) 1 else 0,

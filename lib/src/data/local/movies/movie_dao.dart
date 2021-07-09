@@ -69,7 +69,8 @@ class MovieDao {
     return MovieData(
       id: dbMovie.id ?? -1,
       movieId: dbMovie.movieId,
-      name: dbMovie.name,
+      nameKa: dbMovie.nameKa,
+      nameEn: dbMovie.nameEn,
       year: dbMovie.year,
       imdbUrl: dbMovie.imdbUrl,
       isTvShow: dbMovie.isTvShow,
@@ -92,7 +93,8 @@ class MovieDao {
     await _movieDao.insertDBMovie(DBMovie(
       id: movieData.id,
       movieId: movieData.movieId,
-      name: movieData.name,
+      nameKa: movieData.nameKa,
+      nameEn: movieData.nameEn,
       year: movieData.year,
       imdbUrl: movieData.imdbUrl,
       isTvShow: movieData.isTvShow,

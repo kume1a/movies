@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/movie_group/movie_group_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
@@ -34,7 +35,7 @@ class Movies extends StatelessWidget {
                 onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
                 child: MovieItem(
                   imageUrl: movie.availableImage,
-                  name: movie.name,
+                  name: movie.getName(context),
                   duration: movie.duration,
                   plot: movie.plot,
                   rating: movie.imdbRating,

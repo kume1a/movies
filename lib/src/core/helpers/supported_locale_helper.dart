@@ -13,4 +13,15 @@ class SupportedLocaleHelper {
         return const Locale('ka');
     }
   }
+
+  static SupportedLocale fromLocale(Locale locale) {
+    switch (locale.languageCode) {
+      case 'en':
+        return SupportedLocale.en;
+      case 'ka':
+        return SupportedLocale.ka;
+      default:
+        throw Exception('unsupported locale $locale');
+    }
+  }
 }

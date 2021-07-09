@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/enums/image_size.dart';
+import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/home/home_bloc.dart';
 import '../../core/routes/screens_navigator.dart';
@@ -60,7 +61,7 @@ class PopularMoviesList extends StatelessWidget {
           Positioned(
             bottom: 12,
             left: 24,
-            child: Text(movie.name, style: prB19),
+            child: Text(movie.getName(context), style: prB19),
           ),
         ],
       ),

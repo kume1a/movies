@@ -23,19 +23,30 @@ class FavoriteMovieDao {
 
   Future<int?> getFavoriteMovieGroupId(int movieId) => _favoriteMovieDao.getFavoriteMovieGroupId(movieId);
 
-  Future<void> addMovieToGroup(int movieId, String movieName, int groupId) async {
+  Future<void> addMovieToGroup({
+    required int movieId,
+    required String movieNameKa,
+    required String movieNameEn,
+    required int groupId,
+  }) async {
     _favoriteMovieDao.insertFavoriteMovie(DBFavoriteMovie(
       movieId: movieId,
-      movieName: movieName,
+      movieNameKa: movieNameKa,
+      movieNameEn: movieNameEn,
       groupId: groupId,
       timestamp: DateTime.now().millisecondsSinceEpoch,
     ));
   }
 
-  Future<void> justFavoriteMovie(int movieId, String movieName) async {
+  Future<void> justFavoriteMovie({
+    required int movieId,
+    required String movieNameKa,
+    required String movieNameEn,
+  }) async {
     _favoriteMovieDao.insertFavoriteMovie(DBFavoriteMovie(
       movieId: movieId,
-      movieName: movieName,
+      movieNameKa: movieNameKa,
+      movieNameEn: movieNameEn,
       groupId: null,
       timestamp: DateTime.now().millisecondsSinceEpoch,
     ));
