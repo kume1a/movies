@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../core/extensions/search_result_l10n_extensions.dart';
+import '../../../core/extensions/model_l10n/search_result_l10n_extensions.dart';
 import '../../../data/model/models/search/search_result.dart';
 import '../../../state/add_movie/add_movie_bloc.dart';
 import '../../core/values/colors.dart';

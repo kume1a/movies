@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../data/model/models/search/search_result.dart';
-import '../enums/supported_locale.dart';
-import '../extensions/build_context_extensions.dart';
+import '../../../data/model/models/search/search_result.dart';
+import '../../enums/supported_locale.dart';
+import '../build_context_extensions.dart';
 
 extension SearchResultL10NX on SearchResult {
   String getName(BuildContext context) {

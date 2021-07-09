@@ -8,7 +8,8 @@ part 'actor.freezed.dart';
 class Actor with _$Actor {
   const factory Actor({
     required int id,
-    required String name,
+    required String nameKa,
+    required String nameEn,
     required String poster,
     required String birthDate,
     required String birthPlace,
@@ -17,7 +18,8 @@ class Actor with _$Actor {
   factory Actor.fromSchema(ActorSchema schema) {
     return Actor(
       id: schema.id ?? 0,
-      name: schema.secondaryName ?? schema.originalName ?? schema.primaryName ?? '',
+      nameKa: schema.primaryName ?? schema.originalName ?? '',
+      nameEn: schema.secondaryName ?? schema.originalName ?? schema.primaryName ?? '',
       poster: schema.poster ?? '',
       birthDate: schema.birthDate ?? '',
       birthPlace: schema.birthPlace ?? '',
