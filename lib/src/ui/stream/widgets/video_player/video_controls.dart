@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../core/enums/language.dart';
 import '../../../../core/enums/quality.dart';
+import '../../../../core/helpers/language_helper.dart';
+import '../../../../core/helpers/quality_helper.dart';
 import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/formatters.dart';
 import '../../../core/routes/screens_navigator.dart';
@@ -447,22 +450,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               builder: (BuildContext context) => _BottomSheetDialog<Language>(
                 items: widget.languages,
                 selected: _language ?? widget.selectedLanguage,
-                nameMapper: (Language t) {
-                  switch (t) {
-                    case Language.geo:
-                      return 'geo';
-                    case Language.eng:
-                      return 'eng';
-                    case Language.rus:
-                      return 'rus';
-                    case Language.jpn:
-                      return 'jpn';
-                    case Language.fre:
-                      return 'fre';
-                    case Language.ger:
-                      return 'ger';
-                  }
-                },
+                nameMapper: (Language language) =>
+                    LanguageHelper.convertToString(AppLocalizations.of(context), language),
               ),
             );
 
@@ -500,14 +489,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               builder: (BuildContext context) => _BottomSheetDialog<Quality>(
                 items: widget.qualities,
                 selected: _quality ?? widget.selectedQuality,
-                nameMapper: (Quality quality) {
-                  switch (quality) {
-                    case Quality.medium:
-                      return 'medium';
-                    case Quality.high:
-                      return 'high';
-                  }
-                },
+                nameMapper: (Quality quality) => QualityHelper.convertToString(AppLocalizations.of(context), quality),
               ),
             );
 
@@ -709,6 +691,8 @@ class _SettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
@@ -720,15 +704,15 @@ class _SettingsDialog extends StatelessWidget {
         String name;
         switch (setting) {
           case _Setting.language:
-            name = 'Language';
+            name = appLocalizations?.streamOptionLanguage ?? '';
             icon = Icons.language;
             break;
           case _Setting.playbackSpeed:
-            name = 'Speed';
+            name = appLocalizations?.streamOptionSpeed ?? '';
             icon = Icons.speed;
             break;
           case _Setting.quality:
-            name = 'Quality';
+            name = appLocalizations?.streamOptionQuality ?? '';
             icon = Icons.high_quality;
             break;
         }

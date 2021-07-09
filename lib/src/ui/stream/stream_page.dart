@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/model/models/seasons/season.dart';
@@ -72,6 +73,8 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final bool isPortrait = mediaQueryData.orientation == Orientation.portrait;
 
@@ -153,9 +156,9 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
             ]);
           } else {
             content.addAll(<Widget>[
-              const Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 4),
-                child: Text('Recommended', style: prB22),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, bottom: 4),
+                child: Text(appLocalizations?.streamHeaderRecommended ?? '', style: prB22),
               ),
               RelatedMovies(),
             ]);
