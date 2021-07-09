@@ -27,7 +27,7 @@ class SearchHeader extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 appLocalizations?.homeHeaderSearch ?? '',
-                style: theme.textTheme.headline5?.copyWith(color: colorTextSecondary),
+                style: theme.textTheme.headline6?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),
               ),
               const Divider(color: colorTextSecondary)
             ],

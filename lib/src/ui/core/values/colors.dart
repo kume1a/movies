@@ -6,7 +6,7 @@ const Color colorAccent = Color(0xFFE11A38);
 const Color colorPrimary = Color(0xFF1F1F28);
 const Color colorPrimaryLight = Color(0xFF38383D);
 
-const Color colorTextSecondary = Color(0xFF767682);
+const Color colorTextSecondary = Color(0xFFB2B2B6);
 const Color colorTextPrimary = Color(0xFFFFFFFF);
 
 const Color colorStar = Color(0xFFFFC107);

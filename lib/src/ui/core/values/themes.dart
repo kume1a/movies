@@ -45,6 +45,9 @@ class AppThemes {
   );
 
   static final ThemeData darkLocaleKa = dark.copyWith(
-    textTheme: const TextTheme(headline5: TextStyle(fontSize: 21))
+    textTheme: const TextTheme(
+      headline5: TextStyle(fontSize: 21),
+      bodyText2: TextStyle(color: colorTextSecondary, fontSize: 14)
+    ),
   );
 }
