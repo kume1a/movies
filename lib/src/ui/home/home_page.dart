@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../state/home/home_bloc.dart';
-import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
 
 class HomePage extends HookWidget {
@@ -14,6 +13,7 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
 
     final ScrollController scrollController = useScrollController();
 
@@ -43,14 +43,14 @@ class HomePage extends HookWidget {
                       !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
                   builder: (BuildContext context, HomeState state) {
                     return state.savedMovies?.isNotEmpty == true
-                        ? _buildHeader(appLocalizations?.homeHeaderWatchLater ?? '')
+                        ? _buildHeader(theme, appLocalizations?.homeHeaderWatchLater ?? '')
                         : const SizedBox.shrink();
                   },
                 ),
                 const ContinueWatchingList(),
-                _buildHeader(appLocalizations?.homeHeaderTopSelection ?? ''),
+                _buildHeader(theme, appLocalizations?.homeHeaderTopSelection ?? ''),
                 const TopSelectionList(),
-                _buildHeader(appLocalizations?.homeHeaderMovies ?? ''),
+                _buildHeader(theme, appLocalizations?.homeHeaderMovies ?? ''),
                 const GenreChooser(),
                 const SizedBox(height: 16),
               ],
@@ -62,10 +62,10 @@ class HomePage extends HookWidget {
     );
   }
 
-  Widget _buildHeader(String header) {
+  Widget _buildHeader(ThemeData theme, String header) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 36, 16, 16),
-      child: Text(header, style: prB24),
+      child: Text(header, style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600)),
     );
   }
 }

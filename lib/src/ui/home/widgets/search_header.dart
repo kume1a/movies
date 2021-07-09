@@ -11,6 +11,7 @@ class SearchHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
@@ -24,7 +25,10 @@ class SearchHeader extends StatelessWidget {
             children: <Widget>[
               Text(appLocalizations?.search ?? '', style: scL16),
               const SizedBox(height: 4),
-              Text(appLocalizations?.homeHeaderSearch ?? '', style: sc22),
+              Text(
+                appLocalizations?.homeHeaderSearch ?? '',
+                style: theme.textTheme.headline5?.copyWith(color: colorTextSecondary),
+              ),
               const Divider(color: colorTextSecondary)
             ],
           ),

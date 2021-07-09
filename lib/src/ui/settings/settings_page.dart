@@ -5,7 +5,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../di/injection.dart';
 import '../../state/settings/settings_bloc.dart';
-import '../core/values/text_styles.dart';
 import 'widgets/widgets.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -26,6 +25,7 @@ class _SettingsPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -34,20 +34,29 @@ class _SettingsPageContent extends StatelessWidget {
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
-              child: Text(appLocalizations?.settingsHeaderLanguage ?? '', style: prB24),
+              child: Text(
+                appLocalizations?.settingsHeaderLanguage ?? '',
+                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
             const TileLanguage(),
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
-              child: Text(appLocalizations?.settingsHeaderVideoPlayer ?? '', style: prB24),
+              child: Text(
+                appLocalizations?.settingsHeaderVideoPlayer ?? '',
+                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
             const TileAutoPlay(),
             const TileDoubleTapToSeek(),
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
-              child: Text(appLocalizations?.settingsHeaderHistory ?? '', style: prB24),
+              child: Text(
+                appLocalizations?.settingsHeaderHistory ?? '',
+                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
             const TileClearSearchHistory(),
             const TileClearSavedMovies(),
@@ -57,7 +66,10 @@ class _SettingsPageContent extends StatelessWidget {
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
-              child: Text(appLocalizations?.settingsHeaderCache ?? '', style: prB24),
+              child: Text(
+                appLocalizations?.settingsHeaderCache ?? '',
+                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
             const TileClearCache(),
             const SizedBox(height: 32),

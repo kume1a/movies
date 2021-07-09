@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../enums/supported_locale.dart';
 
@@ -22,6 +23,15 @@ class SupportedLocaleHelper {
         return SupportedLocale.ka;
       default:
         throw Exception('unsupported locale $locale');
+    }
+  }
+
+  static String convertToString(AppLocalizations? appLocalizations, SupportedLocale supportedLocale) {
+    switch (supportedLocale) {
+      case SupportedLocale.en:
+        return appLocalizations?.languageEng ?? '';
+      case SupportedLocale.ka:
+        return appLocalizations?.languageGeo ?? '';
     }
   }
 }

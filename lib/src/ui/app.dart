@@ -24,7 +24,7 @@ class App extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: state.locale,
-            theme: AppThemes.dark,
+            theme: state.locale.languageCode == 'ka' ? AppThemes.darkLocaleKa : AppThemes.dark,
             themeMode: ThemeMode.dark,
           );
         },

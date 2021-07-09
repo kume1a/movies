@@ -43,4 +43,8 @@ class AppThemes {
       elevation: 12,
     ),
   );
+
+  static final ThemeData darkLocaleKa = dark.copyWith(
+    textTheme: const TextTheme(headline5: TextStyle(fontSize: 21))
+  );
 }
