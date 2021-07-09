@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,8 @@ class ChartDurations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StatisticsBloc, StatisticsState>(
       buildWhen: (StatisticsState previous, StatisticsState current) =>
           !const DeepCollectionEquality().equals(previous.watchedDurations, current.watchedDurations),
@@ -71,9 +74,9 @@ class ChartDurations extends StatelessWidget {
                   getTitles: (double value) {
                     final Duration duration = Duration(milliseconds: value.floor());
                     final String minutesFraction = (duration.inMinutes / 60).toStringAsFixed(1).split('.').last;
-                    return '${duration.inHours}.${minutesFraction}h';
+                    return appLocalizations?.hours('${duration.inHours}.$minutesFraction') ?? '';
                   },
-                  reservedSize: 28,
+                  reservedSize: 36,
                   margin: 12,
                   interval: leftTitlesInterval,
                 ),
