@@ -80,7 +80,8 @@ class TableMovies {
   static const String columnPoster = 'poster';
   static const String columnImdbRating = 'imdb_rating';
   static const String columnVoterCount = 'voter_count';
-  static const String columnPlot = 'plot';
+  static const String columnPlotKa = 'plot_ka';
+  static const String columnPlotEn = 'plot_en';
 }
 
 class TableSeasonFiles {

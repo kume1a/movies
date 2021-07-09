@@ -102,7 +102,8 @@ class DbFactory {
         ${TableMovies.columnPoster} TEXT NOT NULL,
         ${TableMovies.columnImdbRating} REAL NOT NULL,
         ${TableMovies.columnVoterCount} INTEGER NOT NULL,
-        ${TableMovies.columnPlot} TEXT NOT NULL
+        ${TableMovies.columnPlotKa} TEXT NOT NULL,
+        ${TableMovies.columnPlotEn} TEXT NOT NULL
       );
     ''');
 

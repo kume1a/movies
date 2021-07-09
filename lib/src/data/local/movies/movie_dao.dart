@@ -81,7 +81,8 @@ class MovieDao {
       voterCount: dbMovie.voterCount,
       covers: covers,
       secondaryCovers: secondaryCovers,
-      plot: dbMovie.plot,
+      plotKa: dbMovie.plotKa,
+      plotEn: dbMovie.plotEn,
       genres: genres,
       trailers: trailers,
       languages: languages,
@@ -103,7 +104,8 @@ class MovieDao {
       poster: movieData.poster,
       imdbRating: movieData.imdbRating,
       voterCount: movieData.voterCount,
-      plot: movieData.plot,
+      plotKa: movieData.plotKa,
+      plotEn: movieData.plotEn,
     ));
 
     for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {

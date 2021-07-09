@@ -33,7 +33,8 @@ class MovieData with _$MovieData {
     required int voterCount,
     required Map<ImageSize, String> covers,
     required Map<Resolution, String> secondaryCovers,
-    required String plot,
+    required String plotKa,
+    required String plotEn,
     required List<MovieGenre> genres,
     required Map<Language, String> trailers,
     required List<Language> languages,
@@ -68,11 +69,15 @@ class MovieData with _$MovieData {
       Resolution.vga: schema.covers?.data?.s510 ?? '',
     };
 
-    String plot = '';
+    String plotEn = '', plotKa = '';
     if (schema.plots != null) {
       for (final PlotDataSchema plotDataSchema in schema.plots?.data ?? List<PlotDataSchema>.empty()) {
-        plot = plotDataSchema.description ?? '';
-        if (plotDataSchema.language == eng) break;
+        if (plotDataSchema.language == eng) {
+          plotEn = plotDataSchema.description ?? '';
+        }
+        if (plotDataSchema.language == geo) {
+          plotKa = plotDataSchema.description ?? '';
+        }
       }
     }
 
@@ -111,7 +116,8 @@ class MovieData with _$MovieData {
       voterCount: voterCount,
       covers: primaryCovers,
       secondaryCovers: secondaryCovers,
-      plot: plot,
+      plotKa: plotKa,
+      plotEn: plotEn,
       genres: genres,
       trailers: trailers,
       languages: languages,

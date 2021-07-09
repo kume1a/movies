@@ -19,7 +19,8 @@ class DBMovie with _$DBMovie {
     required String poster,
     required double imdbRating,
     required int voterCount,
-    required String plot,
+    required String plotKa,
+    required String plotEn,
   }) = _DBMovie;
 
   factory DBMovie.fromMap(Map<String, dynamic> map) {
@@ -36,7 +37,8 @@ class DBMovie with _$DBMovie {
       poster: map[TableMovies.columnPoster] as String? ?? '',
       imdbRating: map[TableMovies.columnImdbRating] as double? ?? -1,
       voterCount: map[TableMovies.columnVoterCount] as int? ?? -1,
-      plot: map[TableMovies.columnPlot] as String? ?? '',
+      plotKa: map[TableMovies.columnPlotKa] as String? ?? '',
+      plotEn: map[TableMovies.columnPlotEn] as String? ?? '',
     );
   }
 }

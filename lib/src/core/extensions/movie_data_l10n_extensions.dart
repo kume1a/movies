@@ -14,4 +14,14 @@ extension MovieDataL10NX on MovieData {
         return nameKa.isNotEmpty ? nameKa : nameEn;
     }
   }
+
+  String getPlot(BuildContext context) {
+    final SupportedLocale locale = context.locale;
+    switch (locale) {
+      case SupportedLocale.en:
+        return plotEn.isNotEmpty ? plotEn : plotKa;
+      case SupportedLocale.ka:
+        return plotKa.isNotEmpty ? plotKa : plotEn;
+    }
+  }
 }

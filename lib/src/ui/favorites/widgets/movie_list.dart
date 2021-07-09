@@ -44,7 +44,7 @@ class MovieList extends StatelessWidget {
         imageUrl: movie.poster,
         name: movie.getName(context),
         duration: movie.duration,
-        plot: movie.plot,
+        plot: movie.getPlot(context),
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
         releaseYear: movie.year,
