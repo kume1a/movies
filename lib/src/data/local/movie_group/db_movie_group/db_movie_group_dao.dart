@@ -60,4 +60,6 @@ class DBMovieGroupDao {
       id,
     ]);
   }
+
+  Future<void> deleteAll() => _db.delete(TableMovieGroups.name);
 }

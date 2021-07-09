@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
-import '../../core/values/text_styles.dart';
 
 class SearchHeader extends StatelessWidget {
   const SearchHeader({Key? key}) : super(key: key);
@@ -23,8 +22,6 @@ class SearchHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(appLocalizations?.search ?? '', style: scL16),
-              const SizedBox(height: 4),
               Text(
                 appLocalizations?.homeHeaderSearch ?? '',
                 style: theme.textTheme.headline6?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),

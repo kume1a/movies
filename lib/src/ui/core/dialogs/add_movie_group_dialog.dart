@@ -50,7 +50,7 @@ class _AddMovieGroupDialog extends HookWidget {
   Widget _buildHeader(AppLocalizations? appLocalizations) {
     return Text(
       appLocalizations?.favoritesHeaderAddGroup ?? '',
-      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
     );
   }
 

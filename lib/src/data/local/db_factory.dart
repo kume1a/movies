@@ -196,7 +196,7 @@ class DbFactory {
         ${TableFavoriteMovies.columnMovieNameKa} STRING NOT NULL,
         ${TableFavoriteMovies.columnMovieNameEn} STRING NOT NULL,
         ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL,
-        FOREIGN KEY (${TableFavoriteMovies.columnGroupId}) REFERENCES ${TableMovieGroups.name}(${TableMovieGroups.columnId}) ON DELETE SET NULL
+        FOREIGN KEY (${TableFavoriteMovies.columnGroupId}) REFERENCES ${TableMovieGroups.name}(${TableMovieGroups.columnId}) ON DELETE CASCADE
       );
     ''');
 

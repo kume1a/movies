@@ -80,6 +80,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   Stream<SettingsState> _clearFavoritesRequested(_ClearFavoritesRequested event) async* {
     await _settingsHelper.clearFavorites();
+    if (event.clearGroups) {
+      await _settingsHelper.clearGroups();
+    }
   }
 
   Stream<SettingsState> _clearCacheRequested(_ClearCacheRequested event) async* {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/settings/settings_bloc.dart';
+import '../../core/dialogs/clear_favorites_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 
 class TileClearSearchHistory extends StatelessWidget {
@@ -112,15 +113,12 @@ class TileClearFavorites extends StatelessWidget {
       title: Text(appLocalizations?.settingsClearFavorites ?? ''),
       subtitle: Text(appLocalizations?.settingsCommentClearFavorites ?? ''),
       onTap: () async {
-        final bool didConfirm = await showConfirmationDialog(
-          context,
-          title: appLocalizations?.settingsClearFavoritesDialogHeader ?? '',
-          content: appLocalizations?.settingsClearFavoritesDialogContent ?? '',
-          confirmationText: appLocalizations?.clear ?? '',
-        );
+        final ClearFavoritesResult? clearFavoritesResult = await showClearFavoritesDialog(context);
 
-        if (didConfirm) {
-          context.read<SettingsBloc>().add(const SettingsEvent.clearFavoritesRequested());
+        if (clearFavoritesResult != null && clearFavoritesResult.didConfirm) {
+          context
+              .read<SettingsBloc>()
+              .add(SettingsEvent.clearFavoritesRequested(clearGroups: clearFavoritesResult.clearMovieGroups));
         }
       },
     );

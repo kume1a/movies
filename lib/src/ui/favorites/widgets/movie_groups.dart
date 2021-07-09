@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/enums/supported_locale.dart';
+import '../../../core/extensions/build_context_extensions.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/dialogs/add_movie_group_dialog.dart';
@@ -75,9 +77,21 @@ class MovieGroups extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, MovieGroup movieGroup) {
     const int maxMovieNameCount = 4;
-    final ListSlice<String> movieNames = movieGroup.movieNames
-        .slice(0, movieGroup.movieNames.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNames.length);
-
+    late final ListSlice<String> movieNames;
+    switch (context.locale) {
+      case SupportedLocale.en:
+        movieNames = movieGroup.movieNamesEn.slice(
+          0,
+          movieGroup.movieNamesEn.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNamesEn.length,
+        );
+        break;
+      case SupportedLocale.ka:
+        movieNames = movieGroup.movieNamesKa.slice(
+          0,
+          movieGroup.movieNamesKa.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNamesKa.length,
+        );
+        break;
+    }
     final Widget header = Align(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -135,7 +149,7 @@ class MovieGroups extends StatelessWidget {
               final bool didConfirm = await showConfirmationDialog(
                 context,
                 title: appLocalizations?.favoritesHeaderDeleteGroup(movieGroup.name) ?? '',
-                content: appLocalizations?.favoritesContentDeleteGroup ?? '',
+                content: appLocalizations?.favoritesContentDeleteGroup(movieGroup.name) ?? '',
               );
 
               if (didConfirm) {
@@ -143,7 +157,7 @@ class MovieGroups extends StatelessWidget {
               }
             },
             onTap: () async {
-              if (movieGroup.groupId != null && movieGroup.movieNames.isNotEmpty) {
+              if (movieGroup.groupId != null && movieNames.isNotEmpty) {
                 ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
               }
             },

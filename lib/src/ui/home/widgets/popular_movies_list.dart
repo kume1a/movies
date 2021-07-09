@@ -61,7 +61,13 @@ class PopularMoviesList extends StatelessWidget {
           Positioned(
             bottom: 12,
             left: 24,
-            child: Text(movie.getName(context), style: prB19),
+            right: 24,
+            child: Text(
+              movie.getName(context),
+              style: prB19,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

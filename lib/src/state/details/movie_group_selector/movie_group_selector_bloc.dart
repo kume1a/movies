@@ -16,7 +16,7 @@ part 'movie_group_selector_state.dart';
 class MovieGroupSelectorBloc extends Bloc<MovieGroupSelectorEvent, MovieGroupSelectorState> {
   MovieGroupSelectorBloc(
     this._movieGroupDao,
-      this._favoriteMovieDao,
+    this._favoriteMovieDao,
   ) : super(MovieGroupSelectorState.initial());
 
   final MovieGroupDao _movieGroupDao;
@@ -32,7 +32,12 @@ class MovieGroupSelectorBloc extends Bloc<MovieGroupSelectorEvent, MovieGroupSel
   }
 
   Stream<MovieGroupSelectorState> _init(_Init event) async* {
-    const MovieGroup optionNoGroup = MovieGroup(groupId: null, name: '', movieNames: <String>[]);
+    const MovieGroup optionNoGroup = MovieGroup(
+      groupId: null,
+      name: '',
+      movieNamesEn: <String>[],
+      movieNamesKa: <String>[],
+    );
 
     MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(event.movieId);
     final List<MovieGroup> movieGroups = await _movieGroupDao.getMovieGroups();

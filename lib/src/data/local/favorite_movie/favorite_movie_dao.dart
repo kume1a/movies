@@ -19,7 +19,9 @@ class FavoriteMovieDao {
 
   Future<bool> isMovieFavorited(int movieId) async => _favoriteMovieDao.isMovieFavorited(movieId);
 
-  Future<List<String>> getMovieNamesForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesForGroup(groupId);
+  Future<List<String>> getMovieNamesKaForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesKaForGroup(groupId);
+
+  Future<List<String>> getMovieNamesEnForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesEnForGroup(groupId);
 
   Future<int?> getFavoriteMovieGroupId(int movieId) => _favoriteMovieDao.getFavoriteMovieGroupId(movieId);
 
