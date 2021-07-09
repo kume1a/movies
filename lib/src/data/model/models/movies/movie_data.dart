@@ -2,7 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/enums/image_size.dart';
 import '../../../../core/enums/language.dart';
+import '../../../../core/enums/movie_genre.dart';
 import '../../../../core/enums/resolution.dart';
+import '../../../../core/helpers/movie_genre_helper.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/core/utils.dart';
 import '../../schemas/movie/genres_schema.dart';
@@ -32,7 +34,7 @@ class MovieData with _$MovieData {
     required Map<ImageSize, String> covers,
     required Map<Resolution, String> secondaryCovers,
     required String plot,
-    required List<String> genres,
+    required List<MovieGenre> genres,
     required Map<Language, String> trailers,
     required List<Language> languages,
     required List<Season> seasons,
@@ -73,9 +75,14 @@ class MovieData with _$MovieData {
       }
     }
 
-    final List<String> genres =
-        schema.genres?.data?.map((GenresDataSchema e) => e.secondaryName ?? e.primaryName ?? '').toList() ??
-            List<String>.empty();
+    final List<MovieGenre> genres = schema.genres?.data
+            ?.map(
+              (GenresDataSchema e) => e.secondaryName != null ? MovieGenreHelper.fromSchema(e.secondaryName!) : null,
+            )
+            .where((MovieGenre? e) => e != null)
+            .cast<MovieGenre>()
+            .toList() ??
+        List<MovieGenre>.empty();
 
     final Map<Language, String> trailers = <Language, String>{
       for (TrailersDataSchema e in schema.trailers?.data ?? List<TrailersDataSchema>.empty())

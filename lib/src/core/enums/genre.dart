@@ -1,27 +1,27 @@
 enum Genre {
   all,
-  animated,
-  biographical,
-  detective,
-  documentary,
-  drama,
-  erotic,
-  western,
-  historical,
-  comedy,
-  melodrama,
-  musical,
-  short,
-  mysticism,
-  theatreMusical,
-  sharpStory,
-  adventure,
-  fantastic,
-  military,
-  family,
-  horror,
-  sports,
-  thriller,
-  fabulous,
-  anime,
+  animated,         // ანიმაციური
+  biographical,     // ბიოგრაფიული
+  detective,        // დეტექტივი
+  documentary,      // დოკუმენტური
+  drama,            // დრამა
+  erotic,           // ეროტიკული
+  western,          // ვესტერნი
+  historical,       // ისტორიული
+  comedy,           // კომედია
+  melodrama,        // მელოდრამა
+  musical,          // მიუზიკლი
+  short,            // მოკლემეტრაჟიანი
+  mysticism,        // მისტიკა
+  theatreMusical,   // მუსიკალური
+  sharpStory,       // მძაფრ-სიუჟეტიანი
+  adventure,        // სათავგადასავლო
+  fantastic,        // ფანტასტიკა
+  military,         // საომარი
+  family,           // საოჯახო
+  horror,           // საშინელებათა ფილმი
+  sports,           // სპორტული
+  thriller,         // თრილერი
+  fabulous,         // ზღაპრული (ფენტეზი)
+  anime,            // ანიმე
 }

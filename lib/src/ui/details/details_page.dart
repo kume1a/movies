@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../core/enums/movie_genre.dart';
 import '../../di/injection.dart';
 import '../../state/details/details_bloc.dart';
 import '../core/routes/screens_navigator.dart';
@@ -96,7 +97,7 @@ class DetailsPageContent extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 18),
-                      GenreList(genres: state.movie?.genres ?? List<String>.empty()),
+                      GenreList(genres: state.movie?.genres ?? List<MovieGenre>.empty()),
                       const SizedBox(height: 32),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),

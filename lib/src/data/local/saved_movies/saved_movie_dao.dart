@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 
+import '../../../core/enums/movie_genre.dart';
 import '../../model/core/either.dart';
 import '../../model/core/fetch_failure.dart';
 import '../../model/models/movies/movie_data.dart';
@@ -35,8 +36,8 @@ class SavedMovieDao {
     ));
   }
 
-  Future<void> saveMovieGenres(int movieId, List<String> genres) async {
-    for (final String genre in genres) {
+  Future<void> saveMovieGenres(int movieId, List<MovieGenre> genres) async {
+    for (final MovieGenre genre in genres) {
       await _savedMovieGenreDao.insertSavedMovieGenre(DBSavedMovieGenre(movieId: movieId, genre: genre));
     }
   }
@@ -91,7 +92,7 @@ class SavedMovieDao {
     return savedMovies;
   }
 
-  Future<List<String>> getMovieGenres() async {
+  Future<List<MovieGenre>> getMovieGenres() async {
     final List<DBSavedMovieGenre> genres = await _savedMovieGenreDao.getAll();
 
     return genres.map((DBSavedMovieGenre e) => e.genre).toList();

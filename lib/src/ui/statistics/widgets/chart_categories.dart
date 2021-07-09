@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/enums/movie_genre.dart';
+import '../../../core/helpers/enum_to_string.dart';
 import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/values/colors.dart';
 
@@ -18,7 +20,7 @@ class ChartCategories extends StatelessWidget {
         if (state.genreToPercentage.isEmpty) return const SizedBox.shrink();
 
         final List<PieChartSectionData> sections =
-            state.genreToPercentage.entries.mapIndexed((int index, MapEntry<String, double> e) {
+            state.genreToPercentage.entries.mapIndexed((int index, MapEntry<MovieGenre?, double> e) {
           return PieChartSectionData(
             color: _getSectionColor(index),
             value: e.value,
@@ -45,7 +47,7 @@ class ChartCategories extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: state.genreToPercentage.entries.mapIndexed((int index, MapEntry<String, double> e) {
+                  children: state.genreToPercentage.entries.mapIndexed((int index, MapEntry<MovieGenre?, double> e) {
                     return Row(
                       children: <Widget>[
                         Container(
@@ -57,7 +59,7 @@ class ChartCategories extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        Text(e.key),
+                        Text(e.key != null ? EnumToString.convertToString(e.key) : 'Other'),
                       ],
                     );
                   }).toList(),

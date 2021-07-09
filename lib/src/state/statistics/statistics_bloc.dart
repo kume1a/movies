@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
+import '../../core/enums/movie_genre.dart';
 import '../../core/enums/time_period.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
 import '../../data/local/watched_movies/watched_movie_dao.dart';
@@ -71,9 +72,9 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       averageTime: averageTime,
     );
 
-    final List<String> savedMovieGenres = await _savedMovieDao.getMovieGenres();
-    final Map<String, int> genreToCount = <String, int>{};
-    for (final String genre in savedMovieGenres) {
+    final List<MovieGenre> savedMovieGenres = await _savedMovieDao.getMovieGenres();
+    final Map<MovieGenre, int> genreToCount = <MovieGenre, int>{};
+    for (final MovieGenre genre in savedMovieGenres) {
       if (genreToCount.containsKey(genre)) {
         genreToCount[genre] = genreToCount[genre]! + 1;
       } else {
@@ -81,24 +82,24 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       }
     }
     const int maxLength = 6;
-    List<MapEntry<String, int>> modified = genreToCount.entries
-        .sorted((MapEntry<String, int> a, MapEntry<String, int> b) => b.value.compareTo(a.value))
+    List<MapEntry<MovieGenre?, int>> modified = genreToCount.entries
+        .sorted((MapEntry<MovieGenre, int> a, MapEntry<MovieGenre, int> b) => b.value.compareTo(a.value))
         .toList();
     modified = modified.length <= maxLength - 1 ? modified : modified.take(maxLength - 1).toList();
     if (genreToCount.length > maxLength - 1) {
       int otherCount = 0;
-      for (final MapEntry<String, int> e in genreToCount.entries) {
-        if (!modified.any((MapEntry<String, int> entry) => entry.key == e.key)) {
+      for (final MapEntry<MovieGenre, int> e in genreToCount.entries) {
+        if (!modified.any((MapEntry<MovieGenre?, int> entry) => entry.key == e.key)) {
           otherCount += e.value;
         }
       }
       if (otherCount > 0) {
-        modified.add(MapEntry<String, int>('Other', otherCount));
+        modified.add(MapEntry<MovieGenre?, int>(null, otherCount));
       }
     }
 
-    final Map<String, double> genreToPercentage = <String, double>{
-      for (MapEntry<String, int> entry in modified) entry.key: entry.value.toDouble() / savedMovieGenres.length
+    final Map<MovieGenre?, double> genreToPercentage = <MovieGenre?, double>{
+      for (MapEntry<MovieGenre?, int> entry in modified) entry.key: entry.value.toDouble() / savedMovieGenres.length
     };
     yield state.copyWith(genreToPercentage: genreToPercentage);
   }

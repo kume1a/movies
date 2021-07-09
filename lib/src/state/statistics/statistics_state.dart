@@ -9,7 +9,7 @@ class StatisticsState with _$StatisticsState {
     required TimePeriod timePeriod,
     required List<WatchedDuration> watchedDurations,
     required Duration averageTime,
-    required Map<String, double> genreToPercentage,
+    required Map<MovieGenre?, double> genreToPercentage,
   }) = _StatisticsState;
 
   factory StatisticsState.initial() => StatisticsState(
@@ -19,6 +19,6 @@ class StatisticsState with _$StatisticsState {
     timePeriod: TimePeriod.week,
     watchedDurations: List<WatchedDuration>.empty(),
     averageTime: Duration.zero,
-    genreToPercentage: <String, double>{},
+    genreToPercentage: <MovieGenre?, double>{},
   );
 }

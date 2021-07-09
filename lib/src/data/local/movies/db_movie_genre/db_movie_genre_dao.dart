@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../../../core/helpers/enum_to_string.dart';
 import '../../tables.dart';
 import 'db_movie_genre.dart';
 
@@ -21,7 +22,7 @@ class DBMovieGenreDao {
     ''', <Object?>[
       movieGenre.id,
       movieGenre.movieId,
-      movieGenre.genre,
+      EnumToString.convertToString(movieGenre.genre),
     ]);
   }
 

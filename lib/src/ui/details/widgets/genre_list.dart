@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/enums/movie_genre.dart';
+import '../../../core/helpers/enum_to_string.dart';
 import '../../core/values/colors.dart';
 
 class GenreList extends StatelessWidget {
@@ -8,7 +10,7 @@ class GenreList extends StatelessWidget {
     required this.genres,
   }): super(key: key);
 
-  final List<String> genres;
+  final List<MovieGenre> genres;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class GenreList extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                genres[index],
+                EnumToString.convertToString(genres[index]),
                 style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             ),

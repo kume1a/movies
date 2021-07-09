@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/enums/image_size.dart';
 import '../../../core/enums/language.dart';
+import '../../../core/enums/movie_genre.dart';
 import '../../../core/enums/resolution.dart';
 import '../../model/models/movies/movie_data.dart';
 import '../../model/models/seasons/season.dart';
@@ -53,7 +54,7 @@ class MovieDao {
     };
 
     final List<DBMovieGenre> movieGenres = await _movieGenreDao.getMovieGenres(movieId);
-    final List<String> genres = movieGenres.map((DBMovieGenre e) => e.genre).toList();
+    final List<MovieGenre> genres = movieGenres.map((DBMovieGenre e) => e.genre).toList();
 
     final List<DBMovieLanguage> movieLanguages = await _movieLanguageDao.getMovieLanguages(movieId);
     final List<Language> languages = movieLanguages.map((DBMovieLanguage e) => e.language).toList();
@@ -119,7 +120,7 @@ class MovieDao {
       ));
     }
 
-    for (final String genre in movieData.genres) {
+    for (final MovieGenre genre in movieData.genres) {
       await _movieGenreDao.insertMovieGenre(DBMovieGenre(
         movieId: movieData.movieId,
         genre: genre,
