@@ -145,5 +145,23 @@
   "streamHeaderRecommended": "Recommended",
   "streamOptionLanguage": "Language",
   "streamOptionSpeed": "Speed",
-  "streamOptionQuality": "Quality"
+  "streamOptionQuality": "Quality",
+  "streamSeason": "Season {season}",
+  "@streamSeason": {
+    "placeholders": {
+      "season": {}
+    }
+  },
+  "streamEpisode": "Episode {episode}",
+  "@streamEpisode": {
+    "placeholders": {
+      "episode": {}
+    }
+  },
+  "streamEp": "Ep {episode}",
+  "@streamEp": {
+    "placeholders": {
+      "episode": {}
+    }
+  }
 }

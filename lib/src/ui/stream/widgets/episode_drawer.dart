@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/extensions/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
@@ -256,6 +258,8 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return BlocBuilder<StreamBloc, StreamState>(
       buildWhen: (StreamState prev, StreamState curr) =>
           prev.episode != curr.episode ||
@@ -266,11 +270,13 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
       builder: (BuildContext context, StreamState state) {
         return state.seasonFiles != null
             ? _buildContent(
-                state.seasonFiles!,
-                state.episode,
-                state.episodeSeason,
-                state.season,
-                state.movie != null ? state.movie!.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
+                appLocalizations,
+                seasonFiles: state.seasonFiles!,
+                episode: state.episode,
+                episodeSeason: state.episodeSeason,
+                season: state.season,
+                seasons:
+                    state.movie != null ? state.movie!.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
               )
             : const SizedBox.shrink();
       },
@@ -278,20 +284,26 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }
 
   Widget _buildContent(
-    SeasonFiles seasonFiles,
-    int episode,
-    int episodeSeason,
-    int season,
-    List<int> seasons,
-  ) {
+    AppLocalizations? appLocalizations, {
+    required SeasonFiles seasonFiles,
+    required int episode,
+    required int episodeSeason,
+    required int season,
+    required List<int> seasons,
+  }) {
     return PageView(
       controller: _pageController,
       children: <Widget>[
         Container(
           color: backgroundColor,
-          child: _buildSeasonList(seasons, season),
+          child: _buildSeasonList(
+            appLocalizations,
+            seasonNumbers: seasons,
+            selectedSeason: season,
+          ),
         ),
         _buildEpisodeList(
+          appLocalizations,
           seasonFiles: seasonFiles,
           episode: episode,
           episodeSeason: episodeSeason,
@@ -301,7 +313,11 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildSeasonList(List<int> seasonNumbers, int selectedSeason) {
+  Widget _buildSeasonList(
+    AppLocalizations? appLocalizations, {
+    required List<int> seasonNumbers,
+    required int selectedSeason,
+  }) {
     return ListView.builder(
       itemCount: seasonNumbers.length + 1,
       itemBuilder: (BuildContext context, int index) {
@@ -329,14 +345,15 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           height: 50,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text('Season $season', style: prB19),
+            child: Text(appLocalizations?.streamSeason(season) ?? '', style: prB19),
           ),
         );
       },
     );
   }
 
-  Widget _buildEpisodeList({
+  Widget _buildEpisodeList(
+    AppLocalizations? appLocalizations, {
     required SeasonFiles seasonFiles,
     required int episode,
     required int episodeSeason,
@@ -361,7 +378,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
             children: <Widget>[
               const Icon(Icons.chevron_left),
               const SizedBox(width: 6),
-              Text('Season $season', style: prSB18),
+              Text(appLocalizations?.streamSeason(season) ?? '', style: prSB18),
             ],
           ),
         ),
@@ -369,7 +386,8 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return _buildItem(
-                context: context,
+                context,
+                appLocalizations,
                 index: index,
                 episode: seasonFiles.data[index],
                 isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
@@ -382,8 +400,9 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildItem({
-    required BuildContext context,
+  Widget _buildItem(
+    BuildContext context,
+    AppLocalizations? appLocalizations, {
     required int index,
     required Episode episode,
     required bool isSelected,
@@ -406,7 +425,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Ep ${episode.episode}'),
+                  Text(appLocalizations?.streamEp(episode.episode) ?? ''),
                   const SizedBox(height: 12),
                   Text(
                     episode.title,

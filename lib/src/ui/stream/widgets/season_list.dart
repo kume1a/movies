@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../state/stream/stream_bloc.dart';
@@ -11,26 +12,36 @@ class SeasonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     return SizedBox(
       height: 50,
       child: BlocBuilder<StreamBloc, StreamState>(
         buildWhen: (StreamState prev, StreamState curr) => prev.season != curr.season,
-        builder: (BuildContext context, StreamState state) => _buildList(state.season),
+        builder: (BuildContext context, StreamState state) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: seasonNumbers.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildItem(
+                context,
+                appLocalizations,
+                seasonNumber: seasonNumbers[index],
+                isActive: state.season == seasonNumbers[index],
+              );
+            },
+          );
+        },
       ),
     );
   }
 
-  Widget _buildList(int season) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: seasonNumbers.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildItem(context, seasonNumbers[index], season == seasonNumbers[index]);
-      },
-    );
-  }
-
-  Widget _buildItem(BuildContext context, int seasonNumber, bool isActive) {
+  Widget _buildItem(
+    BuildContext context,
+    AppLocalizations? appLocalizations, {
+    required int seasonNumber,
+    required bool isActive,
+  }) {
     return GestureDetector(
       onTap: () => context.read<StreamBloc>().add(StreamEvent.seasonChanged(seasonNumber)),
       child: Container(
@@ -39,7 +50,7 @@ class SeasonList extends StatelessWidget {
         child: AnimatedDefaultTextStyle(
           style: isActive ? prSB18 : scSB18,
           duration: const Duration(milliseconds: 300),
-          child: Text('Season $seasonNumber'),
+          child: Text(appLocalizations?.streamSeason(seasonNumber) ?? ''),
         ),
       ),
     );

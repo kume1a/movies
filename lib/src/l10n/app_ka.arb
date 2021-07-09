@@ -109,5 +109,8 @@
   "streamHeaderRecommended": "რეკომენდირებული",
   "streamOptionLanguage": "ენა",
   "streamOptionSpeed": "სიჩქარე",
-  "streamOptionQuality": "ხარისხი"
+  "streamOptionQuality": "ხარისხი",
+  "streamSeason": "სეზონი {season}",
+  "streamEpisode": "ეპიზოდი {episode}",
+  "streamEp": "ეპ {episode}"
 }
