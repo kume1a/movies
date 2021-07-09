@@ -31,6 +31,7 @@
     }
   },
   "other": "Other",
+  "genreAll": "All",
   "genreSciFi": "Sci-Fi",
   "genreComedy": "Comedy",
   "genreFamily": "Family",

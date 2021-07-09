@@ -10,6 +10,7 @@
   "minutes": "{minutes}წთ",
   "reviews": "{count} მნახველი",
   "other": "სხვა",
+  "genreAll": "ყველა",
   "genreSciFi": "ფანტასტიკა",
   "genreComedy": "კომედია",
   "genreFamily": "საოჯახო",

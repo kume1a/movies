@@ -34,13 +34,13 @@ class MovieService extends BaseService {
       case Genre.all:
         genreId = null;
         break;
-      case Genre.animated:
+      case Genre.animation:
         genreId = 265;
         break;
-      case Genre.biographical:
+      case Genre.biography:
         genreId = 253;
         break;
-      case Genre.detective:
+      case Genre.crime:
         genreId = 259;
         break;
       case Genre.documentary:
@@ -49,19 +49,19 @@ class MovieService extends BaseService {
       case Genre.drama:
         genreId = 249;
         break;
-      case Genre.erotic:
+      case Genre.adult:
         genreId = 269;
         break;
       case Genre.western:
         genreId = 267;
         break;
-      case Genre.historical:
+      case Genre.history:
         genreId = 264;
         break;
       case Genre.comedy:
         genreId = 258;
         break;
-      case Genre.melodrama:
+      case Genre.romance:
         genreId = 260;
         break;
       case Genre.musical:
@@ -70,22 +70,22 @@ class MovieService extends BaseService {
       case Genre.short:
         genreId = 273;
         break;
-      case Genre.mysticism:
+      case Genre.mystery:
         genreId = 256;
         break;
       case Genre.theatreMusical:
         genreId = 262;
         break;
-      case Genre.sharpStory:
+      case Genre.action:
         genreId = 248;
         break;
       case Genre.adventure:
         genreId = 266;
         break;
-      case Genre.fantastic:
+      case Genre.sciFi:
         genreId = 257;
         break;
-      case Genre.military:
+      case Genre.war:
         genreId = 251;
         break;
       case Genre.family:
@@ -94,13 +94,13 @@ class MovieService extends BaseService {
       case Genre.horror:
         genreId = 255;
         break;
-      case Genre.sports:
+      case Genre.sport:
         genreId = 254;
         break;
       case Genre.thriller:
         genreId = 250;
         break;
-      case Genre.fabulous:
+      case Genre.fantasy:
         genreId = 261;
         break;
       case Genre.anime:

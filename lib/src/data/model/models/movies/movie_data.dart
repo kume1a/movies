@@ -6,7 +6,6 @@ import '../../../../core/enums/movie_genre.dart';
 import '../../../../core/enums/resolution.dart';
 import '../../../../core/helpers/movie_genre_helper.dart';
 import '../../schemas/core/type_mappers.dart';
-import '../../schemas/core/utils.dart';
 import '../../schemas/movie/genres_schema.dart';
 import '../../schemas/movie/languages_schema.dart';
 import '../../schemas/movie/movie_data_schema.dart';
@@ -123,5 +122,8 @@ class MovieData with _$MovieData {
         secondaryCovers[Resolution.hd],
         covers[ImageSize.small],
         secondaryCovers[Resolution.vga],
-      ].firstValid;
+      ].firstWhere(
+        (String? element) => element != null && element.isNotEmpty,
+    orElse: () => '',
+  );
 }
