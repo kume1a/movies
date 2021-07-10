@@ -62,9 +62,15 @@ class ChartCategories extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        Text(e.key != null
-                            ? MovieGenreHelper.convertToString(appLocalizations, e.key!)
-                            : appLocalizations?.other ?? ''),
+                        Expanded(
+                          child: Text(
+                            e.key != null
+                                ? MovieGenreHelper.convertToString(appLocalizations, e.key!)
+                                : appLocalizations?.other ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     );
                   }).toList(),

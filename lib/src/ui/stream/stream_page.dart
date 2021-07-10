@@ -10,7 +10,6 @@ import '../../state/stream/stream_bloc.dart';
 import '../core/base_state.dart';
 import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
-import '../core/values/text_styles.dart';
 import '../core/widgets/rating_duration.dart';
 import 'widgets/widgets.dart';
 
@@ -74,6 +73,7 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    final ThemeData theme = Theme.of(context);
 
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final bool isPortrait = mediaQueryData.orientation == Orientation.portrait;
@@ -157,8 +157,11 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
           } else {
             content.addAll(<Widget>[
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 4),
-                child: Text(appLocalizations?.streamHeaderRecommended ?? '', style: prB22),
+                padding: const EdgeInsets.only(left: 16, bottom: 12, top: 12),
+                child: Text(
+                  appLocalizations?.streamHeaderRecommended ?? '',
+                  style: theme.textTheme.headline6?.copyWith(fontWeight: FontWeight.w100),
+                ),
               ),
               RelatedMovies(),
             ]);
