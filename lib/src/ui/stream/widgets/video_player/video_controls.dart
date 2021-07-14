@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,7 +9,6 @@ import '../../../../core/enums/language.dart';
 import '../../../../core/enums/quality.dart';
 import '../../../../core/helpers/language_helper.dart';
 import '../../../../core/helpers/quality_helper.dart';
-import '../../../../state/stream/stream_bloc.dart';
 import '../../../core/formatters.dart';
 import '../../../core/routes/screens_navigator.dart';
 import '../../../core/values/text_styles.dart';
@@ -233,12 +230,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               highlightColor: Colors.transparent,
               icon: const Icon(Icons.arrow_back, color: Colors.white),
             ),
-            Row(
-              children: <Widget>[
-                _buildDownloadButton(),
-                _buildSettingsButton(),
-              ],
-            ),
+            _buildSettingsButton(),
           ],
         ),
       ),
@@ -398,34 +390,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               )
             : const SizedBox.shrink(),
       ),
-    );
-  }
-
-  Widget _buildDownloadButton() {
-    return IconButton(
-      onPressed: () async {
-        final PermissionStatus status = await Permission.storage.status;
-        if (status == PermissionStatus.granted) {
-          context.read<StreamBloc>().add(const StreamEvent.downloadRequested());
-        } else {
-          final PermissionStatus requestStatus = await Permission.storage.request();
-          switch (requestStatus) {
-            case PermissionStatus.granted:
-              context.read<StreamBloc>().add(const StreamEvent.downloadRequested());
-              break;
-            case PermissionStatus.denied:
-              context.read<StreamBloc>().add(const StreamEvent.permissionDenied());
-              break;
-            case PermissionStatus.permanentlyDenied:
-              context.read<StreamBloc>().add(const StreamEvent.permissionDenied());
-              break;
-            default:
-              // TODO: 30/03/21 implement for ios too
-              break;
-          }
-        }
-      },
-      icon: const Icon(Icons.download_rounded),
     );
   }
 

@@ -17,8 +17,6 @@ class StreamState with _$StreamState {
     required Language language,
     required List<Language> availableLanguages,
     required List<Quality> availableQualities,
-    required bool shouldShowPermissionDeniedMessage,
-    required bool shouldShowDownloadStartedMessage,
   }) = _StreamState;
 
   factory StreamState.initial() => StreamState(
@@ -32,8 +30,6 @@ class StreamState with _$StreamState {
         language: Language.eng,
         availableLanguages: <Language>[],
         availableQualities: <Quality>[],
-        shouldShowPermissionDeniedMessage: false,
-        shouldShowDownloadStartedMessage: false,
       );
 }
 

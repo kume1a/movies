@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../core/enums/language.dart';
 import '../../core/enums/quality.dart';
@@ -66,9 +63,6 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       fetchRelatedRequested: _onFetchRelatedRequested,
       startPositionChanged: _onStartPositionChanged,
       onPositionTick: _onPositionTick,
-      downloadRequested: _downloadRequested,
-      permissionDenied: _permissionDenied,
-      removeMessages: _removeMessages,
     );
   }
 
@@ -253,36 +247,5 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       ));
     }
     yield state.copyWith(currentPosition: e.position);
-  }
-
-  Stream<StreamState> _downloadRequested(_DownloadRequested e) async* {
-    if (state.videoSrc != null && state.movie != null) {
-      final String videoSrcUrl = state.videoSrc!;
-      final MovieData movieData = state.movie!;
-      final String fileName = '${movieData.nameEn}__${DateTime.now().millisecondsSinceEpoch}.mp4';
-
-      final Directory? externalDir = await getExternalStorageDirectory();
-
-      if (externalDir != null) {
-        yield state.copyWith(shouldShowDownloadStartedMessage: true);
-
-        await FlutterDownloader.enqueue(
-          url: videoSrcUrl,
-          savedDir: externalDir.path,
-          fileName: fileName,
-        );
-      }
-    }
-  }
-
-  Stream<StreamState> _permissionDenied(_PermissionDenied e) async* {
-    yield state.copyWith(shouldShowPermissionDeniedMessage: true);
-  }
-
-  Stream<StreamState> _removeMessages(_RemoveMessages e) async* {
-    yield state.copyWith(
-      shouldShowPermissionDeniedMessage: false,
-      shouldShowDownloadStartedMessage: false,
-    );
   }
 }

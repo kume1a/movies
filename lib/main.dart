@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:injectable/injectable.dart';
 
 import 'src/di/injection.dart';
@@ -12,7 +11,6 @@ Future<void> main() async {
 
   await configureInjection(Environment.prod);
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]);
-  await FlutterDownloader.initialize();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);

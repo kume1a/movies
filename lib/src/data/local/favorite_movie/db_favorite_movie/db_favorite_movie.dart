@@ -20,8 +20,8 @@ class DBFavoriteMovie with _$DBFavoriteMovie {
       id: map[TableFavoriteMovies.columnId] as int? ?? -1,
       movieId: map[TableFavoriteMovies.columnMovieId] as int? ?? -1,
       groupId: map[TableFavoriteMovies.columnGroupId] as int?,
-      movieNameKa: map[TableFavoriteMovies.columnMovieNameKa] as String? ?? '',
-      movieNameEn: map[TableFavoriteMovies.columnMovieNameEn] as String? ?? '',
+      movieNameKa: map[TableFavoriteMovies.columnMovieNameKa]?.toString() ?? '',
+      movieNameEn: map[TableFavoriteMovies.columnMovieNameEn]?.toString() ?? '',
       timestamp: map[TableFavoriteMovies.columnTimestamp] as int? ?? -1,
     );
   }

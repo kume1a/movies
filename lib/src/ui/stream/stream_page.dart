@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../data/model/models/seasons/season.dart';
 import '../../di/injection.dart';
@@ -81,34 +80,7 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
     final double playerWidth = mediaQueryData.size.width;
     final double playerHeight = isPortrait ? playerWidth * 9 / 16 : mediaQueryData.size.height;
 
-    return BlocConsumer<StreamBloc, StreamState>(
-      listenWhen: (StreamState previous, StreamState current) =>
-          previous.shouldShowPermissionDeniedMessage != current.shouldShowPermissionDeniedMessage ||
-          previous.shouldShowDownloadStartedMessage != current.shouldShowDownloadStartedMessage,
-      listener: (BuildContext context, StreamState state) {
-        if (state.shouldShowPermissionDeniedMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Grant storage permission to download'),
-              action: SnackBarAction(
-                label: 'settings',
-                onPressed: () => openAppSettings(),
-              ),
-              duration: const Duration(seconds: 6),
-            ),
-          );
-        }
-
-        if (state.shouldShowDownloadStartedMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Download started'),
-            ),
-          );
-        }
-
-        context.read<StreamBloc>().add(const StreamEvent.removeMessages());
-      },
+    return BlocBuilder<StreamBloc, StreamState>(
       buildWhen: (StreamState previous, StreamState current) => previous.movie != current.movie,
       builder: (BuildContext context, StreamState state) {
         if (state.movie == null) {

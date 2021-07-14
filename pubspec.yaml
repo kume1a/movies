@@ -28,8 +28,6 @@ dependencies:
   # helpers
   video_player: ^2.1.6
   wakelock: ^0.5.2
-  permission_handler: ^8.1.1
-  flutter_downloader: ^1.6.1
   collection: ^1.15.0
   flutter_hooks: ^0.17.0
   visibility_detector: ^0.2.0
