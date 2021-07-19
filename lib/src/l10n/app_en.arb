@@ -12,7 +12,7 @@
       "minutes": {}
     }
   },
-  "hours": "{hours}m",
+  "hours": "{hours}h",
   "@hours": {
     "placeholders": {
       "hours": {}
@@ -68,6 +68,9 @@
   "languageJpn": "Japanese",
   "languageFre": "French",
   "languageGer": "German",
+  "languageKor": "Korean",
+  "languageSpa": "Spanish",
+  "languagePor": "Portuguese",
   "bottomNavFavorites": "Favorites",
   "bottomNavStatistics": "Statistics",
   "homeHeaderSearch": "Movies, Actors, Directors",

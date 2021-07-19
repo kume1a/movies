@@ -5,4 +5,7 @@ enum Language {
   jpn,
   fre,
   ger,
+  kor,
+  por,
+  spa,
 }

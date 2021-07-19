@@ -19,6 +19,12 @@ class LanguageHelper {
         return appLocalizations?.languageFre ?? '';
       case Language.ger:
         return appLocalizations?.languageGer ?? '';
+      case Language.kor:
+        return appLocalizations?.languageKor ?? '';
+      case Language.spa:
+        return appLocalizations?.languageSpa ?? '';
+      case Language.por:
+        return appLocalizations?.languagePor ?? '';
     }
   }
 }

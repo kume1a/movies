@@ -11,6 +11,9 @@ const String rus = 'RUS';
 const String jpn = 'JPN';
 const String fre = 'FRE';
 const String ger = 'GER';
+const String kor = 'KOR';
+const String por = 'POR';
+const String spa = 'SPA';
 
 const String movie = 'movie';
 const String person = 'person';
@@ -39,6 +42,12 @@ Language getLanguage(String? language) {
       return Language.fre;
     case ger:
       return Language.ger;
+    case kor:
+      return Language.kor;
+    case por:
+      return Language.por;
+    case spa:
+      return Language.spa;
   }
   return Language.eng;
 }

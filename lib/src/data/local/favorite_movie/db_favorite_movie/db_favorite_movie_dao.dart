@@ -84,7 +84,7 @@ class DBFavoriteMovieDao {
       groupId,
     ]);
 
-    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieNameKa] as String? ?? '').toList();
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieNameKa]?.toString() ?? '').toList();
   }
 
   Future<List<String>> getFavoriteMovieNamesEnForGroup(int groupId) async {
@@ -97,7 +97,7 @@ class DBFavoriteMovieDao {
       groupId,
     ]);
 
-    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieNameEn] as String? ?? '').toList();
+    return result.map((Map<String, Object?> e) => e[TableFavoriteMovies.columnMovieNameEn]?.toString() ?? '').toList();
   }
 
   Future<int?> getFavoriteMovieGroupId(int movieId) async {

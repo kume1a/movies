@@ -34,7 +34,7 @@ class Movies extends StatelessWidget {
               return GestureDetector(
                 onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
                 child: MovieItem(
-                  imageUrl: movie.availableImage,
+                  imageUrl: movie.poster,
                   name: movie.getName(context),
                   duration: movie.duration,
                   plot: movie.getPlot(context),
