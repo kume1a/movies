@@ -32,7 +32,9 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: colorPrimary,
       bottomNavigationBar: BottomAnimation(
         onItemSelect: (int value) {
-          setState(() => _index = value);
+          if (value != _index) {
+            setState(() => _index = value);
+          }
         },
         selectedIndex: _index,
         items: <BottomNavItem>[

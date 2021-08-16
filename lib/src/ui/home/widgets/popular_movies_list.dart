@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/enums/image_size.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../state/home/home_bloc.dart';
@@ -40,36 +39,36 @@ class PopularMoviesList extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            foregroundDecoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[Colors.transparent, Colors.black38],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: <double>[.7, 1],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(_radius),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              foregroundDecoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[Colors.transparent, Colors.black38],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: <double>[.7, 1],
+                ),
+              ),
+              width: _itemWidth,
+              height: _itemHeight,
+              child: SafeImage(imageUrl: movie.availableImage),
+            ),
+            Positioned(
+              bottom: 12,
+              left: 24,
+              right: 24,
+              child: Text(
+                movie.getName(context),
+                style: prB19,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            width: _itemWidth,
-            height: _itemHeight,
-            child: SafeImage(
-              imageUrl: movie.covers[ImageSize.large] ?? '',
-              radius: _radius,
-            ),
-          ),
-          Positioned(
-            bottom: 12,
-            left: 24,
-            right: 24,
-            child: Text(
-              movie.getName(context),
-              style: prB19,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
