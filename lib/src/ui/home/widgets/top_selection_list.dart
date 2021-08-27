@@ -74,6 +74,7 @@ class TopSelectionList extends StatelessWidget {
                 movie.getName(context),
                 style: prSB13,
                 maxLines: 2,
+                textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

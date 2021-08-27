@@ -6,6 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'src/di/injection.dart';
 import 'src/ui/app.dart';
 
+// TODO: add subtitles from api and allow to import, group name edit. blurhash, download video
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

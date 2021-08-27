@@ -7,6 +7,8 @@ import 'package:wakelock/wakelock.dart';
 
 import '../../../core/enums/language.dart';
 import '../../../core/enums/quality.dart';
+import '../../../data/local/preferences/settings_helper.dart';
+import '../../../di/injection.dart';
 import '../../../state/stream/stream_bloc.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
@@ -97,13 +99,15 @@ class _Mp4HandlerState extends State<Mp4Handler> {
     Wakelock.enable();
     _initControllers();
 
-    _ticker = Timer.periodic(const Duration(seconds: 4), (Timer timer) async {
-      if (_videoPlayerController != null && _chewieController != null && _chewieController?.isPlaying == true) {
-        final Duration? position = await _videoPlayerController!.position;
-        if (position != null) {
-          context.read<StreamBloc>().add(StreamEvent.onPositionTick(position));
+    getIt<SettingsHelper>().getSaveMovieInterval().then((int value) {
+      _ticker = Timer.periodic(Duration(seconds: value), (Timer timer) async {
+        if (_videoPlayerController != null && _chewieController != null && _chewieController?.isPlaying == true) {
+          final Duration? position = await _videoPlayerController!.position;
+          if (position != null) {
+            context.read<StreamBloc>().add(StreamEvent.onPositionTick(position));
+          }
         }
-      }
+      });
     });
   }
 

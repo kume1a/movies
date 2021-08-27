@@ -50,6 +50,7 @@ class _SettingsPageContent extends StatelessWidget {
             ),
             const TileAutoPlay(),
             const TileDoubleTapToSeek(),
+            const TileSaveMovieInterval(),
             const SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),

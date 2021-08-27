@@ -29,19 +29,22 @@ class SettingsHelper {
 
   static const String _keyAutoPlay = 'key_auto_play';
   static const String _keyDoubleTapToSeek = 'key_double_tap_to_seek';
+  static const String _keySaveMovieInterval = 'key_save_movie_interval';
   static const String _keyRecordSearchHistory = 'key_record_search_history';
   static const String _keyRecordWatchHistory = 'key_record_watch_history';
   static const String _keyLocale = 'key_locale';
 
   Future<void> setAutoPlayEnabled({required bool enabled}) async => _sharedPreferences.setBool(_keyAutoPlay, enabled);
 
-  Future<void> setDoubleTapToSeek(int seconds) async {
-    await _sharedPreferences.setInt(_keyDoubleTapToSeek, seconds);
-  }
+  Future<void> setDoubleTapToSeek(int seconds) async => _sharedPreferences.setInt(_keyDoubleTapToSeek, seconds);
+
+  Future<void> setSaveMovieInteval(int seconds) async => _sharedPreferences.setInt(_keySaveMovieInterval, seconds);
 
   Future<bool> isAutoPlayEnabled() async => _sharedPreferences.getBool(_keyAutoPlay) ?? false;
 
   Future<int> getDoubleTapToSeekValue() async => _sharedPreferences.getInt(_keyDoubleTapToSeek) ?? 10;
+
+  Future<int> getSaveMovieInterval() async => _sharedPreferences.getInt(_keySaveMovieInterval) ?? 4;
 
   // ---- history ----
   Future<void> clearSearchHistory() async => _searchResultDao.deleteSearchResults();

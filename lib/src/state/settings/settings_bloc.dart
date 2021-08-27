@@ -25,6 +25,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       init: _init,
       autoPlaySwitched: _autoPlaySwitched,
       doubleTapToSeekValueChanged: _doubleTapToSeekValueChanged,
+      saveMovieIntervalChanged: _saveMovieIntervalChanged,
       clearSearchHistoryRequested: _clearSearchHistoryRequested,
       clearWatchHistoryRequested: _clearWatchHistoryRequested,
       searchHistoryEnabledSwitched: _searchHistoryEnabledSwitched,
@@ -57,6 +58,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event.value != state.doubleTapToSeekValue) {
       yield state.copyWith(doubleTapToSeekValue: event.value);
       await _settingsHelper.setDoubleTapToSeek(event.value);
+    }
+  }
+
+  Stream<SettingsState> _saveMovieIntervalChanged(_SaveMovieIntervalChanged event) async* {
+    if (event.value != state.saveMovieInterval) {
+      yield state.copyWith(saveMovieInterval: event.value);
+      await _settingsHelper.setSaveMovieInteval(event.value);
     }
   }
 

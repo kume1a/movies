@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/settings/settings_bloc.dart';
 import '../../core/dialogs/dtap_to_seek_value_chooser_dialog.dart';
+import '../../core/dialogs/save_movie_interval_dialog.dart';
 
 class TileAutoPlay extends StatelessWidget {
   const TileAutoPlay({Key? key}) : super(key: key);
@@ -49,6 +50,35 @@ class TileDoubleTapToSeek extends StatelessWidget {
 
             if (newValue != null) {
               context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(newValue));
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
+class TileSaveMovieInterval extends StatelessWidget {
+  const TileSaveMovieInterval({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (SettingsState prev, SettingsState curr) => prev.saveMovieInterval != curr.saveMovieInterval,
+      builder: (BuildContext context, SettingsState state) {
+        return ListTile(
+          title: Text(appLocalizations?.settingsSaveMovieInterval ?? ''),
+          subtitle: Text(appLocalizations?.settingsCommentSaveMovieInterval(state.saveMovieInterval) ?? ''),
+          onTap: () async {
+            final int? newValue = await showSaveMovieIntervalChooserDialog(
+              context,
+              currentValue: state.doubleTapToSeekValue,
+            );
+
+            if (newValue != null) {
+              context.read<SettingsBloc>().add(SettingsEvent.saveMovieIntervalChanged(newValue));
             }
           },
         );

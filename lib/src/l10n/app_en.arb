@@ -130,6 +130,20 @@
       "seconds": {}
     }
   },
+  "settingsSaveMovieInterval": "Save movie interval",
+  "settingsCommentSaveMovieInterval": "Every {seconds} seconds\ncurrently playing movie position will update",
+  "@settingsCommentSaveMovieInterval": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "settingsSaveMovieIntervalDialogHeader": "Save Movie Interval",
+  "settingsSaveMovieIntervalDialogItem": "{seconds} sec",
+  "@settingsSaveMovieIntervalDialogItem": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
   "settingsHeaderHistory": "History",
   "settingsClearSearchHistory": "Clear search history",
   "settingsCommentClearSearchHistory": "Clear saved movies present in search page",

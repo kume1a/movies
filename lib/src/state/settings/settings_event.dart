@@ -6,6 +6,7 @@ class SettingsEvent with _$SettingsEvent {
 
   const factory SettingsEvent.autoPlaySwitched({required bool enabled}) = _AutoPlaySwitched;
   const factory SettingsEvent.doubleTapToSeekValueChanged(int value) = _DoubleTapToSeekValueChanged;
+  const factory SettingsEvent.saveMovieIntervalChanged(int value) = _SaveMovieIntervalChanged;
 
   const factory SettingsEvent.clearSearchHistoryRequested() = _ClearSearchHistoryRequested;
   const factory SettingsEvent.clearWatchHistoryRequested() = _ClearWatchHistoryRequested;
