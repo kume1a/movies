@@ -74,7 +74,7 @@ class TileSaveMovieInterval extends StatelessWidget {
           onTap: () async {
             final int? newValue = await showSaveMovieIntervalChooserDialog(
               context,
-              currentValue: state.doubleTapToSeekValue,
+              currentValue: state.saveMovieInterval,
             );
 
             if (newValue != null) {
