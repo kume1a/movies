@@ -42,14 +42,13 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
   }
 
   Stream<StatisticsState> _timePeriodChanged(_TimePeriodChanged event) async* {
-    yield state.copyWith(timePeriod: event.timePeriod);
-
-    final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
+    final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations(event.timePeriod);
     final Duration averageTime = await _calculateAverageTime(watchedDurations);
 
     yield state.copyWith(
       watchedDurations: watchedDurations,
       averageTime: averageTime,
+      timePeriod: event.timePeriod,
     );
   }
 
@@ -58,19 +57,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     final List<WatchedMovie> episodesWatched = await _watchedMovieDao.getWatchedEpisodes();
     final int tvSeriesWatched = episodesWatched.map((WatchedMovie e) => e.movieId).toSet().length;
 
-    yield state.copyWith(
-      moviesWatched: moviesWatched.length,
-      episodesWatched: episodesWatched.length,
-      tvSeriesWatched: tvSeriesWatched,
-    );
-
-    final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations();
+    final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations(state.timePeriod);
     final Duration averageTime = await _calculateAverageTime(watchedDurations);
-
-    yield state.copyWith(
-      watchedDurations: watchedDurations,
-      averageTime: averageTime,
-    );
 
     final List<MovieGenre> savedMovieGenres = await _savedMovieDao.getMovieGenres();
     final Map<MovieGenre?, int> genreToCount = <MovieGenre?, int>{};
@@ -101,13 +89,21 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
     final Map<MovieGenre?, double> genreToPercentage = <MovieGenre?, double>{
       for (MapEntry<MovieGenre?, int> entry in modified) entry.key: entry.value.toDouble() / savedMovieGenres.length
     };
-    yield state.copyWith(genreToPercentage: genreToPercentage);
+
+    yield state.copyWith(
+      watchedDurations: watchedDurations,
+      averageTime: averageTime,
+      moviesWatched: moviesWatched.length,
+      episodesWatched: episodesWatched.length,
+      tvSeriesWatched: tvSeriesWatched,
+      genreToPercentage: genreToPercentage,
+    );
   }
 
-  Future<List<WatchedDuration>> _calculateWatchedDurations() async {
+  Future<List<WatchedDuration>> _calculateWatchedDurations(TimePeriod timePeriod) async {
     late final int? timestampFrom;
     final DateTime now = DateTime.now();
-    switch (state.timePeriod) {
+    switch (timePeriod) {
       case TimePeriod.year:
         timestampFrom = DateTime(now.year - 1, now.month, now.day).millisecondsSinceEpoch;
         break;
@@ -136,7 +132,7 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
 
     if (watchedDurations.isNotEmpty) {
       final Duration diff = watchedDurations.last.date.difference(watchedDurations.first.date);
-      switch (state.timePeriod) {
+      switch (timePeriod) {
         case TimePeriod.year:
           if (diff.inDays < 365) {
             final WatchedDuration lastYear =
