@@ -21,8 +21,8 @@ class StreamState with _$StreamState {
 
   factory StreamState.initial() => StreamState(
         settings: StreamSettings.initial(),
-        startPosition: const Duration(),
-        currentPosition: const Duration(),
+        startPosition: Duration.zero,
+        currentPosition: Duration.zero,
         season: 1,
         episode: 1,
         episodeSeason: 1,

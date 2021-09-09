@@ -7,7 +7,6 @@ class AppThemes {
 
   static final ThemeData dark = ThemeData.dark().copyWith(
     backgroundColor: colorPrimary,
-    accentColor: colorAccent,
     scaffoldBackgroundColor: colorPrimary,
     splashColor: colorAccent,
     toggleableActiveColor: colorAccent,

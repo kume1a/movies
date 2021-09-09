@@ -88,12 +88,13 @@ class CastList extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.only(left: 16.0),
       child: Align(
-          alignment: Alignment.topCenter,
-          child: BlankContainer(
-            width: 120,
-            height: 160,
-            radius: radius,
-          )),
+        alignment: Alignment.topCenter,
+        child: BlankContainer(
+          width: 120,
+          height: 160,
+          radius: radius,
+        ),
+      ),
     );
   }
 }

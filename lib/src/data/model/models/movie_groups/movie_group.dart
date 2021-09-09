@@ -8,6 +8,6 @@ class MovieGroup with _$MovieGroup {
     required int? groupId,
     required String name,
     required List<String> movieNamesKa,
-    required List<String> movieNamesEn
+    required List<String> movieNamesEn,
   }) = _MovieGroup;
 }

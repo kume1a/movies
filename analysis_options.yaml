@@ -6,6 +6,7 @@ analyzer:
     missing_return: error
     prefer_relative_imports: warning
     public_member_api_docs: ignore
+    depend_on_referenced_packages: ignore
   exclude:
     - lib/**/*.g.dart
     - lib/**/*.config.dart

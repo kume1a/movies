@@ -76,10 +76,12 @@ class DBMoviePositionDao {
   }
 
   Future<List<DBMoviePosition>> getMoviePositions() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableMoviePositions.name}
       ORDER BY ${TableMoviePositions.columnSaveTimestamp} DESC;
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => DBMoviePosition.fromMap(e)).toList();
   }

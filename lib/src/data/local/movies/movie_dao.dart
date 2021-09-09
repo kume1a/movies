@@ -91,59 +91,71 @@ class MovieDao {
   }
 
   Future<void> writeMovieData(MovieData movieData) async {
-    await _movieDao.insertDBMovie(DBMovie(
-      id: movieData.id,
-      movieId: movieData.movieId,
-      nameKa: movieData.nameKa,
-      nameEn: movieData.nameEn,
-      year: movieData.year,
-      imdbUrl: movieData.imdbUrl,
-      isTvShow: movieData.isTvShow,
-      duration: movieData.duration,
-      canBePlayed: movieData.canBePlayed,
-      poster: movieData.poster,
-      imdbRating: movieData.imdbRating,
-      voterCount: movieData.voterCount,
-      plotKa: movieData.plotKa,
-      plotEn: movieData.plotEn,
-    ));
+    await _movieDao.insertDBMovie(
+      DBMovie(
+        id: movieData.id,
+        movieId: movieData.movieId,
+        nameKa: movieData.nameKa,
+        nameEn: movieData.nameEn,
+        year: movieData.year,
+        imdbUrl: movieData.imdbUrl,
+        isTvShow: movieData.isTvShow,
+        duration: movieData.duration,
+        canBePlayed: movieData.canBePlayed,
+        poster: movieData.poster,
+        imdbRating: movieData.imdbRating,
+        voterCount: movieData.voterCount,
+        plotKa: movieData.plotKa,
+        plotEn: movieData.plotEn,
+      ),
+    );
 
     for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {
-      await _movieCoverDao.insertMovieCover(DBMovieCover(
-        movieId: movieData.movieId,
-        imageSize: e.key,
-        cover: e.value,
-      ));
+      await _movieCoverDao.insertMovieCover(
+        DBMovieCover(
+          movieId: movieData.movieId,
+          imageSize: e.key,
+          cover: e.value,
+        ),
+      );
     }
 
     for (final MapEntry<Resolution, String> e in movieData.secondaryCovers.entries) {
-      await _movieSecondaryCoverDao.insertMovieSecondaryCover(DBMovieSecondaryCover(
-        movieId: movieData.movieId,
-        resolution: e.key,
-        secondaryCover: e.value,
-      ));
+      await _movieSecondaryCoverDao.insertMovieSecondaryCover(
+        DBMovieSecondaryCover(
+          movieId: movieData.movieId,
+          resolution: e.key,
+          secondaryCover: e.value,
+        ),
+      );
     }
 
     for (final MovieGenre genre in movieData.genres) {
-      await _movieGenreDao.insertMovieGenre(DBMovieGenre(
-        movieId: movieData.movieId,
-        genre: genre,
-      ));
+      await _movieGenreDao.insertMovieGenre(
+        DBMovieGenre(
+          movieId: movieData.movieId,
+          genre: genre,
+        ),
+      );
     }
 
     for (final Language language in movieData.languages) {
-      await _movieLanguageDao.insertMovieLanguage(DBMovieLanguage(
-        movieId: movieData.movieId,
-        language: language,
-      ));
+      await _movieLanguageDao.insertMovieLanguage(
+        DBMovieLanguage(
+          movieId: movieData.movieId,
+          language: language,
+        ),
+      );
     }
 
     for (final MapEntry<Language, String> e in movieData.trailers.entries) {
-      await _movieTrailerDao.insertMovieTrailer(DBMovieTrailer(
-        movieId: movieData.movieId,
-        language: e.key,
-        trailerUrl: e.value,
-      ));
+      await _movieTrailerDao.insertMovieTrailer(
+        DBMovieTrailer(
+          movieId: movieData.movieId,
+          language: e.key,
+          trailerUrl: e.value,
+        ),
+      );
     }
 
     for (final Season e in movieData.seasons) {

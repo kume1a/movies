@@ -22,7 +22,8 @@ class DbFactory {
   }
 
   static FutureOr<void> _onCreate(Database db, int version) async {
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableSeasons.name} 
       (
         ${TableSeasons.columnId} INTEGER PRIMARY KEY,
@@ -32,9 +33,11 @@ class DbFactory {
         ${TableSeasons.columnEpisodesCount} INTEGER NOT NULL,
         FOREIGN KEY (${TableSeasons.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieCovers.name}
       (
         ${TableMovieCovers.columnId} INTEGER PRIMARY KEY,
@@ -43,9 +46,11 @@ class DbFactory {
         ${TableMovieCovers.columnCover} TEXT NOT NULL,
         FOREIGN KEY (${TableMovieCovers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieSecondaryCovers.name}
       (
         ${TableMovieSecondaryCovers.columnId} INTEGER PRIMARY KEY,
@@ -54,9 +59,11 @@ class DbFactory {
         ${TableMovieSecondaryCovers.columnSecondaryCover} TEXT NOT NULL,
         FOREIGN KEY (${TableMovieSecondaryCovers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieTrailers.name}
       (
         ${TableMovieTrailers.columnId} INTEGER PRIMARY KEY,
@@ -65,9 +72,11 @@ class DbFactory {
         ${TableMovieTrailers.columnTrailerUrl} TEXT NOT NULL,
         FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieGenres.name}
       (
         ${TableMovieGenres.columnId} INTEGER PRIMARY KEY,
@@ -75,9 +84,11 @@ class DbFactory {
         ${TableMovieGenres.columnGenre} TEXT NOT NULL,
         FOREIGN KEY (${TableMovieTrailers.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieLanguages.name}
       (
         ${TableMovieLanguages.columnId} INTEGER PRIMARY KEY,
@@ -85,9 +96,11 @@ class DbFactory {
         ${TableMovieLanguages.columnLanguage} TEXT NOT NULL,
         FOREIGN KEY (${TableMovieLanguages.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnMovieId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovies.name}
       (
         ${TableMovies.columnId} INTEGER PRIMARY KEY,
@@ -105,9 +118,11 @@ class DbFactory {
         ${TableMovies.columnPlotKa} TEXT NOT NULL,
         ${TableMovies.columnPlotEn} TEXT NOT NULL
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableSeasonFiles.name}
       (
         ${TableSeasonFiles.columnId} INTEGER PRIMARY KEY,
@@ -115,9 +130,11 @@ class DbFactory {
         ${TableSeasonFiles.columnSeason} INTEGER NOT NULL,
         FOREIGN KEY (${TableSeasonFiles.columnMovieId}) REFERENCES ${TableMovies.name} (${TableMovies.columnId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableEpisodes.name}
       (
         ${TableEpisodes.columnId} INTEGER PRIMARY KEY,
@@ -129,9 +146,11 @@ class DbFactory {
         ${TableEpisodes.columnPoster} TEXT NOT NULL,
         FOREIGN KEY (${TableEpisodes.columnSeasonFilesId}) REFERENCES ${TableSeasonFiles.name} (${TableSeasonFiles.columnId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableEpisodeCovers.name}
       (
         ${TableEpisodeCovers.columnId} INTEGER PRIMARY KEY,
@@ -140,9 +159,11 @@ class DbFactory {
         ${TableEpisodeCovers.columnCover} TEXT NOT NULL,
         FOREIGN KEY (${TableEpisodeCovers.columnEpisodeId}) REFERENCES ${TableEpisodes.name} (${TableEpisodes.columnId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableEpisodeFiles.name}
       (
         ${TableEpisodeFiles.columnId} INTEGER PRIMARY KEY,
@@ -154,9 +175,11 @@ class DbFactory {
         ${TableEpisodeFiles.columnDuration} INTEGER NOT NULL,
         FOREIGN KEY (${TableEpisodeFiles.columnEpisodeId}) REFERENCES ${TableEpisodes.name} (${TableEpisodes.columnId})
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableSearchResults.name}
       (
         ${TableSearchResults.columnId} INTEGER PRIMARY KEY ON CONFLICT REPLACE,
@@ -171,9 +194,11 @@ class DbFactory {
         ${TableSearchResults.columnIsTvShow} INTEGER NOT NULL CHECK (${TableSearchResults.columnIsTvShow} IN (0, 1)),
         ${TableSearchResults.columnTimestamp} INTEGER NOT NULl 
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMoviePositions.name}
       (
         ${TableMoviePositions.columnId} INTEGER PRIMARY KEY,
@@ -185,9 +210,11 @@ class DbFactory {
         ${TableMoviePositions.columnEpisode} INTEGER NOT NULL,
         ${TableMoviePositions.columnSaveTimestamp} INTEGER NOT NULL
       ); 
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableFavoriteMovies.name}
       (
         ${TableFavoriteMovies.columnId} INTEGER PRIMARY KEY NOT NULL,
@@ -198,18 +225,22 @@ class DbFactory {
         ${TableFavoriteMovies.columnTimestamp} INTEGER NOT NULL,
         FOREIGN KEY (${TableFavoriteMovies.columnGroupId}) REFERENCES ${TableMovieGroups.name}(${TableMovieGroups.columnId}) ON DELETE CASCADE
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableMovieGroups.name}
       (
         ${TableMovieGroups.columnId} INTEGER PRIMARY KEY,
         ${TableMovieGroups.columnName} STRING NOT NULL,
         ${TableMovieGroups.columnTimestamp} INTEGER NOT NULL
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableWatchedMovies.name}
       (
         ${TableWatchedMovies.columnId} INTEGER PRIMARY KEY,
@@ -221,15 +252,18 @@ class DbFactory {
         ${TableWatchedMovies.columnEpisode} INTEGER NOT NULL,
         ${TableWatchedMovies.columnTimestamp} INTEGER NOT NULL
       );
-    ''');
+    ''',
+    );
 
-    db.execute('''
+    db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TableSavedMovieGenres.name}
       (
         ${TableSavedMovieGenres.columnId} INTEGER PRIMARY KEY,
         ${TableSavedMovieGenres.columnMovieId} INTEGER NOT NULL, 
         ${TableSavedMovieGenres.columnGenre} STRING NOT NULL 
       );
-    ''');
+    ''',
+    );
   }
 }

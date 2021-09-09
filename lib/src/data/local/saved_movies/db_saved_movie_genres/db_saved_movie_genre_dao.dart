@@ -27,9 +27,11 @@ class DBSavedMovieGenreDao {
   }
 
   Future<List<DBSavedMovieGenre>> getAll() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableSavedMovieGenres.name};
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => DBSavedMovieGenre.fromMap(e)).toList();
   }

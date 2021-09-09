@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/enums/time_period.dart';
@@ -63,14 +63,14 @@ class ChartDurations extends StatelessWidget {
               titlesData: FlTitlesData(
                 bottomTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (_) => const TextStyle(color: Colors.white54, fontSize: 12),
+                  getTextStyles: (_, __) => const TextStyle(color: Colors.white54, fontSize: 12),
                   getTitles: (double value) => dateFormat.format(DateTime.fromMillisecondsSinceEpoch(value.toInt())),
                   margin: 8,
                   interval: bottomTitlesInterval,
                 ),
                 leftTitles: SideTitles(
                   showTitles: true,
-                  getTextStyles: (_) => const TextStyle(color: Colors.white54, fontSize: 12),
+                  getTextStyles: (_, __) => const TextStyle(color: Colors.white54, fontSize: 12),
                   getTitles: (double value) {
                     final Duration duration = Duration(milliseconds: value.floor());
                     final String minutesFraction = (duration.inMinutes / 60).toStringAsFixed(1).split('.').last;

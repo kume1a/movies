@@ -18,4 +18,3 @@ class TapOutsideToClearFocus extends HookWidget {
     );
   }
 }
-

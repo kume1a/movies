@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 class ChewieProgressColors {
@@ -17,4 +16,3 @@ class ChewieProgressColors {
   final Paint handlePaint;
   final Paint backgroundPaint;
 }
-

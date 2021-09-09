@@ -15,8 +15,7 @@ class PostersSchema {
 class PostersDataSchema {
   PostersDataSchema(this.s240, this.blurhash);
 
-  factory PostersDataSchema.fromJson(Map<String, dynamic> json) =>
-      _$PostersDataSchemaFromJson(json);
+  factory PostersDataSchema.fromJson(Map<String, dynamic> json) => _$PostersDataSchemaFromJson(json);
 
   @JsonKey(name: '240')
   final String? s240;

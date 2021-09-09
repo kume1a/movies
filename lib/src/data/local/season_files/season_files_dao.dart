@@ -34,38 +34,40 @@ class SeasonFileDao {
     if (seasonFile == null) return null;
 
     final List<DBEpisode> dbEpisodes = await _episodeDao.getEpisodes(seasonFile.id!);
-    final List<Episode> episodes = await Future.wait(dbEpisodes.map((DBEpisode e) async {
-      final List<DBEpisodeCover> episodeCovers = await _episodeCoverDao.getEpisodeCovers(e.id!);
-      final Map<Resolution, String> covers = <Resolution, String>{
-        for (DBEpisodeCover a in episodeCovers) a.resolution: a.cover
-      };
+    final List<Episode> episodes = await Future.wait(
+      dbEpisodes.map((DBEpisode e) async {
+        final List<DBEpisodeCover> episodeCovers = await _episodeCoverDao.getEpisodeCovers(e.id!);
+        final Map<Resolution, String> covers = <Resolution, String>{
+          for (DBEpisodeCover a in episodeCovers) a.resolution: a.cover
+        };
 
-      final List<DBEpisodeFile> episodeFiles = await _episodeFileDao.getEpisodeFiles(e.id!);
-      final Map<Language, List<EpisodeFile>> episodes =
-          groupBy(episodeFiles, (DBEpisodeFile e) => e.language).map((Language key, List<DBEpisodeFile> value) {
-        return MapEntry<Language, List<EpisodeFile>>(
-          key,
-          value.map((DBEpisodeFile e) {
-            return EpisodeFile(
-              id: e.id!,
-              quality: e.quality,
-              src: e.src,
-              duration: e.duration,
-            );
-          }).toList(),
+        final List<DBEpisodeFile> episodeFiles = await _episodeFileDao.getEpisodeFiles(e.id!);
+        final Map<Language, List<EpisodeFile>> episodes =
+            groupBy(episodeFiles, (DBEpisodeFile e) => e.language).map((Language key, List<DBEpisodeFile> value) {
+          return MapEntry<Language, List<EpisodeFile>>(
+            key,
+            value.map((DBEpisodeFile e) {
+              return EpisodeFile(
+                id: e.id!,
+                quality: e.quality,
+                src: e.src,
+                duration: e.duration,
+              );
+            }).toList(),
+          );
+        });
+
+        return Episode(
+          episode: e.episode,
+          title: e.title,
+          description: e.description,
+          rating: e.rating,
+          poster: e.poster,
+          covers: covers,
+          episodes: episodes,
         );
-      });
-
-      return Episode(
-        episode: e.episode,
-        title: e.title,
-        description: e.description,
-        rating: e.rating,
-        poster: e.poster,
-        covers: covers,
-        episodes: episodes,
-      );
-    }));
+      }),
+    );
 
     return SeasonFiles(season: season, data: episodes);
   }
@@ -73,40 +75,48 @@ class SeasonFileDao {
   Future<void> writeSeasonFiles(int id, SeasonFiles seasonFiles) async {
     final int seasonFilesId = int.parse('$id${seasonFiles.season}');
 
-    await _seasonFileDao.insertSeasonFile(DBSeasonFile(
-      id: seasonFilesId,
-      movieId: id,
-      season: seasonFiles.season,
-    ));
+    await _seasonFileDao.insertSeasonFile(
+      DBSeasonFile(
+        id: seasonFilesId,
+        movieId: id,
+        season: seasonFiles.season,
+      ),
+    );
 
     for (final Episode episode in seasonFiles.data) {
-      final int episodeId = await _episodeDao.insertDBEpisode(DBEpisode(
-        seasonFilesId: seasonFilesId,
-        episode: episode.episode,
-        title: episode.title,
-        description: episode.description,
-        rating: episode.rating,
-        poster: episode.poster,
-      ));
+      final int episodeId = await _episodeDao.insertDBEpisode(
+        DBEpisode(
+          seasonFilesId: seasonFilesId,
+          episode: episode.episode,
+          title: episode.title,
+          description: episode.description,
+          rating: episode.rating,
+          poster: episode.poster,
+        ),
+      );
 
       for (final MapEntry<Resolution, String> cover in episode.covers.entries) {
-        await _episodeCoverDao.insertEpisodeCover(DBEpisodeCover(
-          episodeId: episodeId,
-          resolution: cover.key,
-          cover: cover.value,
-        ));
+        await _episodeCoverDao.insertEpisodeCover(
+          DBEpisodeCover(
+            episodeId: episodeId,
+            resolution: cover.key,
+            cover: cover.value,
+          ),
+        );
       }
 
       for (final MapEntry<Language, List<EpisodeFile>> episode in episode.episodes.entries) {
         for (final EpisodeFile episodeFile in episode.value) {
-          await _episodeFileDao.insertDBEpisodeFile(DBEpisodeFile(
-            episodeId: episodeId,
-            language: episode.key,
-            episodeFileId: episodeFile.id,
-            quality: episodeFile.quality,
-            src: episodeFile.src,
-            duration: episodeFile.duration,
-          ));
+          await _episodeFileDao.insertDBEpisodeFile(
+            DBEpisodeFile(
+              episodeId: episodeId,
+              language: episode.key,
+              episodeFileId: episodeFile.id,
+              quality: episodeFile.quality,
+              src: episodeFile.src,
+              duration: episodeFile.duration,
+            ),
+          );
         }
       }
     }

@@ -73,16 +73,20 @@ class Movies extends HookWidget {
           ),
           const SizedBox(width: 12),
           TextButton(
-            onPressed: () => context.read<AddMovieBloc>().add(isAdded
-                ? AddMovieEvent.removeClicked(searchResult.movieId)
-                : AddMovieEvent.addClicked(searchResult.movieId, searchResult.nameEn, searchResult.nameKa)),
+            onPressed: () => context.read<AddMovieBloc>().add(
+                  isAdded
+                      ? AddMovieEvent.removeClicked(searchResult.movieId)
+                      : AddMovieEvent.addClicked(searchResult.movieId, searchResult.nameEn, searchResult.nameKa),
+                ),
             style: ButtonStyle(
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
-                backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
-                foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
-                overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
-                padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18))),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+              ),
+              backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
+              foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
+              overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
+              padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18)),
+            ),
             child: Text(
               isAdded ? appLocalizations?.addMovieButtonRemove ?? '' : appLocalizations?.addMovieButtonAdd ?? '',
             ),

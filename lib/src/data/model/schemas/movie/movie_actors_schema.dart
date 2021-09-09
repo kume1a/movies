@@ -14,20 +14,20 @@ class MovieActorsSchema {
 @JsonSerializable(createToJson: false)
 class ActorsDataSchema {
   ActorsDataSchema(
-      this.id,
-      this.originalName,
-      this.primaryName,
-      this.secondaryName,
-      this.tertiaryName,
-      this.poster,
-      this.birthDate,
-      this.birthPlace,
-      this.deathDate,
-      this.deathPlace,
-      this.height,
-      this.slogan,
-      this.zodiacSign,
-      );
+    this.id,
+    this.originalName,
+    this.primaryName,
+    this.secondaryName,
+    this.tertiaryName,
+    this.poster,
+    this.birthDate,
+    this.birthPlace,
+    this.deathDate,
+    this.deathPlace,
+    this.height,
+    this.slogan,
+    this.zodiacSign,
+  );
 
   factory ActorsDataSchema.fromJson(Map<String, dynamic> json) => _$ActorsDataSchemaFromJson(json);
 

@@ -81,29 +81,35 @@ class DBWatchedMovieDao {
         timestampFrom,
       ]);
     } else {
-      result = await _db.rawQuery('''
+      result = await _db.rawQuery(
+        '''
         SELECT * FROM ${TableWatchedMovies.name}
         ORDER BY ${TableWatchedMovies.columnTimestamp};
-      ''');
+      ''',
+      );
     }
 
     return result.map((Map<String, Object?> e) => DBWatchedMovie.fromMap(e)).toList();
   }
 
   Future<List<DBWatchedMovie>> getWatchedMovies() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableWatchedMovies.name}
         WHERE ${TableWatchedMovies.columnIsTvShow} = 0;
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => DBWatchedMovie.fromMap(e)).toList();
   }
 
   Future<List<DBWatchedMovie>> getWatchedEpisodes() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableWatchedMovies.name}
         WHERE ${TableWatchedMovies.columnIsTvShow} = 1;
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => DBWatchedMovie.fromMap(e)).toList();
   }

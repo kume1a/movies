@@ -69,7 +69,8 @@ class MovieData with _$MovieData {
       Resolution.vga: schema.covers?.data?.s510 ?? '',
     };
 
-    String plotEn = '', plotKa = '';
+    String plotEn = '';
+    String plotKa = '';
     if (schema.plots != null) {
       for (final PlotDataSchema plotDataSchema in schema.plots?.data ?? List<PlotDataSchema>.empty()) {
         if (plotDataSchema.language == eng) {

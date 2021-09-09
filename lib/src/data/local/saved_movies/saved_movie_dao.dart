@@ -25,15 +25,17 @@ class SavedMovieDao {
   final DBSavedMovieGenreDao _savedMovieGenreDao;
 
   Future<void> insertMoviePosition(MoviePosition moviePosition) async {
-    await _moviePositionDao.insertMoviePosition(DBMoviePosition(
-      movieId: moviePosition.movieId,
-      durationInMillis: moviePosition.durationInMillis,
-      leftAt: moviePosition.leftAt,
-      isTvShow: moviePosition.isTvShow,
-      season: moviePosition.season,
-      episode: moviePosition.episode,
-      saveTimestamp: moviePosition.timestamp,
-    ));
+    await _moviePositionDao.insertMoviePosition(
+      DBMoviePosition(
+        movieId: moviePosition.movieId,
+        durationInMillis: moviePosition.durationInMillis,
+        leftAt: moviePosition.leftAt,
+        isTvShow: moviePosition.isTvShow,
+        season: moviePosition.season,
+        episode: moviePosition.episode,
+        saveTimestamp: moviePosition.timestamp,
+      ),
+    );
   }
 
   Future<void> saveMovieGenres(int movieId, List<MovieGenre> genres) async {
@@ -83,10 +85,12 @@ class SavedMovieDao {
         timestamp: e.saveTimestamp,
       );
       if (movieData.isRight()) {
-        savedMovies.add(SavedMovie(
-          position: moviePosition,
-          data: movieData.rightOrCrash,
-        ));
+        savedMovies.add(
+          SavedMovie(
+            position: moviePosition,
+            data: movieData.rightOrCrash,
+          ),
+        );
       }
     }
     return savedMovies;

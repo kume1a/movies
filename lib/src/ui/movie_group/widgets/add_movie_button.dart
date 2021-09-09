@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../state/movie_group/movie_group_bloc.dart';
 import '../../../state/movie_group/movie_group_ui/movie_group_ui_bloc.dart';

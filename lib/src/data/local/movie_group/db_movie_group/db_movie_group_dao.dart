@@ -24,10 +24,12 @@ class DBMovieGroupDao {
   }
 
   Future<List<DBMovieGroup>> getMovieGroups() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableMovieGroups.name}
       ORDER BY ${TableMovieGroups.columnTimestamp} DESC;  
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => DBMovieGroup.fromMap(e)).toList();
   }
@@ -44,10 +46,12 @@ class DBMovieGroupDao {
   }
 
   Future<int> count() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT COUNT(${TableMovieGroups.columnId})
         FROM ${TableMovieGroups.name};
-    ''');
+    ''',
+    );
 
     return Sqflite.firstIntValue(result) ?? 0;
   }

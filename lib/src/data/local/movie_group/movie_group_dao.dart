@@ -16,10 +16,12 @@ class MovieGroupDao {
   final FavoriteMovieDao _favoriteMovieDao;
 
   Future<int> saveMovieGroup(String groupName) async {
-    return _movieGroupDao.insertMovieGroup(DBMovieGroup(
-      name: groupName,
-      timestamp: 0,
-    ));
+    return _movieGroupDao.insertMovieGroup(
+      DBMovieGroup(
+        name: groupName,
+        timestamp: 0,
+      ),
+    );
   }
 
   Future<List<MovieGroup>> getMovieGroups() async {
@@ -28,12 +30,14 @@ class MovieGroupDao {
     for (final DBMovieGroup dbMovieGroup in dbMovieGroups) {
       final List<String> movieNamesEn = await _favoriteMovieDao.getMovieNamesEnForGroup(dbMovieGroup.id!);
       final List<String> movieNamesKa = await _favoriteMovieDao.getMovieNamesKaForGroup(dbMovieGroup.id!);
-      movieGroups.add(MovieGroup(
-        groupId: dbMovieGroup.id ?? -1,
-        name: dbMovieGroup.name,
-        movieNamesKa: movieNamesKa,
-        movieNamesEn: movieNamesEn,
-      ));
+      movieGroups.add(
+        MovieGroup(
+          groupId: dbMovieGroup.id ?? -1,
+          name: dbMovieGroup.name,
+          movieNamesKa: movieNamesKa,
+          movieNamesEn: movieNamesEn,
+        ),
+      );
     }
     return movieGroups;
   }

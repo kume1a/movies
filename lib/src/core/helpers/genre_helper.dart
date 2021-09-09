@@ -56,6 +56,7 @@ class GenreHelper {
       case Genre.war:
         return appLocalizations?.genreWar ?? '';
       case Genre.adult:
-        return appLocalizations?.genreAdult ?? '';}
+        return appLocalizations?.genreAdult ?? '';
+    }
   }
 }

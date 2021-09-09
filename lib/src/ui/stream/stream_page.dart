@@ -99,25 +99,27 @@ class _StreamPageContentState extends UIOverlaySaverState<StreamPageContent> {
         ];
 
         if (isPortrait) {
-          content.add(Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RatingDurationYear(
-                  rating: state.movie!.imdbRating,
-                  duration: state.movie!.duration,
-                  releaseYear: state.movie!.year,
-                ),
-                IconButton(
-                  onPressed: () => ScreensNavigator.pushDetailsPageAndRemoveUntilRoot(state.movie!.movieId),
-                  icon: const Icon(Icons.info_outline),
-                  splashRadius: 24,
-                  padding: EdgeInsets.zero,
-                ),
-              ],
+          content.add(
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  RatingDurationYear(
+                    rating: state.movie!.imdbRating,
+                    duration: state.movie!.duration,
+                    releaseYear: state.movie!.year,
+                  ),
+                  IconButton(
+                    onPressed: () => ScreensNavigator.pushDetailsPageAndRemoveUntilRoot(state.movie!.movieId),
+                    icon: const Icon(Icons.info_outline),
+                    splashRadius: 24,
+                    padding: EdgeInsets.zero,
+                  ),
+                ],
+              ),
             ),
-          ));
+          );
           if (state.movie!.isTvShow) {
             content.addAll(<Widget>[
               SeasonList(

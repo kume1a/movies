@@ -26,7 +26,9 @@ import '../../data/network/services/movie_service.dart';
 import '../../ui/core/values/default_settings.dart';
 
 part 'stream_bloc.freezed.dart';
+
 part 'stream_event.dart';
+
 part 'stream_state.dart';
 
 @injectable
@@ -129,7 +131,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
 
     yield state.copyWith(
       videoSrc: videoSrc,
-      startPosition: firstEpisodePassed ? const Duration() : state.startPosition,
+      startPosition: firstEpisodePassed ? Duration.zero : state.startPosition,
       episode: event.episode,
       quality: selectedQuality,
       episodeSeason: state.season,
@@ -222,29 +224,33 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
       if (await _savedMovieDao.positionForMovieExists(movie.movieId, state.episodeSeason, state.episode)) {
         await _savedMovieDao.updateMoviePosition(movie.movieId, e.position.inMilliseconds);
       } else {
-        _savedMovieDao.insertMoviePosition(MoviePosition(
-          movieId: movie.movieId,
-          durationInMillis: durationInMillis,
-          leftAt: e.position.inMilliseconds,
-          isTvShow: movie.isTvShow,
-          season: state.season,
-          episode: state.episode,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-        ));
+        _savedMovieDao.insertMoviePosition(
+          MoviePosition(
+            movieId: movie.movieId,
+            durationInMillis: durationInMillis,
+            leftAt: e.position.inMilliseconds,
+            isTvShow: movie.isTvShow,
+            season: state.season,
+            episode: state.episode,
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+          ),
+        );
 
         if (movie.genres.isNotEmpty) {
           await _savedMovieDao.saveMovieGenres(movie.movieId, movie.genres);
         }
       }
 
-      await _watchedMovieDao.insertOrUpdateWatchedMovie(WatchedMovie(
-        movieId: movie.movieId,
-        watchedDurationInMillis: e.position.inMilliseconds,
-        durationInMillis: durationInMillis,
-        isTvShow: movie.isTvShow,
-        season: state.episodeSeason,
-        episode: state.episode,
-      ));
+      await _watchedMovieDao.insertOrUpdateWatchedMovie(
+        WatchedMovie(
+          movieId: movie.movieId,
+          watchedDurationInMillis: e.position.inMilliseconds,
+          durationInMillis: durationInMillis,
+          isTvShow: movie.isTvShow,
+          season: state.episodeSeason,
+          episode: state.episode,
+        ),
+      );
     }
     yield state.copyWith(currentPosition: e.position);
   }

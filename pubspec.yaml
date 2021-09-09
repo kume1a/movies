@@ -29,7 +29,7 @@ dependencies:
   video_player: ^2.1.6
   wakelock: ^0.5.2
   collection: ^1.15.0
-  flutter_hooks: ^0.17.0
+  flutter_hooks: ^0.18.0
   visibility_detector: ^0.2.0
 
   # di
@@ -39,7 +39,7 @@ dependencies:
   # ui
   rive: ^0.7.21
   flutter_svg: ^0.22.0
-  fl_chart: ^0.36.2
+  fl_chart: ^0.40.0
 
   # i18n
   flutter_localizations:
@@ -51,9 +51,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.0.4
-  json_serializable: ^4.1.3
+  json_serializable: ^5.0.0
   injectable_generator: ^1.4.1
-  freezed: ^0.14.2
+  freezed: ^0.14.5
   lint: ^1.5.3
   retrofit_generator: ^2.0.0
 

@@ -42,10 +42,12 @@ class DBFavoriteMovieDao {
         groupId,
       ]);
     } else {
-      result = await _db.rawQuery('''
+      result = await _db.rawQuery(
+        '''
         SELECT * FROM ${TableFavoriteMovies.name}
         ORDER BY ${TableFavoriteMovies.columnTimestamp} DESC;
-      ''');
+      ''',
+      );
     }
 
     return result.map((Map<String, Object?> e) => DBFavoriteMovie.fromMap(e)).toList();

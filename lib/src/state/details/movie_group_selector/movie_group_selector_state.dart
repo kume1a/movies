@@ -5,7 +5,7 @@ class MovieGroupSelectorState with _$MovieGroupSelectorState {
   const factory MovieGroupSelectorState({
     MovieGroup? selectedMovieGroup,
     List<MovieGroup>? movieGroups,
-}) = _MovieGroupSelectorState;
+  }) = _MovieGroupSelectorState;
 
   factory MovieGroupSelectorState.initial() => const MovieGroupSelectorState();
 }

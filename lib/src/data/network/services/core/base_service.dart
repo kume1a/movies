@@ -8,7 +8,6 @@ import '../../../model/core/either.dart';
 import '../../../model/core/fetch_failure.dart';
 
 abstract class BaseService {
-
   @protected
   Future<Either<F, T>> safeCall<F, T>({
     required Future<T> Function() call,

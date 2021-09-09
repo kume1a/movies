@@ -43,10 +43,12 @@ class SearchResultDao {
   }
 
   Future<List<SearchResult>> getSearchResults() async {
-    final List<Map<String, Object?>> result = await _db.rawQuery('''
+    final List<Map<String, Object?>> result = await _db.rawQuery(
+      '''
       SELECT * FROM ${TableSearchResults.name}
       ORDER BY ${TableSearchResults.columnTimestamp} DESC;
-    ''');
+    ''',
+    );
 
     return result.map((Map<String, Object?> e) => SearchResult.fromMap(e)).toList();
   }

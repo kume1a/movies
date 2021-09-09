@@ -223,7 +223,9 @@ class ChewieController extends ChangeNotifier {
     this.deviceOrientationsAfterFullScreen = DeviceOrientation.values,
     this.routePageBuilder,
   }) : assert(
-            playbackSpeeds.every((double speed) => speed > 0), 'The playbackSpeeds values must all be greater than 0');
+          playbackSpeeds.every((double speed) => speed > 0),
+          'The playbackSpeeds values must all be greater than 0',
+        );
 
   /// The controller for the video you want to play
   final VideoPlayerController videoPlayerController;
@@ -451,8 +453,8 @@ class PlayerWithControls extends StatelessWidget {
                       }
 
                       return AspectRatio(
-                        aspectRatio: chewieController.aspectRatio ??
-                            chewieController.videoPlayerController.value.aspectRatio,
+                        aspectRatio:
+                            chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
                         child: videoPlayer,
                       );
                     },

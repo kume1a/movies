@@ -19,9 +19,11 @@ class FavoriteMovieDao {
 
   Future<bool> isMovieFavorited(int movieId) async => _favoriteMovieDao.isMovieFavorited(movieId);
 
-  Future<List<String>> getMovieNamesKaForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesKaForGroup(groupId);
+  Future<List<String>> getMovieNamesKaForGroup(int groupId) =>
+      _favoriteMovieDao.getFavoriteMovieNamesKaForGroup(groupId);
 
-  Future<List<String>> getMovieNamesEnForGroup(int groupId) => _favoriteMovieDao.getFavoriteMovieNamesEnForGroup(groupId);
+  Future<List<String>> getMovieNamesEnForGroup(int groupId) =>
+      _favoriteMovieDao.getFavoriteMovieNamesEnForGroup(groupId);
 
   Future<int?> getFavoriteMovieGroupId(int movieId) => _favoriteMovieDao.getFavoriteMovieGroupId(movieId);
 
@@ -31,13 +33,15 @@ class FavoriteMovieDao {
     required String movieNameEn,
     required int groupId,
   }) async {
-    _favoriteMovieDao.insertFavoriteMovie(DBFavoriteMovie(
-      movieId: movieId,
-      movieNameKa: movieNameKa,
-      movieNameEn: movieNameEn,
-      groupId: groupId,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-    ));
+    _favoriteMovieDao.insertFavoriteMovie(
+      DBFavoriteMovie(
+        movieId: movieId,
+        movieNameKa: movieNameKa,
+        movieNameEn: movieNameEn,
+        groupId: groupId,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 
   Future<void> justFavoriteMovie({
@@ -45,13 +49,15 @@ class FavoriteMovieDao {
     required String movieNameKa,
     required String movieNameEn,
   }) async {
-    _favoriteMovieDao.insertFavoriteMovie(DBFavoriteMovie(
-      movieId: movieId,
-      movieNameKa: movieNameKa,
-      movieNameEn: movieNameEn,
-      groupId: null,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-    ));
+    _favoriteMovieDao.insertFavoriteMovie(
+      DBFavoriteMovie(
+        movieId: movieId,
+        movieNameKa: movieNameKa,
+        movieNameEn: movieNameEn,
+        groupId: null,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 
   Future<void> deleteFavoriteMovie(int movieId) async => _favoriteMovieDao.deleteFavoriteMovie(movieId);

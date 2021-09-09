@@ -382,8 +382,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                 },
                 colors: _chewieController?.materialProgressColors ??
                     ChewieProgressColors(
-                      playedColor: Theme.of(context).accentColor,
-                      handleColor: Theme.of(context).accentColor,
+                      playedColor: Theme.of(context).colorScheme.secondary,
+                      handleColor: Theme.of(context).colorScheme.secondary,
                       bufferedColor: Theme.of(context).backgroundColor,
                       backgroundColor: Theme.of(context).disabledColor,
                     ),
@@ -578,7 +578,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
           });
         } else {
           if (isFinished) {
-            _controller?.seekTo(const Duration());
+            _controller?.seekTo(Duration.zero);
           }
           _playPauseIconAnimController?.forward();
           _controller?.play();
@@ -718,7 +718,7 @@ class _BottomSheetDialog<T> extends StatelessWidget {
                 Icon(
                   Icons.check,
                   size: 20,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 )
               else
                 Container(width: 20),
