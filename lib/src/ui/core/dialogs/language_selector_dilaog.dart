@@ -38,7 +38,7 @@ class _LanguageSelectorDialog extends StatelessWidget {
             return RadioListTile<SupportedLocale>(
               title: Text(SupportedLocaleHelper.convertToString(appLocalizations, e)),
               value: e,
-              onChanged: (SupportedLocale? value) => ScreensNavigator.pop(value),
+              onChanged: (SupportedLocale? value) => ScreensNavigator.pop(result: value),
               groupValue: selectedLocale,
               selected: selectedLocale == e,
             );

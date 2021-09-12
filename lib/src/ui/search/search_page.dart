@@ -10,6 +10,8 @@ import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
 class SearchPage extends StatelessWidget {
+  const SearchPage({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchBloc>(

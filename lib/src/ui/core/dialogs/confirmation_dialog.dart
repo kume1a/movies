@@ -44,11 +44,11 @@ class _ConfirmationDialog extends StatelessWidget {
       content: Text(content),
       actions: <Widget>[
         TextButton(
-          onPressed: () => ScreensNavigator.pop(false),
+          onPressed: () => ScreensNavigator.pop(result: false),
           child: Text(appLocalizations?.cancel ?? ''),
         ),
         TextButton(
-          onPressed: () => ScreensNavigator.pop(true),
+          onPressed: () => ScreensNavigator.pop(result: true),
           child: Text(confirmationText ?? appLocalizations?.ok ?? ''),
         ),
       ],

@@ -685,7 +685,7 @@ class _SettingsDialog extends StatelessWidget {
           dense: true,
           title: Text(name),
           leading: Icon(icon, color: Colors.white),
-          onTap: () => ScreensNavigator.pop(setting),
+          onTap: () => ScreensNavigator.pop(result: setting),
         );
       },
     );
@@ -727,7 +727,7 @@ class _BottomSheetDialog<T> extends StatelessWidget {
             ],
           ),
           selected: item == selected,
-          onTap: () => ScreensNavigator.pop(item),
+          onTap: () => ScreensNavigator.pop(result: item),
         );
       },
       itemCount: items.length,

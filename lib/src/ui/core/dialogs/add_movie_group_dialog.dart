@@ -81,7 +81,7 @@ class _AddMovieGroupDialog extends HookWidget {
 
   Widget _buildSaveButton(AppLocalizations? appLocalizations, ValueNotifier<String> text) {
     return TextButton(
-      onPressed: text.value.isNotEmpty ? () => ScreensNavigator.pop(text.value) : null,
+      onPressed: text.value.isNotEmpty ? () => ScreensNavigator.pop(result: text.value) : null,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith(
           (Set<MaterialState> states) =>

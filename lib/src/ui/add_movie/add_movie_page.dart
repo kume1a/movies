@@ -10,17 +10,15 @@ import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
 class AddMoviePage extends StatelessWidget {
-  const AddMoviePage({
-    Key? key,
-    required this.groupId,
-  }) : super(key: key);
+  const AddMoviePage({Key? key}) : super(key: key);
 
-  final int groupId;
+  // TODO: 12/09/2021 add arg
+  // final int groupId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddMovieBloc>(
-      create: (_) => getIt<AddMovieBloc>()..add(AddMovieEvent.init(groupId)),
+      create: (_) => getIt<AddMovieBloc>(), //..add(AddMovieEvent.init(groupId)),
       child: const _AddMoviePageContent(),
     );
   }

@@ -43,7 +43,7 @@ class _MovieGroupSelector extends StatelessWidget {
                 final bool isSelected = movieGroup == state.selectedMovieGroup;
 
                 return ListTile(
-                  onTap: () => ScreensNavigator.pop(movieGroup),
+                  onTap: () => ScreensNavigator.pop(result: movieGroup),
                   title: Text(
                     movieGroup.groupId != null ? movieGroup.name : appLocalizations?.detailsOptionNoGroup ?? '',
                   ),

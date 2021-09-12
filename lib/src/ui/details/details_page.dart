@@ -15,15 +15,16 @@ import '../core/widgets/rating_duration.dart';
 import 'widgets/widgets.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({required this.movieId});
+  const DetailsPage();
 
-  final int movieId;
+  // TODO: 12/09/2021 add arg
+  // final int movieId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DetailsBloc>(
       create: (_) {
-        return getIt<DetailsBloc>(param1: movieId)
+        return getIt<DetailsBloc>()
           ..add(const DetailsEvent.init())
           ..add(const DetailsEvent.movieFetchRequested())
           ..add(const DetailsEvent.castPageFetchRequested());

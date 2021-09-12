@@ -61,12 +61,12 @@ class _ClearFavoritesDialog extends HookWidget {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => ScreensNavigator.pop(ClearFavoritesResult(didConfirm: false)),
+          onPressed: () => ScreensNavigator.pop(result: ClearFavoritesResult(didConfirm: false)),
           child: Text(appLocalizations?.cancel ?? ''),
         ),
         TextButton(
           onPressed: () =>
-              ScreensNavigator.pop(ClearFavoritesResult(didConfirm: true, clearMovieGroups: isChecked.value)),
+              ScreensNavigator.pop(result: ClearFavoritesResult(didConfirm: true, clearMovieGroups: isChecked.value)),
           child: Text(appLocalizations?.clear ?? ''),
         ),
       ],

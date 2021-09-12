@@ -39,7 +39,7 @@ class _DtapToSeekValueChooserDialog extends StatelessWidget {
             return RadioListTile<int>(
               title: Text(appLocalizations?.settingsDoubleTapToSeekDialogItem(e) ?? ''),
               value: e,
-              onChanged: (int? value) => ScreensNavigator.pop(value),
+              onChanged: (int? value) => ScreensNavigator.pop(result: value),
               groupValue: currentValue,
               selected: currentValue == e,
             );

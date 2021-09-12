@@ -13,27 +13,23 @@ import '../core/widgets/rating_duration.dart';
 import 'widgets/widgets.dart';
 
 class StreamPage extends StatelessWidget {
-  const StreamPage({
-    required this.movieId,
-    required this.season,
-    required this.episode,
-    required this.startAt,
-  });
+  const StreamPage();
 
-  final int movieId;
-  final int season;
-  final int episode;
-  final Duration startAt;
+  // TODO: 12/09/2021 add args
+  // final int movieId;
+  // final int season;
+  // final int episode;
+  // final Duration startAt;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<StreamBloc>(
       create: (_) => getIt<StreamBloc>()
         ..add(const StreamEvent.init())
-        ..add(StreamEvent.movieChanged(movieId))
-        ..add(StreamEvent.startPositionChanged(startAt))
-        ..add(StreamEvent.seasonChanged(season))
-        ..add(StreamEvent.episodeChanged(episode))
+        // ..add(StreamEvent.movieChanged(movieId))
+        // ..add(StreamEvent.startPositionChanged(startAt))
+        // ..add(StreamEvent.seasonChanged(season))
+        // ..add(StreamEvent.episodeChanged(episode))
         ..add(const StreamEvent.fetchRelatedRequested()),
       child: StreamPageContent(),
     );

@@ -8,12 +8,10 @@ import '../core/widgets/scroll_listener.dart';
 import 'widgets/widgets.dart';
 
 class MovieGroupPage extends StatelessWidget {
-  const MovieGroupPage({
-    Key? key,
-    required this.groupId,
-  }) : super(key: key);
+  const MovieGroupPage({Key? key}) : super(key: key);
 
-  final int groupId;
+  // TODO: 12/09/2021 add arg
+  // final int groupId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class MovieGroupPage extends StatelessWidget {
       // ignore: always_specify_types
       providers: [
         BlocProvider<MovieGroupBloc>(
-          create: (_) => getIt<MovieGroupBloc>()..add(MovieGroupEvent.init(groupId)),
+          create: (_) => getIt<MovieGroupBloc>(), //..add(MovieGroupEvent.init(groupId)),
         ),
         BlocProvider<MovieGroupUiBloc>(
           create: (_) => getIt<MovieGroupUiBloc>(),
