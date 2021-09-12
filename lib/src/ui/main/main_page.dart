@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../di/injection.dart';
-import '../../state/favorites/favorites_bloc.dart';
 import '../../state/statistics/statistics_bloc.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
@@ -66,9 +65,6 @@ class _MainPageState extends State<MainPage> {
         child: MultiBlocProvider(
           // ignore: always_specify_types
           providers: [
-            BlocProvider<FavoritesBloc>(
-              create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.init()),
-            ),
             BlocProvider<StatisticsBloc>(
               create: (_) => getIt<StatisticsBloc>()..add(const StatisticsEvent.init()),
             ),

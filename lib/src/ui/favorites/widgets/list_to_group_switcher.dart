@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/favorites/favorites_bloc.dart';
+import '../../../controllers/favorites/favorites_controller.dart';
 
 enum _SwitcherValue {
   seeAll,
   groups,
 }
 
-class ListToGroupSwitcher extends StatelessWidget {
+class ListToGroupSwitcher extends GetView<FavoritesController> {
   const ListToGroupSwitcher({Key? key}) : super(key: key);
 
   @override
@@ -41,10 +41,10 @@ class ListToGroupSwitcher extends StatelessWidget {
           onSelected: (_SwitcherValue value) {
             switch (value) {
               case _SwitcherValue.seeAll:
-                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToSeeAll());
+                controller.onSwitchedToSeeAll();
                 break;
               case _SwitcherValue.groups:
-                context.read<FavoritesBloc>().add(const FavoritesEvent.switchedToMovieGroups());
+                controller.onSwitchedToMovieGroups();
                 break;
             }
           },

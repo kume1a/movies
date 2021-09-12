@@ -1,55 +1,42 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/favorites/favorites_controller.dart';
 import '../../../core/enums/supported_locale.dart';
 import '../../../core/extensions/build_context_extensions.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
-import '../../../state/favorites/favorites_bloc.dart';
 import '../../core/dialogs/add_movie_group_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 
-class MovieGroups extends StatelessWidget {
+class MovieGroups extends GetView<FavoritesController> {
   const MovieGroups({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoritesBloc, FavoritesState>(
-      buildWhen: (FavoritesState previous, FavoritesState current) =>
-          !const DeepCollectionEquality().equals(previous.movieGroups, current.movieGroups),
-      builder: (BuildContext context, FavoritesState state) {
-        return state.movieGroups != null
-            ? VisibilityDetector(
-                key: UniqueKey(),
-                onVisibilityChanged: (VisibilityInfo info) {
-                  if (info.visibleFraction == 1) {
-                    context.read<FavoritesBloc>().add(const FavoritesEvent.refreshData());
-                  }
-                },
-                child: GridView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 250,
-                    mainAxisExtent: 150,
-                    crossAxisSpacing: 18,
-                    mainAxisSpacing: 18,
-                  ),
-                  itemCount: state.movieGroups!.length + 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    final bool overListLength = index > state.movieGroups!.length - 1;
-                    return overListLength
-                        ? _buildAddGroupItem(context)
-                        : _buildItem(context, state.movieGroups![index]);
-                  },
-                ),
-              )
-            : const Center(child: CircularProgressIndicator());
-      },
-    );
+    return Obx(() {
+      final RxList<MovieGroup> movieGroups = controller.movieGroups;
+
+      return movieGroups.isNotEmpty
+          ? GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 250,
+              mainAxisExtent: 150,
+              crossAxisSpacing: 18,
+              mainAxisSpacing: 18,
+            ),
+            itemCount: movieGroups.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              final bool overListLength = index > movieGroups.length - 1;
+              return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups[index]);
+            },
+          )
+          : const Center(child: CircularProgressIndicator());
+    });
   }
 
   Widget _buildAddGroupItem(BuildContext context) {
@@ -63,7 +50,7 @@ class MovieGroups extends StatelessWidget {
             onTap: () async {
               final String? groupName = await showAddMovieGroupDialog(context);
               if (groupName != null) {
-                context.read<FavoritesBloc>().add(FavoritesEvent.groupAdded(groupName));
+                controller.onGroupAdded(groupName);
               }
             },
             child: const SizedBox.expand(
@@ -153,7 +140,7 @@ class MovieGroups extends StatelessWidget {
               );
 
               if (didConfirm) {
-                context.read<FavoritesBloc>().add(FavoritesEvent.groupDeleted(movieGroup));
+                controller.onGroupDeleted(movieGroup);
               }
             },
             onTap: () async {
