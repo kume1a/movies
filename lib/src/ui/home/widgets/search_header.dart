@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../core/routes/screens_navigator.dart';
+import '../../../controllers/home/home_controller.dart';
 import '../../core/values/colors.dart';
 
-class SearchHeader extends StatelessWidget {
+class SearchHeader extends GetView<HomeController> {
   const SearchHeader({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +16,7 @@ class SearchHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
       child: GestureDetector(
-        onTap: () => ScreensNavigator.pushSearchPage(),
+        onTap: controller.onSearchPressed,
         child: Container(
           color: Colors.transparent,
           child: Column(

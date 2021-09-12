@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../di/injection.dart';
 import '../../state/favorites/favorites_bloc.dart';
-import '../../state/home/home_bloc.dart';
 import '../../state/statistics/statistics_bloc.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
@@ -69,13 +68,6 @@ class _MainPageState extends State<MainPage> {
           providers: [
             BlocProvider<FavoritesBloc>(
               create: (_) => getIt<FavoritesBloc>()..add(const FavoritesEvent.init()),
-            ),
-            BlocProvider<HomeBloc>(
-              create: (_) => getIt<HomeBloc>()
-                ..add(const HomeEvent.popularMoviesFetchRequested())
-                ..add(const HomeEvent.savedMoviesRequested())
-                ..add(const HomeEvent.topMoviesPageFetchRequested())
-                ..add(const HomeEvent.moviesPageFetchRequested()),
             ),
             BlocProvider<StatisticsBloc>(
               create: (_) => getIt<StatisticsBloc>()..add(const StatisticsEvent.init()),

@@ -1,13 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 
-import '../../state/home/home_bloc.dart';
+import '../../controllers/home/home_controller.dart';
 import 'widgets/widgets.dart';
 
-class HomePage extends HookWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -15,38 +13,22 @@ class HomePage extends HookWidget {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
-    final ScrollController scrollController = useScrollController();
-
     return ScrollUpRefreshIndicators(
-      onRefresh: () async {
-        context.read<HomeBloc>()
-          ..add(const HomeEvent.clear())
-          ..add(const HomeEvent.popularMoviesFetchRequested())
-          ..add(const HomeEvent.savedMoviesRequested())
-          ..add(const HomeEvent.topMoviesPageFetchRequested())
-          ..add(const HomeEvent.moviesPageFetchRequested());
-
-        return Future<void>.delayed(const Duration(milliseconds: 500));
-      },
-      onScrollToUpPressed: () =>
-          scrollController.animateTo(0, duration: const Duration(milliseconds: 400), curve: Curves.easeIn),
+      onRefresh: controller.onRefresh,
+      onScrollToUpPressed: controller.onScrollUpPressed,
       child: CustomScrollView(
-        controller: scrollController,
+        controller: controller.scrollController,
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildListDelegate(
               <Widget>[
                 const SearchHeader(),
                 const PopularMoviesList(),
-                BlocBuilder<HomeBloc, HomeState>(
-                  buildWhen: (HomeState prev, HomeState curr) =>
-                      !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
-                  builder: (BuildContext context, HomeState state) {
-                    return state.savedMovies?.isNotEmpty == true
-                        ? _buildHeader(theme, appLocalizations?.homeHeaderWatchLater ?? '')
-                        : const SizedBox.shrink();
-                  },
-                ),
+                Obx(() {
+                  return controller.savedMovies.isNotEmpty == true
+                      ? _buildHeader(theme, appLocalizations?.homeHeaderWatchLater ?? '')
+                      : const SizedBox.shrink();
+                }),
                 const ContinueWatchingList(),
                 _buildHeader(theme, appLocalizations?.homeHeaderTopSelection ?? ''),
                 const TopSelectionList(),

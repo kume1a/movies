@@ -1,19 +1,18 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../controllers/home/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/saved_movie.dart';
-import '../../../state/home/home_bloc.dart';
 import '../../core/formatters.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
 
-class ContinueWatchingList extends StatelessWidget {
+class ContinueWatchingList extends GetView<HomeController> {
   const ContinueWatchingList({Key? key}) : super(key: key);
 
   static const double itemWidth = 230;
@@ -23,11 +22,7 @@ class ContinueWatchingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (HomeState prev, HomeState curr) =>
-          !const DeepCollectionEquality().equals(prev.savedMovies, curr.savedMovies),
-      builder: (BuildContext context, HomeState state) => _buildList(context, state.savedMovies),
-    );
+    return Obx(() => _buildList(context, controller.savedMovies));
   }
 
   Widget _buildList(BuildContext context, List<SavedMovie>? savedMovies) {
@@ -37,7 +32,7 @@ class ContinueWatchingList extends StatelessWidget {
       key: UniqueKey(),
       onVisibilityChanged: (VisibilityInfo info) {
         if (info.visibleFraction == 1) {
-          context.read<HomeBloc>().add(const HomeEvent.refreshSavedMoviesRequested());
+          controller.refreshSavedMoviesRequested();
         }
       },
       child: savedMovies?.isNotEmpty == true

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/home/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
-import '../../../state/home/home_bloc.dart';
-import '../../core/routes/screens_navigator.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
 
-class TopSelectionList extends StatelessWidget {
+class TopSelectionList extends GetView<HomeController> {
   const TopSelectionList({Key? key}) : super(key: key);
 
   static const double itemWidth = 110;
@@ -24,25 +23,24 @@ class TopSelectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: itemHeight,
-      child: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (HomeState previous, HomeState current) => previous.topMovies != current.topMovies,
-        builder: (BuildContext context, HomeState state) {
-          return state.topMovies == null
-              ? ListView.builder(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, __) => _blankBuilder(null),
-                )
-              : _buildList(state.topMovies!);
-        },
-      ),
+      child: Obx(() {
+        final Movies? topMovies = controller.topMovies.value;
+
+        return topMovies == null
+            ? ListView.builder(
+                itemCount: 4,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, __) => _blankBuilder(null),
+              )
+            : _buildList(topMovies);
+      }),
     );
   }
 
   Widget _buildList(Movies movies) {
     return PagedList<MovieData>(
       axis: Axis.horizontal,
-      request: (BuildContext context) => context.read<HomeBloc>().add(const HomeEvent.topMoviesPageFetchRequested()),
+      request: (BuildContext context) => controller.onTopMoviesPageFetchRequested(),
       blankBuilder: _blankBuilder,
       itemBuilder: _itemBuilder,
       items: movies.data,
@@ -54,7 +52,7 @@ class TopSelectionList extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
+      onTap: () => controller.onTopMoviePressed(movie),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
         child: Column(

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/home/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../state/home/home_bloc.dart';
-import '../../core/routes/screens_navigator.dart';
+import '../../../data/model/models/movies/movies.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/carousel.dart';
 import '../../core/widgets/safe_image.dart';
 
-class PopularMoviesList extends StatelessWidget {
+class PopularMoviesList extends GetView<HomeController> {
   const PopularMoviesList({Key? key}) : super(key: key);
 
   static const double _itemHeight = 180;
@@ -19,26 +19,23 @@ class PopularMoviesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (HomeState previous, HomeState current) => previous.popularMovies != current.popularMovies,
-      builder: (BuildContext context, HomeState state) {
-        return Carousel(
-          height: _itemHeight,
-          itemCount: state.popularMovies != null ? state.popularMovies!.data.length : 3,
-          distortionValue: .2,
-          itemBuilder: (BuildContext context, int index) {
-            return state.popularMovies != null
-                ? _itemBuilder(context, state.popularMovies!.data[index])
-                : _blankBuilder();
-          },
-        );
-      },
-    );
+    return Obx(() {
+      final Movies? popularMovies = controller.popularMovies.value;
+
+      return Carousel(
+        height: _itemHeight,
+        itemCount: popularMovies != null ? popularMovies.data.length : 3,
+        distortionValue: .2,
+        itemBuilder: (BuildContext context, int index) {
+          return popularMovies != null ? _itemBuilder(context, popularMovies.data[index]) : _blankBuilder();
+        },
+      );
+    });
   }
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
+      onTap: () => controller.onPopularMoviePressed(movie),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(_radius),
         child: Stack(

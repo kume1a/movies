@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movo/src/ui/main/main_page.dart';
 
 import '../../../di/bindings/add_movie_page_binding.dart';
 import '../../../di/bindings/details_page_binding.dart';
@@ -11,7 +10,7 @@ import '../../../di/bindings/settings_page_binding.dart';
 import '../../../di/bindings/stream_page_binding.dart';
 import '../../add_movie/add_movie_page.dart';
 import '../../details/details_page.dart';
-import '../../home/home_page.dart';
+import '../../main/main_page.dart';
 import '../../movie_group/movie_group_page.dart';
 import '../../search/search_page.dart';
 import '../../settings/settings_page.dart';
