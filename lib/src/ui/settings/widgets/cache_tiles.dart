@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/settings/settings_bloc.dart';
+import '../../../controllers/settings/settings_controller.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 
-class TileClearCache extends StatelessWidget {
+class TileClearCache extends GetView<SettingsController> {
   const TileClearCache({Key? key}) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class TileClearCache extends StatelessWidget {
         );
 
         if (didConfirm) {
-          context.read<SettingsBloc>().add(const SettingsEvent.clearCacheRequested());
+          controller.onClearCachePressed();
         }
       },
     );

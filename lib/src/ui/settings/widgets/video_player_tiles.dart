@@ -1,88 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/settings/settings_bloc.dart';
+import '../../../controllers/settings/settings_controller.dart';
 import '../../core/dialogs/dtap_to_seek_value_chooser_dialog.dart';
 import '../../core/dialogs/save_movie_interval_dialog.dart';
 
-class TileAutoPlay extends StatelessWidget {
+class TileAutoPlay extends GetView<SettingsController> {
   const TileAutoPlay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (SettingsState prev, SettingsState curr) => prev.autoPlayEnabled != curr.autoPlayEnabled,
-      builder: (BuildContext context, SettingsState state) {
-        return SwitchListTile(
-          value: state.autoPlayEnabled,
-          title: Text(appLocalizations?.settingsAutoplay ?? ''),
-          subtitle: Text(appLocalizations?.settingsCommentAutoplay ?? ''),
-          onChanged: (bool value) {
-            context.read<SettingsBloc>().add(SettingsEvent.autoPlaySwitched(enabled: value));
-          },
-        );
-      },
+    return Obx(
+      () => SwitchListTile(
+        value: controller.autoPlayEnabled.value,
+        title: Text(appLocalizations?.settingsAutoplay ?? ''),
+        subtitle: Text(appLocalizations?.settingsCommentAutoplay ?? ''),
+        onChanged: (bool value) => controller.onAutoPlaySwitched(isEnabled: value),
+      ),
     );
   }
 }
 
-class TileDoubleTapToSeek extends StatelessWidget {
+class TileDoubleTapToSeek extends GetView<SettingsController> {
   const TileDoubleTapToSeek({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (SettingsState prev, SettingsState curr) => prev.doubleTapToSeekValue != curr.doubleTapToSeekValue,
-      builder: (BuildContext context, SettingsState state) {
-        return ListTile(
-          title: Text(appLocalizations?.settingsDoubleTapToSeek ?? ''),
-          subtitle: Text(appLocalizations?.settingsCommentDoubleTapToSeek(state.doubleTapToSeekValue) ?? ''),
-          onTap: () async {
-            final int? newValue = await showDoubleTapToSeekValueChooserDialog(
-              context,
-              currentValue: state.doubleTapToSeekValue,
-            );
+    return Obx(
+      () => ListTile(
+        title: Text(appLocalizations?.settingsDoubleTapToSeek ?? ''),
+        subtitle: Text(appLocalizations?.settingsCommentDoubleTapToSeek(controller.doubleTapToSeekValue.value) ?? ''),
+        onTap: () async {
+          final int? newValue = await showDoubleTapToSeekValueChooserDialog(
+            context,
+            currentValue: controller.doubleTapToSeekValue.value,
+          );
 
-            if (newValue != null) {
-              context.read<SettingsBloc>().add(SettingsEvent.doubleTapToSeekValueChanged(newValue));
-            }
-          },
-        );
-      },
+          if (newValue != null) {
+            controller.onDoubleTapToSeekValueChanged(newValue);
+          }
+        },
+      ),
     );
   }
 }
 
-class TileSaveMovieInterval extends StatelessWidget {
+class TileSaveMovieInterval extends GetView<SettingsController> {
   const TileSaveMovieInterval({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (SettingsState prev, SettingsState curr) => prev.saveMovieInterval != curr.saveMovieInterval,
-      builder: (BuildContext context, SettingsState state) {
-        return ListTile(
-          title: Text(appLocalizations?.settingsSaveMovieInterval ?? ''),
-          subtitle: Text(appLocalizations?.settingsCommentSaveMovieInterval(state.saveMovieInterval) ?? ''),
-          onTap: () async {
-            final int? newValue = await showSaveMovieIntervalChooserDialog(
-              context,
-              currentValue: state.saveMovieInterval,
-            );
+    return Obx(
+      () => ListTile(
+        title: Text(appLocalizations?.settingsSaveMovieInterval ?? ''),
+        subtitle: Text(appLocalizations?.settingsCommentSaveMovieInterval(controller.saveMovieInterval.value) ?? ''),
+        onTap: () async {
+          final int? newValue = await showSaveMovieIntervalChooserDialog(
+            context,
+            currentValue: controller.saveMovieInterval.value,
+          );
 
-            if (newValue != null) {
-              context.read<SettingsBloc>().add(SettingsEvent.saveMovieIntervalChanged(newValue));
-            }
-          },
-        );
-      },
+          if (newValue != null) {
+            controller.onSaveMovieIntervalChanged(newValue);
+          }
+        },
+      ),
     );
   }
 }

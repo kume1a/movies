@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/settings/settings_bloc.dart';
+import '../../../controllers/settings/settings_controller.dart';
 import '../../core/dialogs/clear_favorites_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 
-class TileClearSearchHistory extends StatelessWidget {
+class TileClearSearchHistory extends GetView<SettingsController> {
   const TileClearSearchHistory({Key? key}) : super(key: key);
 
   @override
@@ -25,14 +25,14 @@ class TileClearSearchHistory extends StatelessWidget {
         );
 
         if (didConfirm) {
-          context.read<SettingsBloc>().add(const SettingsEvent.clearSearchHistoryRequested());
+          controller.onClearSearchHistoryPressed();
         }
       },
     );
   }
 }
 
-class TileClearSavedMovies extends StatelessWidget {
+class TileClearSavedMovies extends GetView<SettingsController> {
   const TileClearSavedMovies({Key? key}) : super(key: key);
 
   @override
@@ -51,58 +51,48 @@ class TileClearSavedMovies extends StatelessWidget {
         );
 
         if (didConfirm) {
-          context.read<SettingsBloc>().add(const SettingsEvent.clearWatchHistoryRequested());
+          controller.onClearWatchHistoryPressed();
         }
       },
     );
   }
 }
 
-class TileRecordSearchHistory extends StatelessWidget {
+class TileRecordSearchHistory extends GetView<SettingsController> {
   const TileRecordSearchHistory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (SettingsState prev, SettingsState curr) =>
-          prev.recordSearchHistoryEnabled != curr.recordSearchHistoryEnabled,
-      builder: (BuildContext context, SettingsState state) {
-        return SwitchListTile(
-          value: state.recordSearchHistoryEnabled,
-          title: Text(appLocalizations?.settingsRecordSearchHistory ?? ''),
-          onChanged: (bool value) =>
-              context.read<SettingsBloc>().add(SettingsEvent.searchHistoryEnabledSwitched(enabled: value)),
-        );
-      },
-    );
+    return Obx(() {
+      return SwitchListTile(
+        value: controller.recordSearchHistoryEnabled.value,
+        title: Text(appLocalizations?.settingsRecordSearchHistory ?? ''),
+        onChanged: (bool value) => controller.onSearchHistoryEnabledSwitched(isEnabled: value),
+      );
+    });
   }
 }
 
-class TileRecordWatchHistory extends StatelessWidget {
+class TileRecordWatchHistory extends GetView<SettingsController> {
   const TileRecordWatchHistory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<SettingsBloc, SettingsState>(
-      buildWhen: (SettingsState prev, SettingsState curr) =>
-          prev.recordWatchHistoryEnabled != curr.recordWatchHistoryEnabled,
-      builder: (BuildContext context, SettingsState state) {
-        return SwitchListTile(
-          value: state.recordWatchHistoryEnabled,
-          title: Text(appLocalizations?.settingsRecordWatchHistory ?? ''),
-          onChanged: (bool value) =>
-              context.read<SettingsBloc>().add(SettingsEvent.watchHistoryEnabledSwitched(enabled: value)),
-        );
-      },
+    return Obx(
+      () => SwitchListTile(
+        value: controller.recordWatchHistoryEnabled.value,
+        title: Text(appLocalizations?.settingsRecordWatchHistory ?? ''),
+        onChanged: (bool value) => controller.onWatchHistoryEnabledSwitched(isEnabled: value),
+      ),
     );
   }
 }
 
-class TileClearFavorites extends StatelessWidget {
+class TileClearFavorites extends GetView<SettingsController> {
   const TileClearFavorites({Key? key}) : super(key: key);
 
   @override
@@ -116,9 +106,7 @@ class TileClearFavorites extends StatelessWidget {
         final ClearFavoritesResult? clearFavoritesResult = await showClearFavoritesDialog(context);
 
         if (clearFavoritesResult != null && clearFavoritesResult.didConfirm) {
-          context
-              .read<SettingsBloc>()
-              .add(SettingsEvent.clearFavoritesRequested(clearGroups: clearFavoritesResult.clearMovieGroups));
+          controller.onClearFavoritesPressed(clearGroups: clearFavoritesResult.clearMovieGroups);
         }
       },
     );
