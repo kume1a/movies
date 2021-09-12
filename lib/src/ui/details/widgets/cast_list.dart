@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/details/details_controller.dart';
 import '../../../core/extensions/model_l10n/actor_l10n_extensions.dart';
 import '../../../data/model/models/actors/actor.dart';
 import '../../../data/model/models/actors/actors.dart';
-import '../../../state/details/details_bloc.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/safe_image.dart';
 
-class CastList extends StatelessWidget {
+class CastList extends GetView<DetailsController> {
   static const double itemWidth = 120;
   static const double itemHeight = 160;
   static const double radius = 12;
@@ -19,12 +19,7 @@ class CastList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 210,
-      child: BlocBuilder<DetailsBloc, DetailsState>(
-        buildWhen: (DetailsState prev, DetailsState curr) => prev.actors != curr.actors,
-        builder: (BuildContext context, DetailsState state) {
-          return _buildList(state.actors);
-        },
-      ),
+      child: Obx(() => _buildList(controller.actors.value)),
     );
   }
 
@@ -45,7 +40,7 @@ class CastList extends StatelessWidget {
           return _buildBlankItem();
         }
         if (index >= length) {
-          context.read<DetailsBloc>().add(const DetailsEvent.castPageFetchRequested());
+          controller.onCastPageFetchRequested();
           return _buildBlankItem();
         }
         return _buildItem(context, actor: actors.actors[index]);

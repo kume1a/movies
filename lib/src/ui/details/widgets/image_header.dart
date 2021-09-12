@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/details/details_controller.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
-import '../../../state/details/details_bloc.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/default_back_button.dart';
@@ -16,20 +16,14 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   const ImageHeader({
     required this.minExtent,
     required this.maxExtent,
-    required this.src,
-    required this.canBePlayed,
-    required this.onPlayPressed,
   });
 
   @override
   final double minExtent;
-
   @override
   final double maxExtent;
 
-  final String src;
-  final bool canBePlayed;
-  final VoidCallback onPlayPressed;
+  DetailsController get controller => Get.find();
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -38,30 +32,47 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: <Widget>[
         _buildImage(),
-        if (!canBePlayed)
-          Container(
-            color: Colors.black.withOpacity((1 - offset) * .4),
-          ),
+        Obx(() {
+          final bool canBePlayed = controller.movie.value?.canBePlayed ?? true;
+          return !canBePlayed
+              ? Container(
+                  color: Colors.black.withOpacity((1 - offset) * .4),
+                )
+              : const SizedBox.shrink();
+        }),
         _buildBottomContainer(offset),
-        if (!canBePlayed) const Center(child: Text('Coming Soon', style: prB22)),
-        if (canBePlayed)
-          Positioned.fill(
-            bottom: minExtent / 2,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildPlayButton(offset),
-            ),
-          ),
-        if (canBePlayed)
-          Positioned(
-            right: 0,
-            child: ClipOval(
-              child: Material(
-                type: MaterialType.transparency,
-                child: _buildAddToGroupButton(context),
-              ),
-            ),
-          ),
+        Obx(() {
+          final bool canBePlayed = controller.movie.value?.canBePlayed ?? true;
+          return !canBePlayed ? const Center(child: Text('Coming Soon', style: prB22)) : const SizedBox.shrink();
+        }),
+        Obx(
+          () {
+            final bool canBePlayed = controller.movie.value?.canBePlayed ?? true;
+            return canBePlayed
+                ? Positioned.fill(
+                    bottom: minExtent / 2,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _buildPlayButton(offset),
+                    ),
+                  )
+                : const SizedBox.shrink();
+          },
+        ),
+        Obx(() {
+          final bool canBePlayed = controller.movie.value?.canBePlayed ?? true;
+          return canBePlayed
+              ? Positioned(
+                  right: 0,
+                  child: ClipOval(
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: _buildAddToGroupButton(context),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink();
+        }),
         const Positioned(
           left: 0,
           child: ClipOval(
@@ -100,7 +111,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
           stops: <double>[0, .2],
         ),
       ),
-      child: SafeImage(imageUrl: src),
+      child: Obx(() => SafeImage(imageUrl: controller.movie.value?.availableImage ?? '')),
     );
   }
 
@@ -120,7 +131,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
 
   Widget _buildPlayButton(double offset) {
     return GestureDetector(
-      onTap: onPlayPressed,
+      onTap: controller.onPlayPressed,
       child: SizedBox(
         width: minExtent,
         height: minExtent,
@@ -147,35 +158,31 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
   }
 
   Widget _buildAddToGroupButton(BuildContext context) {
-    return BlocBuilder<DetailsBloc, DetailsState>(
-      buildWhen: (DetailsState previous, DetailsState current) =>
-          previous.movie != current.movie || previous.isFavorite != current.isFavorite,
-      builder: (BuildContext context, DetailsState state) {
-        final Widget icon = state.isFavorite
-            ? const Icon(Icons.library_add, color: Colors.white, key: ValueKey<int>(1))
-            : const Icon(Icons.library_add_outlined, color: Colors.white, key: ValueKey<int>(2));
+    return Obx(() {
+      final Widget icon = controller.isFavorite.value
+          ? const Icon(Icons.library_add, color: Colors.white, key: ValueKey<int>(1))
+          : const Icon(Icons.library_add_outlined, color: Colors.white, key: ValueKey<int>(2));
 
-        return IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: () async {
-            final int? movieId = state.movie?.movieId;
+      return IconButton(
+        padding: EdgeInsets.zero,
+        onPressed: () async {
+          final int? movieId = controller.movie.value?.movieId;
 
-            if (movieId != null) {
-              final MovieGroup? selectedMovieGroup = await showMovieGroupSelector(context, movieId);
-              if (selectedMovieGroup != null) {
-                context.read<DetailsBloc>().add(DetailsEvent.groupSelected(selectedMovieGroup));
-              }
+          if (movieId != null) {
+            final MovieGroup? selectedMovieGroup = await showMovieGroupSelector(context, movieId);
+            if (selectedMovieGroup != null) {
+              controller.onGroupSelected(selectedMovieGroup);
             }
-          },
-          splashColor: Colors.transparent,
-          icon: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: (Widget child, Animation<double> animation) =>
-                ScaleTransition(scale: animation, child: child),
-            child: icon,
-          ),
-        );
-      },
-    );
+          }
+        },
+        splashColor: Colors.transparent,
+        icon: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (Widget child, Animation<double> animation) =>
+              ScaleTransition(scale: animation, child: child),
+          child: icon,
+        ),
+      );
+    });
   }
 }
