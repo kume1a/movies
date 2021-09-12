@@ -7,15 +7,6 @@ class StatisticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _StatisticsPageContent();
-  }
-}
-
-class _StatisticsPageContent extends StatelessWidget {
-  const _StatisticsPageContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     const EdgeInsets padding = EdgeInsets.symmetric(horizontal: 12);
 
     return ListView(

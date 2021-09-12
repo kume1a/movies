@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/statistics/statistics_controller.dart';
 import '../../../core/enums/time_period.dart';
 import '../../../state/statistics/statistics_bloc.dart';
 import '../../core/values/colors.dart';
 
-class TimePeriodChooser extends StatelessWidget {
+class TimePeriodChooser extends GetView<StatisticsController> {
   const TimePeriodChooser({Key? key}) : super(key: key);
 
   @override
@@ -24,45 +26,46 @@ class TimePeriodChooser extends StatelessWidget {
       overlayColor: MaterialStateProperty.all(Colors.white12),
     );
 
-    return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) =>
-          previous.timePeriod != current.timePeriod ||
-          previous.watchedDurations.length != current.watchedDurations.length,
-      builder: (BuildContext context, StatisticsState state) {
-        if (state.watchedDurations.isEmpty) return const SizedBox.shrink();
+    return Obx(() {
+      if (controller.watchedDurations.isEmpty) return const SizedBox.shrink();
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: Obx(
+              () => TextButton(
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.year)),
-                style: state.timePeriod == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
+                style: controller.timePeriod.value == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionYear ?? ''),
               ),
             ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextButton(
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Obx(
+              () => TextButton(
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.month)),
-                style: state.timePeriod == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
+                style: controller.timePeriod.value == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionMonth ?? ''),
               ),
             ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: TextButton(
+          ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Obx(
+              () => TextButton(
                 onPressed: () =>
                     context.read<StatisticsBloc>().add(const StatisticsEvent.timePeriodChanged(TimePeriod.week)),
-                style: state.timePeriod == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
+                style: controller.timePeriod.value == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionWeek ?? ''),
               ),
             ),
-          ],
-        );
-      },
-    );
+          ),
+        ],
+      );
+    });
   }
 }

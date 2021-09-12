@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/statistics/statistics_bloc.dart';
+import '../../../controllers/statistics/statistics_controller.dart';
 import '../../core/formatters.dart';
 
 class _InfoTile extends StatelessWidget {
@@ -30,80 +30,66 @@ class _InfoTile extends StatelessWidget {
   }
 }
 
-class TileMoviesWatched extends StatelessWidget {
+class TileMoviesWatched extends GetView<StatisticsController> {
   const TileMoviesWatched({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) => previous.moviesWatched != current.moviesWatched,
-      builder: (BuildContext context, StatisticsState state) {
-        return _InfoTile(
-          title: appLocalizations?.statisticsMovieWatched ?? '',
-          value: state.moviesWatched.toString(),
-        );
-      },
+    return Obx(
+      () => _InfoTile(
+        title: appLocalizations?.statisticsMovieWatched ?? '',
+        value: controller.moviesWatched.value.toString(),
+      ),
     );
   }
 }
 
-class TileTvSeriesWatched extends StatelessWidget {
+class TileTvSeriesWatched extends GetView<StatisticsController> {
   const TileTvSeriesWatched({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) =>
-          previous.tvSeriesWatched != current.tvSeriesWatched,
-      builder: (BuildContext context, StatisticsState state) {
-        return _InfoTile(
-          title: appLocalizations?.statisticsTVSeriesWatched ?? '',
-          value: state.tvSeriesWatched.toString(),
-        );
-      },
+    return Obx(
+      () => _InfoTile(
+        title: appLocalizations?.statisticsTVSeriesWatched ?? '',
+        value: controller.tvSeriesWatched.value.toString(),
+      ),
     );
   }
 }
 
-class TileEpisodesWatched extends StatelessWidget {
+class TileEpisodesWatched extends GetView<StatisticsController> {
   const TileEpisodesWatched({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) =>
-          previous.episodesWatched != current.episodesWatched,
-      builder: (BuildContext context, StatisticsState state) {
-        return _InfoTile(
-          title: appLocalizations?.statisticsEpisodesWatched ?? '',
-          value: state.episodesWatched.toString(),
-        );
-      },
+    return Obx(
+      () => _InfoTile(
+        title: appLocalizations?.statisticsEpisodesWatched ?? '',
+        value: controller.episodesWatched.value.toString(),
+      ),
     );
   }
 }
 
-class TileAverageTime extends StatelessWidget {
+class TileAverageTime extends GetView<StatisticsController> {
   const TileAverageTime({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StatisticsBloc, StatisticsState>(
-      buildWhen: (StatisticsState previous, StatisticsState current) => previous.averageTime != current.averageTime,
-      builder: (BuildContext context, StatisticsState state) {
-        return _InfoTile(
-          title: appLocalizations?.statisticsAverageTime ?? '',
-          value: formatDuration(context, state.averageTime.inMinutes, emptyOnZero: false),
-        );
-      },
+    return Obx(
+      () => _InfoTile(
+        title: appLocalizations?.statisticsAverageTime ?? '',
+        value: formatDuration(context, controller.averageTime.value.inMinutes, emptyOnZero: false),
+      ),
     );
   }
 }
