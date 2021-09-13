@@ -54,8 +54,10 @@ class AddMovieController extends GetxController {
       return;
     }
 
-    scrollController.jumpTo(0);
-    
+    if (scrollController.hasClients) {
+      scrollController.jumpTo(0);
+    }
+
     if (query.trim().isEmpty) {
       searchResults.value = SearchResults.empty();
     } else {
