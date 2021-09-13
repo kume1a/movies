@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../di/injection.dart';
-import '../../state/statistics/statistics_bloc.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
 import '../favorites/favorites_page.dart';
@@ -62,21 +59,13 @@ class _MainPageState extends State<MainPage> {
         hoverAlignmentDuration: 300,
       ),
       body: SafeArea(
-        child: MultiBlocProvider(
-          // ignore: always_specify_types
-          providers: [
-            BlocProvider<StatisticsBloc>(
-              create: (_) => getIt<StatisticsBloc>()..add(const StatisticsEvent.init()),
-            ),
+        child: IndexedStack(
+          index: _index,
+          children: const <Widget>[
+            HomePage(),
+            FavoritesPage(),
+            StatisticsPage(),
           ],
-          child: IndexedStack(
-            index: _index,
-            children: const <Widget>[
-              HomePage(),
-              FavoritesPage(),
-              StatisticsPage(),
-            ],
-          ),
         ),
       ),
     );

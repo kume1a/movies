@@ -47,25 +47,10 @@ class DetailsController extends GetxController {
     isFavorite.value = await _favoriteMovieDao.isMovieFavorited(_movieId);
 
     _fetchMovie();
+    _fetchActors();
   }
 
-  Future<void> onCastPageFetchRequested() async {
-    if (_fetchingActors) {
-      return;
-    }
-
-    _fetchingActors = true;
-
-    final Either<FetchFailure, Actors> actors = await _movieService.getActors(_movieId, _actorsPage);
-    if (this.actors.value != null) {
-      actors.getOrElse(() => Actors.empty()).actors.insertAll(0, this.actors.value!.actors);
-    }
-
-    _actorsPage++;
-    _fetchingActors = false;
-
-    this.actors.value = actors.get;
-  }
+  Future<void> onCastPageFetchRequested() async => _fetchActors();
 
   Future<void> onGroupSelected(MovieGroup selectedMovieGroup) async {
     final MovieGroup? movieGroup = await _movieGroupDao.getMovieGroupWithMovieId(_movieId);
@@ -124,5 +109,23 @@ class DetailsController extends GetxController {
   Future<void> _fetchMovie() async {
     final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(_movieId);
     this.movie.value = movie.get;
+  }
+
+  Future<void> _fetchActors() async {
+    if (_fetchingActors) {
+      return;
+    }
+
+    _fetchingActors = true;
+
+    final Either<FetchFailure, Actors> actors = await _movieService.getActors(_movieId, _actorsPage);
+    if (this.actors.value != null) {
+      actors.getOrElse(() => Actors.empty()).actors.insertAll(0, this.actors.value!.actors);
+    }
+
+    _actorsPage++;
+    _fetchingActors = false;
+
+    this.actors.value = actors.get;
   }
 }
