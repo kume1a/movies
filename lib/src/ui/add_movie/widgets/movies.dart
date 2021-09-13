@@ -1,50 +1,43 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/add_movie/add_movie_controller.dart';
 import '../../../core/extensions/model_l10n/search_result_l10n_extensions.dart';
 import '../../../data/model/models/search/search_result.dart';
-import '../../../state/add_movie/add_movie_bloc.dart';
+import '../../../data/model/models/search/search_results.dart';
 import '../../core/values/colors.dart';
 import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
 
-class Movies extends HookWidget {
+class Movies extends GetView<AddMovieController> {
   const Movies({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    final ScrollController scrollController = useScrollController();
+    return Obx(() {
+      final SearchResults? searchResults = controller.searchResults.value;
 
-    return BlocBuilder<AddMovieBloc, AddMovieState>(
-      buildWhen: (AddMovieState previous, AddMovieState current) =>
-          previous.searchResults != current.searchResults ||
-          !const DeepCollectionEquality().equals(previous.groupMovieIds, current.groupMovieIds),
-      builder: (BuildContext context, AddMovieState state) {
-        return state.searchResults != null
-            ? PagedList<SearchResult>(
-                request: (BuildContext context) =>
-                    context.read<AddMovieBloc>().add(const AddMovieEvent.nextPageRequested()),
-                blankBuilder: _blankBuilder,
-                itemBuilder: (BuildContext context, SearchResult searchResult) => _itemBuilder(
-                  context,
-                  appLocalizations,
-                  searchResult,
-                  state.groupMovieIds.contains(searchResult.movieId),
-                ),
-                items: state.searchResults!.results,
-                totalCount: state.searchResults!.totalCount,
-                totalPages: state.searchResults!.totalPages,
-                scrollController: scrollController,
-                extent: 1,
-              )
-            : const SizedBox.shrink();
-      },
-    );
+      return searchResults != null
+          ? PagedList<SearchResult>(
+              request: (BuildContext context) => controller.onNextPageRequested(),
+              blankBuilder: _blankBuilder,
+              itemBuilder: (BuildContext context, SearchResult searchResult) => _itemBuilder(
+                context,
+                appLocalizations,
+                searchResult,
+                controller.groupMovieIds.contains(searchResult.movieId),
+              ),
+              items: searchResults.results,
+              totalCount: searchResults.totalCount,
+              totalPages: searchResults.totalPages,
+              scrollController: controller.scrollController,
+              extent: 1,
+            )
+          : const SizedBox.shrink();
+    });
   }
 
   Widget _itemBuilder(
@@ -73,11 +66,13 @@ class Movies extends HookWidget {
           ),
           const SizedBox(width: 12),
           TextButton(
-            onPressed: () => context.read<AddMovieBloc>().add(
-                  isAdded
-                      ? AddMovieEvent.removeClicked(searchResult.movieId)
-                      : AddMovieEvent.addClicked(searchResult.movieId, searchResult.nameEn, searchResult.nameKa),
-                ),
+            onPressed: () {
+              if (isAdded) {
+                controller.onRemoveClicked(searchResult);
+              } else {
+                controller.onAddClicked(searchResult);
+              }
+            },
             style: ButtonStyle(
               shape: MaterialStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),

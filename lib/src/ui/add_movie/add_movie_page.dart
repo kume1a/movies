@@ -1,31 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../di/injection.dart';
-import '../../state/add_movie/add_movie_bloc.dart';
+import '../../controllers/add_movie/add_movie_controller.dart';
+import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/search_bar.dart';
 import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
-class AddMoviePage extends StatelessWidget {
+class AddMoviePage extends GetView<AddMovieController> {
   const AddMoviePage({Key? key}) : super(key: key);
-
-  // TODO: 12/09/2021 add arg
-  // final int groupId;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<AddMovieBloc>(
-      create: (_) => getIt<AddMovieBloc>(), //..add(AddMovieEvent.init(groupId)),
-      child: const _AddMoviePageContent(),
-    );
-  }
-}
-
-class _AddMoviePageContent extends StatelessWidget {
-  const _AddMoviePageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +25,8 @@ class _AddMoviePageContent extends StatelessWidget {
               children: <Widget>[
                 const SizedBox(height: 4),
                 SearchBar(
-                  onBackPressed: () => Navigator.pop(context),
-                  onChanged: (String value) => context.read<AddMovieBloc>().add(AddMovieEvent.queryChanged(value)),
+                  onBackPressed: () => ScreensNavigator.pop(),
+                  onChanged: controller.onQueryChanged,
                   decoration: InputDecoration(
                     hintText: appLocalizations?.addMovieHintSearchField ?? '',
                     counterText: '',
