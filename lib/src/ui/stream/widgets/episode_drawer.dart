@@ -478,10 +478,7 @@ class DrawerRecommendedList extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         onItemTap.call();
-        streamController.onMovieChanged(movie.movieId);
-        streamController.onSeasonChanged(1);
-        streamController.onEpisodeChanged(1);
-        streamController.onFetchRelatedRequested(movie.movieId);
+        streamController.onRelatedMoviePressed(movie.movieId);
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),

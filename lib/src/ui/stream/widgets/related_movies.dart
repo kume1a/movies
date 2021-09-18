@@ -27,12 +27,7 @@ class RelatedMovies extends GetView<StreamController> {
 
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () {
-        controller.onMovieChanged(movie.movieId);
-        controller.onSeasonChanged(1);
-        controller.onEpisodeChanged(1);
-        controller.onFetchRelatedRequested(movie.movieId);
-      },
+      onTap: () => controller.onRelatedMoviePressed(movie.movieId),
       child: MovieItem(
         imageUrl: movie.poster,
         name: movie.getName(context),

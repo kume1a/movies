@@ -17,20 +17,20 @@ class SeasonList extends GetView<StreamController> {
 
     return SizedBox(
       height: 50,
-      child: Obx(
-        () => ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: seasonNumbers.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildItem(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: seasonNumbers.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Obx(
+            () => _buildItem(
               context,
               theme,
               appLocalizations,
               seasonNumber: seasonNumbers[index],
               isActive: controller.season.value == seasonNumbers[index],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

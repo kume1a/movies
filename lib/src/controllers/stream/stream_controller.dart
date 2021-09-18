@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums/language.dart';
@@ -95,6 +96,13 @@ class StreamController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
+    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
     final bool isAutoPlayEnabled = await _settingsHelper.isAutoPlayEnabled();
     final bool recordWatchHistoryEnabled = await _settingsHelper.isRecordWatchHistoryEnabled();
     final int doubleTapToSeekValue = await _settingsHelper.getDoubleTapToSeekValue();
@@ -107,73 +115,39 @@ class StreamController extends GetxController {
 
     final StreamPageArgs args = Get.arguments as StreamPageArgs;
 
-    await onMovieChanged(args.movieId);
-    await onStartPositionChanged(args.startAt);
-    await onSeasonChanged(args.season);
-    await onEpisodeChanged(args.episode);
-    await onFetchRelatedRequested(args.movieId);
+    startPosition.value = args.startAt;
+    currentPosition.value = args.startAt;
+
+    await _fetchAndSetMovie(args.movieId);
+    await _fetchAndSetSeason(args.season);
+    await _fetchAndSetEpisode(args.episode);
+    await _fetchAndSetRelated(args.movieId);
   }
 
-  Future<void> onMovieChanged(int movieId) async {
-    final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(movieId);
-    this.movie.value = movie.get;
+  @override
+  Future<void> onClose() async {
+    await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+      DeviceOrientation.portraitUp,
+    ]);
+    await SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: <SystemUiOverlay>[
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
   }
 
-  Future<void> onSeasonChanged(int season) async {
-    this.season.value = season;
-
-    final Either<FetchFailure, SeasonFiles> seasonFiles =
-        await _movieService.getSeasonFiles(getMovieOrCrash.id, season, getMovieOrCrash.seasons.length);
-
-    this.seasonFiles.value = seasonFiles.get;
+  Future<void> onRelatedMoviePressed(int movieId) async {
+    await _fetchAndSetMovie(movieId);
+    await _fetchAndSetSeason(1);
+    await _fetchAndSetEpisode(1);
+    await _fetchAndSetRelated(movieId);
   }
 
-  Future<void> onEpisodeChanged(int episodeNumber) async {
-    String? videoSrc;
+  Future<void> onSeasonChanged(int season) async => _fetchAndSetSeason(season);
 
-    Language selectedLanguage = language.value;
-    List<Language> languages = availableLanguages;
-
-    Quality selectedQuality = quality.value;
-    List<Quality> qualities = availableQualities;
-
-    if (seasonFiles.value != null) {
-      final Episode? episode = seasonFiles.value!.data.isNotEmpty
-          ? seasonFiles.value!.data.firstWhere(
-              (Episode element) => element.episode == episodeNumber,
-              orElse: () => seasonFiles.value!.data.first,
-            )
-          : null;
-
-      final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
-      if (!listEquals(languages, episodeLanguages)) {
-        languages = episodeLanguages;
-        final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
-        selectedLanguage = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
-
-        final List<Quality> episodeQualities =
-            episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
-
-        if (!listEquals(qualities, episodeQualities)) {
-          qualities = episodeQualities;
-          final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
-          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
-        }
-      }
-
-      videoSrc = episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src;
-    }
-
-    this.videoSrc.value = videoSrc;
-    startPosition.value = firstEpisodePassed ? Duration.zero : startPosition.value;
-    episode.value = episodeNumber;
-    quality.value = selectedQuality;
-    episodeSeason.value = season.value;
-    language.value = selectedLanguage;
-    availableLanguages.value = languages;
-    availableQualities.value = qualities;
-    firstEpisodePassed = true;
-  }
+  Future<void> onEpisodeChanged(int episodeNumber) async => _fetchAndSetEpisode(episodeNumber);
 
   Future<void> onLanguageChanged(Language language) async {
     String? videoSrc;
@@ -217,19 +191,7 @@ class StreamController extends GetxController {
     await _preferencesHelper.writePreferredQuality(quality);
   }
 
-  Future<void> onFetchRelatedRequested(int movieId) async {
-    final Either<FetchFailure, Movies> related = await _movieService.getRelatedMovies(movieId, 1);
-
-    this.related.value = related.map((Movies r) {
-      r.data.removeWhere((MovieData element) => !element.canBePlayed);
-      return r;
-    }).get;
-  }
-
-  Future<void> onStartPositionChanged(Duration position) async {
-    startPosition.value = position;
-    currentPosition.value = position;
-  }
+  Future<void> onFetchRelatedRequested(int movieId) async => _fetchAndSetRelated(movieId);
 
   Future<void> onPositionTick(Duration position) async {
     if (settings.value.recordWatchHistoryEnabled && seasonFiles.value != null) {
@@ -279,5 +241,75 @@ class StreamController extends GetxController {
       );
     }
     currentPosition.value = position;
+  }
+
+  Future<void> _fetchAndSetMovie(int movieId) async {
+    final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(movieId);
+    this.movie.value = movie.get;
+  }
+
+  Future<void> _fetchAndSetSeason(int season) async {
+    this.season.value = season;
+
+    final Either<FetchFailure, SeasonFiles> seasonFiles =
+        await _movieService.getSeasonFiles(getMovieOrCrash.id, season, getMovieOrCrash.seasons.length);
+
+    this.seasonFiles.value = seasonFiles.get;
+  }
+
+  Future<void> _fetchAndSetEpisode(int episodeNumber) async {
+    String? videoSrc;
+
+    Language selectedLanguage = language.value;
+    List<Language> languages = List<Language>.of(availableLanguages);
+
+    Quality selectedQuality = quality.value;
+    List<Quality> qualities = List<Quality>.of(availableQualities);
+
+    if (seasonFiles.value != null) {
+      final Episode? episode = seasonFiles.value!.data.isNotEmpty
+          ? seasonFiles.value!.data.firstWhere(
+            (Episode element) => element.episode == episodeNumber,
+        orElse: () => seasonFiles.value!.data.first,
+      )
+          : null;
+
+      final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
+      if (!const DeepCollectionEquality().equals(languages, episodeLanguages)) {
+        languages = episodeLanguages;
+        final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
+        selectedLanguage = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
+
+        final List<Quality> episodeQualities =
+            episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
+
+        if (!const DeepCollectionEquality().equals(qualities, episodeQualities)) {
+          qualities = episodeQualities;
+          final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
+          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
+        }
+      }
+
+      videoSrc = episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src;
+    }
+
+    this.videoSrc.value = videoSrc;
+    startPosition.value = firstEpisodePassed ? Duration.zero : startPosition.value;
+    episode.value = episodeNumber;
+    quality.value = selectedQuality;
+    episodeSeason.value = season.value;
+    language.value = selectedLanguage;
+    availableLanguages.value = languages;
+    availableQualities.value = qualities;
+    firstEpisodePassed = true;
+  }
+
+  Future<void> _fetchAndSetRelated(int movieId) async {
+    final Either<FetchFailure, Movies> related = await _movieService.getRelatedMovies(movieId, 1);
+
+    this.related.value = related.map((Movies r) {
+      r.data.removeWhere((MovieData element) => !element.canBePlayed);
+      return r;
+    }).get;
   }
 }

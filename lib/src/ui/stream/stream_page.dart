@@ -1,49 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/stream/stream_controller.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/seasons/season.dart';
-import '../core/base_state.dart';
 import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/rating_duration.dart';
 import 'widgets/widgets.dart';
 
-class StreamPage extends StatefulWidget {
+class StreamPage extends StatelessWidget {
   const StreamPage();
 
-  @override
-  _StreamPageState createState() => _StreamPageState();
-}
-
-class _StreamPageState extends UIOverlaySaverState<StreamPage> {
   StreamController get controller => Get.find();
-
-  @override
-  void initState() {
-    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ]);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-      DeviceOrientation.portraitUp,
-    ]);
-    SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[]);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
