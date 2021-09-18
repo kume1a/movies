@@ -76,6 +76,8 @@ class ChartDurations extends GetView<StatisticsController> {
                 margin: 12,
                 interval: leftTitlesInterval,
               ),
+              rightTitles: SideTitles(showTitles: false),
+              topTitles: SideTitles(showTitles: false),
             ),
             borderData: FlBorderData(
               border: const Border(

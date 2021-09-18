@@ -12,6 +12,7 @@ import '../../data/model/models/movies/movie_position.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/routes/route_args.dart';
 import '../../ui/core/routes/screens_navigator.dart';
+import '../favorites/favorites_controller.dart';
 
 class DetailsController extends GetxController {
   DetailsController(
@@ -19,6 +20,7 @@ class DetailsController extends GetxController {
     this._favoriteMovieDao,
     this._savedMovieDao,
     this._movieGroupDao,
+    this._favoritesControllerMiddleMan,
   );
 
   final Rxn<MovieData> movie = Rxn<MovieData>();
@@ -30,6 +32,7 @@ class DetailsController extends GetxController {
   final FavoriteMovieDao _favoriteMovieDao;
   final SavedMovieDao _savedMovieDao;
   final MovieGroupDao _movieGroupDao;
+  final FavoritesControllerMiddleMan _favoritesControllerMiddleMan;
 
   late final int _movieId;
 
@@ -65,6 +68,7 @@ class DetailsController extends GetxController {
           movieNameEn: movie.value!.nameEn,
           groupId: selectedMovieGroup.groupId!,
         );
+        _favoritesControllerMiddleMan.onFavoriteMovieGroupSwitched(_movieId, movieGroup, selectedMovieGroup);
         isFavorite = true;
       } else {
         final bool isFavorited = await _favoriteMovieDao.isMovieFavorited(_movieId);
@@ -76,10 +80,12 @@ class DetailsController extends GetxController {
               movieNameKa: movie.value!.nameKa,
               movieNameEn: movie.value!.nameEn,
             );
+            _favoritesControllerMiddleMan.onFavoriteMovieSwitchedToNoGroup(_movieId);
             isFavorite = true;
           } else {
             // clicking no group when no group is selected
             await _favoriteMovieDao.deleteFavoriteMovie(_movieId);
+            _favoritesControllerMiddleMan.onFavoriteMovieRemoved(_movieId);
             isFavorite = false;
           }
         } else {
@@ -89,12 +95,14 @@ class DetailsController extends GetxController {
             movieNameKa: movie.value!.nameKa,
             movieNameEn: movie.value!.nameEn,
           );
+          _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(_movieId, selectedMovieGroup.groupId!);
           isFavorite = true;
         }
       }
     } else {
       // clicking a group that is already selected
       await _favoriteMovieDao.deleteFavoriteMovie(_movieId);
+      _favoritesControllerMiddleMan.onFavoriteMovieRemoved(_movieId);
       isFavorite = false;
     }
     this.isFavorite.value = isFavorite;

@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../core/enums/favorites_page_state.dart';
 import '../../data/local/favorite_movie/favorite_movie_dao.dart';
 import '../../data/local/movie_group/movie_group_dao.dart';
 import '../../data/local/preferences/preferences_helper.dart';
+import '../../data/model/core/either.dart';
+import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/movie_groups/movie_group.dart';
 import '../../data/model/models/movies/movie_data.dart';
+import '../../data/network/services/movie_service.dart';
+import '../../ui/core/routes/screens_navigator.dart';
+import '../core/base_controller_middle_man.dart';
 
 class FavoritesController extends GetxController {
   FavoritesController(
@@ -35,19 +41,6 @@ class FavoritesController extends GetxController {
         break;
       case FavoritesPageState.groups:
         onSwitchedToMovieGroups();
-        break;
-    }
-  }
-
-  Future<void> refreshData() async {
-    switch (pageState.value) {
-      case FavoritesPageState.seeAll:
-        _fetchFavoriteMovies();
-        break;
-      case FavoritesPageState.groups:
-        _fetchMovieGroups();
-        break;
-      default:
         break;
     }
   }
@@ -85,6 +78,8 @@ class FavoritesController extends GetxController {
     }
   }
 
+  void onFavoriteMoviePressed(MovieData movie) => ScreensNavigator.pushDetailsPage(movie.movieId);
+
   Future<void> _fetchMovieGroups() async {
     isLoading.value = true;
     final List<MovieGroup> movieGroups = await _movieGroupDao.getMovieGroups();
@@ -101,5 +96,75 @@ class FavoritesController extends GetxController {
 
     movies.assignAll(favoriteMovies);
     movieGroups.clear();
+  }
+
+  void onMovieGroupPressed(MovieGroup movieGroup) {
+    if (movieGroup.groupId != null && movieGroup.movieNamesEn.isNotEmpty) {
+      ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
+    }
+  }
+}
+
+@injectable
+class FavoritesControllerMiddleMan extends BaseControllerMiddleMan<FavoritesController> {
+  FavoritesControllerMiddleMan(
+    this._movieService,
+  );
+
+  final MovieService _movieService;
+
+  // TODO: 18/09/2021 refactor to optimize groups
+  void onFavoriteMovieAddedToGroup(int movieId, int movieGroupId) {
+    runIfRegistered((FavoritesController controller) async {
+      switch (controller.pageState.value) {
+        case FavoritesPageState.seeAll:
+          final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(movieId);
+          movie.fold(
+            (_) {},
+            (MovieData r) => controller.movies.insert(0, r),
+          );
+          break;
+        case FavoritesPageState.groups:
+          controller._fetchMovieGroups();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  void onFavoriteMovieGroupSwitched(
+    int movieId,
+    MovieGroup? from,
+    MovieGroup to,
+  ) {
+    runIfRegistered((FavoritesController controller) {
+      if (controller.pageState.value == FavoritesPageState.groups) {
+        controller._fetchMovieGroups();
+      }
+    });
+  }
+
+  void onFavoriteMovieSwitchedToNoGroup(int movieId) {
+    runIfRegistered((FavoritesController controller) {
+      if (controller.pageState.value == FavoritesPageState.groups) {
+        controller._fetchMovieGroups();
+      }
+    });
+  }
+
+  void onFavoriteMovieRemoved(int movieId) {
+    runIfRegistered((FavoritesController controller) {
+      switch (controller.pageState.value) {
+        case FavoritesPageState.seeAll:
+          controller.movies.removeWhere((MovieData e) => e.movieId == movieId);
+          break;
+        case FavoritesPageState.groups:
+          controller._fetchMovieGroups();
+          break;
+        default:
+          break;
+      }
+    });
   }
 }

@@ -9,7 +9,6 @@ import '../../../core/extensions/build_context_extensions.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../core/dialogs/add_movie_group_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
-import '../../core/routes/screens_navigator.dart';
 import '../../core/values/colors.dart';
 
 class MovieGroups extends GetView<FavoritesController> {
@@ -20,22 +19,20 @@ class MovieGroups extends GetView<FavoritesController> {
     return Obx(() {
       final RxList<MovieGroup> movieGroups = controller.movieGroups;
 
-      return movieGroups.isNotEmpty
-          ? GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 250,
-              mainAxisExtent: 150,
-              crossAxisSpacing: 18,
-              mainAxisSpacing: 18,
-            ),
-            itemCount: movieGroups.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              final bool overListLength = index > movieGroups.length - 1;
-              return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups[index]);
-            },
-          )
-          : const Center(child: CircularProgressIndicator());
+      return GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 23),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 250,
+          mainAxisExtent: 150,
+          crossAxisSpacing: 18,
+          mainAxisSpacing: 18,
+        ),
+        itemCount: movieGroups.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          final bool overListLength = index > movieGroups.length - 1;
+          return overListLength ? _buildAddGroupItem(context) : _buildItem(context, movieGroups[index]);
+        },
+      );
     });
   }
 
@@ -143,11 +140,7 @@ class MovieGroups extends GetView<FavoritesController> {
                 controller.onGroupDeleted(movieGroup);
               }
             },
-            onTap: () async {
-              if (movieGroup.groupId != null && movieNames.isNotEmpty) {
-                ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
-              }
-            },
+            onTap: () => controller.onMovieGroupPressed(movieGroup),
             child: SizedBox.expand(child: content),
           ),
         ),

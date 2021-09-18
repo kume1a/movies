@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../../controllers/favorites/favorites_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 
 class MovieList extends GetView<FavoritesController> {
@@ -51,7 +50,7 @@ class MovieList extends GetView<FavoritesController> {
 
   Widget _itemBuilder(BuildContext context, MovieData movie) {
     return GestureDetector(
-      onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
+      onTap: () => controller.onFavoriteMoviePressed(movie),
       child: MovieItem(
         imageUrl: movie.poster,
         name: movie.getName(context),

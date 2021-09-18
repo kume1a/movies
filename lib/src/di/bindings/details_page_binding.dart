@@ -7,7 +7,7 @@ import '../injection.dart';
 class DetailsPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => DetailsController(getIt(), getIt(), getIt(), getIt()));
+    Get.lazyPut(() => DetailsController(getIt(), getIt(), getIt(), getIt(), getIt()));
 
     Get.create(() => MovieGroupSelectorController(getIt(), getIt()));
   }
