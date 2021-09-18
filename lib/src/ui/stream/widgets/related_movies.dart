@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/stream/stream_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
-import '../../../state/stream/stream_bloc.dart';
+import '../../../data/model/models/movies/movies.dart';
 import '../../core/widgets/movie_item.dart';
 
-class RelatedMovies extends StatelessWidget {
+class RelatedMovies extends GetView<StreamController> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) => prev.related != curr.related,
-      builder: (BuildContext context, StreamState state) {
-        return Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            itemCount: state.related != null ? state.related!.data.length : 0,
-            itemBuilder: (BuildContext context, int index) {
-              return state.related != null ? _buildItem(context, state.related!.data[index]) : const MovieItem();
-            },
-          ),
-        );
-      },
-    );
+    return Obx(() {
+      final Movies? related = controller.related.value;
+
+      return Expanded(
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          itemCount: related != null ? related.data.length : 0,
+          itemBuilder: (BuildContext context, int index) {
+            return related != null ? _buildItem(context, related.data[index]) : const MovieItem();
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () {
-        context.read<StreamBloc>()
-          ..add(StreamEvent.movieChanged(movie.movieId))
-          ..add(const StreamEvent.seasonChanged(1))
-          ..add(const StreamEvent.episodeChanged(1))
-          ..add(const StreamEvent.fetchRelatedRequested());
+        controller.onMovieChanged(movie.movieId);
+        controller.onSeasonChanged(1);
+        controller.onEpisodeChanged(1);
+        controller.onFetchRelatedRequested(movie.movieId);
       },
       child: MovieItem(
         imageUrl: movie.poster,

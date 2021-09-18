@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/stream/stream_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
+import '../../../data/model/models/movies/movies.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season.dart';
 import '../../../data/model/models/seasons/season_files.dart';
-import '../../../state/stream/stream_bloc.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/safe_image.dart';
@@ -244,6 +245,8 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 
   late PageController _pageController;
 
+  StreamController get streamController => Get.find();
+
   @override
   void initState() {
     _pageController = PageController(initialPage: 1);
@@ -260,23 +263,20 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) =>
-          prev.episode != curr.episode ||
-          prev.season != curr.season ||
-          prev.episodeSeason != curr.episodeSeason ||
-          prev.seasonFiles != curr.seasonFiles ||
-          prev.movie != curr.movie,
-      builder: (BuildContext context, StreamState state) {
-        return state.seasonFiles != null
+    return Obx(
+      () {
+        final SeasonFiles? seasonFiles = streamController.seasonFiles.value;
+        final int episode = streamController.episode.value;
+        final MovieData? movie = streamController.movie.value;
+
+        return seasonFiles != null
             ? _buildContent(
                 appLocalizations,
-                seasonFiles: state.seasonFiles!,
-                episode: state.episode,
-                episodeSeason: state.episodeSeason,
-                season: state.season,
-                seasons:
-                    state.movie != null ? state.movie!.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
+                seasonFiles: seasonFiles,
+                episode: episode,
+                episodeSeason: streamController.episodeSeason.value,
+                season: streamController.season.value,
+                seasons: movie != null ? movie.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
               )
             : const SizedBox.shrink();
       },
@@ -336,7 +336,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
             );
 
             if (season != selectedSeason) {
-              context.read<StreamBloc>().add(StreamEvent.seasonChanged(season));
+              streamController.onSeasonChanged(season);
             }
           },
           color: season == selectedSeason ? activeColor : Colors.transparent,
@@ -408,7 +408,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     required bool isSelected,
   }) {
     return GestureDetector(
-      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(episode.episode)),
+      onTap: () => streamController.onEpisodeChanged(episode.episode),
       child: Container(
         color: isSelected ? activeColor : backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -452,6 +452,8 @@ class DrawerRecommendedList extends StatelessWidget {
     required this.onItemTap,
   });
 
+  StreamController get streamController => Get.find();
+
   static const double imageWidth = 225;
   static const double imageHeight = imageWidth / 16 * 9;
   static const double radius = 8;
@@ -460,29 +462,26 @@ class DrawerRecommendedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) => prev.related != curr.related,
-      builder: (BuildContext context, StreamState state) {
-        return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: state.related != null ? state.related!.data.length : 0,
-          itemBuilder: (BuildContext context, int index) {
-            return state.related != null ? _buildItem(context, state.related!.data[index]) : const MovieItem();
-          },
-        );
-      },
-    );
+    return Obx(() {
+      final Movies? related = streamController.related.value;
+
+      return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: related != null ? related.data.length : 0,
+        itemBuilder: (BuildContext context, int index) =>
+            related != null ? _buildItem(context, related.data[index]) : const MovieItem(),
+      );
+    });
   }
 
   Widget _buildItem(BuildContext context, MovieData movie) {
     return GestureDetector(
       onTap: () {
         onItemTap.call();
-        context.read<StreamBloc>()
-          ..add(StreamEvent.movieChanged(movie.movieId))
-          ..add(const StreamEvent.seasonChanged(1))
-          ..add(const StreamEvent.episodeChanged(1))
-          ..add(const StreamEvent.fetchRelatedRequested());
+        streamController.onMovieChanged(movie.movieId);
+        streamController.onSeasonChanged(1);
+        streamController.onEpisodeChanged(1);
+        streamController.onFetchRelatedRequested(movie.movieId);
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),

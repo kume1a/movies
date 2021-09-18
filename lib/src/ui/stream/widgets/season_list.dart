@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../../state/stream/stream_bloc.dart';
+import '../../../controllers/stream/stream_controller.dart';
 import '../../core/values/colors.dart';
 
-class SeasonList extends StatelessWidget {
+class SeasonList extends GetView<StreamController> {
   const SeasonList({required this.seasonNumbers});
 
   final List<int> seasonNumbers;
@@ -17,23 +17,20 @@ class SeasonList extends StatelessWidget {
 
     return SizedBox(
       height: 50,
-      child: BlocBuilder<StreamBloc, StreamState>(
-        buildWhen: (StreamState prev, StreamState curr) => prev.season != curr.season,
-        builder: (BuildContext context, StreamState state) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: seasonNumbers.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _buildItem(
-                context,
-                theme,
-                appLocalizations,
-                seasonNumber: seasonNumbers[index],
-                isActive: state.season == seasonNumbers[index],
-              );
-            },
-          );
-        },
+      child: Obx(
+        () => ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: seasonNumbers.length,
+          itemBuilder: (BuildContext context, int index) {
+            return _buildItem(
+              context,
+              theme,
+              appLocalizations,
+              seasonNumber: seasonNumbers[index],
+              isActive: controller.season.value == seasonNumbers[index],
+            );
+          },
+        ),
       ),
     );
   }
@@ -46,12 +43,13 @@ class SeasonList extends StatelessWidget {
     required bool isActive,
   }) {
     return GestureDetector(
-      onTap: () => context.read<StreamBloc>().add(StreamEvent.seasonChanged(seasonNumber)),
+      onTap: () => controller.onSeasonChanged(seasonNumber),
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 12, right: 8),
         child: AnimatedDefaultTextStyle(
-          style: theme.textTheme.subtitle1?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ?? const TextStyle(),
+          style: theme.textTheme.subtitle1?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ??
+              const TextStyle(),
           duration: const Duration(milliseconds: 300),
           child: Text(appLocalizations?.streamSeason(seasonNumber) ?? ''),
         ),

@@ -1,44 +1,40 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../../../controllers/stream/stream_controller.dart';
 import '../../../core/enums/language.dart';
 import '../../../core/enums/quality.dart';
 import '../../../data/local/preferences/settings_helper.dart';
 import '../../../di/injection.dart';
-import '../../../state/stream/stream_bloc.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import 'video_player/player.dart';
 import 'video_player/video_controls.dart';
 
-class VideoPlayer extends StatelessWidget {
+class VideoPlayer extends GetView<StreamController> {
   const VideoPlayer(this.id);
 
   final int id;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) =>
-          prev.videoSrc != curr.videoSrc || prev.settings != curr.settings,
-      builder: (BuildContext context, StreamState state) {
-        return state.videoSrc != null
-            ? _buildPlayer(
-                state.videoSrc!,
-                state.settings,
-                state.startPosition,
-                state.availableLanguages,
-                state.availableQualities,
-                state.language,
-                state.quality,
-              )
-            : Container(color: colorPreview);
-      },
-    );
+    return Obx(() {
+      return controller.videoSrc.value != null
+          ? _buildPlayer(
+              controller.videoSrc.value!,
+              controller.settings.value,
+              controller.startPosition.value,
+              controller.availableLanguages,
+              controller.availableQualities,
+              controller.language.value,
+              controller.quality.value,
+            )
+          : Container(color: colorPreview);
+    });
   }
 
   Widget _buildPlayer(
@@ -93,6 +89,8 @@ class _Mp4HandlerState extends State<Mp4Handler> {
   VideoPlayerController? _videoPlayerController;
   Timer? _ticker;
 
+  StreamController get controller => Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -104,7 +102,7 @@ class _Mp4HandlerState extends State<Mp4Handler> {
         if (_videoPlayerController != null && _chewieController != null && _chewieController?.isPlaying == true) {
           final Duration? position = await _videoPlayerController!.position;
           if (position != null) {
-            context.read<StreamBloc>().add(StreamEvent.onPositionTick(position));
+            controller.onPositionTick(position);
           }
         }
       });
@@ -135,10 +133,8 @@ class _Mp4HandlerState extends State<Mp4Handler> {
         doubleTapToSeekValue: widget.settings.doubleTapToSeekValue,
         languages: widget.languages,
         qualities: widget.qualities,
-        onLanguageChanged: (Language? value) =>
-            context.read<StreamBloc>().add(StreamEvent.languageChanged(value ?? widget.selectedLanguage)),
-        onQualityChanged: (Quality? value) =>
-            context.read<StreamBloc>().add(StreamEvent.qualityChanged(value ?? widget.selectedQuality)),
+        onLanguageChanged: (Language? value) => controller.onLanguageChanged(value ?? widget.selectedLanguage),
+        onQualityChanged: (Quality? value) => controller.onQualityChanged(value ?? widget.selectedQuality),
         selectedQuality: widget.selectedQuality,
         selectedLanguage: widget.selectedLanguage,
       ),

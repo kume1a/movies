@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/stream/stream_controller.dart';
 import '../../../data/model/models/seasons/episode.dart';
-import '../../../state/stream/stream_bloc.dart';
+import '../../../data/model/models/seasons/season_files.dart';
 import '../../core/formatters.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
 
-class EpisodeList extends StatelessWidget {
+class EpisodeList extends GetView<StreamController> {
   static const double imageWidth = 150;
   static const double imageHeight = imageWidth / 3 * 2;
   static const double radius = 8;
@@ -19,30 +20,26 @@ class EpisodeList extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return BlocBuilder<StreamBloc, StreamState>(
-      buildWhen: (StreamState prev, StreamState curr) =>
-          prev.episode != curr.episode ||
-          prev.season != curr.season ||
-          prev.episodeSeason != curr.episodeSeason ||
-          prev.seasonFiles != curr.seasonFiles,
-      builder: (BuildContext context, StreamState state) {
-        return state.seasonFiles != null
-            ? Expanded(
-                child: ListView.builder(
-                  itemCount: state.seasonFiles!.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return _buildItem(
-                      context,
-                      appLocalizations,
-                      episode: state.seasonFiles!.data[index],
-                      isSelected: state.episode == index + 1 && state.episodeSeason == state.seasonFiles!.season,
-                    );
-                  },
-                ),
-              )
-            : const SizedBox.shrink();
-      },
-    );
+    return Obx(() {
+      final SeasonFiles? seasonFiles = controller.seasonFiles.value;
+
+      return seasonFiles != null
+          ? Expanded(
+              child: ListView.builder(
+                itemCount: seasonFiles.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildItem(
+                    context,
+                    appLocalizations,
+                    episode: seasonFiles.data[index],
+                    isSelected:
+                        controller.episode.value == index + 1 && controller.episodeSeason.value == seasonFiles.season,
+                  );
+                },
+              ),
+            )
+          : const SizedBox.shrink();
+    });
   }
 
   Widget _buildItem(
@@ -54,7 +51,7 @@ class EpisodeList extends StatelessWidget {
     final int duration = episode.episodes.values.first.first.duration;
 
     return GestureDetector(
-      onTap: () => context.read<StreamBloc>().add(StreamEvent.episodeChanged(episode.episode)),
+      onTap: () => controller.onEpisodeChanged(episode.episode),
       child: Container(
         color: isSelected ? Colors.white.withOpacity(.04) : Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
