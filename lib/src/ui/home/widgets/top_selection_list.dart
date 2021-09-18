@@ -10,19 +10,19 @@ import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
 
+const double _itemWidth = 110;
+const double _imageHeight = _itemWidth / 3 * 4;
+const double _itemHeight = _imageHeight + 55;
+const double _radius = 12;
+const double _spacing = 16;
+
 class TopSelectionList extends GetView<HomeController> {
   const TopSelectionList({Key? key}) : super(key: key);
-
-  static const double itemWidth = 110;
-  static const double imageHeight = itemWidth / 3 * 4;
-  static const double itemHeight = imageHeight + 55;
-  static const double radius = 12;
-  static const double spacing = 16;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: itemHeight,
+      height: _itemHeight,
       child: Obx(() {
         final Movies? topMovies = controller.topMovies.value;
 
@@ -30,44 +30,50 @@ class TopSelectionList extends GetView<HomeController> {
             ? ListView.builder(
                 itemCount: 4,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (_, __) => _blankBuilder(null),
+                itemBuilder: (_, __) => const _ItemBlank(),
               )
-            : _buildList(topMovies);
+            : PagedList<MovieData>(
+                axis: Axis.horizontal,
+                request: (BuildContext context) => controller.onTopMoviesScrolledToEnd(),
+                blankBuilder: (_) => const _ItemBlank(),
+                itemBuilder: (_, MovieData movie) => _Item(movie: movie),
+                items: topMovies.data,
+                totalCount: topMovies.totalCount,
+                totalPages: topMovies.totalPages,
+                padding: const EdgeInsets.symmetric(horizontal: _spacing / 2),
+              );
       }),
     );
   }
+}
 
-  Widget _buildList(Movies movies) {
-    return PagedList<MovieData>(
-      axis: Axis.horizontal,
-      request: (BuildContext context) => controller.onTopMoviesPageFetchRequested(),
-      blankBuilder: _blankBuilder,
-      itemBuilder: _itemBuilder,
-      items: movies.data,
-      totalCount: movies.totalCount,
-      totalPages: movies.totalPages,
-      padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
-    );
-  }
+class _Item extends GetView<HomeController> {
+  const _Item({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
 
-  Widget _itemBuilder(BuildContext context, MovieData movie) {
+  final MovieData movie;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => controller.onTopMoviePressed(movie),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: spacing / 2),
+        padding: const EdgeInsets.symmetric(horizontal: _spacing / 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SafeImage(
               imageUrl: movie.poster,
-              width: itemWidth,
-              height: imageHeight,
-              radius: radius,
+              width: _itemWidth,
+              height: _imageHeight,
+              radius: _radius,
             ),
             const SizedBox(height: 12),
             SizedBox(
-              width: itemWidth,
+              width: _itemWidth,
               child: Text(
                 movie.getName(context),
                 style: prSB13,
@@ -81,16 +87,21 @@ class TopSelectionList extends GetView<HomeController> {
       ),
     );
   }
+}
 
-  Widget _blankBuilder(_) {
+class _ItemBlank extends StatelessWidget {
+  const _ItemBlank({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return const Align(
       alignment: Alignment.topCenter,
       child: Padding(
         padding: EdgeInsets.only(left: 16),
         child: BlankContainer(
-          width: itemWidth,
-          height: imageHeight,
-          radius: radius,
+          width: _itemWidth,
+          height: _imageHeight,
+          radius: _radius,
         ),
       ),
     );

@@ -50,9 +50,11 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  Future<void> onTopMoviesPageFetchRequested() async => _fetchNextTopMoviesPage();
+  Future<void> onTopMoviesScrolledToEnd() async => _fetchNextTopMoviesPage();
 
-  Future<void> onMoviesPageFetchRequested() async => _fetchNextMoviesPage();
+  Future<void> onMoviesScrolledToEnd() async => _fetchNextMoviesPage();
+
+  Future<void> onSavedMoviesVisible() async => _fetchSavedMovies();
 
   Future<void> onGenreChanged(Genre genre) async {
     this.genre.value = genre;
@@ -62,10 +64,6 @@ class HomeController extends GetxController {
 
     _fetchNextMoviesPage();
   }
-
-  Future<void> onSavedMoviesRequested() async => _fetchSavedMovies();
-
-  Future<void> refreshSavedMoviesRequested() async => _fetchSavedMovies();
 
   Future<void> onRefresh() async {
     popularMovies.value = null;
@@ -79,9 +77,9 @@ class HomeController extends GetxController {
     _fetchingMovies = false;
 
     await _fetchPopularMovies();
-    await onSavedMoviesRequested();
-    await onTopMoviesPageFetchRequested();
-    await onMoviesPageFetchRequested();
+    await _fetchSavedMovies();
+    await _fetchNextTopMoviesPage();
+    await _fetchNextMoviesPage();
   }
 
   void onScrollUpPressed() {
@@ -100,9 +98,13 @@ class HomeController extends GetxController {
 
   void onMoviePressed(MovieData movie) => ScreensNavigator.pushDetailsPage(movie.movieId);
 
-  Future<void> _fetchPopularMovies() async {
-    final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
-    popularMovies.value = movies.get;
+  void onSavedMoviePressed(SavedMovie savedMovie) {
+    ScreensNavigator.pushStreamPage(
+      movieId: savedMovie.position.movieId,
+      season: savedMovie.position.season,
+      episode: savedMovie.position.episode,
+      leftAt: savedMovie.position.leftAt,
+    );
   }
 
   Future<void> _fetchNextTopMoviesPage() async {
@@ -121,6 +123,11 @@ class HomeController extends GetxController {
     _fetchingTopMovies = false;
 
     topMovies.value = movies.get;
+  }
+
+  Future<void> _fetchPopularMovies() async {
+    final Either<FetchFailure, Movies> movies = await _movieService.getPopularMovies();
+    popularMovies.value = movies.get;
   }
 
   Future<void> _fetchSavedMovies() async => savedMovies.value = await _savedMovieDao.getSavedMovies();

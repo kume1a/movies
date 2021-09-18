@@ -18,11 +18,11 @@ class GenreChooser extends GetView<HomeController> {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
     return SizedBox(
-      height: 36,
+      height: 44,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _genres.length,
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         itemBuilder: (BuildContext context, int index) {
           final Genre current = _genres[index];
 
@@ -33,7 +33,7 @@ class GenreChooser extends GetView<HomeController> {
                 final bool isActive = current == controller.genre.value;
 
                 return AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 200),
                   curve: Curves.easeIn,
                   margin: const EdgeInsets.symmetric(horizontal: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 18),

@@ -7,15 +7,16 @@ import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
+import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/carousel.dart';
 import '../../core/widgets/safe_image.dart';
 
+const double _itemHeight = 180;
+const double _itemWidth = 180 / 9 * 16;
+const double _radius = 16;
+
 class PopularMoviesList extends GetView<HomeController> {
   const PopularMoviesList({Key? key}) : super(key: key);
-
-  static const double _itemHeight = 180;
-  static const double _itemWidth = 180 / 9 * 16;
-  static const double _radius = 16;
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +25,25 @@ class PopularMoviesList extends GetView<HomeController> {
 
       return Carousel(
         height: _itemHeight,
-        itemCount: popularMovies != null ? popularMovies.data.length : 3,
+        itemCount: popularMovies != null ? popularMovies.data.length : 2,
         distortionValue: .2,
-        itemBuilder: (BuildContext context, int index) {
-          return popularMovies != null ? _itemBuilder(context, popularMovies.data[index]) : _blankBuilder();
-        },
+        itemBuilder: (BuildContext context, int index) =>
+            popularMovies != null ? _Item(movie: popularMovies.data[index]) : const _ItemBlank(),
       );
     });
   }
+}
 
-  Widget _itemBuilder(BuildContext context, MovieData movie) {
+class _Item extends GetView<HomeController> {
+  const _Item({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
+
+  final MovieData movie;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => controller.onPopularMoviePressed(movie),
       child: ClipRRect(
@@ -69,15 +79,18 @@ class PopularMoviesList extends GetView<HomeController> {
       ),
     );
   }
+}
 
-  Widget _blankBuilder() {
-    return Container(
+class _ItemBlank extends StatelessWidget {
+  const _ItemBlank({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const BlankContainer(
       width: _itemWidth,
       height: _itemHeight,
-      decoration: BoxDecoration(
-        color: colorPreview,
-        borderRadius: BorderRadius.circular(_radius),
-      ),
+      color: colorPreview,
+      radius: _radius,
     );
   }
 }

@@ -136,7 +136,7 @@ class ChewieState extends State<Chewie> {
     // so we do not need to check Wakelock.isEnabled.
     // Wakelock.disable();
 
-    SystemChrome.setEnabledSystemUIOverlays(widget.controller.systemOverlaysAfterFullScreen);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: widget.controller.systemOverlaysAfterFullScreen);
     SystemChrome.setPreferredOrientations(widget.controller.deviceOrientationsAfterFullScreen);
   }
 
@@ -146,10 +146,13 @@ class ChewieState extends State<Chewie> {
 
     if (widget.controller.systemOverlaysOnEnterFullScreen != null) {
       /// Optional user preferred settings
-      SystemChrome.setEnabledSystemUIOverlays(widget.controller.systemOverlaysOnEnterFullScreen!);
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: widget.controller.systemOverlaysOnEnterFullScreen,
+      );
     } else {
       /// Default behavior
-      SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: <SystemUiOverlay>[]);
     }
 
     if (widget.controller.deviceOrientationsOnEnterFullScreen != null) {

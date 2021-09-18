@@ -14,31 +14,32 @@ class MoviesList extends GetView<HomeController> {
     return Obx(() {
       final Movies? movies = controller.movies.value;
 
-      return movies != null ? _buildList(movies) : const SliverToBoxAdapter();
+      return movies != null
+          ? PagedList<MovieData>(
+              extent: 1,
+              listType: ListType.sliverBuilder,
+              request: (BuildContext context) => controller.onMoviesScrolledToEnd(),
+              blankBuilder: (_) => const _ItemLoader(),
+              itemBuilder: (_, MovieData movie) => _Item(movie: movie),
+              items: movies.data,
+              totalCount: movies.totalCount,
+              totalPages: movies.totalPages,
+            )
+          : const SliverToBoxAdapter();
     });
   }
+}
 
-  Widget _buildList(Movies movies) {
-    return PagedList<MovieData>(
-      extent: 1,
-      listType: ListType.sliverBuilder,
-      request: (BuildContext context) => controller.onMoviesPageFetchRequested(),
-      blankBuilder: _blankBuilder,
-      itemBuilder: _itemBuilder,
-      items: movies.data,
-      totalCount: movies.totalCount,
-      totalPages: movies.totalPages,
-    );
-  }
+class _Item extends GetView<HomeController> {
+  const _Item({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
 
-  Widget _blankBuilder(_) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 32),
-      child: Center(child: CircularProgressIndicator()),
-    );
-  }
+  final MovieData movie;
 
-  Widget _itemBuilder(BuildContext context, MovieData movie) {
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => controller.onMoviePressed(movie),
       child: MovieItem(
@@ -50,6 +51,18 @@ class MoviesList extends GetView<HomeController> {
         voterCount: movie.voterCount,
         releaseYear: movie.year,
       ),
+    );
+  }
+}
+
+class _ItemLoader extends StatelessWidget {
+  const _ItemLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Center(child: CircularProgressIndicator()),
     );
   }
 }
