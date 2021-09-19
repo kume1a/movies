@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/main/favorites_controller.dart';
-import '../../../core/enums/supported_locale.dart';
-import '../../../core/extensions/model_l10n/core/supported_locale_provider.dart';
+import '../../../core/extensions/model_l10n/movie_group_l10n_extensions.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../../l10n/parameterized_translations.dart';
 import '../../core/dialogs/add_movie_group_dialog.dart';
@@ -61,21 +60,12 @@ class MovieGroups extends GetView<FavoritesController> {
 
   Widget _buildItem(BuildContext context, MovieGroup movieGroup) {
     const int maxMovieNameCount = 4;
-    late final ListSlice<String> movieNames;
-    switch (SupportedLocaleProvider.locale) {
-      case SupportedLocale.en:
-        movieNames = movieGroup.movieNamesEn.slice(
+    final ListSlice<String> movieNames = movieGroup.getMovieNames().slice(
           0,
-          movieGroup.movieNamesEn.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNamesEn.length,
+          movieGroup.getMovieNames().length >= maxMovieNameCount
+              ? maxMovieNameCount
+              : movieGroup.getMovieNames().length,
         );
-        break;
-      case SupportedLocale.ka:
-        movieNames = movieGroup.movieNamesKa.slice(
-          0,
-          movieGroup.movieNamesKa.length >= maxMovieNameCount ? maxMovieNameCount : movieGroup.movieNamesKa.length,
-        );
-        break;
-    }
     final Widget header = Align(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
