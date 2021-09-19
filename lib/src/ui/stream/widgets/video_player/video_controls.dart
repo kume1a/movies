@@ -204,11 +204,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
     _playPauseIconAnimController ??= AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 300),
     );
-    if (_latestValue?.isPlaying == false) {
-      _playPauseIconAnimController?.reset();
-    }
 
     if (_oldController != _chewieController) {
       _dispose();
@@ -324,7 +321,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               _chewieController!.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
             if (!_chewieController!.isLive) _buildProgressBar(),
             if (_chewieController!.allowMuting) _buildMuteButton(_controller!) else const SizedBox.shrink(),
-            if (_chewieController!.allowFullScreen) _buildExpandButton() else const SizedBox.shrink(),
           ],
         ),
       ),
@@ -485,23 +481,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     );
   }
 
-  Widget _buildExpandButton() {
-    return GestureDetector(
-      onTap: _onExpandCollapse,
-      child: Container(
-        height: barHeight,
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.only(left: 8, right: 8),
-        child: Center(
-          child: Icon(
-            _chewieController?.isFullScreen == true ? Icons.fullscreen_exit : Icons.fullscreen,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
   void _cancelAndRestartTimer() {
     _hideTimer?.cancel();
     _startHideTimer();
@@ -528,19 +507,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         });
       });
     }
-  }
-
-  void _onExpandCollapse() {
-    setState(() {
-      _hideControls = true;
-
-      _chewieController?.toggleFullScreen();
-      _showAfterExpandCollapseTimer = Timer(const Duration(milliseconds: 300), () {
-        setState(() {
-          _cancelAndRestartTimer();
-        });
-      });
-    });
   }
 
   void _playPause() {
@@ -577,7 +543,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
   }
 
   void _startHideTimer() {
-    _hideTimer = Timer(const Duration(seconds: 3), () {
+    _hideTimer = Timer(const Duration(seconds: 2), () {
       setState(() {
         _hideControls = true;
       });
@@ -588,6 +554,9 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
     if (mounted) {
       setState(() {
         _latestValue = _controller?.value;
+        if (_latestValue?.isPlaying == true && _playPauseIconAnimController?.isCompleted == false) {
+          _playPauseIconAnimController?.forward();
+        }
       });
     }
   }
