@@ -13,6 +13,8 @@ Future<MovieGroup?> showMovieGroupSelector(BuildContext context, int movieId) as
     settings: RouteSettings(
       arguments: movieId,
     ),
+    enterBottomSheetDuration: const Duration(milliseconds: 150),
+    exitBottomSheetDuration: const Duration(milliseconds: 150),
   );
 }
 

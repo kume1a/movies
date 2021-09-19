@@ -95,7 +95,7 @@ class DetailsController extends GetxController {
             movieNameKa: movie.value!.nameKa,
             movieNameEn: movie.value!.nameEn,
           );
-          _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(_movieId, selectedMovieGroup.groupId!);
+          _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(_movieId, selectedMovieGroup.groupId);
           isFavorite = true;
         }
       }
@@ -135,5 +135,20 @@ class DetailsController extends GetxController {
     _fetchingActors = false;
 
     this.actors.value = actors.get;
+  }
+
+  void onWatchPressed() {
+    if (movie.value != null) {
+      if (moviePosition.value != null) {
+        ScreensNavigator.pushStreamPage(
+          movieId: moviePosition.value!.movieId,
+          episode: moviePosition.value!.season,
+          season: moviePosition.value!.season,
+          leftAt: moviePosition.value!.leftAt,
+        );
+      } else {
+        ScreensNavigator.pushStreamPage(movieId: movie.value!.movieId);
+      }
+    }
   }
 }

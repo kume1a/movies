@@ -127,7 +127,7 @@ class FavoritesControllerMiddleMan extends BaseControllerMiddleMan<FavoritesCont
   final MovieService _movieService;
 
   // TODO: 18/09/2021 refactor to optimize groups
-  void onFavoriteMovieAddedToGroup(int movieId, int movieGroupId) {
+  void onFavoriteMovieAddedToGroup(int movieId, int? movieGroupId) {
     runIfRegistered((FavoritesController controller) async {
       switch (controller.pageState.value) {
         case FavoritesPageState.seeAll:
