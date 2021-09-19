@@ -5,9 +5,6 @@ import 'package:get/get.dart';
 import '../../../controllers/main/favorites_controller.dart';
 import '../../../core/extensions/model_l10n/movie_group_l10n_extensions.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
-import '../../../l10n/parameterized_translations.dart';
-import '../../core/dialogs/add_movie_group_dialog.dart';
-import '../../core/dialogs/confirmation_dialog.dart';
 import '../../core/values/colors.dart';
 
 class MovieGroups extends GetView<FavoritesController> {
@@ -43,12 +40,7 @@ class MovieGroups extends GetView<FavoritesController> {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () async {
-              final String? groupName = await showAddMovieGroupDialog(context);
-              if (groupName != null) {
-                controller.onGroupAdded(groupName);
-              }
-            },
+            onTap: controller.onAddMovieGroupPressed,
             child: const SizedBox.expand(
               child: Icon(Icons.add, size: 42),
             ),
@@ -118,17 +110,7 @@ class MovieGroups extends GetView<FavoritesController> {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onLongPress: () async {
-              final bool didConfirm = await showConfirmationDialog(
-                context,
-                title: ParameterizedTranslations.favoritesHeaderDeleteGroup(movieGroup.name),
-                content: ParameterizedTranslations.favoritesContentDeleteGroup(movieGroup.name),
-              );
-
-              if (didConfirm) {
-                controller.onGroupDeleted(movieGroup);
-              }
-            },
+            onLongPress: () => controller.onGroupLongPressed(movieGroup),
             onTap: () => controller.onMovieGroupPressed(movieGroup),
             child: SizedBox.expand(child: content),
           ),

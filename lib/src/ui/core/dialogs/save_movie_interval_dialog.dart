@@ -5,20 +5,8 @@ import '../../../l10n/parameterized_translations.dart';
 import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
-Future<int?> showSaveMovieIntervalChooserDialog(
-  BuildContext context, {
-  required int currentValue,
-}) async {
-  return showDialog(
-    context: context,
-    builder: (_) {
-      return _SaveMovieIntervalChooserDialog(currentValue: currentValue);
-    },
-  );
-}
-
-class _SaveMovieIntervalChooserDialog extends StatelessWidget {
-  const _SaveMovieIntervalChooserDialog({
+class SaveMovieIntervalChooserDialog extends StatelessWidget {
+  const SaveMovieIntervalChooserDialog({
     Key? key,
     required this.currentValue,
   }) : super(key: key);

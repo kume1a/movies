@@ -11,7 +11,7 @@ class MainPageBinding extends Bindings {
   void dependencies() {
     Get.put(MainScreenController(getIt()));
     Get.lazyPut(() => HomeController(getIt(), getIt()));
-    Get.lazyPut(() => FavoritesController(getIt(), getIt(), getIt()));
+    Get.lazyPut(() => FavoritesController(getIt(), getIt(), getIt(), getIt()));
     Get.lazyPut(() => StatisticsController(getIt(), getIt()));
   }
 }

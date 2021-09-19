@@ -4,28 +4,8 @@ import 'package:get/get.dart';
 import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
-Future<bool> showConfirmationDialog(
-  BuildContext context, {
-  required String title,
-  required String content,
-  String? confirmationText,
-}) async {
-  final bool? didConfirm = await showDialog<bool>(
-    context: context,
-    builder: (_) {
-      return _ConfirmationDialog(
-        title: title,
-        content: content,
-        confirmationText: confirmationText,
-      );
-    },
-  );
-
-  return didConfirm ?? false;
-}
-
-class _ConfirmationDialog extends StatelessWidget {
-  const _ConfirmationDialog({
+class ConfirmationDialog extends StatelessWidget {
+  const ConfirmationDialog({
     Key? key,
     required this.title,
     required this.content,

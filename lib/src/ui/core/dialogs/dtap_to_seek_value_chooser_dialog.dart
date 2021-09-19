@@ -5,20 +5,8 @@ import '../../../l10n/parameterized_translations.dart';
 import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
-Future<int?> showDoubleTapToSeekValueChooserDialog(
-  BuildContext context, {
-  required int currentValue,
-}) async {
-  return showDialog(
-    context: context,
-    builder: (_) {
-      return _DtapToSeekValueChooserDialog(currentValue: currentValue);
-    },
-  );
-}
-
-class _DtapToSeekValueChooserDialog extends StatelessWidget {
-  const _DtapToSeekValueChooserDialog({
+class DtapToSeekValueChooserDialog extends StatelessWidget {
+  const DtapToSeekValueChooserDialog({
     Key? key,
     required this.currentValue,
   }) : super(key: key);

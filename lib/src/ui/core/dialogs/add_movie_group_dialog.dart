@@ -7,15 +7,8 @@ import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/tap_outside_to_clear_focus.dart';
 import '../values/colors.dart';
 
-Future<String?> showAddMovieGroupDialog(BuildContext context) async {
-  return showDialog(
-    context: context,
-    builder: (_) => const _AddMovieGroupDialog(),
-  );
-}
-
-class _AddMovieGroupDialog extends HookWidget {
-  const _AddMovieGroupDialog({Key? key}) : super(key: key);
+class AddMovieGroupDialog extends HookWidget {
+  const AddMovieGroupDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

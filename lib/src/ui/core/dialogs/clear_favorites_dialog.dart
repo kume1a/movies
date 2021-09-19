@@ -21,15 +21,8 @@ class ClearFavoritesResult {
   }
 }
 
-Future<ClearFavoritesResult?> showClearFavoritesDialog(BuildContext context) async {
-  return showDialog<ClearFavoritesResult>(
-    context: context,
-    builder: (_) => const _ClearFavoritesDialog(),
-  );
-}
-
-class _ClearFavoritesDialog extends HookWidget {
-  const _ClearFavoritesDialog({Key? key}) : super(key: key);
+class ClearFavoritesDialog extends HookWidget {
+  const ClearFavoritesDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

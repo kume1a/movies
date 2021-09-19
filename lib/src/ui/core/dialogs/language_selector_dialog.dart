@@ -7,18 +7,8 @@ import '../../../core/helpers/supported_locale_helper.dart';
 import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
-Future<SupportedLocale?> showLanguageSelectorDialog(
-  BuildContext context, {
-  required SupportedLocale selectedLocale,
-}) async {
-  return showDialog(
-    context: context,
-    builder: (_) => _LanguageSelectorDialog(selectedLocale: selectedLocale),
-  );
-}
-
-class _LanguageSelectorDialog extends StatelessWidget {
-  const _LanguageSelectorDialog({
+class LanguageSelectorDialog extends StatelessWidget {
+  const LanguageSelectorDialog({
     Key? key,
     required this.selectedLocale,
   }) : super(key: key);

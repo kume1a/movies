@@ -6,6 +6,6 @@ import '../injection.dart';
 class SettingsPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => SettingsController(getIt()));
+    Get.lazyPut(() => SettingsController(getIt(), getIt()));
   }
 }

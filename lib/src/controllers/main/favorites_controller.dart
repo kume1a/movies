@@ -10,6 +10,8 @@ import '../../data/model/core/fetch_failure.dart';
 import '../../data/model/models/movie_groups/movie_group.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/network/services/movie_service.dart';
+import '../../l10n/parameterized_translations.dart';
+import '../../ui/core/dialogs/core/dialog_manager.dart';
 import '../../ui/core/routes/screens_navigator.dart';
 import '../core/base_controller_middle_man.dart';
 
@@ -18,11 +20,13 @@ class FavoritesController extends GetxController {
     this._favoriteMovieDao,
     this._movieGroupDao,
     this._preferencesHelper,
+    this._dialogManager,
   );
 
   final FavoriteMovieDao _favoriteMovieDao;
   final MovieGroupDao _movieGroupDao;
   final PreferencesHelper _preferencesHelper;
+  final DialogManager _dialogManager;
 
   final RxList<MovieData> movies = <MovieData>[].obs;
   final RxList<MovieGroup> movieGroups = <MovieGroup>[].obs;
@@ -60,24 +64,40 @@ class FavoritesController extends GetxController {
     }
   }
 
-  Future<void> onGroupAdded(String groupName) async {
-    final int groupId = await _movieGroupDao.saveMovieGroup(groupName);
-    if (pageState.value == FavoritesPageState.groups) {
-      final MovieGroup? insertedGroup = await _movieGroupDao.getMovieGroup(groupId);
-      if (insertedGroup != null) {
-        movieGroups.insert(0, insertedGroup);
+  void onFavoriteMoviePressed(MovieData movie) => ScreensNavigator.pushDetailsPage(movie.movieId);
+
+  void onMovieGroupPressed(MovieGroup movieGroup) {
+    if (movieGroup.groupId != null && movieGroup.movieNamesEn.isNotEmpty) {
+      ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
+    }
+  }
+
+  Future<void> onAddMovieGroupPressed() async {
+    final String? groupName = await _dialogManager.showAddMovieGroupDialog();
+    if (groupName != null) {
+      final int groupId = await _movieGroupDao.saveMovieGroup(groupName);
+      if (pageState.value == FavoritesPageState.groups) {
+        final MovieGroup? insertedGroup = await _movieGroupDao.getMovieGroup(groupId);
+        if (insertedGroup != null) {
+          movieGroups.insert(0, insertedGroup);
+        }
       }
     }
   }
 
-  Future<void> onGroupDeleted(MovieGroup movieGroup) async {
-    await _movieGroupDao.deleteMovieGroup(movieGroup);
-    if (pageState.value == FavoritesPageState.groups) {
-      movieGroups.remove(movieGroup);
+  Future<void> onGroupLongPressed(MovieGroup movieGroup) async {
+    final bool didConfirm = await _dialogManager.showConfirmationDialog(
+      title: ParameterizedTranslations.favoritesHeaderDeleteGroup(movieGroup.name),
+      content: ParameterizedTranslations.favoritesContentDeleteGroup(movieGroup.name),
+    );
+
+    if (didConfirm) {
+      await _movieGroupDao.deleteMovieGroup(movieGroup);
+      if (pageState.value == FavoritesPageState.groups) {
+        movieGroups.remove(movieGroup);
+      }
     }
   }
-
-  void onFavoriteMoviePressed(MovieData movie) => ScreensNavigator.pushDetailsPage(movie.movieId);
 
   Future<void> _fetchMovieGroups() async {
     isLoading.value = true;
@@ -95,12 +115,6 @@ class FavoritesController extends GetxController {
 
     movies.assignAll(favoriteMovies);
     movieGroups.clear();
-  }
-
-  void onMovieGroupPressed(MovieGroup movieGroup) {
-    if (movieGroup.groupId != null && movieGroup.movieNamesEn.isNotEmpty) {
-      ScreensNavigator.pushMovieGroupPage(movieGroup.groupId!);
-    }
   }
 }
 
