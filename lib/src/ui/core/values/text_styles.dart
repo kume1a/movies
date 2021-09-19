@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-const TextStyle prB32 = TextStyle(
-  fontSize: 32,
+const TextStyle prB28 = TextStyle(
+  fontSize: 28,
   color: colorTextPrimary,
   fontWeight: FontWeight.bold,
 );

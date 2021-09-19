@@ -63,10 +63,10 @@ class DetailsPage extends GetView<DetailsController> {
                   Obx(
                     () => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(controller.movie.value?.getName() ?? '', style: prB32),
+                      child: Text(controller.movie.value?.getName() ?? '', style: prB28),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Obx(

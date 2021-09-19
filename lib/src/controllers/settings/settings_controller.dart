@@ -31,6 +31,7 @@ class SettingsController extends GetxController {
     doubleTapToSeekValue.value = await _settingsHelper.getDoubleTapToSeekValue();
     recordSearchHistoryEnabled.value = await _settingsHelper.isRecordSearchHistoryEnabled();
     recordWatchHistoryEnabled.value = await _settingsHelper.isRecordWatchHistoryEnabled();
+    supportedLocale.value = await _settingsHelper.readLocale();
   }
 
   Future<void> onAutoPlaySwitched({required bool isEnabled}) async {
