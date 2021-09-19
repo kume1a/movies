@@ -33,7 +33,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
           Expanded(
             child: Obx(
               () => TextButton(
-                onPressed: () => controller.timePeriodChanged(TimePeriod.year),
+                onPressed: () => controller.onTimePeriodChanged(TimePeriod.year),
                 style: controller.timePeriod.value == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionYear ?? ''),
               ),
@@ -43,7 +43,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
           Expanded(
             child: Obx(
               () => TextButton(
-                onPressed: () => controller.timePeriodChanged(TimePeriod.month),
+                onPressed: () => controller.onTimePeriodChanged(TimePeriod.month),
                 style: controller.timePeriod.value == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionMonth ?? ''),
               ),
@@ -53,7 +53,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
           Expanded(
             child: Obx(
               () => TextButton(
-                onPressed: () => controller.timePeriodChanged(TimePeriod.week),
+                onPressed: () => controller.onTimePeriodChanged(TimePeriod.week),
                 style: controller.timePeriod.value == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(appLocalizations?.statisticsOptionWeek ?? ''),
               ),

@@ -82,17 +82,17 @@ class ChartCategories extends GetView<StatisticsController> {
   Color _getSectionColor(int index) {
     switch (index) {
       case 0:
-        return const Color(0xFF5C272F);
+        return colorAccentVariant1;
       case 1:
-        return const Color(0xFFDB1A37);
+        return colorAccentVariant2;
       case 2:
-        return const Color(0xFF82424B);
+        return colorAccentVariant3;
       case 3:
-        return const Color(0xFFA8142A);
+        return colorAccentVariant4;
       case 4:
-        return const Color(0xFFEC8493);
+        return colorAccentVariant5;
       case 5:
-        return const Color(0xFF42262A);
+        return colorAccentVariant6;
       default:
         return colorAccent;
     }

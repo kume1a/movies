@@ -19,6 +19,7 @@ class App extends StatelessWidget {
       // theme: state.locale.languageCode == 'ka' ? AppThemes.darkLocaleKa : AppThemes.dark,
       theme: Get.locale?.languageCode == 'ka' ? AppThemes.darkLocaleKa : AppThemes.dark,
       themeMode: ThemeMode.dark,
+      defaultTransition: Transition.cupertino,
     );
   }
 }

@@ -30,10 +30,10 @@ class StatisticsController extends GetxController {
   void onInit() {
     super.onInit();
 
-    onRefreshData();
+    _refreshData();
   }
 
-  Future<void> timePeriodChanged(TimePeriod timePeriod) async {
+  Future<void> onTimePeriodChanged(TimePeriod timePeriod) async {
     final List<WatchedDuration> watchedDurations = await _calculateWatchedDurations(timePeriod);
     final Duration averageTime = await _calculateAverageTime(watchedDurations);
 
@@ -42,7 +42,11 @@ class StatisticsController extends GetxController {
     this.timePeriod.value = timePeriod;
   }
 
-  Future<void> onRefreshData() async {
+  Future<void> onScreenVisible() async => _refreshData();
+
+  void onSettingsPressed() => ScreensNavigator.pushSettingsPage();
+
+  Future<void> _refreshData() async {
     final List<WatchedMovie> moviesWatched = await _watchedMovieDao.getWatchedMovies();
     final List<WatchedMovie> episodesWatched = await _watchedMovieDao.getWatchedEpisodes();
     final int tvSeriesWatched = episodesWatched.map((WatchedMovie e) => e.movieId).toSet().length;
@@ -158,8 +162,6 @@ class StatisticsController extends GetxController {
     }
     return watchedDurations;
   }
-
-  void onSettingsPressed() => ScreensNavigator.pushSettingsPage();
 
   Future<Duration> _calculateAverageTime(List<WatchedDuration> watchedDurations) async {
     if (watchedDurations.isEmpty) return Duration.zero;
