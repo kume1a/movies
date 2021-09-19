@@ -6,6 +6,6 @@ import '../injection.dart';
 class AddMoviePageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => AddMovieController(getIt(), getIt(), getIt()));
+    Get.lazyPut(() => AddMovieController(getIt(), getIt(), getIt(), getIt()));
   }
 }

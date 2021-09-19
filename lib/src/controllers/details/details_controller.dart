@@ -49,8 +49,8 @@ class DetailsController extends GetxController {
     moviePosition.value = (await _savedMovieDao.getSavedMovie(_movieId))?.position;
     isFavorite.value = await _favoriteMovieDao.isMovieFavorited(_movieId);
 
-    _fetchMovie();
-    _fetchActors();
+    await _fetchMovie();
+    await _fetchActors();
   }
 
   Future<void> onCastPageFetchRequested() async => _fetchActors();

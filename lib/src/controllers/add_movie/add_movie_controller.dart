@@ -9,17 +9,20 @@ import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
 import '../../ui/core/routes/route_args.dart';
 import '../favorites/favorites_controller.dart';
+import '../movie_group/movie_group_controller.dart';
 
 class AddMovieController extends GetxController {
   AddMovieController(
     this._searchService,
     this._favoriteMovieDao,
     this._favoritesControllerMiddleMan,
+    this._movieGroupControllerMiddleMan,
   );
 
   final SearchService _searchService;
   final FavoriteMovieDao _favoriteMovieDao;
   final FavoritesControllerMiddleMan _favoritesControllerMiddleMan;
+  final MovieGroupControllerMiddleMan _movieGroupControllerMiddleMan;
 
   final Rxn<SearchResults> searchResults = Rxn<SearchResults>();
   final RxList<int> groupMovieIds = <int>[].obs;
@@ -106,6 +109,7 @@ class AddMovieController extends GetxController {
     groupMovieIds.add(searchResult.movieId);
 
     _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(searchResult.movieId, _groupId);
+    _movieGroupControllerMiddleMan.onMovieAdded(searchResult);
   }
 
   Future<void> onRemoveClicked(SearchResult searchResult) async {
@@ -114,5 +118,6 @@ class AddMovieController extends GetxController {
     groupMovieIds.remove(searchResult.movieId);
 
     _favoritesControllerMiddleMan.onFavoriteMovieRemoved(searchResult.movieId);
+    _movieGroupControllerMiddleMan.onMovieRemoved(searchResult);
   }
 }

@@ -28,7 +28,6 @@ class Movies extends GetView<AddMovieController> {
                 context,
                 appLocalizations,
                 searchResult,
-                controller.groupMovieIds.contains(searchResult.movieId),
               ),
               items: searchResults.results,
               totalCount: searchResults.totalCount,
@@ -44,7 +43,6 @@ class Movies extends GetView<AddMovieController> {
     BuildContext context,
     AppLocalizations? appLocalizations,
     SearchResult searchResult,
-    bool isAdded,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -65,26 +63,31 @@ class Movies extends GetView<AddMovieController> {
             ),
           ),
           const SizedBox(width: 12),
-          TextButton(
-            onPressed: () {
-              if (isAdded) {
-                controller.onRemoveClicked(searchResult);
-              } else {
-                controller.onAddClicked(searchResult);
-              }
+          Obx(
+            () {
+              final bool isAdded = controller.groupMovieIds.contains(searchResult.movieId);
+              return TextButton(
+                onPressed: () {
+                  if (isAdded) {
+                    controller.onRemoveClicked(searchResult);
+                  } else {
+                    controller.onAddClicked(searchResult);
+                  }
+                },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+                  ),
+                  backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
+                  foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
+                  overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
+                  padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18)),
+                ),
+                child: Text(
+                  isAdded ? appLocalizations?.addMovieButtonRemove ?? '' : appLocalizations?.addMovieButtonAdd ?? '',
+                ),
+              );
             },
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<OutlinedBorder>(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-              ),
-              backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
-              foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
-              overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
-              padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18)),
-            ),
-            child: Text(
-              isAdded ? appLocalizations?.addMovieButtonRemove ?? '' : appLocalizations?.addMovieButtonAdd ?? '',
-            ),
           ),
         ],
       ),
