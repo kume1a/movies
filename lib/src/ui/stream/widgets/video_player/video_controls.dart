@@ -136,6 +136,8 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               if (_latestValue != null && _chewieController != null) {
                 _chewieController!.seekTo(_latestValue!.position + Duration(seconds: widget.doubleTapToSeekValue));
               }
+            } else {
+              _playPause();
             }
           },
           child: AbsorbPointer(
@@ -204,7 +206,9 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _playPauseIconAnimController?.reset();
+    if (_latestValue?.isPlaying == false) {
+      _playPauseIconAnimController?.reset();
+    }
 
     if (_oldController != _chewieController) {
       _dispose();
@@ -269,19 +273,19 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                 ),
               ),
               AnimatedOpacity(
-                opacity: _latestValue != null && !_latestValue!.isPlaying && !_dragging ? 1 : 0,
+                opacity: _latestValue != null && !_dragging && !_hideControls ? 1 : 0,
                 duration: const Duration(milliseconds: 300),
                 child: GestureDetector(
                   onTap: () {
                     _playPause();
                   },
                   child: isFinished
-                      ? const Icon(Icons.replay, size: 64)
+                      ? const Icon(Icons.replay, size: 54)
                       : (_playPauseIconAnimController != null
                           ? AnimatedIcon(
                               icon: AnimatedIcons.play_pause,
                               progress: _playPauseIconAnimController!,
-                              size: 64,
+                              size: 54,
                               color: Colors.white,
                             )
                           : const SizedBox.shrink()),
@@ -315,29 +319,13 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
         duration: const Duration(milliseconds: 300),
         child: Row(
           children: <Widget>[
-            _buildPlayPause(_controller!),
+            const SizedBox(width: 24),
             if (MediaQuery.of(context).orientation == Orientation.landscape)
               _chewieController!.isLive ? const Expanded(child: Text('LIVE')) : _buildPosition(),
             if (!_chewieController!.isLive) _buildProgressBar(),
             if (_chewieController!.allowMuting) _buildMuteButton(_controller!) else const SizedBox.shrink(),
             if (_chewieController!.allowFullScreen) _buildExpandButton() else const SizedBox.shrink(),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPlayPause(VideoPlayerController controller) {
-    return GestureDetector(
-      onTap: _playPause,
-      child: Container(
-        height: barHeight,
-        color: Colors.transparent,
-        margin: const EdgeInsets.only(left: 8, right: 4),
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: Icon(
-          controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          color: Colors.white,
         ),
       ),
     );
@@ -487,7 +475,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       child: ClipRect(
         child: Container(
           height: barHeight,
-          padding: const EdgeInsets.only(left: 8, right: 16),
+          padding: const EdgeInsets.only(right: 16),
           child: Icon(
             (_latestValue != null && _latestValue!.volume > 0) ? Icons.volume_up : Icons.volume_off,
             color: Colors.white,
