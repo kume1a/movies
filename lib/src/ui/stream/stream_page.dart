@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/stream/stream_controller.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/seasons/season.dart';
+import '../../l10n/translation_keys.dart';
 import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/rating_duration.dart';
@@ -17,7 +17,6 @@ class StreamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -79,7 +78,7 @@ class StreamPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 12, top: 12),
               child: Text(
-                appLocalizations?.streamHeaderRecommended ?? '',
+                trStreamHeaderRecommended.tr,
                 style: theme.textTheme.headline6?.copyWith(fontWeight: FontWeight.w100),
               ),
             ),

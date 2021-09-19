@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/settings/settings_controller.dart';
 import '../../../core/enums/supported_locale.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/dialogs/language_selector_dilaog.dart';
 
 class TileLanguage extends GetView<SettingsController> {
@@ -11,10 +11,8 @@ class TileLanguage extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ListTile(
-      title: Text(appLocalizations?.settingsChangeLanguage ?? ''),
+      title: Text(trSettingsChangeLanguage.tr),
       onTap: () async {
         final SupportedLocale? selectedLocale = await showLanguageSelectorDialog(
           context,

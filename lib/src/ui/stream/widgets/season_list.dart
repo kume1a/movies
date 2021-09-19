@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/stream/stream_controller.dart';
+import '../../../l10n/parameterized_translations.dart';
 import '../../core/values/colors.dart';
 
 class SeasonList extends GetView<StreamController> {
@@ -12,7 +12,6 @@ class SeasonList extends GetView<StreamController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
     return SizedBox(
@@ -25,7 +24,6 @@ class SeasonList extends GetView<StreamController> {
             () => _buildItem(
               context,
               theme,
-              appLocalizations,
               seasonNumber: seasonNumbers[index],
               isActive: controller.season.value == seasonNumbers[index],
             ),
@@ -37,8 +35,7 @@ class SeasonList extends GetView<StreamController> {
 
   Widget _buildItem(
     BuildContext context,
-    ThemeData theme,
-    AppLocalizations? appLocalizations, {
+    ThemeData theme, {
     required int seasonNumber,
     required bool isActive,
   }) {
@@ -51,7 +48,7 @@ class SeasonList extends GetView<StreamController> {
           style: theme.textTheme.subtitle1?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ??
               const TextStyle(),
           duration: const Duration(milliseconds: 300),
-          child: Text(appLocalizations?.streamSeason(seasonNumber) ?? ''),
+          child: Text(ParameterizedTranslations.streamSeason(seasonNumber)),
         ),
       ),
     );

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/stream/stream_controller.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season_files.dart';
+import '../../../l10n/parameterized_translations.dart';
 import '../../core/formatters.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
@@ -18,8 +18,6 @@ class EpisodeList extends GetView<StreamController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(() {
       final SeasonFiles? seasonFiles = controller.seasonFiles.value;
 
@@ -30,7 +28,6 @@ class EpisodeList extends GetView<StreamController> {
                 itemBuilder: (BuildContext context, int index) {
                   return _buildItem(
                     context,
-                    appLocalizations,
                     episode: seasonFiles.data[index],
                     isSelected:
                         controller.episode.value == index + 1 && controller.episodeSeason.value == seasonFiles.season,
@@ -43,8 +40,7 @@ class EpisodeList extends GetView<StreamController> {
   }
 
   Widget _buildItem(
-    BuildContext context,
-    AppLocalizations? appLocalizations, {
+    BuildContext context, {
     required Episode episode,
     required bool isSelected,
   }) {
@@ -68,7 +64,6 @@ class EpisodeList extends GetView<StreamController> {
                 padding: const EdgeInsets.only(left: 12),
                 child: _buildDetails(
                   context,
-                  appLocalizations,
                   episode: episode.episode,
                   title: episode.title,
                   duration: duration,
@@ -82,8 +77,7 @@ class EpisodeList extends GetView<StreamController> {
   }
 
   Widget _buildDetails(
-    BuildContext context,
-    AppLocalizations? appLocalizations, {
+    BuildContext context, {
     required int episode,
     required String title,
     required int duration,
@@ -92,13 +86,13 @@ class EpisodeList extends GetView<StreamController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(appLocalizations?.streamEpisode(episode) ?? '', style: scL14),
+        Text(ParameterizedTranslations.streamEpisode(episode), style: scL14),
         const SizedBox(height: 12),
         Text(title, style: prSB18),
         const SizedBox(height: 32),
         Align(
           alignment: Alignment.bottomRight,
-          child: Text(formatDurationFromSeconds(context, duration), style: sc10),
+          child: Text(formatDurationFromSeconds(duration), style: sc10),
         )
       ],
     );

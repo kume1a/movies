@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/favorites/favorites_controller.dart';
+import '../../../controllers/main/favorites_controller.dart';
 import '../../../core/enums/supported_locale.dart';
-import '../../../core/extensions/build_context_extensions.dart';
+import '../../../core/extensions/model_l10n/core/supported_locale_provider.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
+import '../../../l10n/parameterized_translations.dart';
 import '../../core/dialogs/add_movie_group_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 import '../../core/values/colors.dart';
@@ -62,7 +62,7 @@ class MovieGroups extends GetView<FavoritesController> {
   Widget _buildItem(BuildContext context, MovieGroup movieGroup) {
     const int maxMovieNameCount = 4;
     late final ListSlice<String> movieNames;
-    switch (context.locale) {
+    switch (SupportedLocaleProvider.locale) {
       case SupportedLocale.en:
         movieNames = movieGroup.movieNamesEn.slice(
           0,
@@ -129,11 +129,10 @@ class MovieGroups extends GetView<FavoritesController> {
           type: MaterialType.transparency,
           child: InkWell(
             onLongPress: () async {
-              final AppLocalizations? appLocalizations = AppLocalizations.of(context);
               final bool didConfirm = await showConfirmationDialog(
                 context,
-                title: appLocalizations?.favoritesHeaderDeleteGroup(movieGroup.name) ?? '',
-                content: appLocalizations?.favoritesContentDeleteGroup(movieGroup.name) ?? '',
+                title: ParameterizedTranslations.favoritesHeaderDeleteGroup(movieGroup.name),
+                content: ParameterizedTranslations.favoritesContentDeleteGroup(movieGroup.name),
               );
 
               if (didConfirm) {

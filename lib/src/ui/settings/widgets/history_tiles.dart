@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/settings/settings_controller.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/dialogs/clear_favorites_dialog.dart';
 import '../../core/dialogs/confirmation_dialog.dart';
 
@@ -11,17 +11,15 @@ class TileClearSearchHistory extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ListTile(
-      title: Text(appLocalizations?.settingsClearSearchHistory ?? ''),
-      subtitle: Text(appLocalizations?.settingsCommentClearSearchHistory ?? ''),
+      title: Text(trSettingsClearSearchHistory.tr),
+      subtitle: Text(trSettingsCommentClearSearchHistory.tr),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: appLocalizations?.settingsClearSearchHistoryDialogHeader ?? '',
-          content: appLocalizations?.settingsClearSearchHistoryDialogContent ?? '',
-          confirmationText: appLocalizations?.clear ?? '',
+          title: trSettingsClearSearchHistoryDialogHeader.tr,
+          content: trSettingsClearSearchHistoryDialogContent.tr,
+          confirmationText: trCommonClear.tr,
         );
 
         if (didConfirm) {
@@ -37,17 +35,15 @@ class TileClearSavedMovies extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ListTile(
-      title: Text(appLocalizations?.settingsClearSavedMovies ?? ''),
-      subtitle: Text(appLocalizations?.settingsCommentClearSavedMovies ?? ''),
+      title: Text(trSettingsClearSavedMovies.tr),
+      subtitle: Text(trSettingsCommentClearSavedMovies.tr),
       onTap: () async {
         final bool didConfirm = await showConfirmationDialog(
           context,
-          title: appLocalizations?.settingsClearSavedMoviesDialogHeader ?? '',
-          content: appLocalizations?.settingsClearSavedMoviesDialogContent ?? '',
-          confirmationText: appLocalizations?.clear ?? '',
+          title: trSettingsClearSavedMoviesDialogHeader.tr,
+          content: trSettingsClearSavedMoviesDialogContent.tr,
+          confirmationText: trCommonClear.tr,
         );
 
         if (didConfirm) {
@@ -63,12 +59,10 @@ class TileRecordSearchHistory extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(() {
       return SwitchListTile(
         value: controller.recordSearchHistoryEnabled.value,
-        title: Text(appLocalizations?.settingsRecordSearchHistory ?? ''),
+        title: Text(trSettingsRecordSearchHistory.tr),
         onChanged: (bool value) => controller.onSearchHistoryEnabledSwitched(isEnabled: value),
       );
     });
@@ -80,12 +74,10 @@ class TileRecordWatchHistory extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () => SwitchListTile(
         value: controller.recordWatchHistoryEnabled.value,
-        title: Text(appLocalizations?.settingsRecordWatchHistory ?? ''),
+        title: Text(trSettingsRecordWatchHistory.tr),
         onChanged: (bool value) => controller.onWatchHistoryEnabledSwitched(isEnabled: value),
       ),
     );
@@ -97,11 +89,9 @@ class TileClearFavorites extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ListTile(
-      title: Text(appLocalizations?.settingsClearFavorites ?? ''),
-      subtitle: Text(appLocalizations?.settingsCommentClearFavorites ?? ''),
+      title: Text(trSettingsClearFavorites.tr),
+      subtitle: Text(trSettingsCommentClearFavorites.tr),
       onTap: () async {
         final ClearFavoritesResult? clearFavoritesResult = await showClearFavoritesDialog(context);
 

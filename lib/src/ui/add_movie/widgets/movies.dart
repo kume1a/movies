@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/add_movie/add_movie_controller.dart';
 import '../../../core/extensions/model_l10n/search_result_l10n_extensions.dart';
 import '../../../data/model/models/search/search_result.dart';
 import '../../../data/model/models/search/search_results.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
@@ -15,8 +15,6 @@ class Movies extends GetView<AddMovieController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(() {
       final SearchResults? searchResults = controller.searchResults.value;
 
@@ -26,7 +24,6 @@ class Movies extends GetView<AddMovieController> {
               blankBuilder: _blankBuilder,
               itemBuilder: (BuildContext context, SearchResult searchResult) => _itemBuilder(
                 context,
-                appLocalizations,
                 searchResult,
               ),
               items: searchResults.results,
@@ -41,7 +38,6 @@ class Movies extends GetView<AddMovieController> {
 
   Widget _itemBuilder(
     BuildContext context,
-    AppLocalizations? appLocalizations,
     SearchResult searchResult,
   ) {
     return Padding(
@@ -57,7 +53,7 @@ class Movies extends GetView<AddMovieController> {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              searchResult.getName(context),
+              searchResult.getName(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -84,7 +80,7 @@ class Movies extends GetView<AddMovieController> {
                   padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18)),
                 ),
                 child: Text(
-                  isAdded ? appLocalizations?.addMovieButtonRemove ?? '' : appLocalizations?.addMovieButtonAdd ?? '',
+                  isAdded ? trAddMovieButtonRemove.tr : trAddMovieButtonAdd.tr,
                 ),
               );
             },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '../../../l10n/parameterized_translations.dart';
 import '../formatters.dart';
 import '../values/colors.dart';
 import 'safe_image.dart';
@@ -30,7 +32,7 @@ class MovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    final NumberFormat numberFormat = NumberFormat.compact(locale: Get.locale?.languageCode);
 
     return Container(
       color: Colors.transparent,
@@ -57,7 +59,7 @@ class MovieItem extends StatelessWidget {
                 const SizedBox(height: 4),
                 if (duration != -1)
                   Text(
-                    formatDuration(context, duration),
+                    formatDuration(duration),
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: colorTextSecondary),
                   ),
                 const SizedBox(height: 16),
@@ -98,7 +100,7 @@ class MovieItem extends StatelessWidget {
                   children: <Widget>[
                     if (voterCount != -1)
                       Text(
-                        appLocalizations?.reviews(formatBigNumber(voterCount)) ?? '',
+                        ParameterizedTranslations.commonReviews(numberFormat.format(voterCount)),
                         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colorTextSecondary),
                       ),
                     if (releaseYear > 0)

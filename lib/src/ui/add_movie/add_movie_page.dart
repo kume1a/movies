@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/add_movie/add_movie_controller.dart';
+import '../../l10n/translation_keys.dart';
 import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/search_bar.dart';
@@ -14,8 +14,6 @@ class AddMoviePage extends GetView<AddMovieController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: TapOutsideToClearFocus(
@@ -28,7 +26,7 @@ class AddMoviePage extends GetView<AddMovieController> {
                   onBackPressed: () => ScreensNavigator.pop(),
                   onChanged: controller.onQueryChanged,
                   decoration: InputDecoration(
-                    hintText: appLocalizations?.addMovieHintSearchField ?? '',
+                    hintText: trAddMovieHintSearchField.tr,
                     counterText: '',
                     fillColor: Colors.white,
                     hintStyle: const TextStyle(color: colorTextSecondary),

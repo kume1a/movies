@@ -8,7 +8,7 @@ import '../../data/model/models/search/search_result.dart';
 import '../../data/model/models/search/search_results.dart';
 import '../../data/network/services/search_service.dart';
 import '../../ui/core/routes/route_args.dart';
-import '../favorites/favorites_controller.dart';
+import '../main/favorites_controller.dart';
 import '../movie_group/movie_group_controller.dart';
 
 class AddMovieController extends GetxController {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../l10n/translation_keys.dart';
 import '../enums/supported_locale.dart';
 
 class SupportedLocaleHelper {
@@ -9,9 +10,9 @@ class SupportedLocaleHelper {
   static Locale getLocale(SupportedLocale supportedLocale) {
     switch (supportedLocale) {
       case SupportedLocale.en:
-        return const Locale('en');
+        return const Locale('en', 'US');
       case SupportedLocale.ka:
-        return const Locale('ka');
+        return const Locale('ka', 'GE');
     }
   }
 
@@ -26,12 +27,12 @@ class SupportedLocaleHelper {
     }
   }
 
-  static String convertToString(AppLocalizations? appLocalizations, SupportedLocale supportedLocale) {
+  static String convertToString(SupportedLocale supportedLocale) {
     switch (supportedLocale) {
       case SupportedLocale.en:
-        return appLocalizations?.languageEng ?? '';
+        return trLanguageEng.tr;
       case SupportedLocale.ka:
-        return appLocalizations?.languageGeo ?? '';
+        return trLanguageGeo.tr;
     }
   }
 }

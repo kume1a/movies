@@ -18,21 +18,21 @@ class RelatedMovies extends GetView<StreamController> {
           padding: const EdgeInsets.symmetric(vertical: 6),
           itemCount: related != null ? related.data.length : 0,
           itemBuilder: (BuildContext context, int index) {
-            return related != null ? _buildItem(context, related.data[index]) : const MovieItem();
+            return related != null ? _buildItem(related.data[index]) : const MovieItem();
           },
         ),
       );
     });
   }
 
-  Widget _buildItem(BuildContext context, MovieData movie) {
+  Widget _buildItem(MovieData movie) {
     return GestureDetector(
       onTap: () => controller.onRelatedMoviePressed(movie.movieId),
       child: MovieItem(
         imageUrl: movie.poster,
-        name: movie.getName(context),
+        name: movie.getName(),
         duration: movie.duration,
-        plot: movie.getPlot(context),
+        plot: movie.getPlot(),
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
         releaseYear: movie.year,

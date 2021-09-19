@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/main/home_controller.dart';
 import '../../../core/enums/genre.dart';
 import '../../../core/helpers/genre_helper.dart';
 import '../../core/values/colors.dart';
@@ -15,8 +14,6 @@ class GenreChooser extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return SizedBox(
       height: 44,
       child: ListView.builder(
@@ -43,7 +40,7 @@ class GenreChooser extends GetView<HomeController> {
                   ),
                   child: Center(
                     child: Text(
-                      GenreHelper.convertToString(appLocalizations, _genres[index]),
+                      GenreHelper.convertToString(_genres[index]),
                       style: isActive ? pr12 : sc12,
                     ),
                   ),

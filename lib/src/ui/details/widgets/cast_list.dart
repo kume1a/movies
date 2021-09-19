@@ -67,7 +67,7 @@ class CastList extends GetView<DetailsController> {
           SizedBox(
             width: itemWidth,
             child: Text(
-              actor.getName(context),
+              actor.getName(),
               style: prB15,
               textAlign: TextAlign.center,
               maxLines: 2,

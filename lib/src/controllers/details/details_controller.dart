@@ -12,7 +12,7 @@ import '../../data/model/models/movies/movie_position.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/routes/route_args.dart';
 import '../../ui/core/routes/screens_navigator.dart';
-import '../favorites/favorites_controller.dart';
+import '../main/favorites_controller.dart';
 
 class DetailsController extends GetxController {
   DetailsController(

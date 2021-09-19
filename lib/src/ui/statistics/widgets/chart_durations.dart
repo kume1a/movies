@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../controllers/statistics/statistics_controller.dart';
+import '../../../controllers/main/statistics_controller.dart';
 import '../../../core/enums/time_period.dart';
 import '../../../data/model/models/watched_movies/watched_duration.dart';
+import '../../../l10n/parameterized_translations.dart';
 import '../../core/values/colors.dart';
 
 class ChartDurations extends GetView<StatisticsController> {
@@ -14,8 +14,6 @@ class ChartDurations extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(() {
       if (controller.watchedDurations.isEmpty) return const SizedBox.shrink();
 
@@ -70,7 +68,7 @@ class ChartDurations extends GetView<StatisticsController> {
                 getTitles: (double value) {
                   final Duration duration = Duration(milliseconds: value.floor());
                   final String minutesFraction = (duration.inMinutes / 60).toStringAsFixed(1).split('.').last;
-                  return appLocalizations?.hours('${duration.inHours}.$minutesFraction') ?? '';
+                  return ParameterizedTranslations.commonHours('${duration.inHours}.$minutesFraction');
                 },
                 reservedSize: 36,
                 margin: 12,

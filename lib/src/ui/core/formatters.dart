@@ -1,29 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../l10n/parameterized_translations.dart';
 
-String formatDuration(BuildContext context, int durationInMinutes, {bool emptyOnZero = true}) {
+String formatDuration(int durationInMinutes, {bool emptyOnZero = true}) {
   if (durationInMinutes == 0 && emptyOnZero) return '';
-
-  final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
   final int hours = (durationInMinutes / 60).floor();
   final int minutes = durationInMinutes - hours * 60;
 
-  if (hours == 0) return appLocalizations?.minutes(minutes) ?? '';
-  if (minutes == 0) return appLocalizations?.hours(hours) ?? '';
-  return appLocalizations?.duration(hours, minutes) ?? '';
+  if (hours == 0) return ParameterizedTranslations.commonMinutes(minutes);
+  if (minutes == 0) return ParameterizedTranslations.commonHours(hours.toString());
+  return ParameterizedTranslations.commonDuration(hours, minutes);
 }
 
-String formatDurationFromSeconds(BuildContext context, int seconds) {
+String formatDurationFromSeconds(int seconds) {
   final int minutes = (seconds / 60).floor();
-  return formatDuration(context, minutes);
-}
-
-String formatBigNumber(int num) {
-  if (num > 10e+2) return '${(num / 10e+2).round()}k';
-  if (num > 10e+5) return '${(num / 10e+5).round()}m';
-  if (num > 10e+8) return '${(num / 10e+8).round()}b'; // just in case
-  return num.toString();
+  return formatDuration(minutes);
 }
 
 String formatVideoDuration(int ms) {
@@ -36,23 +26,22 @@ String formatVideoDuration(int ms) {
   final String hoursString = hours >= 10
       ? '$hours'
       : hours == 0
-      ? '00'
-      : '0$hours';
+          ? '00'
+          : '0$hours';
 
   final String minutesString = minutes >= 10
       ? '$minutes'
       : minutes == 0
-      ? '00'
-      : '0$minutes';
+          ? '00'
+          : '0$minutes';
 
   final String secondsString = seconds >= 10
       ? '$seconds'
       : seconds == 0
-      ? '00'
-      : '0$seconds';
+          ? '00'
+          : '0$seconds';
 
-  final String formattedTime =
-      '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
+  final String formattedTime = '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
 
   return formattedTime;
 }

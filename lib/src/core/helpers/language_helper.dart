@@ -1,30 +1,31 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../l10n/translation_keys.dart';
 import '../enums/language.dart';
 
 class LanguageHelper {
   LanguageHelper._();
 
-  static String convertToString(AppLocalizations? appLocalizations, Language language) {
+  static String convertToString(Language language) {
     switch (language) {
       case Language.geo:
-        return appLocalizations?.languageGeo ?? '';
+        return trLanguageGeo.tr;
       case Language.eng:
-        return appLocalizations?.languageEng ?? '';
+        return trLanguageEng.tr;
       case Language.rus:
-        return appLocalizations?.languageRus ?? '';
+        return trLanguageRus.tr;
       case Language.jpn:
-        return appLocalizations?.languageJpn ?? '';
+        return trLanguageJpn.tr;
       case Language.fre:
-        return appLocalizations?.languageFre ?? '';
+        return trLanguageFre.tr;
       case Language.ger:
-        return appLocalizations?.languageGer ?? '';
+        return trLanguageGer.tr;
       case Language.kor:
-        return appLocalizations?.languageKor ?? '';
+        return trLanguageKor.tr;
       case Language.spa:
-        return appLocalizations?.languageSpa ?? '';
+        return trLanguageSpa.tr;
       case Language.por:
-        return appLocalizations?.languagePor ?? '';
+        return trLanguagePor.tr;
     }
   }
 }

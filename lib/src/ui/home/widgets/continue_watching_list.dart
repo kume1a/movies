@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/main/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/saved_movie.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/formatters.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
@@ -57,8 +57,6 @@ class _Item extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     String bottomDetailText = formatVideoDuration(savedMovie.position.leftAt);
     if (savedMovie.position.isTvShow) {
       final int s = savedMovie.position.season;
@@ -103,14 +101,14 @@ class _Item extends GetView<HomeController> {
             SizedBox(
               width: _itemWidth,
               child: Text(
-                savedMovie.data.getName(context),
+                savedMovie.data.getName(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: prSB18,
               ),
             ),
             const SizedBox(height: 2),
-            Text('${appLocalizations?.homeWatchLaterLeftAt ?? ''} $bottomDetailText', style: sc11),
+            Text('${trHomeWatchLaterLeftAt.tr} $bottomDetailText', style: sc11),
           ],
         ),
       ),

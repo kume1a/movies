@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../../l10n/parameterized_translations.dart';
+import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
 Future<int?> showDoubleTapToSeekValueChooserDialog(
@@ -27,17 +29,15 @@ class _DtapToSeekValueChooserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return AlertDialog(
       contentPadding: const EdgeInsets.only(top: 12),
-      title: Text(appLocalizations?.settingsDoubleTapToSeekDialogHeader ?? ''),
+      title: Text(trSettingsDoubleTapToSeekDialogHeader.tr),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: _values.map((int e) {
             return RadioListTile<int>(
-              title: Text(appLocalizations?.settingsDoubleTapToSeekDialogItem(e) ?? ''),
+              title: Text(ParameterizedTranslations.settingsDoubleTapToSeekDialogItem(e)),
               value: e,
               onChanged: (int? value) => ScreensNavigator.pop(result: value),
               groupValue: currentValue,

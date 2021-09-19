@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/statistics/statistics_controller.dart';
+import '../../../controllers/main/statistics_controller.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/formatters.dart';
 
 class _InfoTile extends StatelessWidget {
@@ -35,11 +35,9 @@ class TileMoviesWatched extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () => _InfoTile(
-        title: appLocalizations?.statisticsMovieWatched ?? '',
+        title: trStatisticsMovieWatched.tr,
         value: controller.moviesWatched.value.toString(),
       ),
     );
@@ -51,11 +49,9 @@ class TileTvSeriesWatched extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () => _InfoTile(
-        title: appLocalizations?.statisticsTVSeriesWatched ?? '',
+        title: trStatisticsTVSeriesWatched.tr,
         value: controller.tvSeriesWatched.value.toString(),
       ),
     );
@@ -67,11 +63,9 @@ class TileEpisodesWatched extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () => _InfoTile(
-        title: appLocalizations?.statisticsEpisodesWatched ?? '',
+        title: trStatisticsEpisodesWatched.tr,
         value: controller.episodesWatched.value.toString(),
       ),
     );
@@ -83,12 +77,10 @@ class TileAverageTime extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () => _InfoTile(
-        title: appLocalizations?.statisticsAverageTime ?? '',
-        value: formatDuration(context, controller.averageTime.value.inMinutes, emptyOnZero: false),
+        title: trStatisticsAverageTime.tr,
+        value: formatDuration(controller.averageTime.value.inMinutes, emptyOnZero: false),
       ),
     );
   }

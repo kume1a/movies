@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 
+import '../../../l10n/translation_keys.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/tap_outside_to_clear_focus.dart';
 import '../values/colors.dart';
@@ -20,8 +21,6 @@ class _AddMovieGroupDialog extends HookWidget {
   Widget build(BuildContext context) {
     final ValueNotifier<String> text = useState('');
 
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return TapOutsideToClearFocus(
       child: Dialog(
         child: Padding(
@@ -29,15 +28,15 @@ class _AddMovieGroupDialog extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildHeader(appLocalizations),
+              _buildHeader(),
               const SizedBox(height: 32),
-              _buildNameField(appLocalizations, text),
+              _buildNameField(text),
               const SizedBox(height: 64),
               Row(
                 children: <Widget>[
-                  Expanded(child: _buildCancelButton(appLocalizations)),
+                  Expanded(child: _buildCancelButton()),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildSaveButton(appLocalizations, text)),
+                  Expanded(child: _buildSaveButton(text)),
                 ],
               )
             ],
@@ -47,18 +46,18 @@ class _AddMovieGroupDialog extends HookWidget {
     );
   }
 
-  Widget _buildHeader(AppLocalizations? appLocalizations) {
+  Widget _buildHeader() {
     return Text(
-      appLocalizations?.favoritesHeaderAddGroup ?? '',
+      trFavoritesHeaderAddGroup.tr,
       style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
     );
   }
 
-  Widget _buildNameField(AppLocalizations? appLocalizations, ValueNotifier<String> text) {
+  Widget _buildNameField(ValueNotifier<String> text) {
     return TextField(
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-        hintText: appLocalizations?.favoritesAddGroupHintNameField ?? '',
+        hintText: trFavoritesAddGroupHintNameField.tr,
       ),
       onChanged: (String value) {
         text.value = value;
@@ -66,7 +65,7 @@ class _AddMovieGroupDialog extends HookWidget {
     );
   }
 
-  Widget _buildCancelButton(AppLocalizations? appLocalizations) {
+  Widget _buildCancelButton() {
     return TextButton(
       onPressed: () => ScreensNavigator.pop(),
       style: ButtonStyle(
@@ -75,11 +74,11 @@ class _AddMovieGroupDialog extends HookWidget {
         overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),
-      child: Text(appLocalizations?.cancel ?? ''),
+      child: Text(trCommonCancel.tr),
     );
   }
 
-  Widget _buildSaveButton(AppLocalizations? appLocalizations, ValueNotifier<String> text) {
+  Widget _buildSaveButton(ValueNotifier<String> text) {
     return TextButton(
       onPressed: text.value.isNotEmpty ? () => ScreensNavigator.pop(result: text.value) : null,
       style: ButtonStyle(
@@ -94,7 +93,7 @@ class _AddMovieGroupDialog extends HookWidget {
         overlayColor: MaterialStateProperty.all<Color>(Colors.white24),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),
-      child: Text(appLocalizations?.save ?? ''),
+      child: Text(trCommonSave.tr),
     );
   }
 }

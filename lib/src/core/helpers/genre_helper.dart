@@ -1,62 +1,63 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../l10n/translation_keys.dart';
 import '../enums/genre.dart';
 
 class GenreHelper {
   GenreHelper._();
 
-  static String convertToString(AppLocalizations? appLocalizations, Genre genre) {
+  static String convertToString(Genre genre) {
     switch (genre) {
       case Genre.all:
-        return appLocalizations?.genreAll ?? '';
+        return trGenreAll.tr;
       case Genre.sciFi:
-        return appLocalizations?.genreSciFi ?? '';
+        return trGenreSciFi.tr;
       case Genre.comedy:
-        return appLocalizations?.genreComedy ?? '';
+        return trGenreComedy.tr;
       case Genre.family:
-        return appLocalizations?.genreFamily ?? '';
+        return trGenreFamily.tr;
       case Genre.adventure:
-        return appLocalizations?.genreAdventure ?? '';
+        return trGenreAdventure.tr;
       case Genre.drama:
-        return appLocalizations?.genreDrama ?? '';
+        return trGenreDrama.tr;
       case Genre.thriller:
-        return appLocalizations?.genreThriller ?? '';
+        return trGenreThriller.tr;
       case Genre.mystery:
-        return appLocalizations?.genreMystery ?? '';
+        return trGenreMystery.tr;
       case Genre.animation:
-        return appLocalizations?.genreAnimation ?? '';
+        return trGenreAnimation.tr;
       case Genre.action:
-        return appLocalizations?.genreAction ?? '';
+        return trGenreAction.tr;
       case Genre.fantasy:
-        return appLocalizations?.genreFantasy ?? '';
+        return trGenreFantasy.tr;
       case Genre.romance:
-        return appLocalizations?.genreRomance ?? '';
+        return trGenreRomance.tr;
       case Genre.horror:
-        return appLocalizations?.genreHorror ?? '';
+        return trGenreHorror.tr;
       case Genre.crime:
-        return appLocalizations?.genreCrime ?? '';
+        return trGenreCrime.tr;
       case Genre.documentary:
-        return appLocalizations?.genreDocumentary ?? '';
+        return trGenreDocumentary.tr;
       case Genre.sport:
-        return appLocalizations?.genreSport ?? '';
+        return trGenreSport.tr;
       case Genre.short:
-        return appLocalizations?.genreShort ?? '';
+        return trGenreShort.tr;
       case Genre.anime:
-        return appLocalizations?.genreAnime ?? '';
+        return trGenreAnime.tr;
       case Genre.history:
-        return appLocalizations?.genreHistory ?? '';
+        return trGenreHistory.tr;
       case Genre.theatreMusical:
-        return appLocalizations?.genreMusical ?? '';
+        return trGenreMusical.tr;
       case Genre.western:
-        return appLocalizations?.genreWestern ?? '';
+        return trGenreWestern.tr;
       case Genre.biography:
-        return appLocalizations?.genreBiography ?? '';
+        return trGenreBiography.tr;
       case Genre.musical:
-        return appLocalizations?.genreMusic ?? '';
+        return trGenreMusic.tr;
       case Genre.war:
-        return appLocalizations?.genreWar ?? '';
+        return trGenreWar.tr;
       case Genre.adult:
-        return appLocalizations?.genreAdult ?? '';
+        return trGenreAdult.tr;
     }
   }
 }

@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
-
 import '../../../data/model/models/search/search_result.dart';
 import '../../enums/supported_locale.dart';
-import '../build_context_extensions.dart';
+import 'core/supported_locale_provider.dart';
 
 extension SearchResultL10NX on SearchResult {
-  String getName(BuildContext context) {
-    final SupportedLocale locale = context.locale;
-    switch (locale) {
+  String getName() {
+    switch (SupportedLocaleProvider.locale) {
       case SupportedLocale.en:
         return nameEn.isNotEmpty ? nameEn : nameKa;
       case SupportedLocale.ka:
@@ -15,9 +12,8 @@ extension SearchResultL10NX on SearchResult {
     }
   }
 
-  String getDescription(BuildContext context) {
-    final SupportedLocale locale = context.locale;
-    switch (locale) {
+  String getDescription() {
+    switch (SupportedLocaleProvider.locale) {
       case SupportedLocale.en:
         return descriptionEn.isNotEmpty ? descriptionEn : descriptionKa;
       case SupportedLocale.ka:

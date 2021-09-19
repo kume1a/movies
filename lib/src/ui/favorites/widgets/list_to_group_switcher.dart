@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/favorites/favorites_controller.dart';
+import '../../../controllers/main/favorites_controller.dart';
+import '../../../l10n/translation_keys.dart';
 
 enum _SwitcherValue {
   seeAll,
@@ -14,8 +14,6 @@ class ListToGroupSwitcher extends GetView<FavoritesController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: Material(
@@ -27,14 +25,14 @@ class ListToGroupSwitcher extends GetView<FavoritesController> {
                 value: _SwitcherValue.seeAll,
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 height: 42,
-                child: Center(child: Text(appLocalizations?.favoritesOptionSeeAll ?? '')),
+                child: Center(child: Text(trFavoritesOptionSeeAll.tr)),
               ),
               const PopupMenuDivider(),
               PopupMenuItem<_SwitcherValue>(
                 value: _SwitcherValue.groups,
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 height: 42,
-                child: Center(child: Text(appLocalizations?.favoritesOptionGroups ?? '')),
+                child: Center(child: Text(trFavoritesOptionGroups.tr)),
               ),
             ];
           },

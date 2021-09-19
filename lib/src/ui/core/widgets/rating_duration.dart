@@ -33,7 +33,7 @@ class RatingDurationYear extends StatelessWidget {
         const SizedBox(width: 10),
         const Icon(Icons.access_time_rounded, color: colorDisabled),
         const SizedBox(width: 10),
-        Text(formatDuration(context, duration!), style: textStyle),
+        Text(formatDuration(duration!), style: textStyle),
       ]);
     }
 

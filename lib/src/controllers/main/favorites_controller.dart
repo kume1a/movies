@@ -33,7 +33,6 @@ class FavoritesController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
-    // TODO: 12/09/2021 add movie group and movie when added from somewhere else
     final FavoritesPageState favoritesPageState = await _preferencesHelper.readFavoritesPageState();
     switch (favoritesPageState) {
       case FavoritesPageState.seeAll:

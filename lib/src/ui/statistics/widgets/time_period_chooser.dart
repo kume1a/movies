@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/statistics/statistics_controller.dart';
+import '../../../controllers/main/statistics_controller.dart';
 import '../../../core/enums/time_period.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class TimePeriodChooser extends GetView<StatisticsController> {
@@ -11,8 +11,6 @@ class TimePeriodChooser extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     final ButtonStyle activeButtonStyle = ButtonStyle(
       backgroundColor: MaterialStateProperty.all(colorAccent),
       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
@@ -35,7 +33,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.year),
                 style: controller.timePeriod.value == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
-                child: Text(appLocalizations?.statisticsOptionYear ?? ''),
+                child: Text(trStatisticsOptionYear.tr),
               ),
             ),
           ),
@@ -45,7 +43,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.month),
                 style: controller.timePeriod.value == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
-                child: Text(appLocalizations?.statisticsOptionMonth ?? ''),
+                child: Text(trStatisticsOptionMonth.tr),
               ),
             ),
           ),
@@ -55,7 +53,7 @@ class TimePeriodChooser extends GetView<StatisticsController> {
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.week),
                 style: controller.timePeriod.value == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
-                child: Text(appLocalizations?.statisticsOptionWeek ?? ''),
+                child: Text(trStatisticsOptionWeek.tr),
               ),
             ),
           ),

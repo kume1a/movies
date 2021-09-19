@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../core/enums/supported_locale.dart';
+import '../../core/helpers/supported_locale_helper.dart';
 import '../../data/local/preferences/settings_helper.dart';
 
 class SettingsController extends GetxController {
@@ -69,7 +70,9 @@ class SettingsController extends GetxController {
 
   Future<void> onClearCachePressed() async => _settingsHelper.clearCache();
 
-  void onLocaleChanged(SupportedLocale selectedLocale) {
-    // TODO: 12/09/2021 finish method when l10n is implemented
+  Future<void> onLocaleChanged(SupportedLocale selectedLocale) async {
+    supportedLocale.value = selectedLocale;
+    Get.updateLocale(SupportedLocaleHelper.getLocale(selectedLocale));
+    await _settingsHelper.saveLocale(selectedLocale);
   }
 }

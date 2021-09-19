@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/details/movie_group_selector_controller.dart';
 import '../../../data/model/models/movie_groups/movie_group.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/routes/screens_navigator.dart';
 
 Future<MovieGroup?> showMovieGroupSelector(BuildContext context, int movieId) async {
@@ -21,8 +21,6 @@ class _MovieGroupSelector extends GetWidget<MovieGroupSelectorController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * .7,
@@ -41,7 +39,7 @@ class _MovieGroupSelector extends GetWidget<MovieGroupSelectorController> {
                 () => ListTile(
                   onTap: () => ScreensNavigator.pop(result: movieGroup),
                   title: Text(
-                    movieGroup.groupId != null ? movieGroup.name : appLocalizations?.detailsOptionNoGroup ?? '',
+                    movieGroup.groupId != null ? movieGroup.name : trDetailsOptionNoGroup.tr,
                   ),
                   tileColor: movieGroup == controller.selectedMovieGroup.value ? Colors.white12 : null,
                 ),

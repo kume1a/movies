@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/statistics/statistics_controller.dart';
+import '../../../controllers/main/statistics_controller.dart';
 
 class SettingsButton extends GetView<StatisticsController> {
   const SettingsButton({Key? key}) : super(key: key);

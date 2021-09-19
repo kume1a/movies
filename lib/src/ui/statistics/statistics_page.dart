@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../controllers/statistics/statistics_controller.dart';
+import '../../controllers/main/statistics_controller.dart';
 import 'widgets/widgets.dart';
 
 class StatisticsPage extends GetView<StatisticsController> {

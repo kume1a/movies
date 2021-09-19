@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/details/details_controller.dart';
 import '../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movie_position.dart';
+import '../../l10n/translation_keys.dart';
 import '../core/routes/screens_navigator.dart';
 import '../core/values/colors.dart';
 import '../core/values/text_styles.dart';
@@ -19,8 +19,6 @@ class DetailsPage extends GetView<DetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     final double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -39,7 +37,7 @@ class DetailsPage extends GetView<DetailsController> {
                 ),
                 backgroundColor: colorAccent,
                 icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
-                label: Text(appLocalizations?.detailsButtonContinue ?? '', style: prB15),
+                label: Text(trDetailsButtonContinue.tr, style: prB15),
               )
             : const SizedBox.shrink();
 
@@ -65,7 +63,7 @@ class DetailsPage extends GetView<DetailsController> {
                   Obx(
                     () => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(controller.movie.value?.getName(context) ?? '', style: prB32),
+                      child: Text(controller.movie.value?.getName() ?? '', style: prB32),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -84,7 +82,7 @@ class DetailsPage extends GetView<DetailsController> {
                   const SizedBox(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Obx(() => Text(controller.movie.value?.getPlot(context) ?? '', style: pr15)),
+                    child: Obx(() => Text(controller.movie.value?.getPlot() ?? '', style: pr15)),
                   ),
                   const SizedBox(height: 32),
                   const Padding(

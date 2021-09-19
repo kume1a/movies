@@ -37,8 +37,8 @@ class MovieList extends GetView<SearchController> {
       onTap: () => controller.onSearchResultSelected(searchResult),
       child: MovieItem(
         imageUrl: searchResult.image,
-        name: searchResult.getName(context),
-        plot: searchResult.getDescription(context),
+        name: searchResult.getName(),
+        plot: searchResult.getDescription(),
       ),
     );
   }

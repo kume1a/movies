@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/main/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
@@ -44,9 +44,9 @@ class _Item extends GetView<HomeController> {
       onTap: () => controller.onMoviePressed(movie),
       child: MovieItem(
         imageUrl: movie.poster,
-        name: movie.getName(context),
+        name: movie.getName(),
         duration: movie.duration,
-        plot: movie.getPlot(context),
+        plot: movie.getPlot(),
         rating: movie.imdbRating,
         voterCount: movie.voterCount,
         releaseYear: movie.year,

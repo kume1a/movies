@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
@@ -9,6 +9,7 @@ import '../../../../core/enums/language.dart';
 import '../../../../core/enums/quality.dart';
 import '../../../../core/helpers/language_helper.dart';
 import '../../../../core/helpers/quality_helper.dart';
+import '../../../../l10n/translation_keys.dart';
 import '../../../core/formatters.dart';
 import '../../../core/routes/screens_navigator.dart';
 import '../../../core/values/text_styles.dart';
@@ -415,7 +416,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
                 items: widget.languages,
                 selected: _language ?? widget.selectedLanguage,
                 nameMapper: (Language language) =>
-                    LanguageHelper.convertToString(AppLocalizations.of(context), language),
+                    LanguageHelper.convertToString(language),
               ),
             );
 
@@ -453,7 +454,7 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
               builder: (BuildContext context) => _BottomSheetDialog<Quality>(
                 items: widget.qualities,
                 selected: _quality ?? widget.selectedQuality,
-                nameMapper: (Quality quality) => QualityHelper.convertToString(AppLocalizations.of(context), quality),
+                nameMapper: (Quality quality) => QualityHelper.convertToString(quality),
               ),
             );
 
@@ -655,8 +656,6 @@ class _SettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return ListView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
@@ -668,15 +667,15 @@ class _SettingsDialog extends StatelessWidget {
         String name;
         switch (setting) {
           case _Setting.language:
-            name = appLocalizations?.streamOptionLanguage ?? '';
+            name = trStreamOptionLanguage.tr;
             icon = Icons.language;
             break;
           case _Setting.playbackSpeed:
-            name = appLocalizations?.streamOptionSpeed ?? '';
+            name = trStreamOptionSpeed.tr;
             icon = Icons.speed;
             break;
           case _Setting.quality:
-            name = appLocalizations?.streamOptionQuality ?? '';
+            name = trStreamOptionQuality.tr;
             icon = Icons.high_quality;
             break;
         }

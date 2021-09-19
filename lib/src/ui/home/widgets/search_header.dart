@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/main/home_controller.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class SearchHeader extends GetView<HomeController> {
@@ -10,7 +10,6 @@ class SearchHeader extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
     return Padding(
@@ -24,7 +23,7 @@ class SearchHeader extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                appLocalizations?.homeHeaderSearch ?? '',
+                trHomeHeaderSearch.tr,
                 style: theme.textTheme.headline6?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),
               ),
               const Divider(color: colorTextSecondary)

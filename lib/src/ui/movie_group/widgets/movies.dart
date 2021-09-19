@@ -32,9 +32,9 @@ class Movies extends GetView<MovieGroupController> {
               onTap: () => ScreensNavigator.pushDetailsPage(movie.movieId),
               child: MovieItem(
                 imageUrl: movie.poster,
-                name: movie.getName(context),
+                name: movie.getName(),
                 duration: movie.duration,
-                plot: movie.getPlot(context),
+                plot: movie.getPlot(),
                 rating: movie.imdbRating,
                 voterCount: movie.voterCount,
                 releaseYear: movie.year,

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 
+import '../../../l10n/translation_keys.dart';
 import '../routes/screens_navigator.dart';
 
 class ClearFavoritesResult {
@@ -32,16 +33,14 @@ class _ClearFavoritesDialog extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     final ValueNotifier<bool> isChecked = useState(false);
 
     return AlertDialog(
-      title: Text(appLocalizations?.settingsClearFavoritesDialogHeader ?? ''),
+      title: Text(trSettingsClearFavoritesDialogHeader.tr),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(appLocalizations?.settingsClearFavoritesDialogContent ?? ''),
+          Text(trSettingsClearFavoritesDialogContent.tr),
           const SizedBox(height: 16),
           Row(
             children: <Widget>[
@@ -54,7 +53,7 @@ class _ClearFavoritesDialog extends HookWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Text(appLocalizations?.settingsClearFavoritesDialogClearGroups ?? ''),
+              Text(trSettingsClearFavoritesDialogClearGroups.tr),
             ],
           )
         ],
@@ -62,12 +61,12 @@ class _ClearFavoritesDialog extends HookWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => ScreensNavigator.pop(result: ClearFavoritesResult(didConfirm: false)),
-          child: Text(appLocalizations?.cancel ?? ''),
+          child: Text(trCommonCancel.tr),
         ),
         TextButton(
           onPressed: () =>
               ScreensNavigator.pop(result: ClearFavoritesResult(didConfirm: true, clearMovieGroups: isChecked.value)),
-          child: Text(appLocalizations?.clear ?? ''),
+          child: Text(trCommonClear.tr),
         ),
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

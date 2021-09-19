@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/favorites/favorites_controller.dart';
+import '../../controllers/main/favorites_controller.dart';
 import '../../core/enums/favorites_page_state.dart';
 import 'widgets/widgets.dart';
 

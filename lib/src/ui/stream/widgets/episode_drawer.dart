@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/stream/stream_controller.dart';
@@ -10,6 +9,7 @@ import '../../../data/model/models/movies/movies.dart';
 import '../../../data/model/models/seasons/episode.dart';
 import '../../../data/model/models/seasons/season.dart';
 import '../../../data/model/models/seasons/season_files.dart';
+import '../../../l10n/parameterized_translations.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/movie_item.dart';
 import '../../core/widgets/safe_image.dart';
@@ -261,8 +261,6 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(
       () {
         final SeasonFiles? seasonFiles = streamController.seasonFiles.value;
@@ -271,7 +269,6 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 
         return seasonFiles != null
             ? _buildContent(
-                appLocalizations,
                 seasonFiles: seasonFiles,
                 episode: episode,
                 episodeSeason: streamController.episodeSeason.value,
@@ -283,8 +280,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildContent(
-    AppLocalizations? appLocalizations, {
+  Widget _buildContent({
     required SeasonFiles seasonFiles,
     required int episode,
     required int episodeSeason,
@@ -297,13 +293,11 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
         Container(
           color: backgroundColor,
           child: _buildSeasonList(
-            appLocalizations,
             seasonNumbers: seasons,
             selectedSeason: season,
           ),
         ),
         _buildEpisodeList(
-          appLocalizations,
           seasonFiles: seasonFiles,
           episode: episode,
           episodeSeason: episodeSeason,
@@ -314,7 +308,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }
 
   Widget _buildSeasonList(
-    AppLocalizations? appLocalizations, {
+     {
     required List<int> seasonNumbers,
     required int selectedSeason,
   }) {
@@ -345,15 +339,14 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           height: 50,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(appLocalizations?.streamSeason(season) ?? '', style: prB19),
+            child: Text(ParameterizedTranslations.streamSeason(season), style: prB19),
           ),
         );
       },
     );
   }
 
-  Widget _buildEpisodeList(
-    AppLocalizations? appLocalizations, {
+  Widget _buildEpisodeList({
     required SeasonFiles seasonFiles,
     required int episode,
     required int episodeSeason,
@@ -378,7 +371,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
             children: <Widget>[
               const Icon(Icons.chevron_left),
               const SizedBox(width: 6),
-              Text(appLocalizations?.streamSeason(season) ?? '', style: prSB18),
+              Text(ParameterizedTranslations.streamSeason(season), style: prSB18),
             ],
           ),
         ),
@@ -387,7 +380,6 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
             itemBuilder: (BuildContext context, int index) {
               return _buildItem(
                 context,
-                appLocalizations,
                 index: index,
                 episode: seasonFiles.data[index],
                 isSelected: episode == index + 1 && episodeSeason == seasonFiles.season,
@@ -402,7 +394,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
 
   Widget _buildItem(
     BuildContext context,
-    AppLocalizations? appLocalizations, {
+    {
     required int index,
     required Episode episode,
     required bool isSelected,
@@ -425,7 +417,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(appLocalizations?.streamEp(episode.episode) ?? ''),
+                  Text(ParameterizedTranslations.streamEp(episode.episode)),
                   const SizedBox(height: 12),
                   Text(
                     episode.title,
@@ -495,7 +487,7 @@ class DrawerRecommendedList extends StatelessWidget {
             SizedBox(
               width: imageWidth,
               child: Text(
-                movie.getName(context),
+                movie.getName(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: prSB18,

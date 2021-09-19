@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/details/details_controller.dart';
@@ -12,8 +11,6 @@ class GenreList extends GetView<DetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return SizedBox(
       height: 34,
       child: Obx(
@@ -34,7 +31,7 @@ class GenreList extends GetView<DetailsController> {
                 ),
                 child: Center(
                   child: Text(
-                    MovieGenreHelper.convertToString(appLocalizations, genres[index]),
+                    MovieGenreHelper.convertToString(genres[index]),
                     style: const TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),

@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/statistics/statistics_controller.dart';
+import '../../../controllers/main/statistics_controller.dart';
 import '../../../core/enums/movie_genre.dart';
 import '../../../core/helpers/movie_genre_helper.dart';
+import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class ChartCategories extends GetView<StatisticsController> {
@@ -14,8 +14,6 @@ class ChartCategories extends GetView<StatisticsController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
-
     return Obx(() {
       if (controller.genreToPercentage.isEmpty) return const SizedBox.shrink();
 
@@ -61,9 +59,7 @@ class ChartCategories extends GetView<StatisticsController> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          e.key != null
-                              ? MovieGenreHelper.convertToString(appLocalizations, e.key!)
-                              : appLocalizations?.other ?? '',
+                          e.key != null ? MovieGenreHelper.convertToString(e.key!) : trCommonOther.tr,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

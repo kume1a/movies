@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/home/home_controller.dart';
+import '../../controllers/main/home_controller.dart';
+import '../../l10n/translation_keys.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/scroll_up_indicator.dart';
 import 'widgets/widgets.dart';
@@ -12,7 +12,6 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations? appLocalizations = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
     return RefreshIndicator(
@@ -31,13 +30,13 @@ class HomePage extends GetView<HomeController> {
                   const PopularMoviesList(),
                   Obx(() {
                     return controller.savedMovies.isNotEmpty == true
-                        ? _buildHeader(theme, appLocalizations?.homeHeaderWatchLater ?? '')
+                        ? _buildHeader(theme, trHomeHeaderWatchLater.tr)
                         : const SizedBox.shrink();
                   }),
                   const ContinueWatchingList(),
-                  _buildHeader(theme, appLocalizations?.homeHeaderTopSelection ?? ''),
+                  _buildHeader(theme, trHomeHeaderTopSelection.tr),
                   const TopSelectionList(),
-                  _buildHeader(theme, appLocalizations?.homeHeaderMovies ?? ''),
+                  _buildHeader(theme, trHomeHeaderMovies.tr),
                   const GenreChooser(),
                   const SizedBox(height: 8),
                 ],

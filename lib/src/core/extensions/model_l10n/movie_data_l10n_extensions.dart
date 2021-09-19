@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
-
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../enums/supported_locale.dart';
-import '../build_context_extensions.dart';
+import 'core/supported_locale_provider.dart';
 
 extension MovieDataL10NX on MovieData {
-  String getName(BuildContext context) {
-    final SupportedLocale locale = context.locale;
-    switch (locale) {
+  String getName() {
+    switch (SupportedLocaleProvider.locale) {
       case SupportedLocale.en:
         return nameEn.isNotEmpty ? nameEn : nameKa;
       case SupportedLocale.ka:
@@ -15,9 +12,8 @@ extension MovieDataL10NX on MovieData {
     }
   }
 
-  String getPlot(BuildContext context) {
-    final SupportedLocale locale = context.locale;
-    switch (locale) {
+  String getPlot() {
+    switch (SupportedLocaleProvider.locale) {
       case SupportedLocale.en:
         return plotEn.isNotEmpty ? plotEn : plotKa;
       case SupportedLocale.ka:

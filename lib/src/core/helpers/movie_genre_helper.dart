@@ -1,5 +1,6 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
+import '../../l10n/translation_keys.dart';
 import '../enums/movie_genre.dart';
 
 class MovieGenreHelper {
@@ -37,62 +38,62 @@ class MovieGenreHelper {
     }[genre];
   }
 
-  static String convertToString(AppLocalizations? appLocalizations, MovieGenre movieGenre) {
+  static String convertToString(MovieGenre movieGenre) {
     switch (movieGenre) {
       case MovieGenre.sciFi:
-        return appLocalizations?.genreSciFi ?? '';
+        return trGenreSciFi.tr;
       case MovieGenre.comedy:
-        return appLocalizations?.genreComedy ?? '';
+        return trGenreComedy.tr;
       case MovieGenre.family:
-        return appLocalizations?.genreFamily ?? '';
+        return trGenreFamily.tr;
       case MovieGenre.adventure:
-        return appLocalizations?.genreAdventure ?? '';
+        return trGenreAdventure.tr;
       case MovieGenre.drama:
-        return appLocalizations?.genreDrama ?? '';
+        return trGenreDrama.tr;
       case MovieGenre.thriller:
-        return appLocalizations?.genreThriller ?? '';
+        return trGenreThriller.tr;
       case MovieGenre.mystery:
-        return appLocalizations?.genreMystery ?? '';
+        return trGenreMystery.tr;
       case MovieGenre.tvSeries:
-        return appLocalizations?.genreTvSeries ?? '';
+        return trGenreTvSeries.tr;
       case MovieGenre.animation:
-        return appLocalizations?.genreAnimation ?? '';
+        return trGenreAnimation.tr;
       case MovieGenre.action:
-        return appLocalizations?.genreAction ?? '';
+        return trGenreAction.tr;
       case MovieGenre.fantasy:
-        return appLocalizations?.genreFantasy ?? '';
+        return trGenreFantasy.tr;
       case MovieGenre.romance:
-        return appLocalizations?.genreRomance ?? '';
+        return trGenreRomance.tr;
       case MovieGenre.horror:
-        return appLocalizations?.genreHorror ?? '';
+        return trGenreHorror.tr;
       case MovieGenre.crime:
-        return appLocalizations?.genreCrime ?? '';
+        return trGenreCrime.tr;
       case MovieGenre.realityTV:
-        return appLocalizations?.genreRealityTV ?? '';
+        return trGenreRealityTV.tr;
       case MovieGenre.documentary:
-        return appLocalizations?.genreDocumentary ?? '';
+        return trGenreDocumentary.tr;
       case MovieGenre.sport:
-        return appLocalizations?.genreSport ?? '';
+        return trGenreSport.tr;
       case MovieGenre.short:
-        return appLocalizations?.genreShort ?? '';
+        return trGenreShort.tr;
       case MovieGenre.anime:
-        return appLocalizations?.genreAnime ?? '';
+        return trGenreAnime.tr;
       case MovieGenre.history:
-        return appLocalizations?.genreHistory ?? '';
+        return trGenreHistory.tr;
       case MovieGenre.musical:
-        return appLocalizations?.genreMusical ?? '';
+        return trGenreMusical.tr;
       case MovieGenre.western:
-        return appLocalizations?.genreWestern ?? '';
+        return trGenreWestern.tr;
       case MovieGenre.biography:
-        return appLocalizations?.genreBiography ?? '';
+        return trGenreBiography.tr;
       case MovieGenre.music:
-        return appLocalizations?.genreMusic ?? '';
+        return trGenreMusic.tr;
       case MovieGenre.war:
-        return appLocalizations?.genreWar ?? '';
+        return trGenreWar.tr;
       case MovieGenre.adult:
-        return appLocalizations?.genreAdult ?? '';
+        return trGenreAdult.tr;
       case MovieGenre.auto:
-        return appLocalizations?.genreAuto ?? '';
+        return trGenreAuto.tr;
     }
   }
 }
