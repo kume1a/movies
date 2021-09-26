@@ -11,11 +11,11 @@ import '../../core/formatters.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/safe_image.dart';
 
-class EpisodeList extends GetView<StreamController> {
-  static const double imageWidth = 150;
-  static const double imageHeight = imageWidth / 3 * 2;
-  static const double radius = 8;
+const double _imageWidth = 150;
+const double _imageHeight = _imageWidth / 3 * 2;
+const double _radius = 8;
 
+class EpisodeList extends GetView<StreamController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -26,11 +26,12 @@ class EpisodeList extends GetView<StreamController> {
               child: ListView.builder(
                 itemCount: seasonFiles.data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return _buildItem(
-                    context,
-                    episode: seasonFiles.data[index],
-                    isSelected:
-                        controller.episode.value == index + 1 && controller.episodeSeason.value == seasonFiles.season,
+                  return Obx(
+                    () => _EpisodeItem(
+                      episode: seasonFiles.data[index],
+                      isSelected:
+                          controller.episode.value == index + 1 && controller.episodeSeason.value == seasonFiles.season,
+                    ),
                   );
                 },
               ),
@@ -38,12 +39,20 @@ class EpisodeList extends GetView<StreamController> {
           : const SizedBox.shrink();
     });
   }
+}
 
-  Widget _buildItem(
-    BuildContext context, {
-    required Episode episode,
-    required bool isSelected,
-  }) {
+class _EpisodeItem extends GetView<StreamController> {
+  const _EpisodeItem({
+    Key? key,
+    required this.episode,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final Episode episode;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
     final int duration = episode.episodes.values.first.first.duration;
 
     return GestureDetector(
@@ -55,9 +64,9 @@ class EpisodeList extends GetView<StreamController> {
           children: <Widget>[
             SafeImage(
               imageUrl: episode.poster,
-              height: imageHeight,
-              width: imageWidth,
-              radius: radius,
+              height: _imageHeight,
+              width: _imageWidth,
+              radius: _radius,
             ),
             Expanded(
               child: Padding(
