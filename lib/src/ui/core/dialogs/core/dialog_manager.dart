@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
@@ -8,6 +9,7 @@ import '../confirmation_dialog.dart';
 import '../dtap_to_seek_value_chooser_dialog.dart';
 import '../language_selector_dialog.dart';
 import '../save_movie_interval_dialog.dart';
+import '../stream_settings_dialog.dart';
 
 @lazySingleton
 class DialogManager {
@@ -29,6 +31,10 @@ class DialogManager {
     return didConfirm ?? false;
   }
 
+  Future<void> showStreamSettingsDialog() async {
+    _showSlideInDialog(child: const StreamSettingsDialog());
+  }
+
   Future<ClearFavoritesResult?> showClearFavoritesDialog() async =>
       Get.dialog<ClearFavoritesResult>(const ClearFavoritesDialog());
 
@@ -44,4 +50,35 @@ class DialogManager {
     required int currentValue,
   }) async =>
       Get.dialog(SaveMovieIntervalChooserDialog(currentValue: currentValue));
+
+  Future<T?> _showSlideInDialog<T extends Object?>({
+    required Widget child,
+  }) async {
+    Get.generalDialog(
+      barrierLabel: '',
+      barrierDismissible: true,
+      transitionDuration: const Duration(milliseconds: 150),
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+      ) {
+        return child;
+      },
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+      ) {
+        final Offset initialOffset =
+            context.orientation == Orientation.portrait ? const Offset(0, 1) : const Offset(1, 0);
+
+        return SlideTransition(
+          position: Tween<Offset>(begin: initialOffset, end: Offset.zero).animate(animation),
+          child: child,
+        );
+      },
+    );
+  }
 }

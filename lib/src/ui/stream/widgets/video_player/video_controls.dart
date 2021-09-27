@@ -5,13 +5,10 @@ import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../controllers/stream/player_controller.dart';
 import '../../../../core/enums/language.dart';
 import '../../../../core/enums/quality.dart';
-import '../../../../core/helpers/language_helper.dart';
-import '../../../../core/helpers/quality_helper.dart';
-import '../../../../l10n/translation_keys.dart';
 import '../../../core/formatters.dart';
-import '../../../core/routes/screens_navigator.dart';
 import '../../../core/values/text_styles.dart';
 import 'player.dart';
 import 'progress_bar.dart';
@@ -63,9 +60,6 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
 
   late RiveAnimationController<RuntimeArtboard> _forwardController;
   late RiveAnimationController<RuntimeArtboard> _rewindController;
-
-  Language? _language;
-  Quality? _quality;
 
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
@@ -383,72 +377,15 @@ class _VideoControlsState extends State<VideoControls> with SingleTickerProvider
       onPressed: () async {
         _hideTimer?.cancel();
 
-        final _Setting? settingType = await showModalBottomSheet<_Setting>(
-          context: context,
-          isScrollControlled: true,
-          useRootNavigator: true,
-          builder: (BuildContext context) => _SettingsDialog(),
-        );
-
-        switch (settingType) {
-          case _Setting.language:
-            _language = await showModalBottomSheet<Language>(
-              context: context,
-              isScrollControlled: true,
-              useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<Language>(
-                items: widget.languages,
-                selected: _language ?? widget.selectedLanguage,
-                nameMapper: (Language language) =>
-                    LanguageHelper.convertToString(language),
-              ),
-            );
-
-            if (_language != null) {
-              widget.onLanguageChanged.call(_language!);
-            }
-            break;
-
-          case _Setting.playbackSpeed:
-            final double? playbackSpeed = await showModalBottomSheet<double>(
-              context: context,
-              isScrollControlled: true,
-              useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<double>(
-                items: _chewieController?.playbackSpeeds ?? List<double>.empty(),
-                selected: _latestValue?.playbackSpeed ?? 1,
-                nameMapper: (double t) => t.toString(),
-              ),
-            );
-
-            if (playbackSpeed != null) {
-              _controller?.setPlaybackSpeed(playbackSpeed);
-            }
-
-            if (_latestValue?.isPlaying == true) {
-              _startHideTimer();
-            }
-            break;
-
-          case _Setting.quality:
-            _quality = await showModalBottomSheet<Quality>(
-              context: context,
-              isScrollControlled: true,
-              useRootNavigator: true,
-              builder: (BuildContext context) => _BottomSheetDialog<Quality>(
-                items: widget.qualities,
-                selected: _quality ?? widget.selectedQuality,
-                nameMapper: (Quality quality) => QualityHelper.convertToString(quality),
-              ),
-            );
-
-            if (_quality != null) {
-              widget.onQualityChanged.call(_quality!);
-            }
-            break;
-          default:
-            break;
-        }
+        Get.find<PlayerController>().onSettingsPressed();
+        return;
+        // if (playbackSpeed != null) {
+        //   _controller?.setPlaybackSpeed(playbackSpeed);
+        // }
+        //
+        // if (_latestValue?.isPlaying == true) {
+        //   _startHideTimer();
+        // }
       },
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -604,89 +541,4 @@ class ForwardClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
-enum _Setting { language, playbackSpeed, quality }
-
-class _SettingsDialog extends StatelessWidget {
-  static const List<_Setting> settings = _Setting.values;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ScrollPhysics(),
-      itemCount: settings.length,
-      itemBuilder: (BuildContext context, int index) {
-        final _Setting setting = settings[index];
-
-        IconData icon;
-        String name;
-        switch (setting) {
-          case _Setting.language:
-            name = trStreamOptionLanguage.tr;
-            icon = Icons.language;
-            break;
-          case _Setting.playbackSpeed:
-            name = trStreamOptionSpeed.tr;
-            icon = Icons.speed;
-            break;
-          case _Setting.quality:
-            name = trStreamOptionQuality.tr;
-            icon = Icons.high_quality;
-            break;
-        }
-
-        return ListTile(
-          dense: true,
-          title: Text(name),
-          leading: Icon(icon, color: Colors.white),
-          onTap: () => ScreensNavigator.pop(result: setting),
-        );
-      },
-    );
-  }
-}
-
-class _BottomSheetDialog<T> extends StatelessWidget {
-  const _BottomSheetDialog({
-    required this.items,
-    required this.selected,
-    this.nameMapper,
-  });
-
-  final List<T> items;
-  final T selected;
-  final String Function(T t)? nameMapper;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        final T item = items[index];
-        return ListTile(
-          dense: true,
-          title: Row(
-            children: <Widget>[
-              if (item == selected)
-                Icon(
-                  Icons.check,
-                  size: 20,
-                  color: Theme.of(context).colorScheme.secondary,
-                )
-              else
-                Container(width: 20),
-              const SizedBox(width: 16),
-              Text(nameMapper != null ? nameMapper!.call(item) : item.toString()),
-            ],
-          ),
-          selected: item == selected,
-          onTap: () => ScreensNavigator.pop(result: item),
-        );
-      },
-      itemCount: items.length,
-    );
-  }
 }

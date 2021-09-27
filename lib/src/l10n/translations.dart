@@ -165,9 +165,13 @@ class Translations extends getx.Translations {
 
         // stream
         trStreamHeaderRecommended: 'Recommended',
-        trStreamOptionLanguage: 'Language',
-        trStreamOptionSpeed: 'Speed',
-        trStreamOptionQuality: 'Quality',
+        trStreamSettingsHeaderQuality: 'Quality',
+        trStreamSettingsHeaderLanguage: 'Language',
+        trStreamSettingsHeaderPlaybackSpeed: 'Playback speed',
+        trStreamSettingsHeaderZoom: 'Zoom',
+        trStreamSettingsHeaderSubtitles: 'Subtitles',
+        trStreamSettingsHeaderSubtitlesSize: 'Subtitle text size',
+        trStreamSettingsHeaderSubtitlesOffset: 'Subtitle offset',
         ptrStreamSeason: 'Season @season',
         ptrStreamEpisode: 'Episode @episode',
         ptrStreamEp: 'Ep @episode',
@@ -331,9 +335,13 @@ class Translations extends getx.Translations {
 
         // stream
         trStreamHeaderRecommended: 'რეკომენდირებული',
-        trStreamOptionLanguage: 'ენა',
-        trStreamOptionSpeed: 'სიჩქარე',
-        trStreamOptionQuality: 'ხარისხი',
+        trStreamSettingsHeaderQuality: 'ხარისხი',
+        trStreamSettingsHeaderLanguage: 'ენა',
+        trStreamSettingsHeaderPlaybackSpeed: 'დაკვრის სიჩქარე',
+        trStreamSettingsHeaderZoom: 'ზომა',
+        trStreamSettingsHeaderSubtitles: 'სუბტიტრები',
+        trStreamSettingsHeaderSubtitlesSize: 'სუბტიტრების ზომა',
+        trStreamSettingsHeaderSubtitlesOffset: 'სუბტიტრების გადაადგილება',
         ptrStreamSeason: 'სეზონი @season',
         ptrStreamEpisode: 'ეპიზოდი @episode',
         ptrStreamEp: 'ეპ @episode',

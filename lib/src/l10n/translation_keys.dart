@@ -156,9 +156,13 @@ const String trDetailsOptionNoGroup = 'trDetailsOptionNoGroup';
 
 // stream
 const String trStreamHeaderRecommended = 'trSeamHeaderRecommended';
-const String trStreamOptionLanguage = 'trSeamOptionLanguage';
-const String trStreamOptionSpeed = 'trSeamOptionSpeed';
-const String trStreamOptionQuality = 'trSeamOptionQuality';
+const String trStreamSettingsHeaderQuality = 'trStreamSettingsHeaderQuality';
+const String trStreamSettingsHeaderLanguage = 'trStreamSettingsHeaderLanguage';
+const String trStreamSettingsHeaderPlaybackSpeed = 'trStreamSettingsHeaderPlaybackSpeed';
+const String trStreamSettingsHeaderZoom = 'trStreamSettingsHeaderZoom';
+const String trStreamSettingsHeaderSubtitles = 'trStreamSettingsHeaderSubtitles';
+const String trStreamSettingsHeaderSubtitlesSize = 'trStreamSettingsHeaderSubtitlesSize';
+const String trStreamSettingsHeaderSubtitlesOffset = 'trStreamSettingsHeaderSubtitlesOffset';
 const String ptrStreamSeason = 'ptrStreamSeason';
 const String ptrStreamEpisode = 'ptrStreamEpisode';
 const String ptrStreamEp = 'ptrStreamEp';

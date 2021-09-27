@@ -5,7 +5,6 @@ import '../../../controllers/main/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/movie_data.dart';
 import '../../../data/model/models/movies/movies.dart';
-import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 import '../../core/widgets/blank_container.dart';
 import '../../core/widgets/carousel.dart';
@@ -89,7 +88,6 @@ class _ItemBlank extends StatelessWidget {
     return const BlankContainer(
       width: _itemWidth,
       height: _itemHeight,
-      color: colorPreview,
       radius: _radius,
     );
   }
