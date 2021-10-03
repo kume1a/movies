@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../l10n/translation_keys.dart';
-import '../enums/language.dart';
+import '../../../l10n/translation_keys.dart';
+import '../../enums/language.dart';
 
 class LanguageHelper {
   LanguageHelper._();

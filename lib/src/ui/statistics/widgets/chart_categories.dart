@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/main/statistics_controller.dart';
 import '../../../core/enums/movie_genre.dart';
-import '../../../core/helpers/movie_genre_helper.dart';
+import '../../../core/helpers/enum_helpers/movie_genre_helper.dart';
 import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 

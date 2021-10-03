@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../core/enums/supported_locale.dart';
-import '../../core/helpers/supported_locale_helper.dart';
+import '../../core/helpers/enum_helpers/supported_locale_helper.dart';
 import '../../data/local/preferences/settings_helper.dart';
 import '../../l10n/translation_keys.dart';
 import '../../ui/core/dialogs/clear_favorites_dialog.dart';

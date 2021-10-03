@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../l10n/translation_keys.dart';
-import '../enums/quality.dart';
+import '../../../l10n/translation_keys.dart';
+import '../../enums/quality.dart';
 
 class QualityHelper {
   QualityHelper._();

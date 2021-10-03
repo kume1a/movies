@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/details/details_controller.dart';
 import '../../../core/enums/movie_genre.dart';
-import '../../../core/helpers/movie_genre_helper.dart';
+import '../../../core/helpers/enum_helpers/movie_genre_helper.dart';
 import '../../core/values/colors.dart';
 
 class GenreList extends GetView<DetailsController> {

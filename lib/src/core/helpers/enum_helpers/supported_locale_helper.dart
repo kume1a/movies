@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../l10n/translation_keys.dart';
-import '../enums/supported_locale.dart';
+import '../../../l10n/translation_keys.dart';
+import '../../enums/supported_locale.dart';
 
 class SupportedLocaleHelper {
   SupportedLocaleHelper._();

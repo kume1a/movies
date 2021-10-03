@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../l10n/translation_keys.dart';
-import '../enums/genre.dart';
+import '../../../l10n/translation_keys.dart';
+import '../../enums/genre.dart';
 
 class GenreHelper {
   GenreHelper._();

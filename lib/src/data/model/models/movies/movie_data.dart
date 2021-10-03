@@ -4,7 +4,7 @@ import '../../../../core/enums/image_size.dart';
 import '../../../../core/enums/language.dart';
 import '../../../../core/enums/movie_genre.dart';
 import '../../../../core/enums/resolution.dart';
-import '../../../../core/helpers/movie_genre_helper.dart';
+import '../../../../core/helpers/enum_helpers/movie_genre_helper.dart';
 import '../../schemas/core/type_mappers.dart';
 import '../../schemas/movie/genres_schema.dart';
 import '../../schemas/movie/languages_schema.dart';

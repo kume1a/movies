@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import '../../l10n/translation_keys.dart';
-import '../enums/movie_genre.dart';
+import '../../../l10n/translation_keys.dart';
+import '../../enums/movie_genre.dart';
 
 class MovieGenreHelper {
   MovieGenreHelper._();

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/main/home_controller.dart';
 import '../../../core/enums/genre.dart';
-import '../../../core/helpers/genre_helper.dart';
+import '../../../core/helpers/enum_helpers/genre_helper.dart';
 import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 
