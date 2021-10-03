@@ -11,9 +11,8 @@ import '../../../core/enums/quality.dart';
 import '../../../data/local/preferences/settings_helper.dart';
 import '../../../di/injection.dart';
 import '../../core/values/colors.dart';
-import '../../core/values/text_styles.dart';
 import 'video_player/player.dart';
-import 'video_player/video_controls.dart';
+import 'video_player/video_player_controls.dart';
 
 class VideoPlayer extends GetView<StreamController> {
   const VideoPlayer(this.id);
@@ -94,7 +93,6 @@ class _Mp4HandlerState extends State<Mp4Handler> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
     _initControllers();
 
     getIt<SettingsHelper>().getSaveMovieInterval().then((int value) {
@@ -129,30 +127,21 @@ class _Mp4HandlerState extends State<Mp4Handler> {
       autoPlay: widget.settings.autoPlayEnabled,
       startAt: widget.startPosition,
       allowFullScreen: false,
-      customControls: VideoControls(
-        doubleTapToSeekValue: widget.settings.doubleTapToSeekValue,
-        languages: widget.languages,
-        qualities: widget.qualities,
-        onLanguageChanged: (Language? value) => controller.onLanguageChanged(value ?? widget.selectedLanguage),
-        onQualityChanged: (Quality? value) => controller.onQualityChanged(value ?? widget.selectedQuality),
-        selectedQuality: widget.selectedQuality,
-        selectedLanguage: widget.selectedLanguage,
-      ),
-      errorBuilder: (BuildContext context, String errorMessage) {
-        return Center(
-          child: Text(
-            errorMessage,
-            style: pr,
-          ),
-        );
-      },
+      customControls: const VideoPlayerControls(),
+      // errorBuilder: (BuildContext context, String errorMessage) {
+      //   return Center(
+      //     child: Text(
+      //       errorMessage,
+      //       style: pr,
+      //     ),
+      //   );
+      // },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return _chewieController != null ? Chewie(controller: _chewieController!) : const SizedBox.shrink();
-  }
+  Widget build(BuildContext context) =>
+      _chewieController != null ? Chewie(controller: _chewieController!) : const SizedBox.shrink();
 
   @override
   void dispose() {

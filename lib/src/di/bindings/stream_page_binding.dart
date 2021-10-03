@@ -8,6 +8,6 @@ class StreamPageBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => StreamController(getIt(), getIt(), getIt(), getIt(), getIt()));
-    Get.lazyPut(() => PlayerController(getIt()));
+    Get.lazyPut(() => PlayerController(getIt(), getIt()));
   }
 }

@@ -150,8 +150,6 @@ class StreamController extends GetxController {
   Future<void> onEpisodeChanged(int episodeNumber) async => _fetchAndSetEpisode(episodeNumber);
 
   Future<void> onLanguageChanged(Language language) async {
-    String? videoSrc;
-
     if (seasonFiles.value != null) {
       final Episode? episode = seasonFiles.value!.data.isNotEmpty
           ? seasonFiles.value!.data.firstWhere(
@@ -160,10 +158,21 @@ class StreamController extends GetxController {
             )
           : null;
 
-      videoSrc = episode?.episodes[language]?.firstWhere((EpisodeFile element) => element.quality == quality.value).src;
+      final List<EpisodeFile>? selectedLanguageEpisodes = episode?.episodes[language];
+      final EpisodeFile? episodeFile =
+          selectedLanguageEpisodes?.firstWhereOrNull((EpisodeFile e) => e.quality == quality.value) ??
+              episode?.episodes[language]?.first;
+
+      if (episodeFile != null) {
+        videoSrc.value = episodeFile.src;
+      }
+
+      final List<Quality>? newQualities = selectedLanguageEpisodes?.map((EpisodeFile e) => e.quality).toList();
+      if (newQualities != null) {
+        availableQualities.value = newQualities;
+      }
     }
 
-    this.videoSrc.value = videoSrc;
     startPosition.value = currentPosition.value;
     this.language.value = language;
 
@@ -258,47 +267,39 @@ class StreamController extends GetxController {
   }
 
   Future<void> _fetchAndSetEpisode(int episodeNumber) async {
-    String? videoSrc;
-
-    Language selectedLanguage = language.value;
     List<Language> languages = List<Language>.of(availableLanguages);
-
-    Quality selectedQuality = quality.value;
     List<Quality> qualities = List<Quality>.of(availableQualities);
 
     if (seasonFiles.value != null) {
       final Episode? episode = seasonFiles.value!.data.isNotEmpty
           ? seasonFiles.value!.data.firstWhere(
-            (Episode element) => element.episode == episodeNumber,
-        orElse: () => seasonFiles.value!.data.first,
-      )
+              (Episode element) => element.episode == episodeNumber,
+              orElse: () => seasonFiles.value!.data.first,
+            )
           : null;
 
       final List<Language> episodeLanguages = episode?.episodes.keys.toList() ?? <Language>[];
       if (!const DeepCollectionEquality().equals(languages, episodeLanguages)) {
         languages = episodeLanguages;
         final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
-        selectedLanguage = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
+        language.value = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
 
         final List<Quality> episodeQualities =
-            episode?.episodes[selectedLanguage]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
+            episode?.episodes[language.value]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
 
         if (!const DeepCollectionEquality().equals(qualities, episodeQualities)) {
           qualities = episodeQualities;
           final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
-          selectedQuality = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
+          quality.value = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
         }
       }
 
-      videoSrc = episode?.episodes[selectedLanguage]?.firstWhere((EpisodeFile e) => e.quality == selectedQuality).src;
+      videoSrc.value = episode?.episodes[language.value]?.firstWhere((EpisodeFile e) => e.quality == quality.value).src;
     }
 
-    this.videoSrc.value = videoSrc;
     startPosition.value = firstEpisodePassed ? Duration.zero : startPosition.value;
     episode.value = episodeNumber;
-    quality.value = selectedQuality;
     episodeSeason.value = season.value;
-    language.value = selectedLanguage;
     availableLanguages.value = languages;
     availableQualities.value = qualities;
     firstEpisodePassed = true;

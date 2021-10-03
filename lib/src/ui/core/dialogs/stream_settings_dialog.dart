@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/stream/player_controller.dart';
 import '../../../controllers/stream/stream_controller.dart';
 import '../../../core/enums/language.dart';
 import '../../../core/enums/quality.dart';
@@ -92,8 +93,6 @@ class StreamSettingsDialog extends StatelessWidget {
 class _QualityTabs extends GetView<StreamController> {
   const _QualityTabs({Key? key}) : super(key: key);
 
-  static const List<Quality> qualities = Quality.values;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -102,18 +101,22 @@ class _QualityTabs extends GetView<StreamController> {
       child: Container(
         decoration: BoxDecoration(color: colorPrimaryLight, borderRadius: BorderRadius.circular(21)),
         child: Obx(
-            () => DefaultTabController(
-            initialIndex: qualities.indexOf(controller.quality.value),
-            length: qualities.length,
-            child: TabBar(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
-              isScrollable: true,
-              onTap: (int index) => controller.onQualityChanged(qualities[index]),
-              tabs: qualities.map((Quality e) => Tab(text: QualityHelper.convertToString(e))).toList(),
-            ),
-          ),
+          () {
+            final RxList<Quality> qualities = controller.availableQualities;
+
+            return DefaultTabController(
+              initialIndex: qualities.indexOf(controller.quality.value),
+              length: qualities.length,
+              child: TabBar(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
+                isScrollable: true,
+                onTap: (int index) => controller.onQualityChanged(qualities[index]),
+                tabs: qualities.map((Quality e) => Tab(text: QualityHelper.convertToString(e))).toList(),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -153,7 +156,7 @@ class _LanguageTabs extends GetView<StreamController> {
   }
 }
 
-class _PlaybackSpeedTabs extends GetView<StreamController> {
+class _PlaybackSpeedTabs extends GetView<PlayerController> {
   const _PlaybackSpeedTabs({Key? key}) : super(key: key);
 
   static const List<double> playbackSpeeds = <double>[.25, .5, 1, 1.25, 1.5, 1.75, 2];
@@ -165,16 +168,24 @@ class _PlaybackSpeedTabs extends GetView<StreamController> {
       color: colorPrimary,
       child: Container(
         decoration: BoxDecoration(color: colorPrimaryLight, borderRadius: BorderRadius.circular(21)),
-        child: DefaultTabController(
-          length: playbackSpeeds.length,
-          child: TabBar(
-            overlayColor: MaterialStateProperty.all(Colors.transparent),
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
-            isScrollable: true,
-            onTap: (int index) {},
-            tabs: playbackSpeeds.map((double e) => Tab(text: e.toStringAsFixed(2))).toList(),
-          ),
+        child: Obx(
+          () {
+            return DefaultTabController(
+            length: playbackSpeeds.length,
+            initialIndex: playbackSpeeds.indexOf(controller.playbackSpeed.value),
+            child: TabBar(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
+              isScrollable: true,
+              onTap: (int index) {
+                final double playbackSpeed = playbackSpeeds[index];
+                controller.onPlaybackSpeedChanged(playbackSpeed);
+              },
+              tabs: playbackSpeeds.map((double e) => Tab(text: e.toStringAsFixed(2))).toList(),
+            ),
+          );
+          },
         ),
       ),
     );
