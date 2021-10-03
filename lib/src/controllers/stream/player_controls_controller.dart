@@ -9,15 +9,18 @@ import 'package:wakelock/wakelock.dart';
 import '../../data/local/preferences/settings_helper.dart';
 import '../../ui/core/dialogs/core/dialog_manager.dart';
 import '../../ui/stream/widgets/video_player/player.dart';
+import 'subtitle_controller.dart';
 
-class PlayerController extends GetxController with SingleGetTickerProviderMixin {
-  PlayerController(
+class PlayerControlsController extends GetxController with SingleGetTickerProviderMixin {
+  PlayerControlsController(
     this._dialogManager,
     this._settingsHelper,
+    this._subtitlesControllerMiddleMan,
   );
 
   final DialogManager _dialogManager;
   final SettingsHelper _settingsHelper;
+  final SubtitlesControllerMiddleMan _subtitlesControllerMiddleMan;
 
   final Rxn<VideoPlayerValue> latestValue = Rxn<VideoPlayerValue>();
   final RxnDouble latestVolume = RxnDouble();
@@ -191,6 +194,10 @@ class PlayerController extends GetxController with SingleGetTickerProviderMixin 
       if (isWakelockEnabled) {
         Wakelock.disable();
       }
+    }
+
+    if (latestValue.value != null) {
+      _subtitlesControllerMiddleMan.updateSubtitle(latestValue.value!.position);
     }
   }
 

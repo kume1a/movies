@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../controllers/stream/player_controller.dart';
+import '../../../../controllers/stream/player_controls_controller.dart';
 import '../../../core/formatters.dart';
 import '../../../core/routes/screens_navigator.dart';
 import '../../../core/values/text_styles.dart';
@@ -21,7 +21,7 @@ class VideoPlayerControls extends StatefulWidget {
 class _VideoPlayerControlsState extends State<VideoPlayerControls> {
   static const double barHeight = 48;
 
-  PlayerController get controller => Get.find();
+  PlayerControlsController get controller => Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
             type: MaterialType.transparency,
             child: Row(
               children: <Widget>[
-                const SizedBox(width: 24),
+                const SizedBox(width: 6),
                 ClipOval(
                   child: IconButton(
                     onPressed: () => ScreensNavigator.pop(),
@@ -142,7 +142,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
                     icon: const Icon(Icons.settings, color: Colors.white),
                   ),
                 ),
-                const SizedBox(width: 24),
+                const SizedBox(width: 6),
               ],
             ),
           ),
@@ -230,13 +230,13 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
             duration: const Duration(milliseconds: 300),
             child: Row(
               children: <Widget>[
-                const SizedBox(width: 24),
+                const SizedBox(width: 18),
                 if (context.orientation == Orientation.landscape)
                   Obx(() => controller.isLive.value ? const Expanded(child: Text('LIVE')) : _buildPosition()),
                 _buildProgressBar(),
-                const SizedBox(width: 24),
+                const SizedBox(width: 18),
                 _buildMuteButton(),
-                const SizedBox(width: 24),
+                const SizedBox(width: 18),
               ],
             ),
           ),
@@ -257,7 +257,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
           latestValue != null && latestValue.duration != null ? latestValue.duration : Duration.zero;
 
       return Padding(
-        padding: const EdgeInsets.only(right: 24),
+        padding: const EdgeInsets.only(right: 18),
         child: Text(
           '${formatVideoDuration(position.inMilliseconds)} / ${formatVideoDuration(duration.inMilliseconds)}',
           style: pr14,

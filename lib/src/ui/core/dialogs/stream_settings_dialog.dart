@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/stream/player_controller.dart';
+import '../../../controllers/stream/player_controls_controller.dart';
 import '../../../controllers/stream/stream_controller.dart';
+import '../../../controllers/stream/subtitle_controller.dart';
 import '../../../core/enums/language.dart';
 import '../../../core/enums/quality.dart';
-import '../../../core/helpers/language_helper.dart';
-import '../../../core/helpers/quality_helper.dart';
+import '../../../core/helpers/enum_helpers/language_helper.dart';
+import '../../../core/helpers/enum_helpers/quality_helper.dart';
 import '../../../l10n/translation_keys.dart';
 import '../values/colors.dart';
 
@@ -77,12 +79,16 @@ class StreamSettingsDialog extends StatelessWidget {
             //   trStreamSettingsHeaderZoom.tr,
             //   style: headerTextStyle,
             // ),
-            // const SizedBox(height: _headerSpacing),
-            // const SizedBox(height: _spacing),
-            // Text(
-            //   trStreamSettingsHeaderSubtitles.tr,
-            //   style: headerTextStyle,
-            // ),
+            const SizedBox(height: _spacing),
+            Text(
+              trStreamSettingsHeaderSubtitles.tr,
+              style: headerTextStyle,
+            ),
+            const SizedBox(height: _headerSpacing),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: ButtonImportSubtitles(),
+            ),
           ],
         ),
       ),
@@ -156,7 +162,7 @@ class _LanguageTabs extends GetView<StreamController> {
   }
 }
 
-class _PlaybackSpeedTabs extends GetView<PlayerController> {
+class _PlaybackSpeedTabs extends GetView<PlayerControlsController> {
   const _PlaybackSpeedTabs({Key? key}) : super(key: key);
 
   static const List<double> playbackSpeeds = <double>[.25, .5, 1, 1.25, 1.5, 1.75, 2];
@@ -171,23 +177,42 @@ class _PlaybackSpeedTabs extends GetView<PlayerController> {
         child: Obx(
           () {
             return DefaultTabController(
-            length: playbackSpeeds.length,
-            initialIndex: playbackSpeeds.indexOf(controller.playbackSpeed.value),
-            child: TabBar(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
-              isScrollable: true,
-              onTap: (int index) {
-                final double playbackSpeed = playbackSpeeds[index];
-                controller.onPlaybackSpeedChanged(playbackSpeed);
-              },
-              tabs: playbackSpeeds.map((double e) => Tab(text: e.toStringAsFixed(2))).toList(),
-            ),
-          );
+              length: playbackSpeeds.length,
+              initialIndex: playbackSpeeds.indexOf(controller.playbackSpeed.value),
+              child: TabBar(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(borderRadius: BorderRadius.circular(21), color: colorAccent),
+                isScrollable: true,
+                onTap: (int index) {
+                  final double playbackSpeed = playbackSpeeds[index];
+                  controller.onPlaybackSpeedChanged(playbackSpeed);
+                },
+                tabs: playbackSpeeds.map((double e) => Tab(text: e.toStringAsFixed(2))).toList(),
+              ),
+            );
           },
         ),
       ),
+    );
+  }
+}
+
+class ButtonImportSubtitles extends GetView<SubtitlesController> {
+  const ButtonImportSubtitles({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: controller.onImportSubtitlesPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(colorAccent),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))),
+        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+      ),
+      label: Text(trStreamSettingsButtonImportSubtitles.tr),
+      icon: SvgPicture.asset('assets/subtitles.svg'),
     );
   }
 }

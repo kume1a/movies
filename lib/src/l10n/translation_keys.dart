@@ -161,6 +161,7 @@ const String trStreamSettingsHeaderLanguage = 'trStreamSettingsHeaderLanguage';
 const String trStreamSettingsHeaderPlaybackSpeed = 'trStreamSettingsHeaderPlaybackSpeed';
 const String trStreamSettingsHeaderZoom = 'trStreamSettingsHeaderZoom';
 const String trStreamSettingsHeaderSubtitles = 'trStreamSettingsHeaderSubtitles';
+const String trStreamSettingsButtonImportSubtitles = 'trStreamSettingsButtonImportSubtitles';
 const String trStreamSettingsHeaderSubtitlesSize = 'trStreamSettingsHeaderSubtitlesSize';
 const String trStreamSettingsHeaderSubtitlesOffset = 'trStreamSettingsHeaderSubtitlesOffset';
 const String ptrStreamSeason = 'ptrStreamSeason';

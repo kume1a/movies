@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../../core/enums/language.dart';
 import '../../core/enums/quality.dart';
@@ -20,6 +24,9 @@ import '../../data/model/models/watched_movies/watched_movie.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../ui/core/routes/route_args.dart';
 import '../../ui/core/values/default_settings.dart';
+import '../../ui/stream/widgets/video_player/player.dart';
+import '../../ui/stream/widgets/video_player/video_player_controls.dart';
+import 'subtitle_controller.dart';
 
 class StreamSettings {
   const StreamSettings({
@@ -65,6 +72,7 @@ class StreamController extends GetxController {
     this._watchedMovieDao,
     this._settingsHelper,
     this._preferencesHelper,
+    this._subtitlesControllerMiddleMan,
   );
 
   final MovieService _movieService;
@@ -72,12 +80,16 @@ class StreamController extends GetxController {
   final WatchedMovieDao _watchedMovieDao;
   final SettingsHelper _settingsHelper;
   final PreferencesHelper _preferencesHelper;
+  final SubtitlesControllerMiddleMan _subtitlesControllerMiddleMan;
+
+  final Rxn<ChewieController> chewieController = Rxn<ChewieController>();
+  VideoPlayerController? _videoPlayerController;
+  Timer? _ticker;
 
   final Rx<StreamSettings> settings = StreamSettings.initial().obs;
   final Rxn<MovieData> movie = Rxn<MovieData>();
   final Rxn<SeasonFiles> seasonFiles = Rxn<SeasonFiles>();
   final Rxn<Movies> related = Rxn<Movies>();
-  final RxnString videoSrc = RxnString();
   final Rx<Duration> startPosition = Duration.zero.obs;
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final RxInt season = 1.obs;
@@ -89,6 +101,7 @@ class StreamController extends GetxController {
   final RxList<Quality> availableQualities = <Quality>[].obs;
 
   bool firstEpisodePassed = false;
+  String? videoSrc;
 
   MovieData get getMovieOrCrash => movie.value!;
 
@@ -122,10 +135,32 @@ class StreamController extends GetxController {
     await _fetchAndSetSeason(args.season);
     await _fetchAndSetEpisode(args.episode);
     await _fetchAndSetRelated(args.movieId);
+
+    final int saveMovieInterval = await _settingsHelper.getSaveMovieInterval();
+
+    _ticker = Timer.periodic(
+      Duration(seconds: saveMovieInterval),
+      (Timer timer) async {
+        if (_videoPlayerController != null &&
+            chewieController.value != null &&
+            chewieController.value?.isPlaying == true) {
+          final Duration? position = await _videoPlayerController!.position;
+          if (position != null) {
+            _onPositionTick(position);
+          }
+        }
+      },
+    );
   }
 
   @override
   Future<void> onClose() async {
+    Wakelock.disable();
+
+    await _videoPlayerController?.dispose();
+    chewieController.value?.dispose();
+    _ticker?.cancel();
+
     await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
       DeviceOrientation.portraitUp,
     ]);
@@ -164,7 +199,7 @@ class StreamController extends GetxController {
               episode?.episodes[language]?.first;
 
       if (episodeFile != null) {
-        videoSrc.value = episodeFile.src;
+        videoSrc = episodeFile.src;
       }
 
       final List<Quality>? newQualities = selectedLanguageEpisodes?.map((EpisodeFile e) => e.quality).toList();
@@ -175,6 +210,8 @@ class StreamController extends GetxController {
 
     startPosition.value = currentPosition.value;
     this.language.value = language;
+
+    _initControllers();
 
     await _preferencesHelper.writePreferredLanguage(language);
   }
@@ -193,16 +230,18 @@ class StreamController extends GetxController {
       videoSrc = episode?.episodes[language.value]?.firstWhere((EpisodeFile element) => element.quality == quality).src;
     }
 
-    this.videoSrc.value = videoSrc;
+    this.videoSrc = videoSrc;
     startPosition.value = currentPosition.value;
     this.quality.value = quality;
+
+    _initControllers();
 
     await _preferencesHelper.writePreferredQuality(quality);
   }
 
   Future<void> onFetchRelatedRequested(int movieId) async => _fetchAndSetRelated(movieId);
 
-  Future<void> onPositionTick(Duration position) async {
+  Future<void> _onPositionTick(Duration position) async {
     if (settings.value.recordWatchHistoryEnabled && seasonFiles.value != null) {
       final MovieData movie = getMovieOrCrash;
       final int durationInMillis = seasonFiles.value!.data
@@ -294,7 +333,7 @@ class StreamController extends GetxController {
         }
       }
 
-      videoSrc.value = episode?.episodes[language.value]?.firstWhere((EpisodeFile e) => e.quality == quality.value).src;
+      videoSrc = episode?.episodes[language.value]?.firstWhere((EpisodeFile e) => e.quality == quality.value).src;
     }
 
     startPosition.value = firstEpisodePassed ? Duration.zero : startPosition.value;
@@ -303,6 +342,9 @@ class StreamController extends GetxController {
     availableLanguages.value = languages;
     availableQualities.value = qualities;
     firstEpisodePassed = true;
+
+    _initControllers();
+    _subtitlesControllerMiddleMan.removeCurrentSubtitles();
   }
 
   Future<void> _fetchAndSetRelated(int movieId) async {
@@ -312,5 +354,23 @@ class StreamController extends GetxController {
       r.data.removeWhere((MovieData element) => !element.canBePlayed);
       return r;
     }).get;
+  }
+
+  void _initControllers() {
+    _videoPlayerController?.dispose();
+    chewieController.value?.dispose();
+
+    if (videoSrc != null) {
+      _videoPlayerController = VideoPlayerController.network(videoSrc!);
+      chewieController.value = ChewieController(
+        videoPlayerController: _videoPlayerController!,
+        autoInitialize: true,
+        looping: true,
+        autoPlay: settings.value.autoPlayEnabled,
+        startAt: startPosition.value,
+        allowFullScreen: false,
+        customControls: const VideoPlayerControls(),
+      );
+    }
   }
 }

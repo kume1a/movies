@@ -3,7 +3,7 @@ description: Movies application
 
 publish_to: 'none'
 
-version: 2.3.3
+version: 2.3.4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -21,9 +21,9 @@ dependencies:
   dio: ^4.0.0
 
   # storage
-  path_provider: ^2.0.2
   sqflite: ^2.0.0+3
   shared_preferences: ^2.0.6
+  file_picker: ^4.1.3
 
   # helpers
   video_player: ^2.2.5
@@ -31,6 +31,7 @@ dependencies:
   collection: ^1.15.0
   flutter_hooks: ^0.18.0
   visibility_detector: ^0.2.0
+  permission_handler: ^8.1.6
 
   # di
   get_it: ^7.1.3
