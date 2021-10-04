@@ -11,6 +11,6 @@ class StreamPageBinding extends Bindings {
     Get.lazyPut(() => StreamController(getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
     Get.lazyPut(() => PlayerControlsController(getIt(), getIt(), getIt()));
 
-    Get.put(SubtitlesController(getIt(), getIt()));
+    Get.put(SubtitlesController(getIt(), getIt(), getIt(), getIt()));
   }
 }

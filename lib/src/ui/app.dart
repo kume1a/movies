@@ -16,7 +16,7 @@ class App extends StatelessWidget {
       getPages: getIt<RouteGenerator>().getRoutes(),
       theme: Get.locale?.languageCode == 'ka' ? AppThemes.darkLocaleKa : AppThemes.dark,
       themeMode: ThemeMode.dark,
-      defaultTransition: Transition.cupertino,
+      defaultTransition: Transition.fadeIn,
       translations: tr.Translations(),
       locale: TranslationLocales.localeEn,
       fallbackLocale: TranslationLocales.fallbackLocale,

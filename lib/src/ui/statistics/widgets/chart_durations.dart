@@ -70,8 +70,8 @@ class ChartDurations extends GetView<StatisticsController> {
                   final String minutesFraction = (duration.inMinutes / 60).toStringAsFixed(1).split('.').last;
                   return ParameterizedTranslations.commonHours('${duration.inHours}.$minutesFraction');
                 },
-                reservedSize: 36,
-                margin: 12,
+                reservedSize: 42,
+                margin: 8,
                 interval: leftTitlesInterval,
               ),
               rightTitles: SideTitles(showTitles: false),

@@ -18,6 +18,8 @@ const double _spacing = 36;
 class StreamSettingsDialog extends StatelessWidget {
   const StreamSettingsDialog({Key? key}) : super(key: key);
 
+  SubtitlesController get subtitlesController => Get.find();
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQueryData = context.mediaQuery;
@@ -43,57 +45,128 @@ class StreamSettingsDialog extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius,
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           children: <Widget>[
             Text(
               trStreamSettingsHeaderQuality.tr,
               style: headerTextStyle,
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _headerSpacing),
             const Align(
               alignment: Alignment.centerLeft,
               child: _QualityTabs(),
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _spacing),
             Text(
               trStreamSettingsHeaderLanguage.tr,
               style: headerTextStyle,
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _headerSpacing),
             const Align(
               alignment: Alignment.centerLeft,
               child: _LanguageTabs(),
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _spacing),
             Text(
               trStreamSettingsHeaderPlaybackSpeed.tr,
               style: headerTextStyle,
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _headerSpacing),
             const Align(
               alignment: Alignment.centerLeft,
               child: _PlaybackSpeedTabs(),
-            ),
+            ).paddingSymmetric(horizontal: 16),
+
             // const SizedBox(height: _spacing),
             // Text(
             //   trStreamSettingsHeaderZoom.tr,
             //   style: headerTextStyle,
             // ),
+            // const SizedBox(height: _headerSpacing),
+            // const ZoomTypeSelector(),
+
             const SizedBox(height: _spacing),
             Text(
               trStreamSettingsHeaderSubtitles.tr,
               style: headerTextStyle,
-            ),
+            ).paddingSymmetric(horizontal: 16),
             const SizedBox(height: _headerSpacing),
             const Align(
               alignment: Alignment.centerLeft,
               child: ButtonImportSubtitles(),
+            ).paddingSymmetric(horizontal: 16),
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitlesOffset.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
             ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: SubtitleOffsetSelector(),
+              ).paddingSymmetric(horizontal: 16),
+            ),
+
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitleTextSize.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
+            ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(const SubtitleTextSizeSelector().paddingSymmetric(horizontal: 16)),
+
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitleSpacingFromBottom.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
+            ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(const SubtitleSpacingFromBottomSelector().paddingSymmetric(horizontal: 16)),
+
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitleTextColor.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
+            ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(const SubtitleTextColorSelector()),
+
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitleBorderThickness.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
+            ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(const SubtitleBorderThicknessSelector().paddingSymmetric(horizontal: 16)),
+
+            _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
+            _showIfSubtitlesShowing(
+              Text(
+                trStreamSettingsHeaderSubtitleBorderColor.tr,
+                style: headerTextStyle,
+              ).paddingSymmetric(horizontal: 16),
+            ),
+            _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
+            _showIfSubtitlesShowing(const SubtitleBorderColorSelector()),
           ],
         ),
       ),
     );
   }
+
+  Widget _showIfSubtitlesShowing(Widget child) =>
+      Obx(() => subtitlesController.showingSubtitles.value ? child : const SizedBox.shrink());
 }
 
 class _QualityTabs extends GetView<StreamController> {
@@ -213,6 +286,235 @@ class ButtonImportSubtitles extends GetView<SubtitlesController> {
       ),
       label: Text(trStreamSettingsButtonImportSubtitles.tr),
       icon: SvgPicture.asset('assets/subtitles.svg'),
+    );
+  }
+}
+
+class SubtitleOffsetSelector extends GetView<SubtitlesController> {
+  const SubtitleOffsetSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        GestureDetector(
+          onTap: controller.onSubtitleOffsetMinusPressed,
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: colorAccent,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: const Icon(
+              Icons.remove,
+              size: 20,
+              color: colorAccent,
+            ),
+          ),
+        ),
+        const SizedBox(width: 18),
+        Obx(
+          () => Text(
+            controller.subtitleOffset.value.toString(),
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ),
+        const SizedBox(width: 18),
+        GestureDetector(
+          onTap: controller.onSubtitleOffsetPlusPressed,
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: colorAccent,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: const Icon(
+              Icons.add,
+              size: 20,
+              color: colorAccent,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SubtitleTextSizeSelector extends GetView<SubtitlesController> {
+  const SubtitleTextSizeSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Slider(
+        value: controller.subtitleTextSize.value,
+        onChanged: controller.onSubtitleTextSizeChanged,
+        min: 12,
+        max: 28,
+        divisions: 28,
+      ),
+    );
+  }
+}
+
+class SubtitleSpacingFromBottomSelector extends GetView<SubtitlesController> {
+  const SubtitleSpacingFromBottomSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Slider(
+        value: controller.subtitleSpacingFromBottom.value,
+        onChanged: controller.onSubtitleSpacingFromBottomChanged,
+        max: 52,
+        divisions: 52,
+      ),
+    );
+  }
+}
+
+class SubtitleTextColorSelector extends GetView<SubtitlesController> {
+  const SubtitleTextColorSelector({Key? key}) : super(key: key);
+
+  static final List<Color> colors = <Color>[
+    Colors.black,
+    Colors.white,
+    Colors.red.shade500,
+    Colors.pink.shade500,
+    Colors.purple.shade500,
+    Colors.deepPurple.shade500,
+    Colors.indigo.shade500,
+    Colors.blue.shade500,
+    Colors.lightBlue.shade500,
+    Colors.cyan.shade500,
+    Colors.teal.shade500,
+    Colors.green.shade500,
+    Colors.lightGreen.shade500,
+    Colors.lime.shade500,
+    Colors.yellow.shade500,
+    Colors.amber.shade500,
+    Colors.orange.shade500,
+    Colors.deepOrange.shade500,
+    Colors.brown.shade500,
+    Colors.grey.shade500,
+    Colors.blueGrey.shade500,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListView.builder(
+        itemCount: colors.length,
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 13),
+        itemBuilder: (BuildContext context, int index) {
+          final Color color = colors[index];
+
+          return GestureDetector(
+            onTap: () => controller.onSubtitleTextColorChanged(color),
+            child: Obx(
+              () => AnimatedContainer(
+                margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                duration: const Duration(milliseconds: 200),
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(4),
+                  border: controller.subtitleTextColor.value == color ? Border.all(color: colorAccent, width: 2) : null,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class SubtitleBorderThicknessSelector extends GetView<SubtitlesController> {
+  const SubtitleBorderThicknessSelector({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Slider(
+        value: controller.subtitleBorderThickness.value,
+        onChanged: controller.onSubtitleBorderThicknessChanged,
+        max: 4,
+        divisions: 16,
+      ),
+    );
+  }
+}
+
+class SubtitleBorderColorSelector extends GetView<SubtitlesController> {
+  const SubtitleBorderColorSelector({Key? key}) : super(key: key);
+
+  static final List<Color> colors = <Color>[
+    Colors.black,
+    Colors.white,
+    Colors.red.shade500,
+    Colors.pink.shade500,
+    Colors.purple.shade500,
+    Colors.deepPurple.shade500,
+    Colors.indigo.shade500,
+    Colors.blue.shade500,
+    Colors.lightBlue.shade500,
+    Colors.cyan.shade500,
+    Colors.teal.shade500,
+    Colors.green.shade500,
+    Colors.lightGreen.shade500,
+    Colors.lime.shade500,
+    Colors.yellow.shade500,
+    Colors.amber.shade500,
+    Colors.orange.shade500,
+    Colors.deepOrange.shade500,
+    Colors.brown.shade500,
+    Colors.grey.shade500,
+    Colors.blueGrey.shade500,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListView.builder(
+        itemCount: colors.length,
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 13),
+        itemBuilder: (BuildContext context, int index) {
+          final Color color = colors[index];
+
+          return GestureDetector(
+            onTap: () => controller.onSubtitleBorderColorChanged(color),
+            child: Obx(
+              () => AnimatedContainer(
+                margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                duration: const Duration(milliseconds: 200),
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(4),
+                  border:
+                      controller.subtitleBorderColor.value == color ? Border.all(color: colorAccent, width: 2) : null,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

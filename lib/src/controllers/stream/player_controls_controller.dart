@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rive/rive.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
@@ -9,6 +10,7 @@ import 'package:wakelock/wakelock.dart';
 import '../../data/local/preferences/settings_helper.dart';
 import '../../ui/core/dialogs/core/dialog_manager.dart';
 import '../../ui/stream/widgets/video_player/player.dart';
+import '../core/base_controller_middle_man.dart';
 import 'subtitle_controller.dart';
 
 class PlayerControlsController extends GetxController with SingleGetTickerProviderMixin {
@@ -255,5 +257,16 @@ class PlayerControlsController extends GetxController with SingleGetTickerProvid
         videoPlayerController.value?.play();
       }
     }
+  }
+}
+
+@injectable
+class PlayerControlsControllerMiddleMan extends BaseControllerMiddleMan<PlayerControlsController> {
+  void pausePlayer() {
+    runIfRegistered((PlayerControlsController controller) {
+      if (controller.latestValue.value?.isPlaying == true) {
+        controller._playPause();
+      }
+    });
   }
 }

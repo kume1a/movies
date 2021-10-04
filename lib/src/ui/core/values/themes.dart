@@ -41,6 +41,9 @@ class AppThemes {
       contentTextStyle: TextStyle(color: colorTextPrimary),
       elevation: 12,
     ),
+    sliderTheme: SliderThemeData(
+      trackShape: LessMarginTrackShape(),
+    ),
   );
 
   static final ThemeData darkLocaleKa = dark.copyWith(
@@ -51,4 +54,21 @@ class AppThemes {
       bodyText1: TextStyle(color: colorTextSecondary, fontSize: 12),
     ),
   );
+}
+
+class LessMarginTrackShape extends RoundedRectSliderTrackShape {
+  @override
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight ?? 0;
+    final double trackLeft = offset.dx + 12;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width - 24;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
+  }
 }
