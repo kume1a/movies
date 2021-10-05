@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/stream/subtitle_controller.dart';
-import 'models/subtitle.dart';
+import '../../../data/model/models/subtitles/subtitle.dart';
 
 class SubTitleWrapper extends GetView<SubtitlesController> {
   const SubTitleWrapper({

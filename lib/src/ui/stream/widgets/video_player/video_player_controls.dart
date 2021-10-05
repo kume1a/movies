@@ -76,7 +76,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
                     children: <Widget>[
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
-                        color: hideControls ? Colors.transparent : Colors.black26,
+                        color: hideControls ? Colors.transparent : Colors.black38,
                       ),
                       ClipPath(
                         clipper: RewindClipper(),

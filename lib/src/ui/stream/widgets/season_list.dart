@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/stream/stream_controller.dart';
+import '../../../data/model/models/seasons/season.dart';
 import '../../../l10n/parameterized_translations.dart';
 import '../../core/values/colors.dart';
 
 class SeasonList extends GetView<StreamController> {
-  const SeasonList({required this.seasonNumbers});
-
-  final List<int> seasonNumbers;
+  const SeasonList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +15,27 @@ class SeasonList extends GetView<StreamController> {
 
     return SizedBox(
       height: 50,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: seasonNumbers.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Obx(
-            () => _buildItem(
-              context,
-              theme,
-              seasonNumber: seasonNumbers[index],
-              isActive: controller.season.value == seasonNumbers[index],
-            ),
+      child: Obx(
+        () {
+          if (controller.movie.value == null) {
+            return const SizedBox.shrink();
+          }
+
+          final List<int> seasonNumbers = controller.movie.value!.seasons.map((Season e) => e.number).toList();
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: seasonNumbers.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Obx(
+                () => _buildItem(
+                  context,
+                  theme,
+                  seasonNumber: seasonNumbers[index],
+                  isActive: controller.season.value == seasonNumbers[index],
+                ),
+              );
+            },
           );
         },
       ),

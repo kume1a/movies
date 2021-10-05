@@ -18,12 +18,10 @@ class EpisodeDrawer extends StatefulWidget {
   const EpisodeDrawer({
     required this.child,
     this.showEpisodes = true,
-    this.showRecommended = true,
   });
 
   final Widget child;
   final bool showEpisodes;
-  final bool showRecommended;
 
   @override
   _EpisodeDrawerState createState() => _EpisodeDrawerState();
@@ -48,17 +46,15 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
 
   bool _absorbing = false;
 
-  // ignore: missing_return
   bool _canShow(Axis axis) {
     switch (axis) {
       case Axis.horizontal:
         return widget.showEpisodes;
       case Axis.vertical:
-        return widget.showRecommended;
+        return true;
     }
   }
 
-  // ignore: missing_return
   bool _canBeDragged(Axis axis, {bool? set}) {
     switch (axis) {
       case Axis.horizontal:
@@ -70,7 +66,6 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
     }
   }
 
-  // ignore: missing_return
   AnimationController _getController(Axis axis) {
     switch (axis) {
       case Axis.horizontal:
@@ -102,7 +97,7 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
   }
 
   bool _shouldAbsorb() {
-    if (!widget.showRecommended || !widget.showEpisodes) {
+    if (!widget.showEpisodes) {
       return _absorbing;
     }
     return false;
@@ -123,6 +118,24 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
             absorbing: _shouldAbsorb(),
             child: widget.child,
           ),
+          if (widget.showEpisodes)
+            AnimatedBuilder(
+              animation: _horizontalController,
+              builder: (BuildContext context, Widget? child) {
+                final double value = _horizontalController.value;
+
+                return value > 0
+                    ? Opacity(
+                        opacity: value,
+                        child: child,
+                      )
+                    : const SizedBox.shrink();
+              },
+              child: GestureDetector(
+                onTap: () => _horizontalController.fling(velocity: -20),
+                child: Container(color: Colors.black38),
+              ),
+            ),
           if (widget.showEpisodes)
             Align(
               alignment: Alignment.centerRight,
@@ -146,28 +159,44 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
                 ),
               ),
             ),
-          if (widget.showRecommended)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints.expand(height: vMaxSlide),
-                child: AnimatedBuilder(
-                  animation: _verticalController,
-                  builder: (BuildContext context, Widget? child) {
-                    final double y = (1 - _verticalController.value) * vMaxSlide;
-                    return Transform.translate(
-                      offset: Offset(0, y),
+          AnimatedBuilder(
+            animation: _verticalController,
+            builder: (BuildContext context, Widget? child) {
+              final double value = _verticalController.value;
+
+              return value > 0
+                  ? Opacity(
+                      opacity: value,
                       child: child,
-                    );
+                    )
+                  : const SizedBox.shrink();
+            },
+            child: GestureDetector(
+              onTap: () => _verticalController.fling(velocity: -20),
+              child: Container(color: Colors.black38),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints.expand(height: vMaxSlide),
+              child: AnimatedBuilder(
+                animation: _verticalController,
+                builder: (BuildContext context, Widget? child) {
+                  final double y = (1 - _verticalController.value) * vMaxSlide;
+                  return Transform.translate(
+                    offset: Offset(0, y),
+                    child: child,
+                  );
+                },
+                child: DrawerRecommendedList(
+                  onItemTap: () {
+                    _verticalController.reverse();
                   },
-                  child: DrawerRecommendedList(
-                    onItemTap: () {
-                      _verticalController.reverse();
-                    },
-                  ),
                 ),
               ),
             ),
+          ),
         ],
       ),
     );
@@ -307,8 +336,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     );
   }
 
-  Widget _buildSeasonList(
-     {
+  Widget _buildSeasonList({
     required List<int> seasonNumbers,
     required int selectedSeason,
   }) {
@@ -393,8 +421,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
   }
 
   Widget _buildItem(
-    BuildContext context,
-    {
+    BuildContext context, {
     required int index,
     required Episode episode,
     required bool isSelected,

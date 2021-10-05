@@ -1,7 +1,8 @@
 import 'package:injectable/injectable.dart';
 
 import '../../controllers/stream/subtitle_controller.dart';
-import '../../ui/stream/subtitles/models/subtitle.dart';
+import '../../data/model/models/subtitles/subtitle.dart';
+import '../../data/model/models/subtitles/subtitles.dart';
 
 abstract class SubtitleDecoder {
   Future<Subtitles> decodeSubtitles(

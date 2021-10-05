@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/stream/stream_controller.dart';
 import '../../core/values/colors.dart';
-import '../subtitles/subtitle_wrapper.dart';
+import 'subtitle_wrapper.dart';
 import 'video_player/player.dart';
 
 class VideoPlayer extends GetView<StreamController> {

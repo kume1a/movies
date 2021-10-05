@@ -16,6 +16,8 @@ const double _imageHeight = _imageWidth / 3 * 2;
 const double _radius = 8;
 
 class EpisodeList extends GetView<StreamController> {
+  const EpisodeList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {

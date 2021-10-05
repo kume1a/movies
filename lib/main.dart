@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'src/di/injection.dart';
 import 'src/ui/app.dart';
 
-// TODO: add subtitles from api and allow to import, group name edit. blurhash, download video
+// TODO: add subtitles from api, group name edit. blurhash, download video
 
 class SafeCertificateHttpOverride extends HttpOverrides {
   @override

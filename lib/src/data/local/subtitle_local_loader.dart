@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../controllers/stream/subtitle_controller.dart';
 import '../../core/helpers/subtitle_decoder.dart';
-import '../../ui/stream/subtitles/models/subtitle.dart';
+import '../model/models/subtitles/subtitles.dart';
 
 abstract class SubtitleLocalLoader {
   Future<Subtitles?> loadSubtitles();

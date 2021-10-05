@@ -10,7 +10,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../core/managers/permission_manager.dart';
 import '../../data/local/preferences/preferences_helper.dart';
 import '../../data/local/subtitle_local_loader.dart';
-import '../../ui/stream/subtitles/models/subtitle.dart';
+import '../../data/model/models/subtitles/subtitle.dart';
+import '../../data/model/models/subtitles/subtitles.dart';
 import '../core/base_controller_middle_man.dart';
 import 'player_controls_controller.dart';
 
