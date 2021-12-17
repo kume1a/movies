@@ -5,8 +5,12 @@ analyzer:
     missing_required_param: error
     missing_return: error
     prefer_relative_imports: warning
+    always_use_package_imports: ignore
+    use_setters_to_change_properties: ignore
     public_member_api_docs: ignore
+    avoid_positional_boolean_parameters: ignore
     depend_on_referenced_packages: ignore
+    require_trailing_commas: ignore
   exclude:
     - lib/**/*.g.dart
     - lib/**/*.config.dart
@@ -20,5 +24,25 @@ linter:
     sort_constructors_first: true
     prefer_single_quotes: true
     always_specify_types: true
-    #    lines_longer_than_80_chars: true
     prefer_relative_imports: true
+
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
+    - lib/**/*.g.dart
+    - lib/**/*.config.dart
+    - lib/**/*.freezed.dart
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-conditional-expressions
+    - no-equal-then-else

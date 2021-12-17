@@ -13,7 +13,7 @@ import '../../ui/stream/widgets/video_player/player.dart';
 import '../core/base_controller_middle_man.dart';
 import 'subtitle_controller.dart';
 
-class PlayerControlsController extends GetxController with SingleGetTickerProviderMixin {
+class PlayerControlsController extends GetxController with GetSingleTickerProviderStateMixin {
   PlayerControlsController(
     this._dialogManager,
     this._settingsHelper,
