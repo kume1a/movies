@@ -13,7 +13,7 @@ import '../../core/widgets/safe_image.dart';
 const double _itemWidth = 110;
 const double _imageHeight = _itemWidth / 3 * 4;
 const double _itemHeight = _imageHeight + 55;
-const double _radius = 12;
+const double _radius = 4;
 const double _spacing = 16;
 
 class TopSelectionList extends GetView<HomeController> {

@@ -1,7 +1,5 @@
 // ignore_for_file: use_setters_to_change_properties
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';

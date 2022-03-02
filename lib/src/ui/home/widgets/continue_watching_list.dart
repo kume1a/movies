@@ -14,7 +14,7 @@ import '../../core/widgets/safe_image.dart';
 const double _itemWidth = 230;
 const double _imageHeight = _itemWidth / 16 * 9;
 const double _itemHeight = _imageHeight + 50;
-const double _radius = 8;
+const double _radius = 4;
 
 class ContinueWatchingList extends GetView<HomeController> {
   const ContinueWatchingList({Key? key}) : super(key: key);

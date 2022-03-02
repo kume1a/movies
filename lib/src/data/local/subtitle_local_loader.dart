@@ -47,5 +47,6 @@ class SubtitleLocalLoaderImpl implements SubtitleLocalLoader {
         return _subtitleDecoder.decodeSubtitles(subtitles, subtitleType);
       }
     }
+    return null;
   }
 }

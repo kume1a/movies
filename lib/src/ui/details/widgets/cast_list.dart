@@ -12,7 +12,7 @@ import '../../core/widgets/safe_image.dart';
 class CastList extends GetView<DetailsController> {
   static const double itemWidth = 120;
   static const double itemHeight = 160;
-  static const double radius = 12;
+  static const double radius = 4;
   static const double spacing = 16;
 
   @override

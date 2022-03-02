@@ -12,7 +12,7 @@ import '../../core/widgets/safe_image.dart';
 
 const double _itemHeight = 180;
 const double _itemWidth = 180 / 9 * 16;
-const double _radius = 16;
+const double _radius = 6;
 
 class PopularMoviesList extends GetView<HomeController> {
   const PopularMoviesList({Key? key}) : super(key: key);

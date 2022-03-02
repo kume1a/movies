@@ -20,7 +20,7 @@ class MovieItem extends StatelessWidget {
 
   static const double imageWidth = 120;
   static const double imageHeight = imageWidth / 9 * 16;
-  static const double radius = 6;
+  static const double radius = 4;
 
   final String? imageUrl;
   final String name;

@@ -62,7 +62,8 @@ class StreamSettings {
           doubleTapToSeekValue == other.doubleTapToSeekValue;
 
   @override
-  int get hashCode => autoPlayEnabled.hashCode ^ recordWatchHistoryEnabled.hashCode ^ doubleTapToSeekValue.hashCode;
+  int get hashCode =>
+      autoPlayEnabled.hashCode ^ recordWatchHistoryEnabled.hashCode ^ doubleTapToSeekValue.hashCode;
 }
 
 class StreamController extends GetxController {
@@ -194,15 +195,16 @@ class StreamController extends GetxController {
           : null;
 
       final List<EpisodeFile>? selectedLanguageEpisodes = episode?.episodes[language];
-      final EpisodeFile? episodeFile =
-          selectedLanguageEpisodes?.firstWhereOrNull((EpisodeFile e) => e.quality == quality.value) ??
-              episode?.episodes[language]?.first;
+      final EpisodeFile? episodeFile = selectedLanguageEpisodes
+              ?.firstWhereOrNull((EpisodeFile e) => e.quality == quality.value) ??
+          episode?.episodes[language]?.first;
 
       if (episodeFile != null) {
         videoSrc = episodeFile.src;
       }
 
-      final List<Quality>? newQualities = selectedLanguageEpisodes?.map((EpisodeFile e) => e.quality).toList();
+      final List<Quality>? newQualities =
+          selectedLanguageEpisodes?.map((EpisodeFile e) => e.quality).toList();
       if (newQualities != null) {
         availableQualities.value = newQualities;
       }
@@ -227,7 +229,9 @@ class StreamController extends GetxController {
             )
           : null;
 
-      videoSrc = episode?.episodes[language.value]?.firstWhere((EpisodeFile element) => element.quality == quality).src;
+      videoSrc = episode?.episodes[language.value]
+          ?.firstWhere((EpisodeFile element) => element.quality == quality)
+          .src;
     }
 
     this.videoSrc = videoSrc;
@@ -257,7 +261,8 @@ class StreamController extends GetxController {
           1000;
 
       // TODO: 03/07/2021 refactor insert or update logic to SavedMovieDao method
-      if (await _savedMovieDao.positionForMovieExists(movie.movieId, episodeSeason.value, episode.value)) {
+      if (await _savedMovieDao.positionForMovieExists(
+          movie.movieId, episodeSeason.value, episode.value)) {
         await _savedMovieDao.updateMoviePosition(movie.movieId, position.inMilliseconds);
       } else {
         _savedMovieDao.insertMoviePosition(
@@ -299,8 +304,8 @@ class StreamController extends GetxController {
   Future<void> _fetchAndSetSeason(int season) async {
     this.season.value = season;
 
-    final Either<FetchFailure, SeasonFiles> seasonFiles =
-        await _movieService.getSeasonFiles(getMovieOrCrash.id, season, getMovieOrCrash.seasons.length);
+    final Either<FetchFailure, SeasonFiles> seasonFiles = await _movieService.getSeasonFiles(
+        getMovieOrCrash.id, season, getMovieOrCrash.seasons.length);
 
     this.seasonFiles.value = seasonFiles.get;
   }
@@ -321,19 +326,30 @@ class StreamController extends GetxController {
       if (!const DeepCollectionEquality().equals(languages, episodeLanguages)) {
         languages = episodeLanguages;
         final Language preferredLanguage = await _preferencesHelper.readPreferredLanguage();
-        language.value = languages.firstWhere((Language e) => e == preferredLanguage, orElse: () => languages.first);
+        language.value = languages.firstWhere((Language e) => e == preferredLanguage,
+            orElse: () => languages.first);
 
         final List<Quality> episodeQualities =
-            episode?.episodes[language.value]?.map((EpisodeFile e) => e.quality).toList() ?? <Quality>[];
+            episode?.episodes[language.value]?.map((EpisodeFile e) => e.quality).toList() ??
+                <Quality>[];
 
         if (!const DeepCollectionEquality().equals(qualities, episodeQualities)) {
           qualities = episodeQualities;
           final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
-          quality.value = qualities.firstWhere((Quality e) => e == preferredQuality, orElse: () => qualities.first);
+          quality.value = qualities.firstWhere((Quality e) => e == preferredQuality,
+              orElse: () => qualities.first);
         }
       }
 
-      videoSrc = episode?.episodes[language.value]?.firstWhere((EpisodeFile e) => e.quality == quality.value).src;
+      final List<EpisodeFile>? episodeFiles = episode?.episodes[language.value];
+      if (episodeFiles != null && episodeFiles.isNotEmpty) {
+        videoSrc = episodeFiles
+            .firstWhere(
+              (EpisodeFile e) => e.quality == quality.value,
+              orElse: () => episodeFiles.first,
+            )
+            .src;
+      }
     }
 
     startPosition.value = firstEpisodePassed ? Duration.zero : startPosition.value;

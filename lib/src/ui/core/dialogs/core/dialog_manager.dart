@@ -54,7 +54,7 @@ class DialogManager {
   Future<T?> _showSlideInDialog<T extends Object?>({
     required Widget child,
   }) async {
-    Get.generalDialog(
+    return Get.generalDialog(
       barrierLabel: '',
       barrierDismissible: true,
       transitionDuration: const Duration(milliseconds: 150),

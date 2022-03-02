@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -123,7 +121,7 @@ class ImageHeader implements SliverPersistentHeaderDelegate {
         width: maxExtent,
         decoration: BoxDecoration(
           color: colorPrimary,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(27 * (1 - offset))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12 * (1 - offset))),
         ),
       ),
     );

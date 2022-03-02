@@ -19,7 +19,7 @@ class GenreChooser extends GetView<HomeController> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _genres.length,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         itemBuilder: (BuildContext context, int index) {
           final Genre current = _genres[index];
 
@@ -32,11 +32,11 @@ class GenreChooser extends GetView<HomeController> {
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeIn,
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  margin: const EdgeInsets.symmetric(horizontal: 6),
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   decoration: BoxDecoration(
                     color: isActive ? colorAccent : colorInactive,
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(3),
                   ),
                   child: Center(
                     child: Text(
