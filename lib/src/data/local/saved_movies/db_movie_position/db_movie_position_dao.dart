@@ -87,4 +87,16 @@ class DBMoviePositionDao {
   }
 
   Future<void> deleteMoviePositions() async => _db.delete(TableMoviePositions.name);
+
+  Future<void> deleteMoviePosition(int movieId) async {
+    await _db.rawDelete(
+      '''
+      DELETE FROM ${TableMoviePositions.name}
+        WHERE ${TableMoviePositions.columnMovieId} = ?;
+    ''',
+      <Object?>[
+        movieId,
+      ],
+    );
+  }
 }

@@ -9,9 +9,9 @@ import '../injection.dart';
 class MainPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(MainScreenController(getIt()));
-    Get.lazyPut(() => HomeController(getIt(), getIt()));
-    Get.lazyPut(() => FavoritesController(getIt(), getIt(), getIt(), getIt()));
-    Get.lazyPut(() => StatisticsController(getIt(), getIt()));
+    Get.put(getIt<MainScreenController>());
+    Get.lazyPut(() => getIt<HomeController>());
+    Get.lazyPut(() => getIt<FavoritesController>());
+    Get.lazyPut(() => getIt<StatisticsController>());
   }
 }

@@ -40,7 +40,8 @@ class SavedMovieDao {
 
   Future<void> saveMovieGenres(int movieId, List<MovieGenre> genres) async {
     for (final MovieGenre genre in genres) {
-      await _savedMovieGenreDao.insertSavedMovieGenre(DBSavedMovieGenre(movieId: movieId, genre: genre));
+      await _savedMovieGenreDao
+          .insertSavedMovieGenre(DBSavedMovieGenre(movieId: movieId, genre: genre));
     }
   }
 
@@ -106,4 +107,7 @@ class SavedMovieDao {
     await _moviePositionDao.deleteMoviePositions();
     await _savedMovieGenreDao.deleteAll();
   }
+
+  Future<void> deleteMoviePosition(int movieId) async =>
+      _moviePositionDao.deleteMoviePosition(movieId);
 }

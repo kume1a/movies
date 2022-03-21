@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../core/enums/genre.dart';
 import '../../data/local/saved_movies/saved_movie_dao.dart';
@@ -9,16 +11,21 @@ import '../../data/model/models/movies/movie_data.dart';
 import '../../data/model/models/movies/movies.dart';
 import '../../data/model/models/movies/saved_movie.dart';
 import '../../data/network/services/movie_service.dart';
+import '../../l10n/translation_keys.dart';
+import '../../ui/core/dialogs/core/dialog_manager.dart';
 import '../../ui/core/routes/screens_navigator.dart';
 
+@injectable
 class HomeController extends GetxController {
   HomeController(
     this._movieService,
     this._savedMovieDao,
+    this._dialogManager,
   );
 
   final MovieService _movieService;
   final SavedMovieDao _savedMovieDao;
+  final DialogManager _dialogManager;
 
   final Rxn<Movies> popularMovies = Rxn<Movies>();
   final Rxn<Movies> topMovies = Rxn<Movies>();
@@ -98,6 +105,20 @@ class HomeController extends GetxController {
 
   void onMoviePressed(MovieData movie) => ScreensNavigator.pushDetailsPage(movie.movieId);
 
+  Future<void> onSavedMovieLongPressed(SavedMovie savedMovie) async {
+    final bool didConfirm = await _dialogManager.showConfirmationDialog(
+      title: trCommonConfirmToDelete.tr,
+      content: trHomeConfirmDeleteSavedMovie.tr,
+      confirmationText: trCommonConfirm.tr,
+    );
+    if (!didConfirm) {
+      return;
+    }
+
+    await _savedMovieDao.deleteMoviePosition(savedMovie.data.movieId);
+    await _fetchSavedMovies();
+  }
+
   void onSavedMoviePressed(SavedMovie savedMovie) {
     ScreensNavigator.pushStreamPage(
       movieId: savedMovie.position.movieId,
@@ -130,7 +151,8 @@ class HomeController extends GetxController {
     popularMovies.value = movies.get;
   }
 
-  Future<void> _fetchSavedMovies() async => savedMovies.value = await _savedMovieDao.getSavedMovies();
+  Future<void> _fetchSavedMovies() async =>
+      savedMovies.value = await _savedMovieDao.getSavedMovies();
 
   Future<void> _fetchNextMoviesPage() async {
     if (_fetchingMovies) {
@@ -139,7 +161,8 @@ class HomeController extends GetxController {
 
     _fetchingMovies = true;
 
-    final Either<FetchFailure, Movies> movies = await _movieService.getMovies(_moviesPage, genre.value);
+    final Either<FetchFailure, Movies> movies =
+        await _movieService.getMovies(_moviesPage, genre.value);
     if (_moviesPage != 1 && this.movies.value != null) {
       movies.getOrElse(() => Movies.empty()).data.insertAll(0, this.movies.value!.data);
     }

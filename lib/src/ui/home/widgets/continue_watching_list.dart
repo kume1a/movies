@@ -70,6 +70,7 @@ class _Item extends GetView<HomeController> {
 
     return GestureDetector(
       onTap: () => controller.onSavedMoviePressed(savedMovie),
+      onLongPress: () => controller.onSavedMovieLongPressed(savedMovie),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(

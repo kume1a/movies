@@ -9,6 +9,8 @@ const String ptrCommonHours = 'ptrCommonHours';
 const String ptrCommonMinutes = 'ptrCommonMinutes';
 const String ptrCommonReviews = 'ptrCommonReviews';
 const String trCommonOther = 'trCommonOther';
+const String trCommonConfirmToDelete = 'trCommonConfirmToDelete';
+const String trCommonConfirm = 'trCommonConfirm';
 
 
 // genre
@@ -71,6 +73,7 @@ const String trHomeHeaderWatchLater = 'trHomeHeaderWatchLater';
 const String trHomeWatchLaterLeftAt = 'trHomeWatchLaterLeftAt';
 const String trHomeHeaderTopSelection = 'trHomeHeaderTopSelection';
 const String trHomeHeaderMovies = 'trHomeHeaderMovies';
+const String trHomeConfirmDeleteSavedMovie = 'trHomeConfirmDeleteSavedMovie';
 
 
 // favorites

@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../core/enums/movie_genre.dart';
 import '../../core/enums/time_period.dart';
@@ -9,6 +10,7 @@ import '../../data/model/models/watched_movies/watched_duration.dart';
 import '../../data/model/models/watched_movies/watched_movie.dart';
 import '../../ui/core/routes/screens_navigator.dart';
 
+@injectable
 class StatisticsController extends GetxController {
   StatisticsController(
     this._watchedMovieDao,

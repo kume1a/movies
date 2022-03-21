@@ -18,6 +18,8 @@ class Translations extends getx.Translations {
         ptrCommonMinutes: '@minutes m',
         ptrCommonReviews: '@count reviews',
         trCommonOther: 'Other',
+        trCommonConfirmToDelete: 'Confirm to delete',
+        trCommonConfirm: 'Confirm',
 
 
         // genre
@@ -80,6 +82,7 @@ class Translations extends getx.Translations {
         trHomeWatchLaterLeftAt: 'Left at',
         trHomeHeaderTopSelection: 'Top Selection',
         trHomeHeaderMovies: 'Movies',
+        trHomeConfirmDeleteSavedMovie: 'You really want to delete saved movie?',
 
 
         // favorites
@@ -193,6 +196,8 @@ class Translations extends getx.Translations {
         ptrCommonMinutes: '@minutes წთ',
         ptrCommonReviews: '@count მნახველი',
         trCommonOther: 'სხვა',
+        trCommonConfirmToDelete: 'დაადასტურეთ რომ წაშალოთ',
+        trCommonConfirm: 'დაადასტურება',
 
 
         // genre
@@ -255,6 +260,7 @@ class Translations extends getx.Translations {
         trHomeWatchLaterLeftAt: 'შეჩერდა',
         trHomeHeaderTopSelection: 'ტოპ ფილმები',
         trHomeHeaderMovies: 'ფილმები',
+        trHomeConfirmDeleteSavedMovie: 'ნამდვილად გსურთ შენახული ფილმის წაშლა?',
 
 
         // favorites

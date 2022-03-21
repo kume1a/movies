@@ -15,6 +15,7 @@ import '../../ui/core/dialogs/core/dialog_manager.dart';
 import '../../ui/core/routes/screens_navigator.dart';
 import '../core/base_controller_middle_man.dart';
 
+@injectable
 class FavoritesController extends GetxController {
   FavoritesController(
     this._favoriteMovieDao,
