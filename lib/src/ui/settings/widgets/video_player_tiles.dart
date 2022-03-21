@@ -29,7 +29,7 @@ class TileDoubleTapToSeek extends GetView<SettingsController> {
     return Obx(
       () => ListTile(
         title: Text(trSettingsDoubleTapToSeek.tr),
-        subtitle: Text(ParameterizedTranslations.settingsCommentDoubleTapToSeek(controller.doubleTapToSeekValue.value)),
+        subtitle: Text(ParamTranslations.settingsCommentDoubleTapToSeek(controller.doubleTapToSeekValue.value)),
         onTap: controller.onDoubleTapToSeekPressed,
       ),
     );
@@ -44,7 +44,7 @@ class TileSaveMovieInterval extends GetView<SettingsController> {
     return Obx(
       () => ListTile(
         title: Text(trSettingsSaveMovieInterval.tr),
-        subtitle: Text(ParameterizedTranslations.settingsCommentSaveMovieInterval(controller.saveMovieInterval.value)),
+        subtitle: Text(ParamTranslations.settingsCommentSaveMovieInterval(controller.saveMovieInterval.value)),
         onTap: controller.onSaveMovieIntervalPressed,
       ),
     );

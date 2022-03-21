@@ -20,6 +20,7 @@ class Translations extends getx.Translations {
         trCommonOther: 'Other',
         trCommonConfirmToDelete: 'Confirm to delete',
         trCommonConfirm: 'Confirm',
+        trCommonName: 'Name',
 
 
         // genre
@@ -70,6 +71,11 @@ class Translations extends getx.Translations {
         trLanguagePor: 'Portuguese',
 
 
+        // option movie group
+        trOptionMovieGroupEditName: 'Edit name',
+        trOptionMovieGroupDelete: 'Delete',
+
+
         // bottom nav
         trBottomNavHome: 'Home',
         trBottomNavFavorites: 'Favorites',
@@ -91,10 +97,10 @@ class Translations extends getx.Translations {
         ptrFavoritesHeaderDeleteGroup: 'Delete group @groupName ?',
         ptrFavoritesContentDeleteGroup: 'Group @groupName will be deleted, as well as its movies',
         trFavoritesHeaderAddGroup: 'Add Group',
-        trFavoritesAddGroupHintNameField: 'Name',
         trFavoritesNoMovieHeader: 'No movie has been added.',
         trFavoritesClick: 'Click',
         trFavoritesNoMoviesMessageEnd: 'in details page to save',
+        trFavoritesHeaderEditMovieGroupName: 'Edit name',
 
 
         // statistics
@@ -198,6 +204,7 @@ class Translations extends getx.Translations {
         trCommonOther: 'სხვა',
         trCommonConfirmToDelete: 'დაადასტურეთ რომ წაშალოთ',
         trCommonConfirm: 'დაადასტურება',
+        trCommonName: 'სახელი',
 
 
         // genre
@@ -248,6 +255,11 @@ class Translations extends getx.Translations {
         trLanguagePor: 'პორტუგალიური',
 
 
+        // option movie group
+        trOptionMovieGroupEditName: 'სახელის შეცვლა',
+        trOptionMovieGroupDelete: 'წაშლა',
+
+
         // bottom nav
         trBottomNavHome: 'Home',
         trBottomNavFavorites: 'Favorites',
@@ -269,10 +281,10 @@ class Translations extends getx.Translations {
         ptrFavoritesHeaderDeleteGroup: 'წაიშალოს @groupName ?',
         ptrFavoritesContentDeleteGroup: 'ჯგუფი @groupName წაიშლება, ისევე როგორც მისი ფილმები',
         trFavoritesHeaderAddGroup: 'ჯგუფის დამატება',
-        trFavoritesAddGroupHintNameField: 'სახელი',
         trFavoritesNoMovieHeader: 'არცერთი ფილმი არ დამატებულა',
         trFavoritesClick: 'დააჭირეთ',
         trFavoritesNoMoviesMessageEnd: 'დეტალების გვერდზე რომ შეინახოთ',
+        trFavoritesHeaderEditMovieGroupName: 'სახელის შეცვლა',
 
 
         // statistics

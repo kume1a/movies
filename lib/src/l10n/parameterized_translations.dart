@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import 'translation_keys.dart';
 
-class ParameterizedTranslations {
-  ParameterizedTranslations._();
+class ParamTranslations {
+  ParamTranslations._();
 
   static String commonDuration(int hours, int minutes) => ptrCommonDuration.trParams(<String, String>{
         'hours': hours.toString(),

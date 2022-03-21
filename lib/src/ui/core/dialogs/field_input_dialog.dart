@@ -7,12 +7,30 @@ import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/tap_outside_to_clear_focus.dart';
 import '../values/colors.dart';
 
-class AddMovieGroupDialog extends HookWidget {
-  const AddMovieGroupDialog({Key? key}) : super(key: key);
+class FieldInputDialog extends HookWidget {
+  const FieldInputDialog({
+    Key? key,
+    required this.header,
+    required this.inputHint,
+    this.initialValue,
+  }) : super(key: key);
+
+  final String header;
+  final String inputHint;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<String> text = useState('');
+    final TextEditingController editingController = useTextEditingController();
+
+    useEffect(
+      () {
+        editingController.text = initialValue ?? '';
+        return null;
+      },
+      <Object?>[initialValue],
+    );
 
     return TapOutsideToClearFocus(
       child: Dialog(
@@ -21,9 +39,23 @@ class AddMovieGroupDialog extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildHeader(),
+              Text(
+                header,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+              ),
               const SizedBox(height: 32),
-              _buildNameField(text),
+              TextField(
+                controller: editingController,
+                decoration: InputDecoration(
+                  enabledBorder:
+                      const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+                  hintText: inputHint,
+                ),
+                onChanged: (String value) {
+                  text.value = value;
+                },
+              ),
               const SizedBox(height: 64),
               Row(
                 children: <Widget>[
@@ -39,25 +71,6 @@ class AddMovieGroupDialog extends HookWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Text(
-      trFavoritesHeaderAddGroup.tr,
-      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
-    );
-  }
-
-  Widget _buildNameField(ValueNotifier<String> text) {
-    return TextField(
-      decoration: InputDecoration(
-        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-        hintText: trFavoritesAddGroupHintNameField.tr,
-      ),
-      onChanged: (String value) {
-        text.value = value;
-      },
-    );
-  }
-
   Widget _buildCancelButton() {
     return TextButton(
       onPressed: () => ScreensNavigator.pop(),
@@ -65,7 +78,8 @@ class AddMovieGroupDialog extends HookWidget {
         backgroundColor: MaterialStateProperty.all(colorPrimary),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white54),
         overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),
       child: Text(trCommonCancel.tr),
     );
@@ -84,7 +98,8 @@ class AddMovieGroupDialog extends HookWidget {
               states.contains(MaterialState.disabled) ? Colors.white.withOpacity(.6) : Colors.white,
         ),
         overlayColor: MaterialStateProperty.all<Color>(Colors.white24),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       ),
       child: Text(trCommonSave.tr),
     );

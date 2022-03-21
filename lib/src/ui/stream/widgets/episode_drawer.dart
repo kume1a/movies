@@ -366,7 +366,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
           height: 50,
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(ParameterizedTranslations.streamSeason(season), style: prB19),
+            child: Text(ParamTranslations.streamSeason(season), style: prB19),
           ),
         );
       },
@@ -398,7 +398,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
             children: <Widget>[
               const Icon(Icons.chevron_left),
               const SizedBox(width: 6),
-              Text(ParameterizedTranslations.streamSeason(season), style: prSB18),
+              Text(ParamTranslations.streamSeason(season), style: prSB18),
             ],
           ),
         ),
@@ -443,7 +443,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(ParameterizedTranslations.streamEp(episode.episode)),
+                  Text(ParamTranslations.streamEp(episode.episode)),
                   const SizedBox(height: 12),
                   Text(
                     episode.title,

@@ -68,7 +68,7 @@ class ChartDurations extends GetView<StatisticsController> {
                 getTitles: (double value) {
                   final Duration duration = Duration(milliseconds: value.floor());
                   final String minutesFraction = (duration.inMinutes / 60).toStringAsFixed(1).split('.').last;
-                  return ParameterizedTranslations.commonHours('${duration.inHours}.$minutesFraction');
+                  return ParamTranslations.commonHours('${duration.inHours}.$minutesFraction');
                 },
                 reservedSize: 42,
                 margin: 8,

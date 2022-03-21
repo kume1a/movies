@@ -3,17 +3,28 @@ import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/enums/supported_locale.dart';
-import '../add_movie_group_dialog.dart';
 import '../clear_favorites_dialog.dart';
 import '../confirmation_dialog.dart';
 import '../dtap_to_seek_value_chooser_dialog.dart';
+import '../field_input_dialog.dart';
 import '../language_selector_dialog.dart';
 import '../save_movie_interval_dialog.dart';
 import '../stream_settings_dialog.dart';
 
 @lazySingleton
 class DialogManager {
-  Future<String?> showAddMovieGroupDialog() async => Get.dialog<String>(const AddMovieGroupDialog());
+  Future<String?> showFieldInputDialog({
+    required String header,
+    required String inputHint,
+    String? initialValue,
+  }) async =>
+      Get.dialog<String>(
+        FieldInputDialog(
+          inputHint: inputHint,
+          header: header,
+          initialValue: initialValue,
+        ),
+      );
 
   Future<bool> showConfirmationDialog({
     required String title,
@@ -31,9 +42,8 @@ class DialogManager {
     return didConfirm ?? false;
   }
 
-  Future<void> showStreamSettingsDialog() async {
-    _showSlideInDialog(child: const StreamSettingsDialog());
-  }
+  Future<void> showStreamSettingsDialog() async =>
+      _showSlideInDialog(child: const StreamSettingsDialog());
 
   Future<ClearFavoritesResult?> showClearFavoritesDialog() async =>
       Get.dialog<ClearFavoritesResult>(const ClearFavoritesDialog());

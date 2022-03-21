@@ -66,4 +66,18 @@ class DBMovieGroupDao {
   }
 
   Future<void> deleteAll() => _db.delete(TableMovieGroups.name);
+
+  Future<void> updateMovieGroupName(int movieGroupId, String newName) async {
+    await _db.rawUpdate(
+      '''
+      UPDATE ${TableMovieGroups.name}
+        SET ${TableMovieGroups.columnName} = ?
+      WHERE ${TableMovieGroups.columnId} = ?;
+    ''',
+      <Object?>[
+        newName,
+        movieGroupId,
+      ],
+    );
+  }
 }

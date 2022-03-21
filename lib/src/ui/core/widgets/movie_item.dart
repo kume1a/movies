@@ -100,7 +100,7 @@ class MovieItem extends StatelessWidget {
                   children: <Widget>[
                     if (voterCount != -1)
                       Text(
-                        ParameterizedTranslations.commonReviews(numberFormat.format(voterCount)),
+                        ParamTranslations.commonReviews(numberFormat.format(voterCount)),
                         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colorTextSecondary),
                       ),
                     if (releaseYear > 0)

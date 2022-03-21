@@ -57,7 +57,7 @@ class SeasonList extends GetView<StreamController> {
           style: theme.textTheme.subtitle1?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ??
               const TextStyle(),
           duration: const Duration(milliseconds: 300),
-          child: Text(ParameterizedTranslations.streamSeason(seasonNumber)),
+          child: Text(ParamTranslations.streamSeason(seasonNumber)),
         ),
       ),
     );

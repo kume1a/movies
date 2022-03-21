@@ -28,8 +28,10 @@ class MovieGroupDao {
     final List<DBMovieGroup> dbMovieGroups = await _movieGroupDao.getMovieGroups();
     final List<MovieGroup> movieGroups = List<MovieGroup>.empty(growable: true);
     for (final DBMovieGroup dbMovieGroup in dbMovieGroups) {
-      final List<String> movieNamesEn = await _favoriteMovieDao.getMovieNamesEnForGroup(dbMovieGroup.id!);
-      final List<String> movieNamesKa = await _favoriteMovieDao.getMovieNamesKaForGroup(dbMovieGroup.id!);
+      final List<String> movieNamesEn =
+          await _favoriteMovieDao.getMovieNamesEnForGroup(dbMovieGroup.id!);
+      final List<String> movieNamesKa =
+          await _favoriteMovieDao.getMovieNamesKaForGroup(dbMovieGroup.id!);
       movieGroups.add(
         MovieGroup(
           groupId: dbMovieGroup.id ?? -1,
@@ -46,8 +48,10 @@ class MovieGroupDao {
     final DBMovieGroup? movieGroup = await _movieGroupDao.getMovieGroup(id);
     if (movieGroup == null) return null;
 
-    final List<String> movieNamesKa = await _favoriteMovieDao.getMovieNamesKaForGroup(movieGroup.id!);
-    final List<String> movieNamesEn = await _favoriteMovieDao.getMovieNamesEnForGroup(movieGroup.id!);
+    final List<String> movieNamesKa =
+        await _favoriteMovieDao.getMovieNamesKaForGroup(movieGroup.id!);
+    final List<String> movieNamesEn =
+        await _favoriteMovieDao.getMovieNamesEnForGroup(movieGroup.id!);
     return MovieGroup(
       groupId: movieGroup.id,
       movieNamesKa: movieNamesKa,
@@ -63,8 +67,10 @@ class MovieGroupDao {
     final DBMovieGroup? movieGroup = await _movieGroupDao.getMovieGroup(selectedGroupId);
     if (movieGroup == null) return null;
 
-    final List<String> movieNamesKa = await _favoriteMovieDao.getMovieNamesKaForGroup(movieGroup.id!);
-    final List<String> movieNamesEn = await _favoriteMovieDao.getMovieNamesEnForGroup(movieGroup.id!);
+    final List<String> movieNamesKa =
+        await _favoriteMovieDao.getMovieNamesKaForGroup(movieGroup.id!);
+    final List<String> movieNamesEn =
+        await _favoriteMovieDao.getMovieNamesEnForGroup(movieGroup.id!);
     return MovieGroup(
       groupId: movieGroup.id,
       movieNamesKa: movieNamesKa,
@@ -80,7 +86,11 @@ class MovieGroupDao {
     return groupId != null;
   }
 
-  Future<void> deleteMovieGroup(MovieGroup movieGroup) async => _movieGroupDao.deleteMovieGroup(movieGroup.groupId!);
+  Future<void> deleteMovieGroup(int movieGroupId) async =>
+      _movieGroupDao.deleteMovieGroup(movieGroupId);
 
   Future<void> deleteMovieGroups() async => _movieGroupDao.deleteAll();
+
+  Future<void> updateMovieGroupName(int movieGroupId, String newName) async =>
+      _movieGroupDao.updateMovieGroupName(movieGroupId, newName);
 }

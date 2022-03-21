@@ -25,7 +25,7 @@ class SaveMovieIntervalChooserDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: _values.map((int e) {
             return RadioListTile<int>(
-              title: Text(ParameterizedTranslations.settingsSaveMovieIntervalDialogItem(e)),
+              title: Text(ParamTranslations.settingsSaveMovieIntervalDialogItem(e)),
               value: e,
               onChanged: (int? value) => ScreensNavigator.pop(result: value),
               groupValue: currentValue,

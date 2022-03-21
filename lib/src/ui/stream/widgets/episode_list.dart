@@ -95,7 +95,7 @@ class _EpisodeItem extends GetView<StreamController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(ParameterizedTranslations.streamEpisode(episode), style: scL14),
+        Text(ParamTranslations.streamEpisode(episode), style: scL14),
         const SizedBox(height: 12),
         Text(title, style: prSB18),
         const SizedBox(height: 32),

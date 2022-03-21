@@ -11,7 +11,10 @@ import '../../data/model/models/movie_groups/movie_group.dart';
 import '../../data/model/models/movies/movie_data.dart';
 import '../../data/network/services/movie_service.dart';
 import '../../l10n/parameterized_translations.dart';
+import '../../l10n/translation_keys.dart';
+import '../../ui/core/bottom_sheets/core/bottom_sheet_manager.dart';
 import '../../ui/core/dialogs/core/dialog_manager.dart';
+import '../../ui/core/enums/option_movie_group.dart';
 import '../../ui/core/routes/screens_navigator.dart';
 import '../core/base_controller_middle_man.dart';
 
@@ -22,12 +25,14 @@ class FavoritesController extends GetxController {
     this._movieGroupDao,
     this._preferencesHelper,
     this._dialogManager,
+    this._bottomSheetManager,
   );
 
   final FavoriteMovieDao _favoriteMovieDao;
   final MovieGroupDao _movieGroupDao;
   final PreferencesHelper _preferencesHelper;
   final DialogManager _dialogManager;
+  final BottomSheetManager _bottomSheetManager;
 
   final RxList<MovieData> movies = <MovieData>[].obs;
   final RxList<MovieGroup> movieGroups = <MovieGroup>[].obs;
@@ -74,29 +79,67 @@ class FavoritesController extends GetxController {
   }
 
   Future<void> onAddMovieGroupPressed() async {
-    final String? groupName = await _dialogManager.showAddMovieGroupDialog();
-    if (groupName != null) {
-      final int groupId = await _movieGroupDao.saveMovieGroup(groupName);
-      if (pageState.value == FavoritesPageState.groups) {
-        final MovieGroup? insertedGroup = await _movieGroupDao.getMovieGroup(groupId);
-        if (insertedGroup != null) {
-          movieGroups.insert(0, insertedGroup);
-        }
+    final String? groupName = await _dialogManager.showFieldInputDialog(
+      header: trFavoritesHeaderAddGroup.tr,
+      inputHint: trCommonName.tr,
+    );
+    if (groupName == null) {
+      return;
+    }
+
+    final int groupId = await _movieGroupDao.saveMovieGroup(groupName);
+    if (pageState.value == FavoritesPageState.groups) {
+      final MovieGroup? insertedGroup = await _movieGroupDao.getMovieGroup(groupId);
+      if (insertedGroup != null) {
+        movieGroups.insert(0, insertedGroup);
       }
     }
   }
 
   Future<void> onGroupLongPressed(MovieGroup movieGroup) async {
-    final bool didConfirm = await _dialogManager.showConfirmationDialog(
-      title: ParameterizedTranslations.favoritesHeaderDeleteGroup(movieGroup.name),
-      content: ParameterizedTranslations.favoritesContentDeleteGroup(movieGroup.name),
-    );
+    if (movieGroup.groupId == null) {
+      return;
+    }
 
-    if (didConfirm) {
-      await _movieGroupDao.deleteMovieGroup(movieGroup);
-      if (pageState.value == FavoritesPageState.groups) {
-        movieGroups.remove(movieGroup);
-      }
+    final OptionMovieGroup? selectedOption =
+        await _bottomSheetManager.showOptionsSelector<OptionMovieGroup>(
+      OptionMovieGroup.values,
+      (OptionMovieGroup option) => option.translate(),
+    );
+    if (selectedOption == null) {
+      return;
+    }
+
+    switch (selectedOption) {
+      case OptionMovieGroup.editName:
+        final String? newGroupName = await _dialogManager.showFieldInputDialog(
+          header: trFavoritesHeaderEditMovieGroupName.tr,
+          inputHint: trCommonName.tr,
+          initialValue: movieGroup.name,
+        );
+        if (newGroupName == null) {
+          return;
+        }
+
+        await _movieGroupDao.updateMovieGroupName(movieGroup.groupId!, newGroupName);
+        if (pageState.value == FavoritesPageState.groups) {
+          await _fetchMovieGroups();
+        }
+        break;
+      case OptionMovieGroup.delete:
+        final bool didConfirm = await _dialogManager.showConfirmationDialog(
+          title: ParamTranslations.favoritesHeaderDeleteGroup(movieGroup.name),
+          content: ParamTranslations.favoritesContentDeleteGroup(movieGroup.name),
+        );
+        if (!didConfirm) {
+          return;
+        }
+
+        await _movieGroupDao.deleteMovieGroup(movieGroup.groupId!);
+        if (pageState.value == FavoritesPageState.groups) {
+          movieGroups.remove(movieGroup);
+        }
+        break;
     }
   }
 

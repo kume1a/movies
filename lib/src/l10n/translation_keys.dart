@@ -11,6 +11,7 @@ const String ptrCommonReviews = 'ptrCommonReviews';
 const String trCommonOther = 'trCommonOther';
 const String trCommonConfirmToDelete = 'trCommonConfirmToDelete';
 const String trCommonConfirm = 'trCommonConfirm';
+const String trCommonName = 'trCommonName';
 
 
 // genre
@@ -61,6 +62,11 @@ const String trLanguageSpa = 'trLanguageSpa';
 const String trLanguagePor = 'trLanguagePor';
 
 
+// option movie group
+const String trOptionMovieGroupEditName = 'trOptionMovieGroupEditName';
+const String trOptionMovieGroupDelete = 'trOptionMovieGroupDelete';
+
+
 // bottom nav
 const String trBottomNavHome = 'trBottomNavHome';
 const String trBottomNavFavorites = 'trBottomNavFavorites';
@@ -82,10 +88,10 @@ const String trFavoritesOptionGroups = 'trFavoritesOptionGroups';
 const String ptrFavoritesHeaderDeleteGroup = 'ptrFavoritesHeaderDeleteGroup';
 const String ptrFavoritesContentDeleteGroup = 'ptrFavoritesContentDeleteGroup';
 const String trFavoritesHeaderAddGroup = 'trFavoritesHeaderAddGroup';
-const String trFavoritesAddGroupHintNameField = 'trFavoritesAddGroupHintNameField';
 const String trFavoritesNoMovieHeader = 'trFavoritesNoMovieHeader';
 const String trFavoritesClick = 'trFavoritesClick';
 const String trFavoritesNoMoviesMessageEnd = 'trFavoritesNoMoviesMessageEnd';
+const String trFavoritesHeaderEditMovieGroupName = 'trFavoritesHeaderEditMovieGroupName';
 
 
 // statistics

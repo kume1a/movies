@@ -6,9 +6,9 @@ String formatDuration(int durationInMinutes, {bool emptyOnZero = true}) {
   final int hours = (durationInMinutes / 60).floor();
   final int minutes = durationInMinutes - hours * 60;
 
-  if (hours == 0) return ParameterizedTranslations.commonMinutes(minutes);
-  if (minutes == 0) return ParameterizedTranslations.commonHours(hours.toString());
-  return ParameterizedTranslations.commonDuration(hours, minutes);
+  if (hours == 0) return ParamTranslations.commonMinutes(minutes);
+  if (minutes == 0) return ParamTranslations.commonHours(hours.toString());
+  return ParamTranslations.commonDuration(hours, minutes);
 }
 
 String formatDurationFromSeconds(int seconds) {
