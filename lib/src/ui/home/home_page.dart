@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/main/home_controller.dart';
+import '../../controllers/home/home_controller.dart';
 import '../../l10n/translation_keys.dart';
 import '../core/values/colors.dart';
 import '../core/widgets/scroll_up_indicator.dart';

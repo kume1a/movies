@@ -12,6 +12,8 @@ const String trCommonOther = 'trCommonOther';
 const String trCommonConfirmToDelete = 'trCommonConfirmToDelete';
 const String trCommonConfirm = 'trCommonConfirm';
 const String trCommonName = 'trCommonName';
+const String trCommonResend = 'trCommonResend';
+const String trCommonCheck = 'trCommonCheck';
 
 
 // genre
@@ -80,6 +82,11 @@ const String trHomeWatchLaterLeftAt = 'trHomeWatchLaterLeftAt';
 const String trHomeHeaderTopSelection = 'trHomeHeaderTopSelection';
 const String trHomeHeaderMovies = 'trHomeHeaderMovies';
 const String trHomeConfirmDeleteSavedMovie = 'trHomeConfirmDeleteSavedMovie';
+
+
+// authorization prompt
+const String trAuthorizationPromptHeader = 'trAuthorizationPromptHeader';
+const String trAuthorizationPromptSubHeader = 'trAuthorizationPromptSubHeader';
 
 
 // favorites

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'src/di/injection.dart';
 import 'src/ui/app.dart';
 
-// TODO: add subtitles from api, group name edit. blurhash, download video
+// TODO: add subtitles from api, blurhash, download video
 
 class SafeCertificateHttpOverride extends HttpOverrides {
   @override
@@ -20,6 +21,8 @@ class SafeCertificateHttpOverride extends HttpOverrides {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   HttpOverrides.global = SafeCertificateHttpOverride();
 

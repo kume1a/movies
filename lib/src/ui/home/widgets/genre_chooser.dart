@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controllers/main/home_controller.dart';
+import '../../../controllers/home/home_controller.dart';
 import '../../../core/enums/genre.dart';
 import '../../../core/helpers/enum_helpers/genre_helper.dart';
 import '../../core/values/colors.dart';

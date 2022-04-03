@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/enums/supported_locale.dart';
+import '../authorization_prompt_dialog.dart';
 import '../clear_favorites_dialog.dart';
 import '../confirmation_dialog.dart';
 import '../dtap_to_seek_value_chooser_dialog.dart';
@@ -60,6 +61,11 @@ class DialogManager {
     required int currentValue,
   }) async =>
       Get.dialog(SaveMovieIntervalChooserDialog(currentValue: currentValue));
+
+  Future<void> showAuthorizationPromptDialog() async => Get.dialog(
+        const AuthorizationPromptDialog(),
+        barrierDismissible: false,
+      );
 
   Future<T?> _showSlideInDialog<T extends Object?>({
     required Widget child,

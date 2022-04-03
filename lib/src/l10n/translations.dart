@@ -21,6 +21,8 @@ class Translations extends getx.Translations {
         trCommonConfirmToDelete: 'Confirm to delete',
         trCommonConfirm: 'Confirm',
         trCommonName: 'Name',
+        trCommonResend: 'Resend',
+        trCommonCheck: 'Check',
 
 
         // genre
@@ -89,6 +91,11 @@ class Translations extends getx.Translations {
         trHomeHeaderTopSelection: 'Top Selection',
         trHomeHeaderMovies: 'Movies',
         trHomeConfirmDeleteSavedMovie: 'You really want to delete saved movie?',
+
+
+        // authorization prompt
+        trAuthorizationPromptHeader: 'Verification request sent',
+        trAuthorizationPromptSubHeader: 'Waiting for response',
 
 
         // favorites

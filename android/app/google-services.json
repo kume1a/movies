@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463866445657",
+    "project_id": "movo-70552",
+    "storage_bucket": "movo-70552.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463866445657:android:1db92d791a844b6a811648",
+        "android_client_info": {
+          "package_name": "com.kumela.movo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463866445657-n7rtmf6nb9gce1cjs1ck72o2crm9505t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUdr5l-6utcmwhom_wP499Qt6jNzr3xHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463866445657-n7rtmf6nb9gce1cjs1ck72o2crm9505t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

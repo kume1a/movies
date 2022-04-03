@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../controllers/main/home_controller.dart';
+import '../../../controllers/home/home_controller.dart';
 import '../../../core/extensions/model_l10n/movie_data_l10n_extensions.dart';
 import '../../../data/model/models/movies/saved_movie.dart';
 import '../../../l10n/translation_keys.dart';

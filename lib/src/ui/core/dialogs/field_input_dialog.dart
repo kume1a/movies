@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../l10n/translation_keys.dart';
 import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/tap_outside_to_clear_focus.dart';
-import '../values/colors.dart';
+import '../widgets/dialog_buttons.dart';
 
 class FieldInputDialog extends HookWidget {
   const FieldInputDialog({
@@ -41,8 +41,11 @@ class FieldInputDialog extends HookWidget {
             children: <Widget>[
               Text(
                 header,
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 32),
               TextField(
@@ -52,56 +55,32 @@ class FieldInputDialog extends HookWidget {
                       const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
                   hintText: inputHint,
                 ),
-                onChanged: (String value) {
-                  text.value = value;
-                },
+                onChanged: (String value) => text.value = value,
               ),
               const SizedBox(height: 64),
               Row(
                 children: <Widget>[
-                  Expanded(child: _buildCancelButton()),
+                  Expanded(
+                    child: DialogButtonNegative(
+                      onPressed: () => ScreensNavigator.pop(),
+                      label: trCommonCancel.tr,
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildSaveButton(text)),
+                  Expanded(
+                    child: DialogButtonPositve(
+                      onPressed: text.value.isNotEmpty
+                          ? () => ScreensNavigator.pop(result: text.value)
+                          : null,
+                      label: trCommonSave.tr,
+                    ),
+                  ),
                 ],
               )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildCancelButton() {
-    return TextButton(
-      onPressed: () => ScreensNavigator.pop(),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorPrimary),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white54),
-        overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
-        shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-      ),
-      child: Text(trCommonCancel.tr),
-    );
-  }
-
-  Widget _buildSaveButton(ValueNotifier<String> text) {
-    return TextButton(
-      onPressed: text.value.isNotEmpty ? () => ScreensNavigator.pop(result: text.value) : null,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (Set<MaterialState> states) =>
-              states.contains(MaterialState.disabled) ? colorAccent.withOpacity(.6) : colorAccent,
-        ),
-        foregroundColor: MaterialStateProperty.resolveWith(
-          (Set<MaterialState> states) =>
-              states.contains(MaterialState.disabled) ? Colors.white.withOpacity(.6) : Colors.white,
-        ),
-        overlayColor: MaterialStateProperty.all<Color>(Colors.white24),
-        shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-      ),
-      child: Text(trCommonSave.tr),
     );
   }
 }
