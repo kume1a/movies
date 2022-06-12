@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 
 import '../../../core/enums/genre.dart';
@@ -152,13 +154,19 @@ class MovieService extends BaseService {
     return result.map((MoviesSchema r) => Movies.fromSchema(r));
   }
 
-  Future<Either<FetchFailure, MovieData>> getMovie(int movieId) async {
-    final MovieData? savedMovieData = await _movieDao.getMovieData(movieId);
-    if (savedMovieData != null) {
-      return right(savedMovieData);
+  Future<Either<FetchFailure, MovieData>> getMovie(
+    int movieId, {
+    bool readFromCache = true,
+  }) async {
+    if (readFromCache) {
+      final MovieData? savedMovieData = await _movieDao.getMovieData(movieId);
+      if (savedMovieData != null) {
+        return right(savedMovieData);
+      }
     }
 
     await Future<void>.delayed(const Duration(milliseconds: 150));
+    log('MovieService.getMovie: getting movie from remote');
     final Either<FetchFailure, MovieSchema> result = await safeFetch(() {
       return _apiService.getMovie(
         movieId: movieId,
@@ -167,8 +175,20 @@ class MovieService extends BaseService {
       );
     });
 
-    if (result.isRight() && result.rightOrCrash.data != null && result.rightOrCrash.data?.canBePlayed == true) {
-      await _movieDao.writeMovieData(MovieData.fromSchema(result.rightOrCrash.data!));
+    if (result.isRight() &&
+        result.rightOrCrash.data != null &&
+        result.rightOrCrash.data?.canBePlayed == true) {
+      final MovieData movieData = MovieData.fromSchema(result.rightOrCrash.data!);
+      if (!await _movieDao.movieExistsById(movieData.id)) {
+        await _movieDao.writeMovieData(movieData);
+      }
+    }
+
+    if (result.isLeft() && !readFromCache) {
+      final MovieData? savedMovieData = await _movieDao.getMovieData(movieId);
+      if (savedMovieData != null) {
+        return right(savedMovieData);
+      }
     }
 
     return result.fold(
@@ -182,7 +202,11 @@ class MovieService extends BaseService {
     );
   }
 
-  Future<Either<FetchFailure, SeasonFiles>> getSeasonFiles(int id, int season, int seasonCount) async {
+  Future<Either<FetchFailure, SeasonFiles>> getSeasonFiles(
+    int id,
+    int season,
+    int seasonCount,
+  ) async {
     final bool shouldCache = season != seasonCount;
     if (shouldCache) {
       final SeasonFiles? savedSeasonFiles = await _seasonFileDao.getSeasonFiles(id, season);
@@ -200,7 +224,8 @@ class MovieService extends BaseService {
     );
 
     if (shouldCache && result.isRight()) {
-      await _seasonFileDao.writeSeasonFiles(id, SeasonFiles.fromSchema(season, result.rightOrCrash));
+      await _seasonFileDao.writeSeasonFiles(
+          id, SeasonFiles.fromSchema(season, result.rightOrCrash));
     }
     return result.map((SeasonFilesSchema r) => SeasonFiles.fromSchema(season, r));
   }

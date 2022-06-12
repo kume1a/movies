@@ -68,7 +68,8 @@ class DetailsController extends GetxController {
           movieNameEn: movie.value!.nameEn,
           groupId: selectedMovieGroup.groupId!,
         );
-        _favoritesControllerMiddleMan.onFavoriteMovieGroupSwitched(_movieId, movieGroup, selectedMovieGroup);
+        _favoritesControllerMiddleMan.onFavoriteMovieGroupSwitched(
+            _movieId, movieGroup, selectedMovieGroup);
         isFavorite = true;
       } else {
         final bool isFavorited = await _favoriteMovieDao.isMovieFavorited(_movieId);
@@ -95,7 +96,10 @@ class DetailsController extends GetxController {
             movieNameKa: movie.value!.nameKa,
             movieNameEn: movie.value!.nameEn,
           );
-          _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(_movieId, selectedMovieGroup.groupId);
+          _favoritesControllerMiddleMan.onFavoriteMovieAddedToGroup(
+            _movieId,
+            selectedMovieGroup.groupId,
+          );
           isFavorite = true;
         }
       }
@@ -126,7 +130,8 @@ class DetailsController extends GetxController {
 
     _fetchingActors = true;
 
-    final Either<FetchFailure, Actors> actors = await _movieService.getActors(_movieId, _actorsPage);
+    final Either<FetchFailure, Actors> actors =
+        await _movieService.getActors(_movieId, _actorsPage);
     if (this.actors.value != null) {
       actors.getOrElse(() => Actors.empty()).actors.insertAll(0, this.actors.value!.actors);
     }
@@ -138,17 +143,28 @@ class DetailsController extends GetxController {
   }
 
   void onWatchPressed() {
-    if (movie.value != null) {
-      if (moviePosition.value != null) {
-        ScreensNavigator.pushStreamPage(
-          movieId: moviePosition.value!.movieId,
-          episode: moviePosition.value!.season,
-          season: moviePosition.value!.season,
-          leftAt: moviePosition.value!.leftAt,
-        );
-      } else {
-        ScreensNavigator.pushStreamPage(movieId: movie.value!.movieId);
-      }
+    if (movie.value == null) {
+      return;
     }
+
+    if (moviePosition.value != null) {
+      ScreensNavigator.pushStreamPage(
+        movieId: moviePosition.value!.movieId,
+        episode: moviePosition.value!.season,
+        season: moviePosition.value!.season,
+        leftAt: moviePosition.value!.leftAt,
+      );
+      return;
+    }
+
+    ScreensNavigator.pushStreamPage(movieId: movie.value!.movieId);
+  }
+
+  Future<void> onRefresh() async {
+    final Either<FetchFailure, MovieData> movie = await _movieService.getMovie(
+      _movieId,
+      readFromCache: false,
+    );
+    this.movie.value = movie.get;
   }
 }

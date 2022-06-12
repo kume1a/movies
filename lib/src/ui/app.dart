@@ -12,6 +12,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      enableLog: false,
       title: 'movo',
       getPages: getIt<RouteGenerator>().getRoutes(),
       theme: Get.locale?.languageCode == 'ka' ? AppThemes.darkLocaleKa : AppThemes.dark,

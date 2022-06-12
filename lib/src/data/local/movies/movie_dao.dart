@@ -45,7 +45,9 @@ class MovieDao {
     if (dbMovie == null) return null;
 
     final List<DBMovieCover> movieCovers = await _movieCoverDao.getMovieCovers(movieId);
-    final Map<ImageSize, String> covers = <ImageSize, String>{for (DBMovieCover e in movieCovers) e.imageSize: e.cover};
+    final Map<ImageSize, String> covers = <ImageSize, String>{
+      for (DBMovieCover e in movieCovers) e.imageSize: e.cover
+    };
 
     final List<DBMovieSecondaryCover> movieSecondaryCovers =
         await _movieSecondaryCoverDao.getMovieSecondaryCovers(movieId);
@@ -162,6 +164,8 @@ class MovieDao {
       await _movieSeasonDao.insertMovieSeason(e);
     }
   }
+
+  Future<bool> movieExistsById(int id) async => _movieDao.existsById(id);
 
   Future<void> deleteMovies() async {
     await _movieSeasonDao.deleteAll();

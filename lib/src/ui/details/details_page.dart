@@ -46,54 +46,57 @@ class DetailsPage extends GetView<DetailsController> {
         );
       }),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: ImageHeader(
-                minExtent: 54,
-                maxExtent: w,
+        child: RefreshIndicator(
+          onRefresh: controller.onRefresh,
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: ImageHeader(
+                  minExtent: 54,
+                  maxExtent: w,
+                ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(controller.movie.value?.getName() ?? '', style: prB28),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Obx(
-                      () => RatingDurationYear(
-                        rating: controller.movie.value?.imdbRating,
-                        duration: controller.movie.value?.duration,
-                        releaseYear: controller.movie.value?.year,
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(controller.movie.value?.getName() ?? '', style: prB28),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 18),
-                  const GenreList(),
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Obx(() => Text(controller.movie.value?.getPlot() ?? '', style: pr15)),
-                  ),
-                  const SizedBox(height: 32),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: CastHeader(),
-                  ),
-                  const SizedBox(height: 16),
-                  CastList(),
-                  const SizedBox(height: 260),
-                ],
-              ),
-            )
-          ],
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Obx(
+                        () => RatingDurationYear(
+                          rating: controller.movie.value?.imdbRating,
+                          duration: controller.movie.value?.duration,
+                          releaseYear: controller.movie.value?.year,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    const GenreList(),
+                    const SizedBox(height: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Obx(() => Text(controller.movie.value?.getPlot() ?? '', style: pr15)),
+                    ),
+                    const SizedBox(height: 32),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: CastHeader(),
+                    ),
+                    const SizedBox(height: 16),
+                    CastList(),
+                    const SizedBox(height: 260),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

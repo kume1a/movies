@@ -59,4 +59,16 @@ class DBMovieDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableMovies.name);
+
+  Future<bool> existsById(int id) async {
+    final List<Map<String, Object?>> result = await _db.rawQuery('''
+      SELECT COUNT(${TableMovies.columnId})
+      FROM ${TableMovies.name}
+      WHERE ${TableMovies.name}.${TableMovies.columnId} = ?;
+    ''', <Object?>[
+      id,
+    ]);
+
+    return (Sqflite.firstIntValue(result) ?? -1) > 0;
+  }
 }
