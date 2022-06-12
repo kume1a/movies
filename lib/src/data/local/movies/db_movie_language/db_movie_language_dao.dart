@@ -38,4 +38,13 @@ class DBMovieLanguageDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableMovieLanguages.name);
+
+  Future<void> deleteAllByMovieId(int movieId) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableMovieLanguages.name}
+      WHERE ${TableMovieLanguages.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+  }
 }

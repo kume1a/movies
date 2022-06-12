@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:injectable/injectable.dart';
 
 import '../../../core/enums/genre.dart';
@@ -166,7 +164,6 @@ class MovieService extends BaseService {
     }
 
     await Future<void>.delayed(const Duration(milliseconds: 150));
-    log('MovieService.getMovie: getting movie from remote');
     final Either<FetchFailure, MovieSchema> result = await safeFetch(() {
       return _apiService.getMovie(
         movieId: movieId,
@@ -179,9 +176,9 @@ class MovieService extends BaseService {
         result.rightOrCrash.data != null &&
         result.rightOrCrash.data?.canBePlayed == true) {
       final MovieData movieData = MovieData.fromSchema(result.rightOrCrash.data!);
-      if (!await _movieDao.movieExistsById(movieData.id)) {
-        await _movieDao.writeMovieData(movieData);
-      }
+
+      await _movieDao.deleteMovieDataRelationsById(movieData.id);
+      await _movieDao.writeMovieData(movieData);
     }
 
     if (result.isLeft() && !readFromCache) {
@@ -225,7 +222,9 @@ class MovieService extends BaseService {
 
     if (shouldCache && result.isRight()) {
       await _seasonFileDao.writeSeasonFiles(
-          id, SeasonFiles.fromSchema(season, result.rightOrCrash));
+        id,
+        SeasonFiles.fromSchema(season, result.rightOrCrash),
+      );
     }
     return result.map((SeasonFilesSchema r) => SeasonFiles.fromSchema(season, r));
   }

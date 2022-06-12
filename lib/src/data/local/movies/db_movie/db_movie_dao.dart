@@ -60,11 +60,20 @@ class DBMovieDao {
 
   Future<void> deleteAll() async => _db.delete(TableMovies.name);
 
+  Future<void> deleteById(int id) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableMovies.name} 
+      WHERE ${TableMovies.name}.${TableMovies.columnId} = ?;
+    ''', <Object?>[
+      id,
+    ]);
+  }
+
   Future<bool> existsById(int id) async {
     final List<Map<String, Object?>> result = await _db.rawQuery('''
-      SELECT COUNT(${TableMovies.columnId})
+      SELECT COUNT(${TableMovies.columnId}) 
       FROM ${TableMovies.name}
-      WHERE ${TableMovies.name}.${TableMovies.columnId} = ?;
+      WHERE ${TableMovies.columnId} = ?;
     ''', <Object?>[
       id,
     ]);

@@ -93,24 +93,26 @@ class MovieDao {
   }
 
   Future<void> writeMovieData(MovieData movieData) async {
-    await _movieDao.insertDBMovie(
-      DBMovie(
-        id: movieData.id,
-        movieId: movieData.movieId,
-        nameKa: movieData.nameKa,
-        nameEn: movieData.nameEn,
-        year: movieData.year,
-        imdbUrl: movieData.imdbUrl,
-        isTvShow: movieData.isTvShow,
-        duration: movieData.duration,
-        canBePlayed: movieData.canBePlayed,
-        poster: movieData.poster,
-        imdbRating: movieData.imdbRating,
-        voterCount: movieData.voterCount,
-        plotKa: movieData.plotKa,
-        plotEn: movieData.plotEn,
-      ),
-    );
+    if (!await _movieDao.existsById(movieData.id)) {
+      await _movieDao.insertDBMovie(
+        DBMovie(
+          id: movieData.id,
+          movieId: movieData.movieId,
+          nameKa: movieData.nameKa,
+          nameEn: movieData.nameEn,
+          year: movieData.year,
+          imdbUrl: movieData.imdbUrl,
+          isTvShow: movieData.isTvShow,
+          duration: movieData.duration,
+          canBePlayed: movieData.canBePlayed,
+          poster: movieData.poster,
+          imdbRating: movieData.imdbRating,
+          voterCount: movieData.voterCount,
+          plotKa: movieData.plotKa,
+          plotEn: movieData.plotEn,
+        ),
+      );
+    }
 
     for (final MapEntry<ImageSize, String> e in movieData.covers.entries) {
       await _movieCoverDao.insertMovieCover(
@@ -165,8 +167,6 @@ class MovieDao {
     }
   }
 
-  Future<bool> movieExistsById(int id) async => _movieDao.existsById(id);
-
   Future<void> deleteMovies() async {
     await _movieSeasonDao.deleteAll();
     await _movieCoverDao.deleteAll();
@@ -175,5 +175,14 @@ class MovieDao {
     await _movieGenreDao.deleteAll();
     await _movieLanguageDao.deleteAll();
     await _movieDao.deleteAll();
+  }
+
+  Future<void> deleteMovieDataRelationsById(int id) async {
+    await _movieSeasonDao.deleteAllByMovieId(id);
+    await _movieTrailerDao.deleteAllByMovieId(id);
+    await _movieLanguageDao.deleteAllByMovieId(id);
+    await _movieGenreDao.deleteAllByMovieId(id);
+    await _movieSecondaryCoverDao.deleteAllByMovieId(id);
+    await _movieCoverDao.deleteAllByMovieId(id);
   }
 }

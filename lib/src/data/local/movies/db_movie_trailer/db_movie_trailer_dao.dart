@@ -40,4 +40,13 @@ class DBMovieTrailerDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableMovieTrailers.name);
+
+  Future<void> deleteAllByMovieId(int movieId) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableMovieTrailers.name}
+      WHERE ${TableMovieTrailers.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+  }
 }

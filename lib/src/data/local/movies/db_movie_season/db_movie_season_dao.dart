@@ -41,4 +41,13 @@ class DBMovieSeasonDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableSeasons.name);
+
+  Future<void> deleteAllByMovieId(int movieId) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableSeasons.name} 
+      WHERE ${TableSeasons.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+  }
 }

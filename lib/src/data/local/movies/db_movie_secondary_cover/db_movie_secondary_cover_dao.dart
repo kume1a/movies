@@ -40,4 +40,13 @@ class DBMovieSecondaryCoverDao {
   }
 
   Future<void> deleteAll() async => _db.delete(TableMovieSecondaryCovers.name);
+
+  Future<void> deleteAllByMovieId(int movieId) async {
+    await _db.rawDelete('''
+      DELETE FROM ${TableMovieSecondaryCovers.name}
+      WHERE ${TableMovieSecondaryCovers.columnMovieId} = ?;
+    ''', <Object?>[
+      movieId,
+    ]);
+  }
 }

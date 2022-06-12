@@ -262,7 +262,10 @@ class StreamController extends GetxController {
 
       // TODO: 03/07/2021 refactor insert or update logic to SavedMovieDao method
       if (await _savedMovieDao.positionForMovieExists(
-          movie.movieId, episodeSeason.value, episode.value)) {
+        movie.movieId,
+        episodeSeason.value,
+        episode.value,
+      )) {
         await _savedMovieDao.updateMoviePosition(movie.movieId, position.inMilliseconds);
       } else {
         _savedMovieDao.insertMoviePosition(
@@ -305,7 +308,10 @@ class StreamController extends GetxController {
     this.season.value = season;
 
     final Either<FetchFailure, SeasonFiles> seasonFiles = await _movieService.getSeasonFiles(
-        getMovieOrCrash.id, season, getMovieOrCrash.seasons.length);
+      getMovieOrCrash.id,
+      season,
+      getMovieOrCrash.seasons.length,
+    );
 
     this.seasonFiles.value = seasonFiles.get;
   }
@@ -336,8 +342,10 @@ class StreamController extends GetxController {
         if (!const DeepCollectionEquality().equals(qualities, episodeQualities)) {
           qualities = episodeQualities;
           final Quality preferredQuality = await _preferencesHelper.readPreferredQuality();
-          quality.value = qualities.firstWhere((Quality e) => e == preferredQuality,
-              orElse: () => qualities.first);
+          quality.value = qualities.firstWhere(
+            (Quality e) => e == preferredQuality,
+            orElse: () => qualities.first,
+          );
         }
       }
 
