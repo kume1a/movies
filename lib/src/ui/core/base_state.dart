@@ -6,12 +6,12 @@ abstract class UIOverlaySaverState<T extends StatefulWidget> extends State<T> wi
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
