@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 
 import 'src/di/injection.dart';
 import 'src/ui/app.dart';
@@ -38,3 +39,5 @@ Future<void> main() async {
 
   runApp(App());
 }
+
+final Logger logger = Logger();

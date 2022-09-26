@@ -347,8 +347,9 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
         }
         final int season = seasonNumbers[index - 1];
 
+        // TODO: 03.09.22 change style
         // ignore: deprecated_member_use
-        return FlatButton(
+        return TextButton(
           onPressed: () {
             _pageController.animateToPage(
               1,
@@ -360,10 +361,10 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
               streamController.onSeasonChanged(season);
             }
           },
-          color: season == selectedSeason ? activeColor : Colors.transparent,
-          minWidth: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 36),
-          height: 50,
+          // color: season == selectedSeason ? activeColor : Colors.transparent,
+          // minWidth: double.infinity,
+          // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 36),
+          // height: 50,
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(ParamTranslations.streamSeason(season), style: prB19),
@@ -379,10 +380,11 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     required int episodeSeason,
     required int season,
   }) {
+    // TODO: 03.09.22 change style
     return Column(
       children: <Widget>[
         // ignore: deprecated_member_use
-        FlatButton(
+        TextButton(
           onPressed: () {
             _pageController.animateToPage(
               0,
@@ -390,10 +392,10 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
               curve: Curves.bounceIn,
             );
           },
-          color: backgroundColor,
-          minWidth: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-          height: 50,
+          // color: backgroundColor,
+          // minWidth: double.infinity,
+          // padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+          // height: 50,
           child: Row(
             children: <Widget>[
               const Icon(Icons.chevron_left),

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../main.dart';
 import '../../data/network/api_service.dart';
 import '../../data/network/interceptors/api_service_header_interceptor.dart';
 import '../../data/network/interceptors/authorization_interceptor.dart';
+import '../../data/network/interceptors/log.dart';
 
 @module
 abstract class NetworkModule {
@@ -22,7 +24,7 @@ abstract class NetworkModule {
     );
     dio.interceptors.add(authorizationInterceptor);
     dio.interceptors.add(headerInterceptor);
-    // dio.interceptors.add(LogInterceptor(responseBody: true));
+    dio.interceptors.add(PrettyLogInterceptor(responseBody: true,logPrint: logger.d));
 
     return dio;
   }
