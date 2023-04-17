@@ -17,9 +17,9 @@ typedef ChewieRoutePageBuilder = Widget Function(
 /// make it easy to use!
 class Chewie extends StatefulWidget {
   const Chewie({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   /// The [ChewieController]
   final ChewieController controller;
@@ -113,7 +113,8 @@ class ChewieState extends State<Chewie> {
     if (widget.controller.routePageBuilder == null) {
       return _defaultRoutePageBuilder(context, animation, secondaryAnimation, controllerProvider);
     }
-    return widget.controller.routePageBuilder!.call(context, animation, secondaryAnimation, controllerProvider);
+    return widget.controller.routePageBuilder!
+        .call(context, animation, secondaryAnimation, controllerProvider);
   }
 
   Future<dynamic> _pushFullScreenWidget(BuildContext context) async {
@@ -135,7 +136,8 @@ class ChewieState extends State<Chewie> {
     // so we do not need to check Wakelock.isEnabled.
     // Wakelock.disable();
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: widget.controller.systemOverlaysAfterFullScreen);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: widget.controller.systemOverlaysAfterFullScreen);
     SystemChrome.setPreferredOrientations(widget.controller.deviceOrientationsAfterFullScreen);
   }
 
@@ -405,10 +407,9 @@ class ChewieController extends ChangeNotifier {
 
 class _ChewieControllerProvider extends InheritedWidget {
   const _ChewieControllerProvider({
-    Key? key,
     required this.controller,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final ChewieController controller;
 
@@ -417,7 +418,7 @@ class _ChewieControllerProvider extends InheritedWidget {
 }
 
 class PlayerWithControls extends StatelessWidget {
-  const PlayerWithControls({Key? key}) : super(key: key);
+  const PlayerWithControls({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -425,7 +426,7 @@ class PlayerWithControls extends StatelessWidget {
 
     if (chewieController == null) return const SizedBox.shrink();
 
-    double _calculateAspectRatio(BuildContext context) {
+    double calculateAspectRatio(BuildContext context) {
       final Size size = MediaQuery.of(context).size;
       final double width = size.width;
       final double height = size.height;
@@ -433,14 +434,14 @@ class PlayerWithControls extends StatelessWidget {
       return width > height ? width / height : height / width;
     }
 
-    Widget _buildControls(
+    Widget buildControls(
       BuildContext context,
       ChewieController chewieController,
     ) {
       return chewieController.showControls ? chewieController.customControls : const SizedBox.shrink();
     }
 
-    Stack _buildPlayerWithControls(ChewieController chewieController, BuildContext context) {
+    Stack buildPlayerWithControls(ChewieController chewieController, BuildContext context) {
       final VideoPlayer videoPlayer = VideoPlayer(chewieController.videoPlayerController);
 
       return Stack(
@@ -455,25 +456,25 @@ class PlayerWithControls extends StatelessWidget {
                       }
 
                       return AspectRatio(
-                        aspectRatio:
-                            chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
+                        aspectRatio: chewieController.aspectRatio ??
+                            chewieController.videoPlayerController.value.aspectRatio,
                         child: videoPlayer,
                       );
                     },
                     future: chewieController.initialize(),
                   )
                 : AspectRatio(
-                    aspectRatio:
-                        chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
+                    aspectRatio: chewieController.aspectRatio ??
+                        chewieController.videoPlayerController.value.aspectRatio,
                     child: videoPlayer,
                   ),
           ),
           chewieController.overlay ?? const SizedBox.shrink(),
           if (!chewieController.isFullScreen)
-            _buildControls(context, chewieController)
+            buildControls(context, chewieController)
           else
             SafeArea(
-              child: _buildControls(context, chewieController),
+              child: buildControls(context, chewieController),
             ),
         ],
       );
@@ -484,8 +485,8 @@ class PlayerWithControls extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: AspectRatio(
-          aspectRatio: _calculateAspectRatio(context),
-          child: _buildPlayerWithControls(chewieController, context),
+          aspectRatio: calculateAspectRatio(context),
+          child: buildPlayerWithControls(chewieController, context),
         ),
       ),
     );

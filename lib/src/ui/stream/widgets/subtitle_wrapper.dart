@@ -6,9 +6,9 @@ import '../../../data/model/models/subtitles/subtitle.dart';
 
 class SubTitleWrapper extends GetView<SubtitlesController> {
   const SubTitleWrapper({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

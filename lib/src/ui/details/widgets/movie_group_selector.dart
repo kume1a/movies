@@ -19,7 +19,7 @@ Future<MovieGroup?> showMovieGroupSelector(BuildContext context, int movieId) as
 }
 
 class _MovieGroupSelector extends GetWidget<MovieGroupSelectorController> {
-  const _MovieGroupSelector({Key? key}) : super(key: key);
+  const _MovieGroupSelector();
 
   @override
   Widget build(BuildContext context) {

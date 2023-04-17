@@ -5,7 +5,7 @@ import '../../../controllers/settings/settings_controller.dart';
 import '../../../l10n/translation_keys.dart';
 
 class TileClearSearchHistory extends GetView<SettingsController> {
-  const TileClearSearchHistory({Key? key}) : super(key: key);
+  const TileClearSearchHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TileClearSearchHistory extends GetView<SettingsController> {
 }
 
 class TileClearSavedMovies extends GetView<SettingsController> {
-  const TileClearSavedMovies({Key? key}) : super(key: key);
+  const TileClearSavedMovies({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class TileClearSavedMovies extends GetView<SettingsController> {
 }
 
 class TileRecordSearchHistory extends GetView<SettingsController> {
-  const TileRecordSearchHistory({Key? key}) : super(key: key);
+  const TileRecordSearchHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class TileRecordSearchHistory extends GetView<SettingsController> {
 }
 
 class TileRecordWatchHistory extends GetView<SettingsController> {
-  const TileRecordWatchHistory({Key? key}) : super(key: key);
+  const TileRecordWatchHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class TileRecordWatchHistory extends GetView<SettingsController> {
 }
 
 class TileClearFavorites extends GetView<SettingsController> {
-  const TileClearFavorites({Key? key}) : super(key: key);
+  const TileClearFavorites({super.key});
 
   @override
   Widget build(BuildContext context) {

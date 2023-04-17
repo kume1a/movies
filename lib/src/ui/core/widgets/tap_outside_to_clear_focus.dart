@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class TapOutsideToClearFocus extends HookWidget {
   const TapOutsideToClearFocus({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

@@ -72,7 +72,7 @@ class PlayerControlsController extends GetxController with GetSingleTickerProvid
   }
 
   void onDidChangeDependencies(ChewieController? controller) {
-    final ChewieController? _oldController = chewieController;
+    final ChewieController? oldController = chewieController;
     chewieController = controller;
     videoPlayerController.value = chewieController?.videoPlayerController;
 
@@ -84,7 +84,7 @@ class PlayerControlsController extends GetxController with GetSingleTickerProvid
       duration: const Duration(milliseconds: 300),
     );
 
-    if (_oldController != chewieController) {
+    if (oldController != chewieController) {
       _dispose();
       _initialize();
     }
@@ -216,7 +216,8 @@ class PlayerControlsController extends GetxController with GetSingleTickerProvid
 
     _updateState();
 
-    if ((videoPlayerController.value?.value != null && videoPlayerController.value?.value.isPlaying == true) ||
+    if ((videoPlayerController.value?.value != null &&
+            videoPlayerController.value?.value.isPlaying == true) ||
         chewieController?.autoPlay == true) {
       _startHideTimer();
     }

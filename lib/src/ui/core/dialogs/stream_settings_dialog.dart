@@ -16,7 +16,7 @@ const double _headerSpacing = 8;
 const double _spacing = 36;
 
 class StreamSettingsDialog extends StatelessWidget {
-  const StreamSettingsDialog({Key? key}) : super(key: key);
+  const StreamSettingsDialog({super.key});
 
   SubtitlesController get subtitlesController => Get.find();
 
@@ -34,7 +34,8 @@ class StreamSettingsDialog extends StatelessWidget {
             bottomLeft: Radius.circular(24),
           );
 
-    const TextStyle headerTextStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: colorTextSecondary);
+    const TextStyle headerTextStyle =
+        TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: colorTextSecondary);
 
     return Dialog(
       elevation: 0,
@@ -128,7 +129,8 @@ class StreamSettingsDialog extends StatelessWidget {
               ).paddingSymmetric(horizontal: 16),
             ),
             _showIfSubtitlesShowing(const SizedBox(height: _headerSpacing)),
-            _showIfSubtitlesShowing(const SubtitleSpacingFromBottomSelector().paddingSymmetric(horizontal: 16)),
+            _showIfSubtitlesShowing(
+                const SubtitleSpacingFromBottomSelector().paddingSymmetric(horizontal: 16)),
 
             _showIfSubtitlesShowing(const SizedBox(height: _spacing)),
             _showIfSubtitlesShowing(
@@ -170,14 +172,14 @@ class StreamSettingsDialog extends StatelessWidget {
 }
 
 class _QualityTabs extends GetView<StreamController> {
-  const _QualityTabs({Key? key}) : super(key: key);
+  const _QualityTabs();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 42,
       color: colorPrimary,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: colorPrimaryLight, borderRadius: BorderRadius.circular(21)),
         child: Obx(
           () {
@@ -203,14 +205,14 @@ class _QualityTabs extends GetView<StreamController> {
 }
 
 class _LanguageTabs extends GetView<StreamController> {
-  const _LanguageTabs({Key? key}) : super(key: key);
+  const _LanguageTabs();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 42,
       color: colorPrimary,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: colorPrimaryLight, borderRadius: BorderRadius.circular(21)),
         child: Obx(
           () {
@@ -236,7 +238,7 @@ class _LanguageTabs extends GetView<StreamController> {
 }
 
 class _PlaybackSpeedTabs extends GetView<PlayerControlsController> {
-  const _PlaybackSpeedTabs({Key? key}) : super(key: key);
+  const _PlaybackSpeedTabs();
 
   static const List<double> playbackSpeeds = <double>[.25, .5, 1, 1.25, 1.5, 1.75, 2];
 
@@ -245,7 +247,7 @@ class _PlaybackSpeedTabs extends GetView<PlayerControlsController> {
     return Container(
       height: 42,
       color: colorPrimary,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: colorPrimaryLight, borderRadius: BorderRadius.circular(21)),
         child: Obx(
           () {
@@ -272,7 +274,7 @@ class _PlaybackSpeedTabs extends GetView<PlayerControlsController> {
 }
 
 class ButtonImportSubtitles extends GetView<SubtitlesController> {
-  const ButtonImportSubtitles({Key? key}) : super(key: key);
+  const ButtonImportSubtitles({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +293,7 @@ class ButtonImportSubtitles extends GetView<SubtitlesController> {
 }
 
 class SubtitleOffsetSelector extends GetView<SubtitlesController> {
-  const SubtitleOffsetSelector({Key? key}) : super(key: key);
+  const SubtitleOffsetSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +352,7 @@ class SubtitleOffsetSelector extends GetView<SubtitlesController> {
 }
 
 class SubtitleTextSizeSelector extends GetView<SubtitlesController> {
-  const SubtitleTextSizeSelector({Key? key}) : super(key: key);
+  const SubtitleTextSizeSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -367,7 +369,7 @@ class SubtitleTextSizeSelector extends GetView<SubtitlesController> {
 }
 
 class SubtitleSpacingFromBottomSelector extends GetView<SubtitlesController> {
-  const SubtitleSpacingFromBottomSelector({Key? key}) : super(key: key);
+  const SubtitleSpacingFromBottomSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +385,7 @@ class SubtitleSpacingFromBottomSelector extends GetView<SubtitlesController> {
 }
 
 class SubtitleTextColorSelector extends GetView<SubtitlesController> {
-  const SubtitleTextColorSelector({Key? key}) : super(key: key);
+  const SubtitleTextColorSelector({super.key});
 
   static final List<Color> colors = <Color>[
     Colors.black,
@@ -431,7 +433,9 @@ class SubtitleTextColorSelector extends GetView<SubtitlesController> {
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(4),
-                  border: controller.subtitleTextColor.value == color ? Border.all(color: colorAccent, width: 2) : null,
+                  border: controller.subtitleTextColor.value == color
+                      ? Border.all(color: colorAccent, width: 2)
+                      : null,
                 ),
               ),
             ),
@@ -443,7 +447,7 @@ class SubtitleTextColorSelector extends GetView<SubtitlesController> {
 }
 
 class SubtitleBorderThicknessSelector extends GetView<SubtitlesController> {
-  const SubtitleBorderThicknessSelector({Key? key}) : super(key: key);
+  const SubtitleBorderThicknessSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -459,7 +463,7 @@ class SubtitleBorderThicknessSelector extends GetView<SubtitlesController> {
 }
 
 class SubtitleBorderColorSelector extends GetView<SubtitlesController> {
-  const SubtitleBorderColorSelector({Key? key}) : super(key: key);
+  const SubtitleBorderColorSelector({super.key});
 
   static final List<Color> colors = <Color>[
     Colors.black,
@@ -507,8 +511,9 @@ class SubtitleBorderColorSelector extends GetView<SubtitlesController> {
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(4),
-                  border:
-                      controller.subtitleBorderColor.value == color ? Border.all(color: colorAccent, width: 2) : null,
+                  border: controller.subtitleBorderColor.value == color
+                      ? Border.all(color: colorAccent, width: 2)
+                      : null,
                 ),
               ),
             ),

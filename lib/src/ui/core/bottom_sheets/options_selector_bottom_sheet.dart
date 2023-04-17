@@ -4,10 +4,10 @@ import '../routes/screens_navigator.dart';
 
 class OptionsSelectorBottomSheet<T extends Enum> extends StatelessWidget {
   const OptionsSelectorBottomSheet({
-    Key? key,
+    super.key,
     required this.options,
     required this.toStringMapper,
-  }) : super(key: key);
+  });
 
   final List<T> options;
   final String Function(T option) toStringMapper;
@@ -20,7 +20,6 @@ class OptionsSelectorBottomSheet<T extends Enum> extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: mediaQueryData.size.height * .6,
-
         ),
         child: ListView.builder(
           shrinkWrap: true,

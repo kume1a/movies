@@ -8,7 +8,7 @@ import '../../core/values/colors.dart';
 import '../../core/values/text_styles.dart';
 
 class GenreChooser extends GetView<HomeController> {
-  const GenreChooser({Key? key}) : super(key: key);
+  const GenreChooser({super.key});
 
   static const List<Genre> _genres = Genre.values;
 

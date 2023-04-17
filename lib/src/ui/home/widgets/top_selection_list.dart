@@ -17,7 +17,7 @@ const double _radius = 4;
 const double _spacing = 16;
 
 class TopSelectionList extends GetView<HomeController> {
-  const TopSelectionList({Key? key}) : super(key: key);
+  const TopSelectionList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,8 @@ class TopSelectionList extends GetView<HomeController> {
 
 class _Item extends GetView<HomeController> {
   const _Item({
-    Key? key,
     required this.movie,
-  }) : super(key: key);
+  });
 
   final MovieData movie;
 
@@ -90,7 +89,7 @@ class _Item extends GetView<HomeController> {
 }
 
 class _ItemBlank extends StatelessWidget {
-  const _ItemBlank({Key? key}) : super(key: key);
+  const _ItemBlank();
 
   @override
   Widget build(BuildContext context) {

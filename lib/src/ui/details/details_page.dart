@@ -13,7 +13,7 @@ import '../core/widgets/rating_duration.dart';
 import 'widgets/widgets.dart';
 
 class DetailsPage extends GetView<DetailsController> {
-  const DetailsPage({Key? key}) : super(key: key);
+  const DetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

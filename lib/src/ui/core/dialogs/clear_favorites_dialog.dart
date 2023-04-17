@@ -21,7 +21,7 @@ class ClearFavoritesResult {
 }
 
 class ClearFavoritesDialog extends HookWidget {
-  const ClearFavoritesDialog({Key? key}) : super(key: key);
+  const ClearFavoritesDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +56,8 @@ class ClearFavoritesDialog extends HookWidget {
           child: Text(trCommonCancel.tr),
         ),
         TextButton(
-          onPressed: () =>
-              ScreensNavigator.pop(result: ClearFavoritesResult(didConfirm: true, clearMovieGroups: isChecked.value)),
+          onPressed: () => ScreensNavigator.pop(
+              result: ClearFavoritesResult(didConfirm: true, clearMovieGroups: isChecked.value)),
           child: Text(trCommonClear.tr),
         ),
       ],

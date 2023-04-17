@@ -7,10 +7,9 @@ import '../../core/formatters.dart';
 
 class _InfoTile extends StatelessWidget {
   const _InfoTile({
-    Key? key,
     required this.title,
     required this.value,
-  }) : super(key: key);
+  });
 
   final String title;
   final String value;
@@ -31,7 +30,7 @@ class _InfoTile extends StatelessWidget {
 }
 
 class TileMoviesWatched extends GetView<StatisticsController> {
-  const TileMoviesWatched({Key? key}) : super(key: key);
+  const TileMoviesWatched({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class TileMoviesWatched extends GetView<StatisticsController> {
 }
 
 class TileTvSeriesWatched extends GetView<StatisticsController> {
-  const TileTvSeriesWatched({Key? key}) : super(key: key);
+  const TileTvSeriesWatched({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class TileTvSeriesWatched extends GetView<StatisticsController> {
 }
 
 class TileEpisodesWatched extends GetView<StatisticsController> {
-  const TileEpisodesWatched({Key? key}) : super(key: key);
+  const TileEpisodesWatched({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,7 @@ class TileEpisodesWatched extends GetView<StatisticsController> {
 }
 
 class TileAverageTime extends GetView<StatisticsController> {
-  const TileAverageTime({Key? key}) : super(key: key);
+  const TileAverageTime({super.key});
 
   @override
   Widget build(BuildContext context) {

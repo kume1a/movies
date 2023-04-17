@@ -58,21 +58,21 @@ class SubtitleRemoteLoaderImpl implements SubtitleRemoteLoader {
 
   // Gets the content type from the headers and returns it as a media type
   MediaType _contentTypeForHeaders(Map<String, String> headers) {
-    String _contentType = headers['content-type']!;
-    if (_hasSemiColonEnding(_contentType)) {
-      _contentType = _fixSemiColonEnding(_contentType);
+    String contentType = headers['content-type']!;
+    if (_hasSemiColonEnding(contentType)) {
+      contentType = _fixSemiColonEnding(contentType);
     }
-    return MediaType.parse(_contentType);
+    return MediaType.parse(contentType);
   }
 
   // Check if the string is ending with a semicolon.
-  bool _hasSemiColonEnding(String _string) {
-    return _string.substring(_string.length - 1, _string.length) == ';';
+  bool _hasSemiColonEnding(String string) {
+    return string.substring(string.length - 1, string.length) == ';';
   }
 
   // Remove ending semicolon from string.
-  String _fixSemiColonEnding(String _string) {
-    return _string.substring(0, _string.length - 1);
+  String _fixSemiColonEnding(String string) {
+    return string.substring(0, string.length - 1);
   }
 
   // Gets the encoding type for the charset string with a fall back to utf8

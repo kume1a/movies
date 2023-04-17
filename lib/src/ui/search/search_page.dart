@@ -9,14 +9,14 @@ import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
 class SearchPage extends GetView<SearchController> {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: TapOutsideToClearFocus(
-          child: Container(
+          child: ColoredBox(
             color: Colors.transparent,
             child: Column(
               children: <Widget>[

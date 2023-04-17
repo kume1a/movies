@@ -8,7 +8,7 @@ import '../../../data/model/models/movie_groups/movie_group.dart';
 import '../../core/values/colors.dart';
 
 class MovieGroups extends GetView<FavoritesController> {
-  const MovieGroups({Key? key}) : super(key: key);
+  const MovieGroups({super.key});
 
   @override
   Widget build(BuildContext context) {

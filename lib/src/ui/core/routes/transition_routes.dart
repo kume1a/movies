@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 
 class FadeInPageRoute<T> extends MaterialPageRoute<T> {
   FadeInPageRoute({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-  }) : super(
-          builder: builder,
-          settings: settings,
-          maintainState: maintainState,
-          fullscreenDialog: fullscreenDialog,
-        ) {
+    required super.builder,
+    super.settings,
+    super.maintainState,
+    super.fullscreenDialog,
+  }) {
     assert(opaque);
   }
 

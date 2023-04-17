@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class Carousel extends HookWidget {
   const Carousel({
-    Key? key,
+    super.key,
     required this.height,
     required this.itemCount,
     required this.itemBuilder,
@@ -11,7 +11,7 @@ class Carousel extends HookWidget {
     this.onPageChanged,
     this.viewPortFraction = .84,
     this.distortionValue = .3,
-  }) : super(key: key);
+  });
 
   final double height;
   final int itemCount;
@@ -53,7 +53,7 @@ class Carousel extends HookWidget {
               } catch (e) {
                 final BuildContext storageContext = pageController.position.context.storageContext;
                 final double? previousSavedPosition =
-                    PageStorage.of(storageContext)?.readState(storageContext) as double?;
+                    PageStorage.of(storageContext).readState(storageContext) as double?;
                 if (previousSavedPosition != null) {
                   itemOffset = previousSavedPosition - index.toDouble();
                 } else {

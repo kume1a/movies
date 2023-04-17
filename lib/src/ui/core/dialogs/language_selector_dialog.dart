@@ -8,9 +8,9 @@ import '../routes/screens_navigator.dart';
 
 class LanguageSelectorDialog extends StatelessWidget {
   const LanguageSelectorDialog({
-    Key? key,
+    super.key,
     required this.selectedLocale,
-  }) : super(key: key);
+  });
 
   final SupportedLocale selectedLocale;
 

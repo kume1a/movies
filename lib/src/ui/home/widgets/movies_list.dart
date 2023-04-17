@@ -32,9 +32,8 @@ class MoviesList extends GetView<HomeController> {
 
 class _Item extends GetView<HomeController> {
   const _Item({
-    Key? key,
     required this.movie,
-  }) : super(key: key);
+  });
 
   final MovieData movie;
 
@@ -56,7 +55,7 @@ class _Item extends GetView<HomeController> {
 }
 
 class _ItemLoader extends StatelessWidget {
-  const _ItemLoader({Key? key}) : super(key: key);
+  const _ItemLoader();
 
   @override
   Widget build(BuildContext context) {

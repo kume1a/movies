@@ -6,8 +6,13 @@ part of 'api_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+
 class _ApiService implements ApiService {
-  _ApiService(this._dio, {this.baseUrl}) {
+  _ApiService(
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'https://api.adjaranet.com/api/v1';
   }
 
@@ -16,21 +21,22 @@ class _ApiService implements ApiService {
   String? baseUrl;
 
   @override
-  Future<MoviesSchema> getMovies(
-      {page,
-      perPage,
-      filterYearRange,
-      filterInit,
-      filterSort,
-      filterWithActors,
-      filterWithDirectors,
-      filterWithFiles,
-      filterImdbRatingRange,
-      filterLanguage,
-      filterType,
-      filterGenre,
-      sort,
-      source}) async {
+  Future<MoviesSchema> getMovies({
+    page,
+    perPage,
+    filterYearRange,
+    filterInit,
+    filterSort,
+    filterWithActors,
+    filterWithDirectors,
+    filterWithFiles,
+    filterImdbRatingRange,
+    filterLanguage,
+    filterType,
+    filterGenre,
+    sort,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
@@ -46,16 +52,24 @@ class _ApiService implements ApiService {
       r'filters[type]': filterType,
       r'filters[genre]': filterGenre,
       r'sort': sort,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MoviesSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MoviesSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MoviesSchema.fromJson(_result.data!);
     return value;
   }
@@ -65,26 +79,35 @@ class _ApiService implements ApiService {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'source': source};
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MoviesSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/featured',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MoviesSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/featured',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MoviesSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<MoviesSchema> getTopMovies(
-      {type,
-      period,
-      page,
-      perPage,
-      filterWithActors,
-      filterWithDirectors,
-      source}) async {
+  Future<MoviesSchema> getTopMovies({
+    type,
+    period,
+    page,
+    perPage,
+    filterWithActors,
+    filterWithDirectors,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'type': type,
@@ -93,118 +116,171 @@ class _ApiService implements ApiService {
       r'per_page': perPage,
       r'filters[with_actors]': filterWithActors,
       r'filters[with_directors]': filterWithDirectors,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MoviesSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/top',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MoviesSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/top',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MoviesSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<MovieSchema> getMovie(
-      {required movieId, filterWithDirectors, source}) async {
+  Future<MovieSchema> getMovie({
+    required movieId,
+    filterWithDirectors,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'filters[with_directors]': filterWithDirectors,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MovieSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/$movieId',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MovieSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/${movieId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MovieSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<SeasonFilesSchema> getSeasonFiles(
-      {required movieId, required season, source}) async {
+  Future<SeasonFilesSchema> getSeasonFiles({
+    required movieId,
+    required season,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'source': source};
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<SeasonFilesSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/$movieId/season-files/$season',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<SeasonFilesSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/${movieId}/season-files/${season}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SeasonFilesSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<ActorsSchema> getActors(
-      {required movieId, page, perPage, filterRole, source}) async {
+  Future<ActorsSchema> getActors({
+    required movieId,
+    page,
+    perPage,
+    filterRole,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'per_page': perPage,
       r'filters[role]': filterRole,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ActorsSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/$movieId/persons',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ActorsSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/${movieId}/persons',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ActorsSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<MoviesSchema> getRelatedMovies(
-      {required movieId,
-      page,
-      perPage,
-      filterWithActors,
-      filterWithDirectors,
-      source}) async {
+  Future<MoviesSchema> getRelatedMovies({
+    required movieId,
+    page,
+    perPage,
+    filterWithActors,
+    filterWithDirectors,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'per_page': perPage,
       r'filters[with_actors]': filterWithActors,
       r'filters[with_directors]': filterWithDirectors,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MoviesSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/movies/$movieId/related',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MoviesSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movies/${movieId}/related',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MoviesSchema.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<SearchResultsSchema> search(
-      {filterKeyword,
-      filterInit,
-      filterWithActors,
-      filterWithDirectors,
-      filterType,
-      keywords,
-      page,
-      perPage,
-      source}) async {
+  Future<SearchResultsSchema> search({
+    filterKeyword,
+    filterInit,
+    filterWithActors,
+    filterWithDirectors,
+    filterType,
+    keywords,
+    page,
+    perPage,
+    source,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'movie_filters[keyword]': filterKeyword,
@@ -215,16 +291,24 @@ class _ApiService implements ApiService {
       r'keywords': keywords,
       r'page': page,
       r'per_page': perPage,
-      r'source': source
+      r'source': source,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<SearchResultsSchema>(
-            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-                .compose(_dio.options, '/search',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        _setStreamType<SearchResultsSchema>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/search',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = SearchResultsSchema.fromJson(_result.data!);
     return value;
   }

@@ -7,7 +7,7 @@ import '../../../core/helpers/enum_helpers/movie_genre_helper.dart';
 import '../../core/values/colors.dart';
 
 class GenreList extends GetView<DetailsController> {
-  const GenreList({Key? key}) : super(key: key);
+  const GenreList({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,9 +7,9 @@ import '../routes/screens_navigator.dart';
 
 class DtapToSeekValueChooserDialog extends StatelessWidget {
   const DtapToSeekValueChooserDialog({
-    Key? key,
+    super.key,
     required this.currentValue,
-  }) : super(key: key);
+  });
 
   final int currentValue;
 

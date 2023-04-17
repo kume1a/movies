@@ -6,7 +6,7 @@ import '../../core/enums/favorites_page_state.dart';
 import 'widgets/widgets.dart';
 
 class FavoritesPage extends GetView<FavoritesController> {
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

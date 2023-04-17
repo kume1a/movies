@@ -8,7 +8,7 @@ import '../core/widgets/scroll_up_indicator.dart';
 import 'widgets/widgets.dart';
 
 class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

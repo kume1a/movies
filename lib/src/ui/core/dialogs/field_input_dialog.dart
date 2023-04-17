@@ -9,11 +9,11 @@ import '../widgets/dialog_buttons.dart';
 
 class FieldInputDialog extends HookWidget {
   const FieldInputDialog({
-    Key? key,
+    super.key,
     required this.header,
     required this.inputHint,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   final String header;
   final String inputHint;
@@ -51,8 +51,7 @@ class FieldInputDialog extends HookWidget {
               TextField(
                 controller: editingController,
                 decoration: InputDecoration(
-                  enabledBorder:
-                      const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+                  enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
                   hintText: inputHint,
                 ),
                 onChanged: (String value) => text.value = value,
@@ -69,9 +68,8 @@ class FieldInputDialog extends HookWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: DialogButtonPositve(
-                      onPressed: text.value.isNotEmpty
-                          ? () => ScreensNavigator.pop(result: text.value)
-                          : null,
+                      onPressed:
+                          text.value.isNotEmpty ? () => ScreensNavigator.pop(result: text.value) : null,
                       label: trCommonSave.tr,
                     ),
                   ),

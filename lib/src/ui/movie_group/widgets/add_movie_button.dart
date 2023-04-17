@@ -5,7 +5,7 @@ import '../../../controllers/movie_group/movie_group_controller.dart';
 import '../../../l10n/translation_keys.dart';
 
 class AddMovieButton extends GetView<MovieGroupController> {
-  const AddMovieButton({Key? key}) : super(key: key);
+  const AddMovieButton({super.key});
 
   @override
   Widget build(BuildContext context) {

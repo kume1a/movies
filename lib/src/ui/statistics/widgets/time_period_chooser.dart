@@ -7,7 +7,7 @@ import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class TimePeriodChooser extends GetView<StatisticsController> {
-  const TimePeriodChooser({Key? key}) : super(key: key);
+  const TimePeriodChooser({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,8 @@ class TimePeriodChooser extends GetView<StatisticsController> {
             child: Obx(
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.year),
-                style: controller.timePeriod.value == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
+                style:
+                    controller.timePeriod.value == TimePeriod.year ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(trStatisticsOptionYear.tr),
               ),
             ),
@@ -42,7 +43,8 @@ class TimePeriodChooser extends GetView<StatisticsController> {
             child: Obx(
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.month),
-                style: controller.timePeriod.value == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
+                style:
+                    controller.timePeriod.value == TimePeriod.month ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(trStatisticsOptionMonth.tr),
               ),
             ),
@@ -52,7 +54,8 @@ class TimePeriodChooser extends GetView<StatisticsController> {
             child: Obx(
               () => TextButton(
                 onPressed: () => controller.onTimePeriodChanged(TimePeriod.week),
-                style: controller.timePeriod.value == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
+                style:
+                    controller.timePeriod.value == TimePeriod.week ? activeButtonStyle : inactiveButtonStyle,
                 child: Text(trStatisticsOptionWeek.tr),
               ),
             ),

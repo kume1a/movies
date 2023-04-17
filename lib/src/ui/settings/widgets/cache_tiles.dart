@@ -5,7 +5,7 @@ import '../../../controllers/settings/settings_controller.dart';
 import '../../../l10n/translation_keys.dart';
 
 class TileClearCache extends GetView<SettingsController> {
-  const TileClearCache({Key? key}) : super(key: key);
+  const TileClearCache({super.key});
 
   @override
   Widget build(BuildContext context) {

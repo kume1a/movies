@@ -17,7 +17,7 @@ const double _itemHeight = _imageHeight + 50;
 const double _radius = 4;
 
 class ContinueWatchingList extends GetView<HomeController> {
-  const ContinueWatchingList({Key? key}) : super(key: key);
+  const ContinueWatchingList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,8 @@ class ContinueWatchingList extends GetView<HomeController> {
 
 class _Item extends GetView<HomeController> {
   const _Item({
-    Key? key,
     required this.savedMovie,
-  }) : super(key: key);
+  });
 
   final SavedMovie savedMovie;
 

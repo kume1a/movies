@@ -8,7 +8,7 @@ import '../../../data/model/models/movies/movies.dart';
 import '../../core/widgets/movie_item.dart';
 
 class RelatedMovies extends GetView<StreamController> {
-  const RelatedMovies({Key? key}) : super(key: key);
+  const RelatedMovies({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ enum _SwitcherValue {
 }
 
 class ListToGroupSwitcher extends GetView<FavoritesController> {
-  const ListToGroupSwitcher({Key? key}) : super(key: key);
+  const ListToGroupSwitcher({super.key});
 
   @override
   Widget build(BuildContext context) {

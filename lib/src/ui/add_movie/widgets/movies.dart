@@ -11,7 +11,7 @@ import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/safe_image.dart';
 
 class Movies extends GetView<AddMovieController> {
-  const Movies({Key? key}) : super(key: key);
+  const Movies({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,8 @@ class Movies extends GetView<AddMovieController> {
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
                   ),
-                  backgroundColor: MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(isAdded ? colorPrimaryLight : colorAccent),
                   foregroundColor: MaterialStateProperty.all<Color>(isAdded ? Colors.white70 : Colors.white),
                   overlayColor: MaterialStateProperty.all<Color>(Colors.white30),
                   padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(horizontal: 18)),

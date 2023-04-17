@@ -9,7 +9,7 @@ import 'bottomnav_item.dart';
 class BottomAnimation extends StatefulWidget {
   // widget parameters
   const BottomAnimation({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.items,
     required this.activeIconColor,
@@ -25,7 +25,7 @@ class BottomAnimation extends StatefulWidget {
     this.itemHoverColorOpacity = .13,
     this.itemHoverHeight = 55,
     this.itemHoverWidth = 150,
-  }) : super(key: key);
+  });
 
   final int selectedIndex;
   final List<BottomNavItem> items;
@@ -42,7 +42,6 @@ class BottomAnimation extends StatefulWidget {
   final double itemHoverWidth;
   final double itemHoverHeight;
   final int hoverAlignmentDuration;
-
 
   @override
   _BottomAnimationState createState() => _BottomAnimationState();
@@ -149,14 +148,14 @@ class _BottomAnimationState extends State<BottomAnimation> {
 /// Each item in Bottom Navigation
 class BarItem extends StatefulWidget {
   const BarItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.selected,
     required this.activeColor,
     required this.iconSize,
     required this.textStyle,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -170,16 +169,6 @@ class BarItem extends StatefulWidget {
 }
 
 class _BarItemState extends State<BarItem> with TickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(

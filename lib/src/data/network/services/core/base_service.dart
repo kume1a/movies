@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 import '../../../model/core/either.dart';
 import '../../../model/core/fetch_failure.dart';
@@ -12,41 +12,48 @@ abstract class BaseService {
   Future<Either<F, T>> safeCall<F, T>({
     required Future<T> Function() call,
     required F Function() onNetworkError,
-    required F Function(Response? response) onResponseError, // ignore: always_specify_types
-    required F Function(Exception e) onUnknownError,
+    required F Function(Object? e) onUnknownError,
+    F Function(Response<dynamic>? response)? onResponseError,
   }) async {
     try {
       final T result = await call();
       return right(result);
     } on DioError catch (e) {
       log('BaseService.safeCall: ', error: e);
-      switch (e.type) {
-        case DioErrorType.connectTimeout:
-          return left(onNetworkError());
-        case DioErrorType.sendTimeout:
-          return left(onNetworkError());
-        case DioErrorType.receiveTimeout:
-          return left(onNetworkError());
-        case DioErrorType.response:
-          return left(onResponseError(e.response));
-        case DioErrorType.cancel:
-          return left(onNetworkError());
-        case DioErrorType.other:
-          if (e.error is SocketException) {
+      try {
+        switch (e.type) {
+          case DioErrorType.connectionTimeout:
+          case DioErrorType.sendTimeout:
+          case DioErrorType.receiveTimeout:
+          case DioErrorType.connectionError:
+          case DioErrorType.cancel:
             return left(onNetworkError());
-          }
-          return left(onUnknownError(e));
+          case DioErrorType.badResponse:
+            return left(onResponseError != null ? onResponseError(e.response) : onUnknownError(e));
+          default:
+            if (e.error is SocketException) {
+              return left(onNetworkError());
+            }
+            return left(onUnknownError(e));
+        }
+      } catch (err) {
+        log('BaseService.safeCall: ', error: e);
+        return left(onUnknownError(e));
       }
+    } catch (e) {
+      log('BaseService.safeCall: ', error: e);
+      return left(onUnknownError(e));
     }
   }
 
   @protected
-  Future<Either<FetchFailure, T>> safeFetch<T>(Future<T> Function() call) async {
+  Future<Either<FetchFailure, T>> safeFetch<T>(
+    Future<T> Function() call,
+  ) async {
     return safeCall(
       call: call,
       onNetworkError: () => const FetchFailure.networkError(),
-      // ignore: always_specify_types
-      onResponseError: (Response? response) {
+      onResponseError: (Response<dynamic>? response) {
         if (response != null && response.statusCode != null) {
           final int statusCode = response.statusCode!;
           if (statusCode >= 500 && statusCode < 600) {
@@ -55,7 +62,7 @@ abstract class BaseService {
         }
         return const FetchFailure.unknownError();
       },
-      onUnknownError: (Exception e) => const FetchFailure.unknownError(),
+      onUnknownError: (Object? e) => const FetchFailure.unknownError(),
     );
   }
 }

@@ -10,7 +10,7 @@ import '../../../l10n/parameterized_translations.dart';
 import '../../core/values/colors.dart';
 
 class ChartDurations extends GetView<StatisticsController> {
-  const ChartDurations({Key? key}) : super(key: key);
+  const ChartDurations({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class ChartDurations extends GetView<StatisticsController> {
 
       double minY = double.maxFinite;
       double maxY = double.minPositive;
-      double _minX = 0;
-      double _maxX = 0;
-      double _minY = 0;
-      double _maxY = 0;
+      double minX = 0;
+      double maxX = 0;
+      double minY0 = 0;
+      double maxY0 = 0;
       const int divider = 25;
 
       final int bottomTitlesCount = controller.timePeriod.value == TimePeriod.year ? 5 : 6;
@@ -36,13 +36,13 @@ class ChartDurations extends GetView<StatisticsController> {
         );
       }).toList();
 
-      _minX = values.first.x;
-      _maxX = values.last.x;
-      _minY = (minY / divider).floorToDouble() * divider;
-      _maxY = (maxY / divider).ceilToDouble() * divider;
+      minX = values.first.x;
+      maxX = values.last.x;
+      minY0 = (minY / divider).floorToDouble() * divider;
+      maxY0 = (maxY / divider).ceilToDouble() * divider;
 
-      final double leftTitlesInterval = maxY - minY != 0 ? ((_maxY - _minY) / 5).floorToDouble() : 100;
-      final double bottomTitlesInterval = (_maxX - _minX) / bottomTitlesCount + .01;
+      final double leftTitlesInterval = maxY - minY != 0 ? ((maxY0 - minY0) / 5).floorToDouble() : 100;
+      final double bottomTitlesInterval = (maxX - minX) / bottomTitlesCount + .01;
 
       final DateFormat dateFormat = controller.timePeriod.value == TimePeriod.year
           ? DateFormat('MMM d yy', Localizations.localeOf(context).languageCode)
@@ -58,7 +58,8 @@ class ChartDurations extends GetView<StatisticsController> {
               bottomTitles: SideTitles(
                 showTitles: true,
                 getTextStyles: (_, __) => const TextStyle(color: Colors.white54, fontSize: 12),
-                getTitles: (double value) => dateFormat.format(DateTime.fromMillisecondsSinceEpoch(value.toInt())),
+                getTitles: (double value) =>
+                    dateFormat.format(DateTime.fromMillisecondsSinceEpoch(value.toInt())),
                 margin: 8,
                 interval: bottomTitlesInterval,
               ),
@@ -83,10 +84,10 @@ class ChartDurations extends GetView<StatisticsController> {
                 bottom: BorderSide(color: Colors.white12),
               ),
             ),
-            minX: _minX,
-            maxX: _maxX,
-            minY: _minY,
-            maxY: _maxY,
+            minX: minX,
+            maxX: maxX,
+            minY: minY0,
+            maxY: maxY0,
             lineBarsData: <LineChartBarData>[
               LineChartBarData(
                 spots: values,

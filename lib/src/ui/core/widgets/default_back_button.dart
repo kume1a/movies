@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../routes/screens_navigator.dart';
 
 class DefaultBackButton extends StatelessWidget {
-  const DefaultBackButton({Key? key}) : super(key: key);
+  const DefaultBackButton({super.key});
 
   @override
   Widget build(BuildContext context) {

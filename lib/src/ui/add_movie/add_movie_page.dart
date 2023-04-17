@@ -10,14 +10,14 @@ import '../core/widgets/tap_outside_to_clear_focus.dart';
 import 'widgets/widgets.dart';
 
 class AddMoviePage extends GetView<AddMovieController> {
-  const AddMoviePage({Key? key}) : super(key: key);
+  const AddMoviePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: TapOutsideToClearFocus(
-          child: Container(
+          child: ColoredBox(
             color: Colors.transparent,
             child: Column(
               children: <Widget>[

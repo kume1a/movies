@@ -6,11 +6,11 @@ import '../routes/screens_navigator.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   const ConfirmationDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     this.confirmationText,
-  }) : super(key: key);
+  });
 
   final String title;
   final String content;

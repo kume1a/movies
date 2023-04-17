@@ -14,7 +14,7 @@ const double _imageHeight = _imageWidth / 3 * 2;
 const double _radius = 8;
 
 class EpisodeList extends GetView<StreamController> {
-  const EpisodeList({Key? key}) : super(key: key);
+  const EpisodeList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class EpisodeList extends GetView<StreamController> {
                   return Obx(
                     () => _EpisodeItem(
                       episode: seasonFiles.data[index],
-                      isSelected:
-                          controller.episode.value == index + 1 && controller.episodeSeason.value == seasonFiles.season,
+                      isSelected: controller.episode.value == index + 1 &&
+                          controller.episodeSeason.value == seasonFiles.season,
                     ),
                   );
                 },
@@ -43,10 +43,9 @@ class EpisodeList extends GetView<StreamController> {
 
 class _EpisodeItem extends GetView<StreamController> {
   const _EpisodeItem({
-    Key? key,
     required this.episode,
     required this.isSelected,
-  }) : super(key: key);
+  });
 
   final Episode episode;
   final bool isSelected;

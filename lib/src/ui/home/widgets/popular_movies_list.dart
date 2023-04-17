@@ -15,7 +15,7 @@ const double _itemWidth = 180 / 9 * 16;
 const double _radius = 6;
 
 class PopularMoviesList extends GetView<HomeController> {
-  const PopularMoviesList({Key? key}) : super(key: key);
+  const PopularMoviesList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,8 @@ class PopularMoviesList extends GetView<HomeController> {
 
 class _Item extends GetView<HomeController> {
   const _Item({
-    Key? key,
     required this.movie,
-  }) : super(key: key);
+  });
 
   final MovieData movie;
 
@@ -81,7 +80,7 @@ class _Item extends GetView<HomeController> {
 }
 
 class _ItemBlank extends StatelessWidget {
-  const _ItemBlank({Key? key}) : super(key: key);
+  const _ItemBlank();
 
   @override
   Widget build(BuildContext context) {

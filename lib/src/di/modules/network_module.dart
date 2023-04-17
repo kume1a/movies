@@ -8,6 +8,8 @@ import '../../data/network/interceptors/api_service_header_interceptor.dart';
 import '../../data/network/interceptors/authorization_interceptor.dart';
 import '../../data/network/interceptors/log.dart';
 
+const Duration _kTimeoutDuration = Duration(seconds: 15);
+
 @module
 abstract class NetworkModule {
   @lazySingleton
@@ -18,13 +20,14 @@ abstract class NetworkModule {
     final Dio dio = Dio(
       BaseOptions(
         contentType: 'application/json',
-        connectTimeout: 5000,
-        sendTimeout: 5000,
+        connectTimeout: _kTimeoutDuration,
+        sendTimeout: _kTimeoutDuration,
+        receiveTimeout: _kTimeoutDuration,
       ),
     );
     dio.interceptors.add(authorizationInterceptor);
     dio.interceptors.add(headerInterceptor);
-    dio.interceptors.add(PrettyLogInterceptor(responseBody: true,logPrint: logger.d));
+    dio.interceptors.add(PrettyLogInterceptor(logPrint: logger.d));
 
     return dio;
   }

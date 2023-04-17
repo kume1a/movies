@@ -12,7 +12,7 @@ import 'progress_bar.dart';
 import 'progress_colors.dart';
 
 class VideoPlayerControls extends StatefulWidget {
-  const VideoPlayerControls({Key? key}) : super(key: key);
+  const VideoPlayerControls({super.key});
 
   @override
   State<StatefulWidget> createState() => _VideoPlayerControlsState();
@@ -155,7 +155,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
     return Expanded(
       child: GestureDetector(
         onTap: controller.onHitAreaPressed,
-        child: Container(
+        child: ColoredBox(
           color: Colors.transparent,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

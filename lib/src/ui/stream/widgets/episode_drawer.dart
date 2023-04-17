@@ -218,8 +218,8 @@ class _EpisodeDrawerState extends State<EpisodeDrawer> with TickerProviderStateM
     final bool otherClosed =
         axis == Axis.horizontal ? _verticalController.isDismissed : _horizontalController.isDismissed;
 
-    final bool canBeDragged =
-        (controller.isDismissed && validOpenPosition && otherClosed) || (controller.isCompleted && validClosePosition);
+    final bool canBeDragged = (controller.isDismissed && validOpenPosition && otherClosed) ||
+        (controller.isCompleted && validClosePosition);
 
     _absorbing = canBeDragged;
     _canBeDragged(axis, set: canBeDragged);
@@ -301,7 +301,8 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
                 episode: episode,
                 episodeSeason: streamController.episodeSeason.value,
                 season: streamController.season.value,
-                seasons: movie != null ? movie.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
+                seasons:
+                    movie != null ? movie.seasons.map((Season e) => e.number).toList() : List<int>.empty(),
               )
             : const SizedBox.shrink();
       },
@@ -318,7 +319,7 @@ class _DrawerEpisodeListState extends State<DrawerEpisodeList> {
     return PageView(
       controller: _pageController,
       children: <Widget>[
-        Container(
+        ColoredBox(
           color: backgroundColor,
           child: _buildSeasonList(
             seasonNumbers: seasons,

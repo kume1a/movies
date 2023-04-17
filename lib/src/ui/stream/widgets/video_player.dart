@@ -15,7 +15,7 @@ class VideoPlayer extends GetView<StreamController> {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.chewieController.value != null
-          ? Container(
+          ? ColoredBox(
               color: Colors.black,
               child: SubTitleWrapper(
                 child: Chewie(

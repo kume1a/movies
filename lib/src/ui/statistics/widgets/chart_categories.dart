@@ -10,7 +10,7 @@ import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class ChartCategories extends GetView<StatisticsController> {
-  const ChartCategories({Key? key}) : super(key: key);
+  const ChartCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class ChartCategories extends GetView<StatisticsController> {
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: controller.genreToPercentage.entries.mapIndexed((int index, MapEntry<MovieGenre?, double> e) {
+                children: controller.genreToPercentage.entries
+                    .mapIndexed((int index, MapEntry<MovieGenre?, double> e) {
                   return Row(
                     children: <Widget>[
                       Container(

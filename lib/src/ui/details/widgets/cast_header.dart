@@ -6,7 +6,7 @@ import '../../../l10n/translation_keys.dart';
 import '../../core/values/text_styles.dart';
 
 class CastHeader extends GetView<DetailsController> {
-  const CastHeader({Key? key}) : super(key: key);
+  const CastHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

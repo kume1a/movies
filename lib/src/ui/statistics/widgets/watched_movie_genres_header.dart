@@ -5,7 +5,7 @@ import '../../../controllers/main/statistics_controller.dart';
 import '../../../l10n/translation_keys.dart';
 
 class WatchedMovieGenresHeader extends GetView<StatisticsController> {
-  const WatchedMovieGenresHeader({Key? key}) : super(key: key);
+  const WatchedMovieGenresHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

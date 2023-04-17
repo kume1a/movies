@@ -7,7 +7,7 @@ import '../../../l10n/translation_keys.dart';
 import '../widgets/dialog_buttons.dart';
 
 class AuthorizationPromptDialog extends GetView<AuthorizationPromptDialogController> {
-  const AuthorizationPromptDialog({Key? key}) : super(key: key);
+  const AuthorizationPromptDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

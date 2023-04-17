@@ -8,7 +8,7 @@ import '../../../l10n/translation_keys.dart';
 import '../../core/widgets/movie_item.dart';
 
 class MovieList extends GetView<FavoritesController> {
-  const MovieList({Key? key}) : super(key: key);
+  const MovieList({super.key});
 
   @override
   Widget build(BuildContext context) {

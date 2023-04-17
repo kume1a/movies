@@ -6,7 +6,7 @@ import '../../../l10n/parameterized_translations.dart';
 import '../../../l10n/translation_keys.dart';
 
 class TileAutoPlay extends GetView<SettingsController> {
-  const TileAutoPlay({Key? key}) : super(key: key);
+  const TileAutoPlay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +22,15 @@ class TileAutoPlay extends GetView<SettingsController> {
 }
 
 class TileDoubleTapToSeek extends GetView<SettingsController> {
-  const TileDoubleTapToSeek({Key? key}) : super(key: key);
+  const TileDoubleTapToSeek({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => ListTile(
         title: Text(trSettingsDoubleTapToSeek.tr),
-        subtitle: Text(ParamTranslations.settingsCommentDoubleTapToSeek(controller.doubleTapToSeekValue.value)),
+        subtitle:
+            Text(ParamTranslations.settingsCommentDoubleTapToSeek(controller.doubleTapToSeekValue.value)),
         onTap: controller.onDoubleTapToSeekPressed,
       ),
     );
@@ -37,14 +38,15 @@ class TileDoubleTapToSeek extends GetView<SettingsController> {
 }
 
 class TileSaveMovieInterval extends GetView<SettingsController> {
-  const TileSaveMovieInterval({Key? key}) : super(key: key);
+  const TileSaveMovieInterval({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => ListTile(
         title: Text(trSettingsSaveMovieInterval.tr),
-        subtitle: Text(ParamTranslations.settingsCommentSaveMovieInterval(controller.saveMovieInterval.value)),
+        subtitle:
+            Text(ParamTranslations.settingsCommentSaveMovieInterval(controller.saveMovieInterval.value)),
         onTap: controller.onSaveMovieIntervalPressed,
       ),
     );

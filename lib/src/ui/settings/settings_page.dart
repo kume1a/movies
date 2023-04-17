@@ -5,7 +5,7 @@ import '../../l10n/translation_keys.dart';
 import 'widgets/widgets.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

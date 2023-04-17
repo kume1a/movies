@@ -6,7 +6,7 @@ import '../../../l10n/translation_keys.dart';
 import '../../core/values/colors.dart';
 
 class SearchHeader extends GetView<HomeController> {
-  const SearchHeader({Key? key}) : super(key: key);
+  const SearchHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,8 @@ class SearchHeader extends GetView<HomeController> {
             children: <Widget>[
               Text(
                 trHomeHeaderSearch.tr,
-                style: theme.textTheme.headline6?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),
+                style: theme.textTheme.headline6
+                    ?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),
               ),
               const Divider(color: colorTextSecondary)
             ],

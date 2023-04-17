@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../controllers/main/statistics_controller.dart';
 
 class SettingsButton extends GetView<StatisticsController> {
-  const SettingsButton({Key? key}) : super(key: key);
+  const SettingsButton({super.key});
 
   @override
   Widget build(BuildContext context) {

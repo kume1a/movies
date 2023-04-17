@@ -9,7 +9,7 @@ import '../../core/routes/screens_navigator.dart';
 import '../../core/widgets/movie_item.dart';
 
 class Movies extends GetView<MovieGroupController> {
-  const Movies({Key? key}) : super(key: key);
+  const Movies({super.key});
 
   @override
   Widget build(BuildContext context) {

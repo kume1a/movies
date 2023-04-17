@@ -6,7 +6,7 @@ import '../core/widgets/scroll_listener.dart';
 import 'widgets/widgets.dart';
 
 class MovieGroupPage extends GetView<MovieGroupController> {
-  const MovieGroupPage({Key? key}) : super(key: key);
+  const MovieGroupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
