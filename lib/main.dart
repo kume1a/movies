@@ -30,13 +30,6 @@ Future<void> main() async {
   await configureInjection(Environment.prod);
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]);
 
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode) {
-      // exit(1);
-    }
-  };
-
   runApp(App());
 }
 

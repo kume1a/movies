@@ -6,7 +6,7 @@ import 'movie_data.dart';
 
 part 'movies.freezed.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Movies with _$Movies {
   const factory Movies({
     required List<MovieData> data,
@@ -16,7 +16,8 @@ class Movies with _$Movies {
 
   factory Movies.fromSchema(MoviesSchema schema) {
     return Movies(
-      data: schema.data?.map((MovieDataSchema e) => MovieData.fromSchema(e)).toList() ?? List<MovieData>.empty(),
+      data: schema.data?.map((MovieDataSchema e) => MovieData.fromSchema(e)).toList() ??
+          List<MovieData>.empty(),
       totalCount: schema.meta?.pagination?.total ?? 0,
       totalPages: schema.meta?.pagination?.totalPages ?? 0,
     );

@@ -24,8 +24,9 @@ class StreamPage extends StatelessWidget {
     final double playerHeight = isPortrait ? playerWidth * 9 / 16 : mediaQueryData.size.height;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      backgroundColor: isPortrait ? null : Colors.black,
       body: SafeArea(
+        bottom: isPortrait,
         child: Obx(() {
           final MovieData? movie = controller.movie.value;
 
