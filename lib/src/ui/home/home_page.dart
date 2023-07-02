@@ -52,7 +52,7 @@ class HomePage extends GetView<HomeController> {
   Widget _buildHeader(ThemeData theme, String header) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 36, 16, 16),
-      child: Text(header, style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600)),
+      child: Text(header, style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600)),
     );
   }
 }

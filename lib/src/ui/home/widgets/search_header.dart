@@ -16,7 +16,7 @@ class SearchHeader extends GetView<HomeController> {
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
       child: GestureDetector(
         onTap: controller.onSearchPressed,
-        child: Container(
+        child: ColoredBox(
           color: Colors.transparent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -24,7 +24,7 @@ class SearchHeader extends GetView<HomeController> {
             children: <Widget>[
               Text(
                 trHomeHeaderSearch.tr,
-                style: theme.textTheme.headline6
+                style: theme.textTheme.titleLarge
                     ?.copyWith(color: colorTextSecondary, fontWeight: FontWeight.w300),
               ),
               const Divider(color: colorTextSecondary)

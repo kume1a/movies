@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController, SearchBar;
 import 'package:get/get.dart';
 
 import '../../controllers/search/search_controller.dart';

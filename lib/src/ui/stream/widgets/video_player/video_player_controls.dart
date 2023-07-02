@@ -279,7 +279,7 @@ class _VideoPlayerControlsState extends State<VideoPlayerControls> {
                           ChewieProgressColors(
                             playedColor: Theme.of(context).colorScheme.secondary,
                             handleColor: Theme.of(context).colorScheme.secondary,
-                            bufferedColor: Theme.of(context).backgroundColor,
+                            bufferedColor: Theme.of(context).colorScheme.background,
                             backgroundColor: Theme.of(context).disabledColor,
                           ),
                     )

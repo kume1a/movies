@@ -72,7 +72,7 @@ class StreamPage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 16, bottom: 12, top: 12),
                     child: Text(
                       trStreamHeaderRecommended.tr,
-                      style: theme.textTheme.headline6?.copyWith(fontWeight: FontWeight.w100),
+                      style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w100),
                     ),
                   ),
                   const RelatedMovies(),

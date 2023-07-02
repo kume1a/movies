@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, bottom: 4),
               child: Text(
                 trSettingsHeaderLanguage.tr,
-                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const TileLanguage(),
@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, bottom: 4),
               child: Text(
                 trSettingsHeaderVideoPlayer.tr,
-                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const TileAutoPlay(),
@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, bottom: 4),
               child: Text(
                 trSettingsHeaderHistory.tr,
-                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const TileClearSearchHistory(),
@@ -53,7 +53,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, bottom: 4),
               child: Text(
                 trSettingsHeaderCache.tr,
-                style: theme.textTheme.headline5?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const TileClearCache(),

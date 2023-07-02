@@ -6,14 +6,8 @@ class AppThemes {
   AppThemes._();
 
   static final ThemeData dark = ThemeData.dark().copyWith(
-    backgroundColor: colorPrimary,
     scaffoldBackgroundColor: colorPrimary,
     splashColor: colorAccent,
-    toggleableActiveColor: colorAccent,
-    colorScheme: const ColorScheme.dark().copyWith(
-      primary: colorAccent,
-      secondary: colorAccent,
-    ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -44,14 +38,62 @@ class AppThemes {
     sliderTheme: SliderThemeData(
       trackShape: LessMarginTrackShape(),
     ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return colorAccent;
+        }
+        return null;
+      }),
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return colorAccent;
+        }
+        return null;
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return colorAccent;
+        }
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return colorAccent;
+        }
+        return null;
+      }),
+    ),
+    colorScheme: const ColorScheme.dark()
+        .copyWith(
+          primary: colorAccent,
+          secondary: colorAccent,
+        )
+        .copyWith(background: colorPrimary),
   );
 
   static final ThemeData darkLocaleKa = dark.copyWith(
     textTheme: const TextTheme(
-      headline5: TextStyle(fontSize: 21),
-      headline6: TextStyle(fontSize: 18),
-      bodyText2: TextStyle(color: colorTextSecondary, fontSize: 14),
-      bodyText1: TextStyle(color: colorTextSecondary, fontSize: 12),
+      headlineSmall: TextStyle(fontSize: 21),
+      titleLarge: TextStyle(fontSize: 18),
+      bodyMedium: TextStyle(color: colorTextSecondary, fontSize: 14),
+      bodyLarge: TextStyle(color: colorTextSecondary, fontSize: 12),
     ),
   );
 }

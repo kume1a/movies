@@ -55,9 +55,9 @@ class SeasonList extends GetView<StreamController> {
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 12, right: 8),
         child: AnimatedDefaultTextStyle(
-          style:
-              theme.textTheme.subtitle1?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ??
-                  const TextStyle(),
+          style: theme.textTheme.titleMedium
+                  ?.copyWith(color: isActive ? colorTextPrimary : colorTextSecondary) ??
+              const TextStyle(),
           duration: const Duration(milliseconds: 300),
           child: Text(ParamTranslations.streamSeason(seasonNumber)),
         ),
