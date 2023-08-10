@@ -5,7 +5,7 @@ import 'search_result.dart';
 
 part 'search_results.freezed.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class SearchResults with _$SearchResults {
   const factory SearchResults({
     required List<SearchResult> results,
@@ -14,9 +14,10 @@ class SearchResults with _$SearchResults {
   }) = _SearchResults;
 
   factory SearchResults.fromSchema(SearchResultsSchema schema) {
-    final List<SearchResult> searchResults =
-        schema.data?.map((SearchResultSchema elementSchema) => SearchResult.fromSchema(elementSchema)).toList() ??
-            List<SearchResult>.empty();
+    final List<SearchResult> searchResults = schema.data
+            ?.map((SearchResultSchema elementSchema) => SearchResult.fromSchema(elementSchema))
+            .toList() ??
+        List<SearchResult>.empty();
 
     return SearchResults(
       results: searchResults,
